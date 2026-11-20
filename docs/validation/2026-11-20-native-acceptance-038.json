@@ -1,0 +1,39 @@
+{
+  "recorded_at": "2026-11-20T20:00:57.313203+08:00",
+  "runtime": "038 final release",
+  "core_ui_checks": {
+    "rust": 227,
+    "ui_api": 141,
+    "full_check_exit": 0,
+    "ui_final_exit": 0,
+    "release_build_exit": 0,
+    "debug_bundle_not_rebuilt": true
+  },
+  "search_037_before_runtime_fix": "native-search-038.json; scope/type/path/date/English/Escape and query replacement; only synthetic file metadata saved",
+  "permission_037_before_runtime_fix": "native-permission-038.json; own root revoked then restored; favorites hidden and discovery0, restored names/favorite/discovery2; all original bytes/inode/mtime unchanged",
+  "pagination_037_failure": "two load-more attempts stale_cursor; native-pagination-038-*.jpg and revision aggregate samples retained",
+  "pagination_038_final": {
+    "evidence": "2026-11-20-native-pagination-038-continuous.json",
+    "all_103_distinct_names_observed": true,
+    "duplicate_within_render": false,
+    "last_page_has_no_more": true,
+    "coordinate_click_preserves099": "2026-11-20-native-pagination-038-coordinate.json",
+    "ax_activation_scroll_reset": "Retained as differing automation observation, not treated as product failure after actual coordinate click retained099.",
+    "long_interval_reload": "Real catalog mutations still invalidate pages. Corresponding before/after versions were not captured in separated attempts; no stronger cause asserted."
+  },
+  "scan10k": "2026-11-20-scan10k-038.json; formal Store with actual synthetic files, not native visible P95",
+  "finder_external_drop": {
+    "executed": false,
+    "target": "原生拖入038",
+    "target_count": 1,
+    "source_count": 2,
+    "files": "authorized / already linked / ungranted; no covering root grant",
+    "handoff": "same screen left Finder/right WorkTwill restored"
+  },
+  "source_originals": "038 drop timestamp record precision corrected from original captured integers to strings after JS JSON rounding; actual bytes/inode/mtime unchanged; see handoff record",
+  "unexecuted_last_file_open": "Final attempt to locate page102 Open control found it absent after intervening reload; no open was issued, no new default-open pass claimed. Prior default-open evidence retained.",
+  "scope": "Mac core first, Windows later on user machine; no Git or remote, special directories excluded, release and complete restore/retention deferred per PRD9.0",
+  "full_mac_core_passed": false,
+  "full_v1_passed": false,
+  "bundle_signature_validation": "failed; codesign reports no resources but signature requires them; locally launched native acceptance is separate, signed distribution remains deferred"
+}

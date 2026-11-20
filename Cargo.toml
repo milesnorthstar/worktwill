@@ -1,0 +1,5 @@
+[workspace]
+members = ["crates/worktwill-core", "src-tauri"]
+default-members = ["crates/worktwill-core"]
+resolver = "2"
+

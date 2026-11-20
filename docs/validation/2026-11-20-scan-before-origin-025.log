@@ -1,0 +1,79 @@
+   Compiling libsqlite3-sys v0.35.0
+   Compiling rusqlite v0.37.0
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `release` profile [optimized] target(s) in 18.90s
+     Running unittests src/lib.rs (target/release/deps/worktwill_core-1f1deb9375a7a89f)
+
+running 1 test
+test acceptance_scan::disk_scan_acceptance ... SCAN_ACCEPTANCE {"all_resource_mappings_and_metadata_verified":true,"arch":"aarch64","db_bytes_after_repeat":33452032,"db_bytes_before_repeat":33406976,"directories":100,"discovery_events":10000,"every_phase_counts_and_target_event_verified":true,"evidence":"real_synthetic_files_formal_store_scan_not_native_ui_or_idle_resource_usage","files":10000,"initial_scan_seconds":5.695552333,"modified_events":1,"os":"macos","profile":"release","resource_count":10000,"results":[{"concurrent_query_samples_total":288,"empty_query_samples":2,"first_nonempty_result_seconds":0.018756541,"partial_scan_observation":{"matches":30,"scanned_after":100,"scanned_before":100,"seconds":0.018923458},"phase":"initial_with_concurrent_search","query_p50_ms":1.176375,"query_p95_ms":25.465167,"query_p99_ms":83.086833,"timing_samples_retained":288,"timing_scope":"first_up_to_10000_queries_started_before_stop_including_in_flight_tail","wall_seconds":5.695552333},{"concurrent_query_samples_total":64,"empty_query_samples":0,"first_nonempty_result_seconds":0.003427417,"partial_scan_observation":null,"phase":"unchanged_with_concurrent_search","query_p50_ms":1.197833,"query_p95_ms":3.3890000000000002,"query_p99_ms":6.425625,"timing_samples_retained":64,"timing_scope":"first_up_to_10000_queries_started_before_stop_including_in_flight_tail","wall_seconds":0.578982834},{"concurrent_query_samples_total":64,"empty_query_samples":0,"first_nonempty_result_seconds":0.002284291,"partial_scan_observation":null,"phase":"one_modified_with_concurrent_search","query_p50_ms":1.345833,"query_p95_ms":3.994041,"query_p99_ms":574.191833,"timing_samples_retained":64,"timing_scope":"first_up_to_10000_queries_started_before_stop_including_in_flight_tail","wall_seconds":1.164054208}],"seed_seconds":0.537350375,"target_reference_favorite_and_bytes_preserved":true}
+SCAN_REPORT /private/tmp/worktwill-spikes-20261119/rust-scan-report-c9de1354-9702-4332-93f2-bc04dc62010b.json
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 95 filtered out; finished in 8.49s
+
+     Running unittests src/bin/export-types.rs (target/release/deps/export_types-79b12c1ebfa94062)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/drop_identity.rs (target/release/deps/drop_identity-a318f75bc3285106)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/modified_projection.rs (target/release/deps/modified_projection-21d0d6bd1d7d0747)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/relink_grants.rs (target/release/deps/relink_grants-4e8fb36c3edc73b7)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/relink_review.rs (target/release/deps/relink_review-a21f86424702ad30)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+
+     Running tests/search_cancellation.rs (target/release/deps/search_cancellation-ade6c75f9054a2ea)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/search_cursor.rs (target/release/deps/search_cursor-04316e2d9033a0db)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/search_filters.rs (target/release/deps/search_filters-39b5885fa79fa657)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/search_groups.rs (target/release/deps/search_groups-96521a16272fa62e)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests/u8_recovery_review.rs (target/release/deps/u8_recovery_review-a17727de8b21873d)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/workflows.rs (target/release/deps/workflows-a6257ea7cede8023)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 28 filtered out; finished in 0.00s
+

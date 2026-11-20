@@ -1,0 +1,31 @@
+
+ RUN  v4.1.12 /Users/lch/Desktop/project/my/test
+
+ ❯ desktop/src/workbench/components.test.tsx (13 tests | 1 failed | 12 skipped) 125ms
+   × 首个完整页即可在同一滚动区操作，追加后三项保持末尾位置 125ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  desktop/src/workbench/components.test.tsx > 首个完整页即可在同一滚动区操作，追加后三项保持末尾位置
+Error: expect(element).toHaveAttribute("tabindex", "0") // element.getAttribute("tabindex") === "0"
+
+Expected the element to have attribute:
+  tabindex="0"
+Received:
+  null
+ ❯ desktop/src/workbench/components.test.tsx:82:20
+     80|   const {rerender}=render(<ResourceList {...props} items={items.slice(…
+     81|   const viewport=screen.getByRole('region',{name:'资料列表'});
+     82|   expect(viewport).toHaveAttribute('tabindex','0');
+       |                    ^
+     83|   fireEvent.scroll(viewport,{target:{scrollTop:7896}});
+     84|   expect(screen.getByRole('checkbox',{name:'选择 分页99.txt'})).toBeInTheD…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 skipped (13)
+   Start at  19:42:25
+   Duration  716ms (transform 47ms, setup 104ms, import 96ms, tests 125ms, environment 321ms)
+

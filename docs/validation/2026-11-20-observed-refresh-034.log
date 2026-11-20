@@ -1,0 +1,133 @@
+   Compiling objc2-exception-helper v0.1.1
+   Compiling libsqlite3-sys v0.35.0
+   Compiling objc2 v0.6.5
+   Compiling ring v0.17.14
+   Compiling objc2-foundation v0.3.2
+   Compiling objc2-core-foundation v0.3.2
+   Compiling block2 v0.6.2
+   Compiling dispatch2 v0.3.1
+   Compiling wry v0.57.3
+   Compiling rustls v0.23.46
+   Compiling objc2-core-services v0.3.2
+   Compiling notify v8.2.2
+   Compiling rusqlite v0.37.0
+   Compiling rustls-webpki v0.103.17
+   Compiling tokio-rustls v0.26.6
+   Compiling hyper-rustls v0.27.10
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+   Compiling objc2-quartz-core v0.3.2
+   Compiling reqwest v0.12.28
+   Compiling objc2-app-kit v0.3.2
+   Compiling objc2-web-kit v0.3.2
+   Compiling tao v0.37.3
+   Compiling muda v0.20.0
+   Compiling window-vibrancy v0.8.1
+   Compiling rfd v0.17.2
+   Compiling tauri-runtime v2.12.4
+   Compiling tauri-runtime-wry v2.12.5
+   Compiling tauri v2.12.7
+   Compiling tauri-plugin-fs v2.7.1
+   Compiling tauri-plugin-opener v2.7.3
+   Compiling tauri-plugin-dialog v2.8.4
+   Compiling worktwill-desktop v0.1.0 (/Users/lch/Desktop/project/my/test/src-tauri)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 27.95s
+     Running unittests src/lib.rs (target/debug/deps/worktwill_core-2e62345e90d6e4ba)
+
+running 10 tests
+test known_refresh::tests::notification_does_not_discover_new_files_or_inherit_replacement_identity ... ok
+test known_refresh::tests::captured_refresh_rejects_restore_epoch_and_resource_repointing ... ok
+test known_refresh::tests::notified_discovery_marks_current_scan_generation_as_observed ... ok
+test known_refresh::tests::exclusion_blocks_a_pending_refresh_without_creating_a_new_reference ... ok
+test known_refresh::tests::new_file_notification_is_rejected_outside_authorization_or_while_paused ... ok
+test known_refresh::tests::known_save_refresh_does_not_wait_for_catalog_writer_and_preserves_references ... ok
+test known_refresh::tests::new_file_guard_rechecks_restore_permission_and_competing_discovery ... ok
+test known_refresh::tests::new_authorized_file_is_discovered_once_without_inheriting_copy_references ... ok
+test known_refresh::tests::new_file_notifications_respect_default_skips_app_data_and_explicit_root_exclusions ... ok
+test known_refresh::tests::paused_and_revoked_roots_cannot_refresh_but_independent_grant_can ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 106 filtered out; finished in 1.51s
+
+     Running unittests src/bin/export-types.rs (target/debug/deps/export_types-eaef93bc1fc69b79)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/drop_identity.rs (target/debug/deps/drop_identity-25dd93b2665b0ce3)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/history_authority.rs (target/debug/deps/history_authority-59033fbb17f8cf97)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.00s
+
+     Running tests/modified_projection.rs (target/debug/deps/modified_projection-c100f3c2073c4c93)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/open_target.rs (target/debug/deps/open_target-80137f8b7abc7a86)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 10 filtered out; finished in 0.00s
+
+     Running tests/relink_grants.rs (target/debug/deps/relink_grants-ae5573b38f674e4e)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/relink_review.rs (target/debug/deps/relink_review-c1fb7c66d98802bc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/search_cancellation.rs (target/debug/deps/search_cancellation-9fdad97ca81de756)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/search_cursor.rs (target/debug/deps/search_cursor-7d8f65a2cdd4f45b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/search_filters.rs (target/debug/deps/search_filters-291ca0323cd7cf18)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/search_groups.rs (target/debug/deps/search_groups-560e48337e90101c)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests/u8_recovery_review.rs (target/debug/deps/u8_recovery_review-14743bd428d5be68)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/workflows.rs (target/debug/deps/workflows-1a62d376a4db64a4)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 28 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/worktwill_desktop-5736ff79b0d0f15d)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.00s
+

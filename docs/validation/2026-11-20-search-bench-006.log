@@ -1,0 +1,72 @@
+
+> worktwill@0.1.0 bench:search /Users/lch/Desktop/project/my/test
+> cargo test --release -p worktwill-core disk_search_acceptance -- --ignored --nocapture --test-threads=1
+
+   Compiling libsqlite3-sys v0.35.0
+   Compiling rusqlite v0.37.0
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `release` profile [optimized] target(s) in 16.20s
+     Running unittests src/lib.rs (target/release/deps/worktwill_core-96ec0a13e5fd6baa)
+
+running 2 tests
+test acceptance_search::disk_search_acceptance ... WORKTWILL_SEARCH_ACCEPTANCE {"oracle_checks":165,"p50_ms":3.723208,"p95_ms":5.486416,"p99_ms":5.756916,"per_query":[{"p95_ms":4.065875,"query":"张"},{"p95_ms":4.179708,"query":"张三"},{"p95_ms":4.058958,"query":"合作合同"},{"p95_ms":3.8449999999999998,"query":"合同"},{"p95_ms":3.7733329999999996,"query":"招聘"},{"p95_ms":2.015584,"query":"2026"},{"p95_ms":4.68675,"query":"report"},{"p95_ms":4.115042,"query":"项目 r"},{"p95_ms":4.481708,"query":"100%"},{"p95_ms":1.6457920000000001,"query":"_"},{"p95_ms":4.773167,"query":"\"draft\""},{"p95_ms":5.899167,"query":"archive"},{"p95_ms":1.851292,"query":"docx"},{"p95_ms":3.201958,"query":"documents"},{"p95_ms":0.543416,"query":"不存在的资料"}],"resources":10000,"samples":150,"seed_seconds":0.623136,"sqlite_version":"3.50.2"}
+WORKTWILL_SEARCH_ACCEPTANCE {"oracle_checks":165,"p50_ms":2.207625,"p95_ms":6.151834,"p99_ms":6.25075,"per_query":[{"p95_ms":2.4922500000000003,"query":"张"},{"p95_ms":2.525833,"query":"张三"},{"p95_ms":1.9330420000000001,"query":"合作合同"},{"p95_ms":2.221917,"query":"合同"},{"p95_ms":1.483958,"query":"招聘"},{"p95_ms":3.364709,"query":"2026"},{"p95_ms":5.214917000000001,"query":"report"},{"p95_ms":1.9675420000000001,"query":"项目 r"},{"p95_ms":2.313334,"query":"100%"},{"p95_ms":1.539167,"query":"_"},{"p95_ms":4.207125,"query":"\"draft\""},{"p95_ms":2.7933749999999997,"query":"archive"},{"p95_ms":1.8495,"query":"docx"},{"p95_ms":6.285333,"query":"documents"},{"p95_ms":0.5127499999999999,"query":"不存在的资料"}],"resources":50000,"samples":150,"seed_seconds":2.638825791,"sqlite_version":"3.50.2"}
+WORKTWILL_SEARCH_ACCEPTANCE {"oracle_checks":165,"p50_ms":2.6781669999999997,"p95_ms":9.483165999999999,"p99_ms":9.668332999999999,"per_query":[{"p95_ms":3.403166,"query":"张"},{"p95_ms":3.170083,"query":"张三"},{"p95_ms":1.875208,"query":"合作合同"},{"p95_ms":2.985666,"query":"合同"},{"p95_ms":1.505166,"query":"招聘"},{"p95_ms":4.99775,"query":"2026"},{"p95_ms":7.716083,"query":"report"},{"p95_ms":1.768583,"query":"项目 r"},{"p95_ms":2.637916,"query":"100%"},{"p95_ms":1.703458,"query":"_"},{"p95_ms":6.253333,"query":"\"draft\""},{"p95_ms":2.8192909999999998,"query":"archive"},{"p95_ms":1.999208,"query":"docx"},{"p95_ms":9.749208000000001,"query":"documents"},{"p95_ms":0.480875,"query":"不存在的资料"}],"resources":100000,"samples":150,"seed_seconds":3.525973958,"sqlite_version":"3.50.2"}
+WORKTWILL_SEARCH_ACCEPTANCE {"committed_writes":59,"mode":"concurrent_favorite_writer","oracle_checks":150,"p50_ms":2.942916,"p95_ms":9.756333000000001,"p99_ms":9.883625,"resources":100000,"samples":150}
+WORKTWILL_SEARCH_ACCEPTANCE {"oracle_checks":165,"p50_ms":6.526541,"p95_ms":37.407458,"p99_ms":38.289041000000005,"per_query":[{"p95_ms":9.974416,"query":"张"},{"p95_ms":9.17925,"query":"张三"},{"p95_ms":1.7743749999999998,"query":"合作合同"},{"p95_ms":9.131333,"query":"合同"},{"p95_ms":1.550291,"query":"招聘"},{"p95_ms":9.748833,"query":"2026"},{"p95_ms":29.283709,"query":"report"},{"p95_ms":1.992166,"query":"项目 r"},{"p95_ms":6.696416999999999,"query":"100%"},{"p95_ms":1.6806670000000001,"query":"_"},{"p95_ms":21.133542000000002,"query":"\"draft\""},{"p95_ms":2.794375,"query":"archive"},{"p95_ms":2.0221660000000004,"query":"docx"},{"p95_ms":38.51375,"query":"documents"},{"p95_ms":0.574375,"query":"不存在的资料"}],"resources":500000,"samples":150,"seed_seconds":32.008965875,"sqlite_version":"3.50.2"}
+WORKTWILL_SEARCH_REPORT /private/tmp/worktwill-spikes-20261119/rust-search-report-76cb5399-812e-4ae4-97a0-beeb42a4e6fd.json
+ok
+test acceptance_search_mixed::disk_search_acceptance_mixed ... MIXED_SEARCH_ACCEPTANCE {"arch":"aarch64","budget_failed":false,"budget_ms":60,"distribution":{"file":98900,"unauthorized_files":400,"web":1000,"workspace":100},"evidence":"synthetic_metadata_on_disk_store_search_not_scan_or_ui_latency","journal_mode":"wal","oracle_checks":242,"oracle_failures":[],"os":"macos","p50_ms":2.847375,"p95_ms":10.156500000000001,"p99_ms":13.49775,"per_query":[{"expected_counts":{"file":10,"web":10,"workspace":10},"kind":"all","p50_ms":5.1855,"p95_ms":5.394875000000001,"p99_ms":5.394875000000001,"query":"张","samples":10,"workspace_scoped":false},{"expected_counts":{"file":10,"web":10,"workspace":10},"kind":"all","p50_ms":4.496709,"p95_ms":23.18075,"p99_ms":23.18075,"query":"张三","samples":10,"workspace_scoped":false},{"expected_counts":{"file":10,"web":10,"workspace":10},"kind":"all","p50_ms":4.66125,"p95_ms":4.940957999999999,"p99_ms":4.940957999999999,"query":"合同","samples":10,"workspace_scoped":false},{"expected_counts":{"file":10,"web":10,"workspace":10},"kind":"all","p50_ms":1.557458,"p95_ms":2.1434159999999998,"p99_ms":2.1434159999999998,"query":"合作合同","samples":10,"workspace_scoped":false},{"expected_counts":{"file":10,"web":10,"workspace":10},"kind":"all","p50_ms":1.3327499999999999,"p95_ms":1.545125,"p99_ms":1.545125,"query":"招聘","samples":10,"workspace_scoped":false},{"expected_counts":{"file":10,"web":10,"workspace":10},"kind":"all","p50_ms":7.7212499999999995,"p95_ms":7.957166999999999,"p99_ms":7.957166999999999,"query":"2026","samples":10,"workspace_scoped":false},{"expected_counts":{"file":10,"web":10,"workspace":10},"kind":"all","p50_ms":13.070375,"p95_ms":13.525,"p99_ms":13.525,"query":"report","samples":10,"workspace_scoped":false},{"expected_counts":{"file":10,"web":10,"workspace":10},"kind":"all","p50_ms":1.424875,"p95_ms":1.568334,"p99_ms":1.568334,"query":"项目 r","samples":10,"workspace_scoped":false},{"expected_counts":{"file":10,"web":10,"workspace":10},"kind":"all","p50_ms":3.462167,"p95_ms":3.7745,"p99_ms":3.7745,"query":"100%","samples":10,"workspace_scoped":false},{"expected_counts":{"file":10,"web":10,"workspace":10},"kind":"all","p50_ms":1.423416,"p95_ms":1.507541,"p99_ms":1.507541,"query":"_","samples":10,"workspace_scoped":false},{"expected_counts":{"file":10,"web":10,"workspace":10},"kind":"all","p50_ms":9.976792,"p95_ms":10.147625,"p99_ms":10.147625,"query":"\"draft\"","samples":10,"workspace_scoped":false},{"expected_counts":{"file":10,"web":10,"workspace":10},"kind":"all","p50_ms":2.278,"p95_ms":2.525333,"p99_ms":2.525333,"query":"archive","samples":10,"workspace_scoped":false},{"expected_counts":{"file":30,"web":0,"workspace":0},"kind":"all","p50_ms":2.505209,"p95_ms":2.847375,"p99_ms":2.847375,"query":"docx","samples":10,"workspace_scoped":false},{"expected_counts":{"file":30,"web":0,"workspace":0},"kind":"all","p50_ms":9.911166000000001,"p95_ms":10.156500000000001,"p99_ms":10.156500000000001,"query":"部门17","samples":10,"workspace_scoped":false},{"expected_counts":{"file":0,"web":30,"workspace":0},"kind":"all","p50_ms":3.262,"p95_ms":3.763834,"p99_ms":3.763834,"query":"example.com","samples":10,"workspace_scoped":false},{"expected_counts":{"file":25,"web":3,"workspace":2},"kind":"all","p50_ms":1.542917,"p95_ms":1.741083,"p99_ms":1.741083,"query":"限额余位","samples":10,"workspace_scoped":false},{"expected_counts":{"file":1,"web":1,"workspace":1},"kind":"all","p50_ms":0.5425,"p95_ms":0.695292,"p99_ms":0.695292,"query":"稀少唯一","samples":10,"workspace_scoped":false},{"expected_counts":{"file":0,"web":0,"workspace":0},"kind":"all","p50_ms":0.44379199999999996,"p95_ms":0.57925,"p99_ms":0.57925,"query":"不存在的资料","samples":10,"workspace_scoped":false},{"expected_counts":{"file":17,"web":12,"workspace":1},"kind":"all","p50_ms":3.21375,"p95_ms":3.508208,"p99_ms":3.508208,"query":"合同","samples":10,"workspace_scoped":true},{"expected_counts":{"file":26,"web":3,"workspace":1},"kind":"all","p50_ms":1.5432919999999999,"p95_ms":1.620459,"p99_ms":1.620459,"query":"限额余位","samples":10,"workspace_scoped":true},{"expected_counts":{"file":30,"web":0,"workspace":0},"kind":"file","p50_ms":3.281875,"p95_ms":3.412042,"p99_ms":3.412042,"query":"张","samples":10,"workspace_scoped":false},{"expected_counts":{"file":0,"web":30,"workspace":0},"kind":"web","p50_ms":1.557666,"p95_ms":1.597625,"p99_ms":1.597625,"query":"report","samples":10,"workspace_scoped":false}],"profile":"release","queries":22,"resources":100000,"samples":220,"seed_seconds":6.76375775,"sqlite_version":"3.50.2","synchronous":2}
+MIXED_SEARCH_REPORT /private/tmp/worktwill-spikes-20261119/rust-search-mixed-report-28af3205-722e-4cdf-b250-cabbf1ed73b9.json
+ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 55.65s
+
+     Running unittests src/bin/export-types.rs (target/release/deps/export_types-fceed2e718ed1d2f)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/drop_identity.rs (target/release/deps/drop_identity-c60faef17ebbd608)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/relink_grants.rs (target/release/deps/relink_grants-d98b6a88c62d506a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/search_cancellation.rs (target/release/deps/search_cancellation-aa7da2c567bc55dc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/search_cursor.rs (target/release/deps/search_cursor-2bc825e435c3927e)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running tests/search_filters.rs (target/release/deps/search_filters-8f1029569e473647)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/search_groups.rs (target/release/deps/search_groups-9972defb373b3ce9)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests/workflows.rs (target/release/deps/workflows-9c6c11601809867a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 25 filtered out; finished in 0.00s
+

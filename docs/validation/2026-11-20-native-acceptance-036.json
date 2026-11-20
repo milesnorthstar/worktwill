@@ -1,0 +1,362 @@
+{
+  "recorded_at": "2026-11-20T17:06:44.038907+08:00",
+  "runtime": "035 unchanged 210 source and 4 artifacts verified",
+  "fixture_directory": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j",
+  "initial_root": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录A",
+  "planned_moved_root": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录B",
+  "initial_files": {
+    "定位验收036_合同.docx": {
+      "size": 10189,
+      "mtime_ns": 1795159183430920817,
+      "inode": 94968545,
+      "sha256": "d641859accef14479eb4d977b0b05f7b6dc4620030e8d0a4a98f4fe3836114b3"
+    },
+    "定位验收036_纪要.txt": {
+      "size": 59,
+      "mtime_ns": 1795055400000000000,
+      "inode": 94968546,
+      "sha256": "8d9826176d7671886d89381c52c5612f873d414f9ab952c9f380f44f4f4bde32"
+    }
+  },
+  "native_authorization": {
+    "actual_picker_confirmed_root": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录A",
+    "observed_at": "2026-11-20T15:27:27.035271+08:00",
+    "root": {
+      "id": "849980ea-212d-4a0b-b277-f87ac05d2dde",
+      "path": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录A",
+      "active": 1,
+      "paused": 0,
+      "scan_state": "idle",
+      "scanned": 0,
+      "failures": 0
+    },
+    "indexed_files": 0
+  },
+  "full_v1_passed": false,
+  "old_release_preserved": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/release-before-priority-036.app",
+  "new_priority_fixture": {
+    "root": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/首次目录C",
+    "file": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/首次目录C/优先收录036.txt",
+    "size": 28,
+    "mtime_ns": 1795160389643678313,
+    "inode": 95042295,
+    "sha256": "910e3850e78f1ad0e7bd9e890972dae3af8e294d61a5273c7b7bf1d4bf8b870d",
+    "root_and_resource_absent_before_native_authorization": true,
+    "at": "2026-11-20T15:39:49.674860+08:00"
+  },
+  "checks": {
+    "rust_passed": 221,
+    "ui_passed": 138,
+    "unified_exit": 0,
+    "first_phase_rust": 220,
+    "first_phase_logs_preserved": true,
+    "release_build_exit": 0,
+    "debug_build_exit": 0
+  },
+  "new_priority_result": {
+    "confirm_clicked_ms": 1795160994121,
+    "actual_settings_complete_observed_ms": 1795160994882,
+    "resource": {
+      "id": "990d6e71-96c2-4ad6-af22-b7b64f54e160",
+      "identity": "unix:16777234:95042295:1795160389:643635147",
+      "status": "available",
+      "favorite": 0,
+      "at": 1795160994186.0
+    },
+    "root": {
+      "id": "0ea1b8de-cbf9-4475-b935-95f4d0eff25a",
+      "path": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/首次目录C",
+      "scan_state": "completed",
+      "scanned": 1,
+      "failures": 0
+    },
+    "confirm_to_discovered_ms": 65.0,
+    "actual_settings_completed_one_file": true,
+    "large_roots_still_running": [
+      {
+        "id": "adb55e6d-72d2-44df-a47d-31ead76d229c",
+        "scan_state": "running",
+        "scanned": 0,
+        "failures": 0
+      }
+    ]
+  },
+  "runtime036": {
+    "old_process_count_before_launch": 0,
+    "current_release_binary_sha256": "eeb7598af9e41e2579b85719a02ecbcd290e8734378a949ac317e252302b30c6",
+    "transient_first_get_app_state": "running application not found; same path re-query returned window, no crash claim"
+  },
+  "before_moves": {
+    "files": [
+      {
+        "id": "88612221-f899-4840-8926-5f4733d3fd69",
+        "name": "定位验收036_合同.docx",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录A/定位验收036_合同.docx",
+        "identity": "unix:16777234:94968545:1795159183:430557318",
+        "size": 10189.0,
+        "modified_at": 1795159183430.0,
+        "favorite": 1,
+        "status": "available",
+        "workspace_ids": [
+          "4f210861-e437-4a90-a3f6-b9d6462ec8c8",
+          "ee368222-85ca-46bd-8942-b3aa0888797b"
+        ]
+      },
+      {
+        "id": "5029df5f-ed4b-4051-a9e9-b923df304e63",
+        "name": "定位验收036_纪要.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录A/定位验收036_纪要.txt",
+        "identity": "unix:16777234:94968546:1795055400:0",
+        "size": 59.0,
+        "modified_at": 1795055400000.0,
+        "favorite": 0,
+        "status": "available",
+        "workspace_ids": [
+          "4f210861-e437-4a90-a3f6-b9d6462ec8c8",
+          "ee368222-85ca-46bd-8942-b3aa0888797b"
+        ]
+      }
+    ],
+    "root": {
+      "id": "849980ea-212d-4a0b-b277-f87ac05d2dde",
+      "path": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录A",
+      "active": 1,
+      "paused": 0,
+      "identity": "unix:16777234:94968544:1795159183:430301945",
+      "valid": 1,
+      "bookmark_bytes": 968
+    },
+    "active_independent_file_grants": 0,
+    "project_and_archive_native_created_with_two_files": true
+  },
+  "file_rename_and_move": {
+    "method": "terminal filesystem rename of synthetic fixture; WorkTwill native UI checked separately",
+    "from": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录A/定位验收036_合同.docx",
+    "to": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录A/子目录_036/定位验收036_合同_改名.docx",
+    "renamed_at_ms": 1795161547665.5,
+    "observed_at_ms": 1795161547976.9048,
+    "resource": {
+      "id": "88612221-f899-4840-8926-5f4733d3fd69",
+      "name": "定位验收036_合同_改名.docx",
+      "location": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录A/子目录_036/定位验收036_合同_改名.docx",
+      "identity": "unix:16777234:94968545:1795159183:430557318",
+      "favorite": 1,
+      "status": "available"
+    },
+    "inode_and_mtime_preserved": true,
+    "bytes_unchanged": true,
+    "matched": true
+  },
+  "running_native_renamed_docx_open": {
+    "actual_wps_window": "定位验收036_合同_改名.docx",
+    "saved_markers_visually_present": true,
+    "unsaved_prefix_visually_differed_from_saved_xml": true,
+    "no_save_or_discard_performed": true,
+    "saved_file_sha_still_matches036_initial": true
+  },
+  "directory_move_while_closed": {
+    "method": "terminal filesystem rename of exclusive synthetic fixture root; application launch/open through Computer-Use",
+    "old_process_count": 0,
+    "from": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录A",
+    "to": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录B",
+    "moved_at_ms": 1795162015625.8828,
+    "root_inode_preserved": true,
+    "files": {
+      "子目录_036/定位验收036_合同_改名.docx": {
+        "inode": 94968545,
+        "mtime_ns": 1795159183430920817,
+        "sha256": "d641859accef14479eb4d977b0b05f7b6dc4620030e8d0a4a98f4fe3836114b3",
+        "matches036_initial": true
+      },
+      "定位验收036_纪要.txt": {
+        "inode": 94968546,
+        "mtime_ns": 1795055400000000000,
+        "sha256": "8d9826176d7671886d89381c52c5612f873d414f9ab952c9f380f44f4f4bde32",
+        "matches036_initial": true
+      }
+    }
+  },
+  "directory_reopen_first_observation": {
+    "at": "2026-11-20T16:13:29.808364+08:00",
+    "root": {
+      "id": "849980ea-212d-4a0b-b277-f87ac05d2dde",
+      "path": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录B",
+      "active": 1,
+      "paused": 0,
+      "generation": 5,
+      "scan_state": "idle",
+      "scanned": 2,
+      "failures": 0,
+      "identity": "unix:16777234:94968544:1795159183:430301945",
+      "valid": 1,
+      "bookmark_bytes": 968
+    },
+    "aliases": [
+      "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录A"
+    ],
+    "files": [
+      {
+        "id": "88612221-f899-4840-8926-5f4733d3fd69",
+        "name": "定位验收036_合同_改名.docx",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录A/子目录_036/定位验收036_合同_改名.docx",
+        "identity": "unix:16777234:94968545:1795159183:430557318",
+        "favorite": 1,
+        "status": "available"
+      },
+      {
+        "id": "5029df5f-ed4b-4051-a9e9-b923df304e63",
+        "name": "定位验收036_纪要.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录A/定位验收036_纪要.txt",
+        "identity": "unix:16777234:94968546:1795055400:0",
+        "favorite": 0,
+        "status": "available"
+      }
+    ],
+    "actual_native_workspace": "2 anonymous unauthorized entries; associations retained",
+    "native_open_not_yet_executed": true
+  },
+  "partial_scope_recovery_fix": {
+    "first036_binary_preserved": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/release-before-scope-priority-036.app",
+    "failure": "root path and UUID restored but resource paths still old, anonymous native rows until other root scans finish",
+    "fix": "notify root-ready phase and prioritize active idle roots; watcher reuses priority queue for recovered active roots; paused recovery retains full coordinator"
+  },
+  "final036_reopen_fixture": {
+    "from": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录B",
+    "to": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录D",
+    "move_while_worktwill_process_count": 0,
+    "moved_at_ms": 1795163382010.2332,
+    "files": {
+      "子目录_036/定位验收036_合同_改名.docx": {
+        "inode": 94968545,
+        "mtime_ns": 1795159183430920817,
+        "sha256": "d641859accef14479eb4d977b0b05f7b6dc4620030e8d0a4a98f4fe3836114b3"
+      },
+      "定位验收036_纪要.txt": {
+        "inode": 94968546,
+        "mtime_ns": 1795055400000000000,
+        "sha256": "8d9826176d7671886d89381c52c5612f873d414f9ab952c9f380f44f4f4bde32"
+      }
+    },
+    "new_priority_root": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/首次目录E",
+    "new_priority_file": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/首次目录E/优先收录036E.txt",
+    "binary_sha256": "2620c164bc03b327170988f89892b4ce406b1bc561a9125d521a014b5e7443fb"
+  },
+  "final036_directory_recovery": {
+    "observed_at_ms": 1795164077176.4202,
+    "root": {
+      "id": "849980ea-212d-4a0b-b277-f87ac05d2dde",
+      "path": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录D",
+      "active": 1,
+      "paused": 0,
+      "scan_state": "completed",
+      "scanned": 2,
+      "failures": 0,
+      "identity": "unix:16777234:94968544:1795159183:430301945",
+      "valid": 1
+    },
+    "aliases": [
+      "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录A",
+      "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录B"
+    ],
+    "files": [
+      {
+        "id": "88612221-f899-4840-8926-5f4733d3fd69",
+        "name": "定位验收036_合同_改名.docx",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录D/子目录_036/定位验收036_合同_改名.docx",
+        "identity": "unix:16777234:94968545:1795159183:430557318",
+        "favorite": 1,
+        "status": "available",
+        "workspace_ids": [
+          "4f210861-e437-4a90-a3f6-b9d6462ec8c8",
+          "ee368222-85ca-46bd-8942-b3aa0888797b"
+        ],
+        "sha256": "d641859accef14479eb4d977b0b05f7b6dc4620030e8d0a4a98f4fe3836114b3"
+      },
+      {
+        "id": "5029df5f-ed4b-4051-a9e9-b923df304e63",
+        "name": "定位验收036_纪要.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/资料目录D/定位验收036_纪要.txt",
+        "identity": "unix:16777234:94968546:1795055400:0",
+        "favorite": 0,
+        "status": "available",
+        "workspace_ids": [
+          "4f210861-e437-4a90-a3f6-b9d6462ec8c8",
+          "ee368222-85ca-46bd-8942-b3aa0888797b"
+        ],
+        "sha256": "8d9826176d7671886d89381c52c5612f873d414f9ab952c9f380f44f4f4bde32"
+      }
+    ],
+    "no_reauthorization_or_relink_after_root_D_move": true,
+    "actual_textedit_url_root": "资料目录D",
+    "actual_textedit_title": "定位验收036_纪要.txt",
+    "actual_textedit_text": "WorkTwill native locator acceptance 036\nSYNTHETIC_ONLY_036\n",
+    "native_read_timeout_before_workspace_click": "one node_repl timeout; same live app re-read succeeded; no restart",
+    "large_root_still_running": true
+  },
+  "final036_priority_first_authorization": {
+    "confirm_clicked_ms": 1795164595475,
+    "actual_complete_ui_observed_ms": 1795164596336,
+    "confirm_to_discovered_ms": 200.0,
+    "resource": {
+      "id": "424ad07f-5751-445a-abf3-6557771a7219",
+      "identity": "unix:16777234:95132586:1795163382:9796959",
+      "status": "available",
+      "favorite": 0,
+      "at": 1795164595675.0
+    },
+    "root": {
+      "id": "f94f5679-dad8-4f27-ac0a-542effdc99f4",
+      "path": "/private/tmp/worktwill-spikes-20261119/native-locator-036-b01e692j/首次目录E",
+      "scan_state": "completed",
+      "scanned": 1,
+      "failures": 0
+    },
+    "large_roots_still_running": [
+      {
+        "id": "adb55e6d-72d2-44df-a47d-31ead76d229c",
+        "scan_state": "running",
+        "scanned": 203400,
+        "failures": 0
+      }
+    ]
+  },
+  "textedit_fixture_closed_without_saving": true,
+  "calendar_discovery_semantics": {
+    "fixture_mtime_was_explicitly_set_to": "2026-11-19 10:30 +08:00",
+    "actual_workspace_filter": "原生定位036 · 归档",
+    "actual_event_filter": "首次发现",
+    "november20_calendar_count": 2,
+    "november19_selected_actual_empty_heading": "这一天暂无活动记录",
+    "november20_selected_actual_records": 2,
+    "actual_note_modified_label": "文件最后修改：2026年11月19日 10:30",
+    "cross_day_office_continuity_not_claimed": true
+  },
+  "restored_chinese_personal_workbench": true,
+  "final_live_process": [
+    "83357 Fri Nov 20 16:30:42 2026     /Users/lch/Desktop/project/my/test/target/release/bundle/macos/WorkTwill.app/Contents/MacOS/worktwill-desktop"
+  ],
+  "archive": {
+    "archive": "deliverables/WorkTwill-v0.1.0-v1-candidate-036-macOS-arm64.zip",
+    "bytes": 6625202,
+    "sha256": "e1576fef270f5615a06a56b878a30191b694752597a4968314a229ddbbfc64ef",
+    "crc": "passed",
+    "binary_matches_current_release": true,
+    "execute_mode_preserved": true,
+    "production_excludes_visual_fixture": true,
+    "developer_id_and_notarization": false
+  },
+  "environment": {
+    "macos": "15.3.1",
+    "architecture": "arm64"
+  },
+  "final_launch_started_ms": 1795163442668,
+  "scope": "Candidate036: bounded priority directory scans and limited native same-physical-object recovery; full V1 not passed",
+  "remaining": [
+    "Finder/Explorer external drop not confirmed",
+    "full native restore overwrite not executed",
+    "paused/replaced-old-path/multi-volume/cloud directory native matrices not completed",
+    "Word/identity-changing saves/cross-day Office matrix not completed",
+    "Windows/signing/install/upgrade rollback/real-user repetition remain",
+    "WPS synthetic document has unsaved input retained without save or discard"
+  ]
+}

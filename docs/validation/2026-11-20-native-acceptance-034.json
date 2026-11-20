@@ -1,0 +1,214 @@
+{
+  "recorded_at": "2026-11-20T14:48:00.089499+08:00",
+  "runtime": "033 unchanged source and 4 artifacts verified",
+  "original_before_save_as": {
+    "path": "/private/tmp/worktwill-spikes-20261119/native-v1-029-c7e_58jw/资料根/合作合同_张三.docx",
+    "size": 10189,
+    "mtime_ns": 1795151998910425364,
+    "inode": 94246733,
+    "sha256": "d641859accef14479eb4d977b0b05f7b6dc4620030e8d0a4a98f4fe3836114b3"
+  },
+  "save_as_destination": "/private/tmp/worktwill-spikes-20261119/native-v1-029-c7e_58jw/资料根/合作合同_张三_另存副本034.docx",
+  "save_as_destination_was_absent": true,
+  "office_environment": {
+    "available_editor": "com.kingsoft.wpsoffice.mac",
+    "word_not_listed_by_sky": true,
+    "word_support_not_claimed": true
+  },
+  "original_resource": {
+    "id": "3def8028-7ed3-4b49-936b-2a7c6de3c229",
+    "identity": "unix:16777234:94246733:1795141031:124261934",
+    "favorite": 1,
+    "status": "available"
+  },
+  "full_v1_passed": false,
+  "save_as_result": {
+    "recorded_at": "2026-11-20T13:36:45.703436+08:00",
+    "actual_wps_window": "合作合同_张三_另存副本034.docx",
+    "original_bytes_metadata_unchanged": true,
+    "copy_inode": 94666489,
+    "copy_marker_present": true,
+    "resource_at_observation": null
+  },
+  "manual_web_auto_title_off": {
+    "actual_checkbox": false,
+    "saved": {
+      "id": "3feac534-00a2-4e52-905a-69e4dc6c9b8a",
+      "name": "原生验收034 · 手动网页",
+      "location": "https://example.org/worktwill-acceptance-034"
+    },
+    "workspace_ids": [
+      "8c45910d-8906-4e6b-a561-2016c9e510ab"
+    ],
+    "network_not_disabled_at_os_level": true,
+    "no_network_observer_used": true
+  },
+  "save_as_later_observation": {
+    "at": "2026-11-20T13:45:47.809392+08:00",
+    "resource": {
+      "id": "db568562-e449-49ee-a460-a7a3f2aad05b",
+      "name": "合作合同_张三_另存副本034.docx",
+      "identity": "unix:16777234:94666489:1795152971:315827899",
+      "favorite": 0,
+      "status": "available"
+    }
+  },
+  "title_failure_fallback": {
+    "runtime": "033",
+    "input": "http://127.0.0.1/worktwill-acceptance-034",
+    "actual_message": "仅自动获取公网网页标题，其他网址可手动填写",
+    "manual_save_succeeded": true,
+    "resource": {
+      "id": "5028a7e3-a583-4df1-b63a-280ba5e39739",
+      "name": "原生验收034 · 标题失败手填",
+      "location": "http://127.0.0.1/worktwill-acceptance-034"
+    },
+    "private_webpage_not_opened": true
+  },
+  "build_fixture_directory": "/private/tmp/worktwill-spikes-20261119/observed-refresh-034-mddkfwrj",
+  "save_as_confirmed": {
+    "resource": {
+      "id": "db568562-e449-49ee-a460-a7a3f2aad05b",
+      "identity": "unix:16777234:94666489:1795152971:315827899",
+      "favorite": 0,
+      "status": "available"
+    },
+    "workspace_count": 0,
+    "observations": [
+      {
+        "kind": "file_discovered",
+        "at": 1795153035010.0,
+        "file_modified_at": 1795152971315.0
+      }
+    ],
+    "file_mtime_to_discovered_ms": 63695.0
+  },
+  "native_visual_english_minimum": {
+    "runtime": "033 frontend unchanged",
+    "actual_jpeg_pixels": [
+      1800,
+      1280
+    ],
+    "configured_minimum_logical": [
+      900,
+      640
+    ],
+    "method": "native Window top-right tile then resize corner using Computer-Use",
+    "workspace_header_and_actions_visible": true,
+    "sidebar_settings_visible": true,
+    "calendar_and_timeline_readable": true,
+    "vertical_scroll_to_calendar_top_succeeded": true,
+    "full_input_method_and_os_scaling_matrix_passed": false
+  },
+  "checks034": {
+    "rust_passed": 218,
+    "ui_passed": 137,
+    "unified_exit": 0,
+    "native034_new_file_refresh": "real WPS same-format Save As observed; one local sample only"
+  },
+  "native_minimum_internal_drag": {
+    "runtime": "033 frontend unchanged",
+    "jpeg_pixels": [
+      1800,
+      1280
+    ],
+    "original_repeat_link_receipt": {
+      "rowid": 15,
+      "payload": "{\"type\":\"link\",\"workspace_id\":\"72f2c384-90a7-474d-8530-fb84ae2ef087\",\"resource_ids\":[\"3def8028-7ed3-4b49-936b-2a7c6de3c229\"]}",
+      "result": "{\"id\":null,\"changed\":0}"
+    },
+    "web_link_receipt": {
+      "rowid": 16,
+      "payload": "{\"type\":\"link\",\"workspace_id\":\"72f2c384-90a7-474d-8530-fb84ae2ef087\",\"resource_ids\":[\"5028a7e3-a583-4df1-b63a-280ba5e39739\"]}",
+      "result": "{\"id\":null,\"changed\":1}"
+    },
+    "archive_count_before_web": 4,
+    "archive_count_after_web": 5,
+    "source_count_after_web": 6,
+    "linked_original_remains_in_both": true
+  },
+  "native034_release_binary_sha256": "31152d68e568f3a46c984645bd033993ab83a85c7f50d22ccc0757bb774ffd45",
+  "prelaunch034_at": "2026-11-20T14:07:11.115372+08:00",
+  "new_file_refresh_before": {
+    "destination": "/private/tmp/worktwill-spikes-20261119/native-v1-029-c7e_58jw/资料根/合作合同_张三_新文件034B.docx",
+    "checked_absent_at_ms": 1795155285306.726,
+    "old_process_verified_zero": true,
+    "actual_reopened_original_window": "合作合同_张三.docx",
+    "roots": [
+      {
+        "id": "a0d6d3a6-319e-4918-91ea-5b334e4a9775",
+        "scan_state": "completed",
+        "scanned": 9459,
+        "failures": 0
+      },
+      {
+        "id": "adb55e6d-72d2-44df-a47d-31ead76d229c",
+        "scan_state": "running",
+        "scanned": 177100,
+        "failures": 0
+      },
+      {
+        "id": "236c0051-bcff-4667-a11b-3131338857c6",
+        "scan_state": "completed",
+        "scanned": 6,
+        "failures": 0
+      }
+    ]
+  },
+  "new_file_refresh_after": {
+    "save_clicked_ms": 1795156304915,
+    "file_mtime_ms": 1795156305026.5657,
+    "inode": 94823171,
+    "resource": {
+      "id": "dd17af21-e962-4b03-bb82-7cc1528374b2",
+      "identity": "unix:16777234:94823171:1795156305:26443285",
+      "favorite": 0,
+      "status": "available",
+      "modified_at": 1795156305026.0,
+      "at": 1795156307649.0,
+      "kind": "file_discovered"
+    },
+    "file_mtime_to_discovered_ms": 2622.434326171875,
+    "workspace_count": 0,
+    "resource_count_at_path": 1,
+    "copy_marker_present": true,
+    "large_roots_still_running": [
+      {
+        "id": "adb55e6d-72d2-44df-a47d-31ead76d229c",
+        "scan_state": "running",
+        "scanned": 145000,
+        "failures": 0
+      }
+    ],
+    "original_unchanged": true
+  },
+  "format_warning_cancelled_without_conversion": true,
+  "new_file_source_document": "existing WPS-created 034 copy, saved in same format",
+  "new_file_search_actual": "新文件034B matched and highlighted 合作合同_张三_新文件034B.docx",
+  "favorite_open_original": {
+    "runtime": "034",
+    "actual_breadcrumb": "个人工作台 / 收藏",
+    "actual_clicked_button": "打开 合作合同_张三.docx",
+    "actual_wps_window": "合作合同_张三.docx"
+  },
+  "fixture_documents_closed_to_wps_home": true,
+  "pending_same_view_refresh_scroll_issue": "after duplicate association, same workspace returned to document top; reload clears page and shortens document; not fixed or independently A/B verified",
+  "archive": {
+    "archive": "deliverables/WorkTwill-v0.1.0-v1-candidate-034-macOS-arm64.zip",
+    "bytes": 6634387,
+    "sha256": "43fa3e9ad83c0ba63c593b4ca53588448971873f6e644c6b7eb369b89905f1af",
+    "crc": "passed",
+    "binary_matches_current_release": true,
+    "execute_mode_preserved": true,
+    "production_excludes_visual_fixture": true,
+    "signature": "Executable=/Users/lch/Desktop/project/my/test/target/release/bundle/macos/WorkTwill.app/Contents/MacOS/worktwill-desktop\nIdentifier=worktwill_desktop-3bdb780f1911ed23\nFormat=app bundle with Mach-O thin (arm64)\nCodeDirectory v=20400 size=133224 flags=0x20002(adhoc,linker-signed) hashes=4159+0 location=embedded\nVersionPlatform=1\nVersionMin=720896\nVersionSDK=984320\nHash type=sha256 size=32\nCandidateCDHash sha256=8f231b54e87c6606116ee3794559edca43e8023e\nCandidateCDHashFull sha256=8f231b54e87c6606116ee3794559edca43e8023ef71eb4d82e744860f2ddcfae\nHash choices=sha256\nCMSDigest=8f231b54e87c6606116ee3794559edca43e8023ef71eb4d82e744860f2ddcfae\nCMSDigestType=2\nExecutable Segment base=0\nExecutable Segment limit=12877824\nExecutable Segment flags=0x1\nPage size=4096\nCDHash=8f231b54e87c6606116ee3794559edca43e8023e\nSignature=adhoc\nInfo.plist=not bound\nTeamIdentifier=not set\nSealed Resources=none\nInternal requirements=none\n",
+    "developer_id_and_notarization": false
+  },
+  "unedited_original_fixture_files_still_match029_baseline": [
+    "单独授权_029.txt",
+    "资料根/会议纪要.txt",
+    "资料根/子目录/Long filename with spaces and 中文_会议纪要_029.txt",
+    "资料根/张三登记.xlsx",
+    "资料根/排除目录/排除合同_029.txt"
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "all_resource_mappings_and_metadata_verified": true,
+  "arch": "aarch64",
+  "db_bytes_after_repeat": 38973440,
+  "db_bytes_before_repeat": 38907904,
+  "directories": 100,
+  "discovery_events": 10000,
+  "every_phase_counts_and_target_event_verified": true,
+  "evidence": "real_synthetic_files_formal_store_scan_not_native_ui_or_idle_resource_usage",
+  "files": 10000,
+  "initial_scan_seconds": 4.953204792,
+  "modified_events": 1,
+  "os": "macos",
+  "profile": "release",
+  "resource_count": 10000,
+  "results": [
+    {
+      "concurrent_query_samples_total": 479,
+      "empty_query_samples": 3,
+      "first_nonempty_result_seconds": 0.024536917,
+      "partial_scan_observation": {
+        "matches": 30,
+        "scanned_after": 100,
+        "scanned_before": 100,
+        "seconds": 0.024787208
+      },
+      "phase": "initial_with_concurrent_search",
+      "query_p50_ms": 1.289875,
+      "query_p95_ms": 5.989333,
+      "query_p99_ms": 27.470584,
+      "timing_samples_retained": 479,
+      "timing_scope": "first_up_to_10000_queries_started_before_stop_including_in_flight_tail",
+      "wall_seconds": 4.953204792
+    },
+    {
+      "concurrent_query_samples_total": 70,
+      "empty_query_samples": 0,
+      "first_nonempty_result_seconds": 0.003240125,
+      "partial_scan_observation": null,
+      "phase": "unchanged_with_concurrent_search",
+      "query_p50_ms": 1.4787089999999998,
+      "query_p95_ms": 3.0863750000000003,
+      "query_p99_ms": 3.359375,
+      "timing_samples_retained": 70,
+      "timing_scope": "first_up_to_10000_queries_started_before_stop_including_in_flight_tail",
+      "wall_seconds": 0.589279625
+    },
+    {
+      "concurrent_query_samples_total": 73,
+      "empty_query_samples": 0,
+      "first_nonempty_result_seconds": 0.002479666,
+      "partial_scan_observation": null,
+      "phase": "one_modified_with_concurrent_search",
+      "query_p50_ms": 1.5247920000000001,
+      "query_p95_ms": 2.991417,
+      "query_p99_ms": 6.004542,
+      "timing_samples_retained": 73,
+      "timing_scope": "first_up_to_10000_queries_started_before_stop_including_in_flight_tail",
+      "wall_seconds": 0.624662625
+    }
+  ],
+  "seed_seconds": 0.490540917,
+  "target_reference_favorite_and_bytes_preserved": true
+}

@@ -1,0 +1,54 @@
+{
+  "recorded_at": "2026-11-20T09:21:16.505000+08:00",
+  "scope": "Read-only diagnosis of two user-provided native launch crashes; GUI access denial remains independent",
+  "crashes": [
+    {
+      "report_name": "worktwill-desktop-2026-11-20-091534.ips",
+      "launch": "2026-11-20 09:15:16",
+      "signal": "SIGABRT"
+    },
+    {
+      "report_name": "worktwill-desktop-2026-11-20-091538.ips",
+      "launch": "2026-11-20 09:15:36",
+      "signal": "SIGABRT"
+    }
+  ],
+  "crashed_binary_uuid": "433D00F2-6533-3D77-BBC9-C4183D1A609A",
+  "crashed_binary_path": "target/debug/bundle/macos/WorkTwill.app/Contents/MacOS/worktwill-desktop",
+  "crashed_binary_sha256": "c6f30160640c750cbf2ef09220cc0bc456f07308165ad7ea65db2573c409fd8f",
+  "crashed_binary_mtime": "2026-11-19T21:57:44+08:00",
+  "current_release_uuid": "DCA3301F-3730-3991-9C94-86248FEBB583",
+  "current_release_sha256": "082f9402891fef8af1aaa4228a7cd56bffdce36aa5ae3b7d8891fc3232f5b52a",
+  "database_inspection": "Read-only immutable connection; only schema table presence plus raw SQLite header user_version=7; no business rows read or data changed; no WAL present",
+  "binary_schema_markers": "Old debug lacks file_locators/root_locators/activity_origins; current release includes all",
+  "cause_status": "Confirmed stale debug package launched, not candidate026 release; older-code/current-schema mismatch is a hypothesis, Objective-C exception reason absent from reports/logs",
+  "old_debug_preserved_archive": "/private/tmp/worktwill-spikes-20261119/old-debug-crash-027-jz31enkb/WorkTwill-old-debug-before-refresh.zip",
+  "old_debug_preserved_archive_sha256": "aa0e55820551446c5d10d6520f6fecc9c1140385ab25a957e77a4213828adc01",
+  "raw_report_or_console_not_copied_to_repository": true,
+  "computer_use_attempt": "getApp(current release path) still explicitly denied; no bypass or alternate GUI bridge",
+  "user_validation": "Current release actual launch remains pending; rebuilding debug artifact does not prove runtime acceptance",
+  "debug_refresh": {
+    "completed_at": "2026-11-20T09:22:25.822757+08:00",
+    "build_exit": 0,
+    "binary_bytes": 46496496,
+    "binary_sha256": "dd0fec88910abe597a62022d25648dd3f6b064d6fb4d46e437b1939d3f15999a",
+    "all_current_schema_markers_present": true,
+    "uuid": "UUID: 42B471C7-5067-3BD7-83D7-4A3DC6F494FE (arm64) target/debug/bundle/macos/WorkTwill.app/Contents/MacOS/worktwill-desktop",
+    "same_current_source_no_code_edits": true,
+    "launch_not_executed_due_to_computer_use_denial": true
+  },
+  "candidate026_source_release_archive_and_prior_evidence_unchanged_verified": true,
+  "release_manual_verification": {
+    "recorded_at": "2026-11-20T09:28:14.524348+08:00",
+    "source": "user reply after opening explicit target/release/bundle/macos path",
+    "reported_result": "正常打开了",
+    "evidence_level": "user-observed successful launch; not automated native UI acceptance"
+  },
+  "latest_computer_use_retry": {
+    "target": "target/release/bundle/macos/WorkTwill.app",
+    "result": "Computer Use was not approved to use WorkTwill",
+    "external_state": "user confirmed current release window is open",
+    "authorization_still_unresolved": true,
+    "not_bypassed": true
+  }
+}

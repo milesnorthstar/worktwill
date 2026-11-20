@@ -1,0 +1,10 @@
+{
+  "archive": "deliverables/WorkTwill-v0.1.0-v1-candidate-036-macOS-arm64.zip",
+  "bytes": 6625202,
+  "sha256": "e1576fef270f5615a06a56b878a30191b694752597a4968314a229ddbbfc64ef",
+  "crc": "passed",
+  "binary_matches_current_release": true,
+  "execute_mode_preserved": true,
+  "production_excludes_visual_fixture": true,
+  "developer_id_and_notarization": false
+}

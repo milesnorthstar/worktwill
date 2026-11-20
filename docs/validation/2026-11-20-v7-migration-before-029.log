@@ -1,0 +1,38 @@
+   Compiling libsqlite3-sys v0.35.0
+   Compiling rusqlite v0.37.0
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 12.88s
+     Running unittests src/lib.rs (target/debug/deps/worktwill_core-18a0898f5bc211e9)
+
+running 4 tests
+
+thread 'activity_origin_tests::genuine_v7_existing_retired_flags_keep_both_zero_and_one_while_advancing_to_v8' (8286158) panicked at crates/worktwill-core/src/activity_origin_tests.rs:908:5:
+assertion `left == right` failed
+  left: 7
+ right: 8
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'activity_origin_tests::genuine_v7_retired_flag_upgrade_rolls_back_alter_rows_and_version_then_retries' (8286160) panicked at crates/worktwill-core/src/activity_origin_tests.rs:995:5:
+assertion failed: crate::migrations::migrate(&mut db).is_err()
+test activity_origin_tests::genuine_v7_existing_retired_flags_keep_both_zero_and_one_while_advancing_to_v8 ... FAILED
+test activity_origin_tests::genuine_v7_retired_flag_upgrade_rolls_back_alter_rows_and_version_then_retries ... FAILED
+
+thread 'activity_origin_tests::genuine_v7_four_column_scope_migrates_to_v8_without_losing_current_history_or_reviving_retired_history' (8286159) panicked at crates/worktwill-core/src/activity_origin_tests.rs:846:37:
+called `Result::unwrap()` on an `Err` value: AppError { code: "database_error", message: "本地数据操作失败，请重试或检查备份", message_en: "The local data operation failed. Try again or check your backup." }
+test activity_origin_tests::genuine_v7_four_column_scope_migrates_to_v8_without_losing_current_history_or_reviving_retired_history ... FAILED
+
+thread 'activity_origin_tests::genuine_v7_backup_restores_via_v8_staging_without_changing_source_or_reviving_unknown_scope' (8286157) panicked at crates/worktwill-core/src/activity_origin_tests.rs:961:37:
+called `Result::unwrap()` on an `Err` value: AppError { code: "database_error", message: "本地数据操作失败，请重试或检查备份", message_en: "The local data operation failed. Try again or check your backup." }
+test activity_origin_tests::genuine_v7_backup_restores_via_v8_staging_without_changing_source_or_reviving_unknown_scope ... FAILED
+
+failures:
+
+failures:
+    activity_origin_tests::genuine_v7_backup_restores_via_v8_staging_without_changing_source_or_reviving_unknown_scope
+    activity_origin_tests::genuine_v7_existing_retired_flags_keep_both_zero_and_one_while_advancing_to_v8
+    activity_origin_tests::genuine_v7_four_column_scope_migrates_to_v8_without_losing_current_history_or_reviving_retired_history
+    activity_origin_tests::genuine_v7_retired_flag_upgrade_rolls_back_alter_rows_and_version_then_retries
+
+test result: FAILED. 0 passed; 4 failed; 0 ignored; 0 measured; 102 filtered out; finished in 0.08s
+
+error: test failed, to rerun pass `-p worktwill-core --lib`

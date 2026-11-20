@@ -1,0 +1,44 @@
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.97s
+     Running unittests src/lib.rs (target/debug/deps/worktwill_core-18a0898f5bc211e9)
+
+running 17 tests
+test root_locator_tests::broken_single_file_bookmark_does_not_prevent_moved_root_recovery_and_scan ... ok
+test root_locator_tests::consecutive_directory_moves_and_explicit_regrant_reuse_physical_root_identity ... ok
+test root_locator_tests::explicit_regrant_conflicting_existing_root_identity_and_path_is_atomic ... ok
+test root_locator_tests::explicit_regrant_of_different_identity_clears_old_directory_aliases ... ok
+test root_locator_tests::historical_v5_roots_are_legacy_and_not_retroactively_assigned_bookmarks ... ok
+test root_locator_tests::malformed_schema6_root_locator_backups_never_replace_live_state ... ok
+test root_locator_tests::managed_directory_rename_move_and_reopen_keep_root_uuid_and_resource_relationships ... ok
+test root_locator_tests::opening_moved_or_replaced_root_only_invalidates_metadata_until_explicit_refresh ... FAILED
+test root_locator_tests::opening_unchanged_root_preserves_versions_and_search_projection_without_scanning ... FAILED
+test root_locator_tests::paused_mapping_recovers_every_known_resource_across_more_than_two_batches ... ok
+test root_locator_tests::paused_root_recovers_known_paths_but_does_not_enumerate_new_files_until_resumed ... ok
+test root_locator_tests::relative_exclusions_and_revocation_remain_effective_after_root_movement ... ok
+test root_locator_tests::replacement_at_old_directory_path_is_not_authorized_or_given_old_references ... ok
+test root_locator_tests::root_and_descendant_symlinks_cannot_expand_directory_authorization ... ok
+test root_locator_tests::schema6_migration_conflict_rolls_back_new_tables_and_retries_without_retroactive_trust ... ok
+test root_locator_tests::unavailable_mixed_root_and_file_grant_preserves_references_and_scans_healthy_root ... ok
+test root_locator_tests::vanished_root_recreated_at_same_name_fails_closed_without_identity_inheritance ... ok
+
+failures:
+
+---- root_locator_tests::opening_moved_or_replaced_root_only_invalidates_metadata_until_explicit_refresh stdout ----
+
+thread 'root_locator_tests::opening_moved_or_replaced_root_only_invalidates_metadata_until_explicit_refresh' (7403603) panicked at crates/worktwill-core/src/root_locator_tests.rs:890:14:
+called `Result::unwrap()` on an `Err` value: AppError { code: "invalid_input", message: "请输入 1–256 字搜索内容", message_en: "Enter between 1 and 256 characters to search." }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- root_locator_tests::opening_unchanged_root_preserves_versions_and_search_projection_without_scanning stdout ----
+
+thread 'root_locator_tests::opening_unchanged_root_preserves_versions_and_search_projection_without_scanning' (7403605) panicked at crates/worktwill-core/src/root_locator_tests.rs:846:54:
+called `Result::unwrap()` on an `Err` value: AppError { code: "invalid_input", message: "请输入 1–256 字搜索内容", message_en: "Enter between 1 and 256 characters to search." }
+
+
+failures:
+    root_locator_tests::opening_moved_or_replaced_root_only_invalidates_metadata_until_explicit_refresh
+    root_locator_tests::opening_unchanged_root_preserves_versions_and_search_projection_without_scanning
+
+test result: FAILED. 15 passed; 2 failed; 0 ignored; 0 measured; 78 filtered out; finished in 2.73s
+
+error: test failed, to rerun pass `-p worktwill-core --lib`

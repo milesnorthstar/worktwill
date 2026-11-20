@@ -1,0 +1,231 @@
+{
+  "captured_at": "2026-11-20T17:25:29.292437+08:00",
+  "scope": "read-only metadata of synthetic files actually saved by WPS in033/034, no real business files",
+  "fixture_directory": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl",
+  "source_sha256": "f126715f228327f0458e29b18bd4665d399411d1081667d01fcb246add8f5614",
+  "runs": [
+    [
+      {
+        "after": {
+          "birthNsec": 124261934,
+          "birthSec": 1795141031,
+          "changeNsec": 855903160,
+          "changeSec": 1795157046,
+          "dev": 16777234,
+          "flags": 0,
+          "inode": 94246733,
+          "modifyNsec": 910425364,
+          "modifySec": 1795151998,
+          "size": 10189,
+          "tracked": 0
+        },
+        "before": {
+          "birthNsec": 124261934,
+          "birthSec": 1795141031,
+          "changeNsec": 855903160,
+          "changeSec": 1795157046,
+          "dev": 16777234,
+          "flags": 0,
+          "inode": 94246733,
+          "modifyNsec": 910425364,
+          "modifySec": 1795151998,
+          "size": 10189,
+          "tracked": 0
+        },
+        "foundationDocumentId": null,
+        "foundationErrorCode": null,
+        "foundationSuccess": true,
+        "rawExtended": {
+          "documentAttributeReturned": true,
+          "documentId": 0,
+          "length": 28,
+          "result": 0,
+          "returnedCommon": 2148532224
+        },
+        "rawWithoutRequiredOption": {
+          "errno": 22,
+          "result": -1
+        },
+        "sample": "合作合同_张三.docx",
+        "statUnchanged": true,
+        "volume": {
+          "documentIdCapabilityValid": 1,
+          "documentIdSupported": 1,
+          "filesystem": "apfs",
+          "formatCapabilities": 26963679,
+          "formatValid": 134217727,
+          "result": 0,
+          "returnedVolume": 131072
+        },
+        "volumeUuid": "735944F1-87DF-427C-BF60-25B3BFCA9F27"
+      },
+      {
+        "after": {
+          "birthNsec": 26443285,
+          "birthSec": 1795156305,
+          "changeNsec": 26565701,
+          "changeSec": 1795156305,
+          "dev": 16777234,
+          "flags": 0,
+          "inode": 94823171,
+          "modifyNsec": 26565701,
+          "modifySec": 1795156305,
+          "size": 10261,
+          "tracked": 0
+        },
+        "before": {
+          "birthNsec": 26443285,
+          "birthSec": 1795156305,
+          "changeNsec": 26565701,
+          "changeSec": 1795156305,
+          "dev": 16777234,
+          "flags": 0,
+          "inode": 94823171,
+          "modifyNsec": 26565701,
+          "modifySec": 1795156305,
+          "size": 10261,
+          "tracked": 0
+        },
+        "foundationDocumentId": null,
+        "foundationErrorCode": null,
+        "foundationSuccess": true,
+        "rawExtended": {
+          "documentAttributeReturned": true,
+          "documentId": 0,
+          "length": 28,
+          "result": 0,
+          "returnedCommon": 2148532224
+        },
+        "rawWithoutRequiredOption": {
+          "errno": 22,
+          "result": -1
+        },
+        "sample": "合作合同_张三_新文件034B.docx",
+        "statUnchanged": true,
+        "volume": {
+          "documentIdCapabilityValid": 1,
+          "documentIdSupported": 1,
+          "filesystem": "apfs",
+          "formatCapabilities": 26963679,
+          "formatValid": 134217727,
+          "result": 0,
+          "returnedVolume": 131072
+        },
+        "volumeUuid": "735944F1-87DF-427C-BF60-25B3BFCA9F27"
+      }
+    ],
+    [
+      {
+        "after": {
+          "birthNsec": 124261934,
+          "birthSec": 1795141031,
+          "changeNsec": 855903160,
+          "changeSec": 1795157046,
+          "dev": 16777234,
+          "flags": 0,
+          "inode": 94246733,
+          "modifyNsec": 910425364,
+          "modifySec": 1795151998,
+          "size": 10189,
+          "tracked": 0
+        },
+        "before": {
+          "birthNsec": 124261934,
+          "birthSec": 1795141031,
+          "changeNsec": 855903160,
+          "changeSec": 1795157046,
+          "dev": 16777234,
+          "flags": 0,
+          "inode": 94246733,
+          "modifyNsec": 910425364,
+          "modifySec": 1795151998,
+          "size": 10189,
+          "tracked": 0
+        },
+        "foundationDocumentId": null,
+        "foundationErrorCode": null,
+        "foundationSuccess": true,
+        "rawExtended": {
+          "documentAttributeReturned": true,
+          "documentId": 0,
+          "length": 28,
+          "result": 0,
+          "returnedCommon": 2148532224
+        },
+        "rawWithoutRequiredOption": {
+          "errno": 22,
+          "result": -1
+        },
+        "sample": "合作合同_张三.docx",
+        "statUnchanged": true,
+        "volume": {
+          "documentIdCapabilityValid": 1,
+          "documentIdSupported": 1,
+          "filesystem": "apfs",
+          "formatCapabilities": 26963679,
+          "formatValid": 134217727,
+          "result": 0,
+          "returnedVolume": 131072
+        },
+        "volumeUuid": "735944F1-87DF-427C-BF60-25B3BFCA9F27"
+      },
+      {
+        "after": {
+          "birthNsec": 26443285,
+          "birthSec": 1795156305,
+          "changeNsec": 26565701,
+          "changeSec": 1795156305,
+          "dev": 16777234,
+          "flags": 0,
+          "inode": 94823171,
+          "modifyNsec": 26565701,
+          "modifySec": 1795156305,
+          "size": 10261,
+          "tracked": 0
+        },
+        "before": {
+          "birthNsec": 26443285,
+          "birthSec": 1795156305,
+          "changeNsec": 26565701,
+          "changeSec": 1795156305,
+          "dev": 16777234,
+          "flags": 0,
+          "inode": 94823171,
+          "modifyNsec": 26565701,
+          "modifySec": 1795156305,
+          "size": 10261,
+          "tracked": 0
+        },
+        "foundationDocumentId": null,
+        "foundationErrorCode": null,
+        "foundationSuccess": true,
+        "rawExtended": {
+          "documentAttributeReturned": true,
+          "documentId": 0,
+          "length": 28,
+          "result": 0,
+          "returnedCommon": 2148532224
+        },
+        "rawWithoutRequiredOption": {
+          "errno": 22,
+          "result": -1
+        },
+        "sample": "合作合同_张三_新文件034B.docx",
+        "statUnchanged": true,
+        "volume": {
+          "documentIdCapabilityValid": 1,
+          "documentIdSupported": 1,
+          "filesystem": "apfs",
+          "formatCapabilities": 26963679,
+          "formatValid": 134217727,
+          "result": 0,
+          "returnedVolume": 131072
+        },
+        "volumeUuid": "735944F1-87DF-427C-BF60-25B3BFCA9F27"
+      }
+    ]
+  ],
+  "synthetic_bytes_unchanged": true,
+  "no_flags_or_xattr_setter": true,
+  "not_office_safe_replace_acceptance": true
+}

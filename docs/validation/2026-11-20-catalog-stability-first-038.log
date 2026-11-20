@@ -1,0 +1,36 @@
+   Compiling libsqlite3-sys v0.35.0
+   Compiling rusqlite v0.37.0
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 15.94s
+     Running unittests src/lib.rs (target/debug/deps/worktwill_core-18a0898f5bc211e9)
+
+running 8 tests
+test catalog::root_tests::replacement_root_with_the_same_file_object_still_rejects_old_batch ... ok
+test catalog::root_tests::moved_root_rejects_captured_batch_and_finishes_without_false_completion ... ok
+
+thread 'catalog::root_tests::same_root_hardlink_keeps_available_path_but_missing_original_can_move' (10935279) panicked at crates/worktwill-core/src/catalog_root_tests.rs:173:5:
+assertion `left == right` failed
+  left: "/private/tmp/worktwill-spikes-20261119/catalog-root-boundary-VZu94z/documents/alias.txt"
+ right: "/private/tmp/worktwill-spikes-20261119/catalog-root-boundary-VZu94z/documents/original.txt"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test catalog::root_tests::same_root_hardlink_keeps_available_path_but_missing_original_can_move ... FAILED
+test catalog::root_tests::late_invalid_cleanup_cannot_overwrite_new_root_scan_completion ... ok
+test catalog::root_tests::restored_root_generation_aba_does_not_revive_old_batch_or_cleanup ... ok
+test catalog::root_tests::invalid_overlapping_root_cannot_protect_a_missing_resource ... ok
+test catalog::root_tests::excluded_directory_does_not_override_independent_file_grant_status ... ok
+
+thread 'catalog::root_tests::unchanged_scan_preserves_cursor_but_real_changes_invalidate_it' (10935280) panicked at crates/worktwill-core/src/catalog_root_tests.rs:122:5:
+assertion `left == right` failed: scan progress is not a data change
+  left: (1, 7)
+ right: (1, 4)
+test catalog::root_tests::unchanged_scan_preserves_cursor_but_real_changes_invalidate_it ... FAILED
+
+failures:
+
+failures:
+    catalog::root_tests::same_root_hardlink_keeps_available_path_but_missing_original_can_move
+    catalog::root_tests::unchanged_scan_preserves_cursor_but_real_changes_invalidate_it
+
+test result: FAILED. 6 passed; 2 failed; 0 ignored; 0 measured; 114 filtered out; finished in 1.95s
+
+error: test failed, to rerun pass `-p worktwill-core --lib`

@@ -1,0 +1,68 @@
+   Compiling libsqlite3-sys v0.35.0
+   Compiling rusqlite v0.37.0
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `release` profile [optimized] target(s) in 21.89s
+     Running unittests src/lib.rs (target/release/deps/worktwill_core-1f1deb9375a7a89f)
+
+running 1 test
+test acceptance_root_locator::disk_root_locator_acceptance ... ROOT_LOCATOR_REPORT /private/tmp/worktwill-spikes-20261119/root-locator-acceptance-F6bMJX/root-locator-report.json
+ROOT_LOCATOR_ACCEPTANCE {"arch":"aarch64","evidence":"real_synthetic_10000_files_core_and_native_file_apis_not_gui_or_office","file_creation_seconds":0.57848575,"final_counts":{"aliases":["/private/tmp/worktwill-spikes-20261119/root-locator-acceptance-F6bMJX/documents","/private/tmp/worktwill-spikes-20261119/root-locator-acceptance-F6bMJX/renamed-documents"],"discovered":10001,"distinct_discovered_resources":10001,"file_modified_events":0,"fts_short":10001,"fts_tri":10001,"paused":false,"resources":10001,"root_id":"e1450106-1c07-41fc-91e9-fe1533d2d0e3","root_identity":"unix:16777234:93217261:1795128007:539922260","root_location_status":"available","root_memberships":10001,"root_path":"/private/tmp/worktwill-spikes-20261119/root-locator-acceptance-F6bMJX/elsewhere/deep/moved-documents","search_documents":10001,"single_file_grants":0,"single_file_locators":0,"verified_raw_projection_rows":10001},"final_file_metadata_and_sample_bytes_verification_seconds":0.017864166,"final_original_file_bytes_verified_samples":7,"final_original_file_metadata_verified":10000,"final_persisted_counts":{"aliases":["/private/tmp/worktwill-spikes-20261119/root-locator-acceptance-F6bMJX/documents","/private/tmp/worktwill-spikes-20261119/root-locator-acceptance-F6bMJX/renamed-documents"],"discovered":10001,"distinct_discovered_resources":10001,"file_modified_events":0,"fts_short":10001,"fts_tri":10001,"paused":false,"resources":10001,"root_id":"e1450106-1c07-41fc-91e9-fe1533d2d0e3","root_identity":"unix:16777234:93217261:1795128007:539922260","root_location_status":"available","root_memberships":10001,"root_path":"/private/tmp/worktwill-spikes-20261119/root-locator-acceptance-F6bMJX/elsewhere/deep/moved-documents","search_documents":10001,"single_file_grants":0,"single_file_locators":0,"verified_raw_projection_rows":10001},"final_reopen_seconds":0.000647792,"fixtures_retained":true,"grant_seconds":0.007031792,"initial_counts":{"aliases":[],"discovered":10000,"distinct_discovered_resources":10000,"file_modified_events":0,"fts_short":10000,"fts_tri":10000,"paused":false,"resources":10000,"root_id":"e1450106-1c07-41fc-91e9-fe1533d2d0e3","root_identity":"unix:16777234:93217261:1795128007:539922260","root_location_status":"available","root_memberships":10000,"root_path":"/private/tmp/worktwill-spikes-20261119/root-locator-acceptance-F6bMJX/documents","search_documents":10000,"single_file_grants":0,"single_file_locators":0,"verified_raw_projection_rows":10000},"initial_files":10000,"journal_mode":"wal","on_demand_counts":{"aliases":["/private/tmp/worktwill-spikes-20261119/root-locator-acceptance-F6bMJX/documents","/private/tmp/worktwill-spikes-20261119/root-locator-acceptance-F6bMJX/renamed-documents"],"discovered":10000,"distinct_discovered_resources":10000,"file_modified_events":0,"fts_short":10000,"fts_tri":10000,"paused":true,"resources":10000,"root_id":"e1450106-1c07-41fc-91e9-fe1533d2d0e3","root_identity":"unix:16777234:93217261:1795128007:539922260","root_location_status":"available","root_memberships":10000,"root_path":"/private/tmp/worktwill-spikes-20261119/root-locator-acceptance-F6bMJX/elsewhere/deep/moved-documents","search_documents":10000,"single_file_grants":0,"single_file_locators":0,"verified_raw_projection_rows":10000},"on_demand_sampled_original_resources":7,"os":"macos","pause_seconds":0.000779333,"paused_refresh_counts":{"aliases":["/private/tmp/worktwill-spikes-20261119/root-locator-acceptance-F6bMJX/documents"],"discovered":10000,"distinct_discovered_resources":10000,"file_modified_events":0,"fts_short":10000,"fts_tri":10000,"paused":true,"resources":10000,"root_id":"e1450106-1c07-41fc-91e9-fe1533d2d0e3","root_identity":"unix:16777234:93217261:1795128007:539922260","root_location_status":"available","root_memberships":10000,"root_path":"/private/tmp/worktwill-spikes-20261119/root-locator-acceptance-F6bMJX/renamed-documents","search_documents":10000,"single_file_grants":0,"single_file_locators":0,"verified_raw_projection_rows":10000},"phases":[{"concurrent_query_samples_total":323,"empty_query_samples":2,"operation_error":null,"partial_nonempty_query_samples":0,"phase":"initial_scan","query_errors":{},"query_p50_ms":1.253291,"query_p95_exceeds_reference":false,"query_p95_ms":13.033916,"query_p99_ms":34.168417,"search_reference_p95_ms":60,"timing_samples_retained":323,"timing_scope":"queries_started_before_stop_including_in_flight_tail; first_up_to_10000_retained","wall_seconds":3.427126583},{"concurrent_query_samples_total":3031,"empty_query_samples":1,"operation_error":null,"partial_nonempty_query_samples":10,"phase":"paused_move_and_refresh_known_without_enumeration","query_errors":{},"query_p50_ms":2.912875,"query_p95_exceeds_reference":false,"query_p95_ms":6.065833,"query_p99_ms":18.172875,"search_reference_p95_ms":60,"timing_samples_retained":3031,"timing_scope":"queries_started_before_stop_including_in_flight_tail; first_up_to_10000_retained","wall_seconds":31.9443965},{"concurrent_query_samples_total":6,"empty_query_samples":0,"operation_error":null,"partial_nonempty_query_samples":5,"phase":"reopened_second_move_and_on_demand_resolve_samples","query_errors":{},"query_p50_ms":19.100749999999998,"query_p95_exceeds_reference":false,"query_p95_ms":21.379625,"query_p99_ms":21.379625,"search_reference_p95_ms":60,"timing_samples_retained":6,"timing_scope":"queries_started_before_stop_including_in_flight_tail; first_up_to_10000_retained","wall_seconds":0.136030584},{"concurrent_query_samples_total":372,"empty_query_samples":0,"operation_error":null,"partial_nonempty_query_samples":2,"phase":"unpause_scan_collects_new_file_and_converges_all_paths","query_errors":{},"query_p50_ms":3.199166,"query_p95_exceeds_reference":false,"query_p95_ms":22.017792,"query_p99_ms":43.378208,"search_reference_p95_ms":60,"timing_samples_retained":372,"timing_scope":"queries_started_before_stop_including_in_flight_tail; first_up_to_10000_retained","wall_seconds":4.810040583}],"profile":"release","reopen_counts":{"aliases":["/private/tmp/worktwill-spikes-20261119/root-locator-acceptance-F6bMJX/documents"],"discovered":10000,"distinct_discovered_resources":10000,"file_modified_events":0,"fts_short":10000,"fts_tri":10000,"paused":true,"resources":10000,"root_id":"e1450106-1c07-41fc-91e9-fe1533d2d0e3","root_identity":"unix:16777234:93217261:1795128007:539922260","root_location_status":"available","root_memberships":10000,"root_path":"/private/tmp/worktwill-spikes-20261119/root-locator-acceptance-F6bMJX/renamed-documents","search_documents":10000,"single_file_grants":0,"single_file_locators":0,"verified_raw_projection_rows":10000},"reopen_seconds":0.000649,"sqlite_version":"3.50.2","status":"correctness_verified","synchronous":2}
+ROOT_LOCATOR_REPORT /private/tmp/worktwill-spikes-20261119/root-locator-acceptance-F6bMJX/root-locator-report.json
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 95 filtered out; finished in 41.26s
+
+     Running unittests src/bin/export-types.rs (target/release/deps/export_types-79b12c1ebfa94062)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/drop_identity.rs (target/release/deps/drop_identity-a318f75bc3285106)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/modified_projection.rs (target/release/deps/modified_projection-21d0d6bd1d7d0747)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/relink_grants.rs (target/release/deps/relink_grants-4e8fb36c3edc73b7)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/search_cancellation.rs (target/release/deps/search_cancellation-ade6c75f9054a2ea)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/search_cursor.rs (target/release/deps/search_cursor-04316e2d9033a0db)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/search_filters.rs (target/release/deps/search_filters-39b5885fa79fa657)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/search_groups.rs (target/release/deps/search_groups-96521a16272fa62e)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests/workflows.rs (target/release/deps/workflows-a6257ea7cede8023)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 28 filtered out; finished in 0.00s
+

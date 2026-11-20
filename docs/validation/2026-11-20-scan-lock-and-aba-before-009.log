@@ -1,0 +1,27 @@
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.73s
+     Running unittests src/lib.rs (target/debug/deps/worktwill_core-bb7479166a536384)
+
+running 5 tests
+test catalog::tests::parent_replaced_with_symlink_cannot_publish_candidate_outside_original_scope ... ok
+test catalog::tests::vanished_candidate_counts_as_failure_without_publishing_resource_or_projection ... ok
+
+thread 'catalog::tests::restore_and_reauthorization_cannot_revive_an_old_batch_with_the_same_generation' (6347252) panicked at crates/worktwill-core/src/catalog.rs:302:9:
+assertion failed: !store.commit_batch(&root, 10, &mut vec![item], 1, &mut 0).unwrap()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test catalog::tests::restore_and_reauthorization_cannot_revive_an_old_batch_with_the_same_generation ... FAILED
+test catalog::tests::older_overlapping_batch_cannot_restore_stale_metadata_or_invent_an_extra_modification ... ok
+
+thread 'catalog::tests::catalog_batch_can_commit_while_a_reader_holds_the_restore_barrier' (6347249) panicked at crates/worktwill-core/src/catalog.rs:281:24:
+catalog writer waited for a read lease: Timeout
+test catalog::tests::catalog_batch_can_commit_while_a_reader_holds_the_restore_barrier ... FAILED
+
+failures:
+
+failures:
+    catalog::tests::catalog_batch_can_commit_while_a_reader_holds_the_restore_barrier
+    catalog::tests::restore_and_reauthorization_cannot_revive_an_old_batch_with_the_same_generation
+
+test result: FAILED. 3 passed; 2 failed; 0 ignored; 0 measured; 18 filtered out; finished in 2.05s
+
+error: test failed, to rerun pass `-p worktwill-core --lib`

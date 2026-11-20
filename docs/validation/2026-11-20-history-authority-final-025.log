@@ -1,0 +1,12 @@
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.97s
+     Running tests/history_authority.rs (target/debug/deps/history_authority-ac48bfb72d43581b)
+
+running 4 tests
+test merge_does_not_launder_revoked_older_target_identity_history_through_new_grant ... ok
+test moved_root_preserves_history_scope_but_current_relative_exclusions_hide_it ... ok
+test new_file_grant_cannot_revive_revoked_original_history_after_anonymous_relink ... ok
+test old_root_history_uses_its_original_anchor_after_resource_relinks_outside ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.00s
+

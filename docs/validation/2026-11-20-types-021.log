@@ -1,0 +1,7 @@
+
+> worktwill@0.1.0 types /Users/lch/Desktop/project/my/test
+> cargo run -p worktwill-core --bin export-types
+
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.63s
+     Running `target/debug/export-types`

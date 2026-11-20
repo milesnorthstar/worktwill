@@ -1,0 +1,32 @@
+{
+  "evidence": "read_only_explain_via_python_sqlite_not_timed_native_query",
+  "sqlite_version": "3.54.1",
+  "source": "select_page_ids current SQL with macOS VISIBLE; name sort; two-char broad query",
+  "params": [
+    "g2x8d44x6599",
+    "all",
+    null,
+    "资料",
+    "name",
+    0,
+    null,
+    null,
+    null
+  ],
+  "sql": "SELECT d.entity_id,d.kind FROM search_documents d JOIN search_short f ON f.rowid=d.rowid LEFT JOIN resources r ON r.id=d.entity_id WHERE search_short MATCH ?1 AND (?2='all' OR d.kind=?2) AND (d.kind='workspace' OR (r.kind='web' OR EXISTS(SELECT 1 FROM file_grants fg WHERE fg.resource_id=r.id AND fg.active=1) OR EXISTS(\n SELECT 1 FROM file_roots fr JOIN scan_roots sr ON sr.id=fr.root_id\n WHERE fr.resource_id=r.id AND sr.active=1\n AND instr(r.location,rtrim(sr.path,'/')||'/')=1 AND NOT EXISTS(\n  SELECT 1 FROM scan_exclusions ex WHERE ex.root_id=sr.id AND\n  (r.location=rtrim(sr.path,'/')||'/'||ex.relative_path OR instr(r.location,rtrim(sr.path,'/')||'/'||ex.relative_path||'/')=1)\n )))) AND (?3 IS NULL OR (d.kind='workspace' AND d.entity_id=?3) OR EXISTS(SELECT 1 FROM workspace_resources wr WHERE wr.workspace_id=?3 AND wr.resource_id=d.entity_id)) AND (instr(d.name,?4)>0 OR instr(d.location,?4)>0) AND (?7 IS NULL OR r.modified_at>=?7) AND (?8 IS NULL OR r.modified_at<?8) AND (?9 IS NULL OR (d.kind<>'workspace' AND substr(d.location,1,length(?9))=?9)) ORDER BY CASE WHEN ?5='relevance' THEN CASE WHEN d.name=?4 THEN 0 WHEN substr(d.name,1,length(?4))=?4 THEN 1 WHEN instr(d.name,?4)>0 THEN 2 ELSE 3 END ELSE 0 END,CASE WHEN ?5='modified' THEN r.modified_at END DESC,d.name,d.entity_id LIMIT 101 OFFSET ?6",
+  "plan": [
+    "SCAN f VIRTUAL TABLE INDEX 0:M1",
+    "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)",
+    "CORRELATED SCALAR SUBQUERY 4",
+    "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+    "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+    "CORRELATED SCALAR SUBQUERY 1",
+    "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+    "CORRELATED SCALAR SUBQUERY 3",
+    "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+    "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+    "CORRELATED SCALAR SUBQUERY 2",
+    "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+    "USE TEMP B-TREE FOR ORDER BY"
+  ]
+}

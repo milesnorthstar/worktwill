@@ -1,0 +1,162 @@
+{
+  "recorded_at": "2026-11-20T13:29:20.863028+08:00",
+  "fixture_directory": "/private/tmp/worktwill-spikes-20261119/native-refresh-033-lv5atf15",
+  "baseline032_bundle": "/private/tmp/worktwill-spikes-20261119/native-refresh-033-lv5atf15/release-before-refresh-033.app",
+  "default_web_browser": {
+    "binary_round": "032",
+    "opened_from_worktwill": true,
+    "url": "https://example.com/",
+    "observed_app": "com.google.Chrome",
+    "actual_window": "Example Domain",
+    "actual_address": "example.com",
+    "passed": true
+  },
+  "known_refresh_native": "3 real WPS in-place saves observed within 1.9s while large root scan remained running; limited local evidence, no percentile SLA",
+  "full_v1_passed": false,
+  "new_release_launch": {
+    "time": "2026-11-20T13:17:03.178264+08:00",
+    "old_process_count_before_launch": 0,
+    "binary_sha256": "d085ddfb291517c5863248adfb697d825f413b47fd270cbfa4b3b35884868b98",
+    "resource_before_save": {
+      "id": "3def8028-7ed3-4b49-936b-2a7c6de3c229",
+      "identity": "unix:16777234:94246733:1795141031:124261934",
+      "modified_at": 1795146771836.0,
+      "size": 10018.0,
+      "favorite": 1,
+      "status": "available"
+    },
+    "running_roots_before_save": [
+      {
+        "id": "a0d6d3a6-319e-4918-91ea-5b334e4a9775",
+        "scan_state": "completed",
+        "scanned": 9459,
+        "failures": 0
+      },
+      {
+        "id": "adb55e6d-72d2-44df-a47d-31ead76d229c",
+        "scan_state": "running",
+        "scanned": 0,
+        "failures": 0
+      },
+      {
+        "id": "236c0051-bcff-4667-a11b-3131338857c6",
+        "scan_state": "completed",
+        "scanned": 5,
+        "failures": 0
+      }
+    ]
+  },
+  "native_refresh_save_a": {
+    "save_key_started_ms": 1795151869972,
+    "file_mtime_ms": 1795151870193.0767,
+    "inode": 94246733,
+    "file_sha256": "89edbbf09b1fa83beb983e9950b375ba897ddff96a47914bfdceb461b7833f4f",
+    "marker_in_saved_xml": true,
+    "resource": {
+      "id": "3def8028-7ed3-4b49-936b-2a7c6de3c229",
+      "identity": "unix:16777234:94246733:1795141031:124261934",
+      "modified_at": 1795151870193.0,
+      "size": 10145.0,
+      "favorite": 1,
+      "status": "available"
+    },
+    "events": [
+      {
+        "id": "6e08aace-11f4-4759-9301-57c561be8335",
+        "at": 1795151872082.0,
+        "file_modified_at": 1795151870193.0
+      },
+      {
+        "id": "e124e76e-9201-4356-9e91-1e641d8bc5fb",
+        "at": 1795147326206.0,
+        "file_modified_at": 1795146771836.0
+      },
+      {
+        "id": "b7b49f9a-82da-4d74-9a20-2d5912c88572",
+        "at": 1795146644859.0,
+        "file_modified_at": 1795146568486.0
+      }
+    ],
+    "queried_at_ms": 1795151893296.29,
+    "running_roots": [
+      {
+        "id": "a0d6d3a6-319e-4918-91ea-5b334e4a9775",
+        "scan_state": "completed",
+        "scanned": 9459,
+        "failures": 0
+      },
+      {
+        "id": "adb55e6d-72d2-44df-a47d-31ead76d229c",
+        "scan_state": "running",
+        "scanned": 0,
+        "failures": 0
+      },
+      {
+        "id": "236c0051-bcff-4667-a11b-3131338857c6",
+        "scan_state": "completed",
+        "scanned": 5,
+        "failures": 0
+      }
+    ],
+    "file_mtime_to_event_ms": 1888.92333984375
+  },
+  "native_refresh_save_b": {
+    "save_key_ms": 1795151963424,
+    "file_mtime_ms": 1795151963618.0251,
+    "inode": 94246733,
+    "event": {
+      "at": 1795151965511.0,
+      "file_modified_at": 1795151963618.0
+    },
+    "file_mtime_to_event_ms": 1892.974853515625,
+    "matched": true,
+    "marker_in_xml": true,
+    "large_root_still_running": true
+  },
+  "native_save_a_visible_in_timeline": {
+    "workspace_filter": "原生验收030 · 交付归档",
+    "actual_modified_time": "13:17",
+    "actual_observed_time": "13:17",
+    "calendar_count_after_a": 9
+  },
+  "native_refresh_save_c": {
+    "save_key_ms": 1795151998664,
+    "file_mtime_ms": 1795151998910.4253,
+    "inode": 94246733,
+    "event": {
+      "at": 1795151999644.0,
+      "file_modified_at": 1795151998910.0
+    },
+    "file_mtime_to_event_ms": 733.57470703125,
+    "matched": true,
+    "markers_all_present": true,
+    "large_root_still_running": true,
+    "resource": {
+      "id": "3def8028-7ed3-4b49-936b-2a7c6de3c229",
+      "identity": "unix:16777234:94246733:1795141031:124261934",
+      "modified_at": 1795151998910.0,
+      "size": 10189.0,
+      "status": "available",
+      "favorite": 1
+    },
+    "workspace_ids": [
+      "72f2c384-90a7-474d-8530-fb84ae2ef087",
+      "8c45910d-8906-4e6b-a561-2016c9e510ab"
+    ],
+    "file_sha256": "d641859accef14479eb4d977b0b05f7b6dc4620030e8d0a4a98f4fe3836114b3"
+  },
+  "native_save_b_passive_timeline_count": 10,
+  "native_save_c_passive_timeline_count": 11,
+  "saved_fixture_document_closed_to_wps_home": true,
+  "finder_external_drop": "two app-scoped coordinate attempts after same-screen tiling; no confirmed receipt, not passed",
+  "archive": {
+    "archive": "deliverables/WorkTwill-v0.1.0-v1-candidate-033-macOS-arm64.zip",
+    "bytes": 6633707,
+    "sha256": "321c8838df4de963a5c254040683e1f105470831451e8e5428ee23c6544f8d7f",
+    "crc": "passed",
+    "binary_matches_current_release": true,
+    "execute_mode_preserved": true,
+    "developer_id_and_notarization": false
+  },
+  "runtime_tools": "new terminal commands temporarily produced no output and node_repl pure calculation timed out; pending terminal commands later completed; cause unconfirmed"
+}

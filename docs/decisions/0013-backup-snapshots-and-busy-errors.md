@@ -1,0 +1,13 @@
+# 0013：备份源快照与忙锁失败
+
+日期：2026-11-20。状态：迭代015已实施；临时SQLite故障注入通过，原生恢复界面与OS磁盘/掉电故障仍待验。
+
+核对本地rusqlite 0.37实现，run_to_completion对More/Busy/Locked均休眠后继续。restore_from持有Store独占gate，已有1500ms SQLite busy_timeout只约束单次调用，无法结束外层无限重试。真实临时库锁实验观察到旧实现3秒仍未返回；测试先释放外锁再join后明确失败，未留下挂起线程。
+
+新增私有copy_snapshot：每次100页；Done成功，More沿用5ms正常分页节流，Busy/Locked明确database_busy且不外层重试，其他SQLite错误保留原转换，非穷举未知状态明确报database_error。目标连接统一1500ms等待；不为合法大库复制设置任意短总时限。Backup handle按正常作用域Drop，未DONE时SQLite finish回滚目标写事务，再退出Store gate。
+
+仅减少Busy重试还不完整：外部改source会让SQLite复制重新开始。普通备份固定读revision的源事务；incoming版本/完整性检查与复制进staging在同一只读事务；current版本与恢复前安全副本也来自同一读事务。最终staging是私有不变源。incoming阶段结束释放源，安全副本关闭后显式释放current_snapshot/current，再打开最终target，避免备份路径恰为当前库时形成自读锁。
+
+授权清零、历史操作回执清除与版本提升仍仅在staging完成，最终复制成功后才epoch+1；错误不切换授权或递增epoch。备份仍不含源文件，故障不修改办公原件。普通备份和恢复前安全副本也复用分批节流，大库复制可能比此前无节流的便捷backup稍慢；本轮不声称大库复制性能已验。
+
+六项真实SQLite回归覆盖目标写锁下约1.6秒返回、gate释放和当前数据/版本/epoch不变、释放外锁后的明确重试、部分step后Drop的实际目标字节回滚与继续写入、WAL外写期间固定源、恢复当前库路径，以及max_page_count触发SQLITE_FULL后的storage_full/回滚/重试。SQLITE_FULL是复制层注入，不是填满OS磁盘或断电实验；原生界面、磁盘介质故障与崩溃升级关口继续保留。

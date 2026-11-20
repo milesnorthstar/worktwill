@@ -1,0 +1,139 @@
+{
+  "metadata": {
+    "executed_at": "2026-11-19T10:25:02.172138+00:00",
+    "source_sha256": "bce9103995007623592db65a10fb0457b09304fe849e4f32c7911cd220d9593d",
+    "executable_sha256": "711acb205914aa45c13f06131289d9d0c0f5f7eada18bfc35bf1c989629046cf",
+    "fixture_root": "/private/tmp/worktwill-spikes-20261119",
+    "source_snapshot": "spikes/results/sources/macos-identity-bce910399500.swift"
+  },
+  "exit_code": 0,
+  "stderr": "",
+  "run": [
+    {
+      "expectedPathMatches": true,
+      "resolution": {
+        "path": "/private/tmp/worktwill-spikes-20261119/in_place/contract.txt",
+        "stale": false
+      },
+      "scenario": "in_place",
+      "snapshot": {
+        "documentIdentifierAvailable": false,
+        "fileResourceIdentifier": "{length = 16, bytes = 0x9beb6205000000006745640000000000}",
+        "fixtureContentSHA256": "55e779dcb3a3b1c5ccc1786a932612ff9959db8d5baef51358f9912cbc24f8be",
+        "inode": "90368923",
+        "path": "/private/tmp/worktwill-spikes-20261119/in_place/contract.txt",
+        "size": 24,
+        "volumeFormat": "APFS",
+        "volumeIdentifier": "{length = 8, bytes = 0x6745640000000000}"
+      }
+    },
+    {
+      "expectedPathMatches": true,
+      "resolution": {
+        "path": "/private/tmp/worktwill-spikes-20261119/rename/renamed-contract.txt",
+        "stale": true
+      },
+      "scenario": "rename",
+      "snapshot": {
+        "documentIdentifierAvailable": false,
+        "fileResourceIdentifier": "{length = 16, bytes = 0x9deb6205000000006745640000000000}",
+        "fixtureContentSHA256": "9ed516b69ba45256c81c7fa4392c828ab2cdb9300b1236b8e0c5e9eb1225f020",
+        "inode": "90368925",
+        "path": "/private/tmp/worktwill-spikes-20261119/rename/renamed-contract.txt",
+        "size": 26,
+        "volumeFormat": "APFS",
+        "volumeIdentifier": "{length = 8, bytes = 0x6745640000000000}"
+      }
+    },
+    {
+      "expectedPathMatches": true,
+      "resolution": {
+        "path": "/private/tmp/worktwill-spikes-20261119/same_volume_move/nested/contract.txt",
+        "stale": true
+      },
+      "scenario": "same_volume_move",
+      "snapshot": {
+        "documentIdentifierAvailable": false,
+        "fileResourceIdentifier": "{length = 16, bytes = 0x9feb6205000000006745640000000000}",
+        "fixtureContentSHA256": "9ed516b69ba45256c81c7fa4392c828ab2cdb9300b1236b8e0c5e9eb1225f020",
+        "inode": "90368927",
+        "path": "/private/tmp/worktwill-spikes-20261119/same_volume_move/nested/contract.txt",
+        "size": 26,
+        "volumeFormat": "APFS",
+        "volumeIdentifier": "{length = 8, bytes = 0x6745640000000000}"
+      }
+    },
+    {
+      "expectedPathMatches": true,
+      "resolution": {
+        "path": "/private/tmp/worktwill-spikes-20261119/atomic_write/contract.txt",
+        "stale": true
+      },
+      "scenario": "atomic_write",
+      "snapshot": {
+        "documentIdentifierAvailable": false,
+        "fileResourceIdentifier": "{length = 16, bytes = 0xa3eb6205000000006745640000000000}",
+        "fixtureContentSHA256": "c40b81da5d88b5e57ee772ae4f0b471cb79fbfad6116ebc0f8fdc1bc0ca28e09",
+        "inode": "90368931",
+        "path": "/private/tmp/worktwill-spikes-20261119/atomic_write/contract.txt",
+        "size": 20,
+        "volumeFormat": "APFS",
+        "volumeIdentifier": "{length = 8, bytes = 0x6745640000000000}"
+      }
+    },
+    {
+      "expectedPathMatches": true,
+      "resolution": {
+        "path": "/private/tmp/worktwill-spikes-20261119/replace_item/contract.txt",
+        "stale": true
+      },
+      "scenario": "replace_item",
+      "snapshot": {
+        "documentIdentifierAvailable": false,
+        "fileResourceIdentifier": "{length = 16, bytes = 0xa6eb6205000000006745640000000000}",
+        "fixtureContentSHA256": "05ab18ab79cf628b78c889e95fac7150beaf824b5c28d2a1742dbc9c6f68f189",
+        "inode": "90368934",
+        "path": "/private/tmp/worktwill-spikes-20261119/replace_item/contract.txt",
+        "size": 29,
+        "volumeFormat": "APFS",
+        "volumeIdentifier": "{length = 8, bytes = 0x6745640000000000}"
+      }
+    },
+    {
+      "expectedPathMatches": true,
+      "resolution": {
+        "path": "/private/tmp/worktwill-spikes-20261119/copy/contract.txt",
+        "stale": false
+      },
+      "scenario": "copy",
+      "snapshot": {
+        "documentIdentifierAvailable": false,
+        "fileResourceIdentifier": "{length = 16, bytes = 0xa8eb6205000000006745640000000000}",
+        "fixtureContentSHA256": "9ed516b69ba45256c81c7fa4392c828ab2cdb9300b1236b8e0c5e9eb1225f020",
+        "inode": "90368936",
+        "path": "/private/tmp/worktwill-spikes-20261119/copy/contract.txt",
+        "size": 26,
+        "volumeFormat": "APFS",
+        "volumeIdentifier": "{length = 8, bytes = 0x6745640000000000}"
+      }
+    },
+    {
+      "expectedPathMatches": true,
+      "resolution": {
+        "path": "/private/tmp/worktwill-spikes-20261119/delete_recreate/contract.txt",
+        "stale": true
+      },
+      "scenario": "delete_recreate",
+      "snapshot": {
+        "documentIdentifierAvailable": false,
+        "fileResourceIdentifier": "{length = 16, bytes = 0xaceb6205000000006745640000000000}",
+        "fixtureContentSHA256": "27e026a9103e394ad184b7ce1f237480ecae3e902b81d8c009315bda7a372757",
+        "inode": "90368940",
+        "path": "/private/tmp/worktwill-spikes-20261119/delete_recreate/contract.txt",
+        "size": 31,
+        "volumeFormat": "APFS",
+        "volumeIdentifier": "{length = 8, bytes = 0x6745640000000000}"
+      }
+    }
+  ]
+}

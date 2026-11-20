@@ -1,0 +1,15 @@
+{
+  "archive": "deliverables/WorkTwill-v0.1.0-v1-candidate-032-macOS-arm64.zip",
+  "bytes": 6625940,
+  "sha256": "48fdd661258608a1a489fc3c6116098e46986beed1a2f6339b3a573687c6396a",
+  "zip_crc": "passed",
+  "required_bundle_entries": "passed",
+  "executable_permission_preserved": true,
+  "zip_binary_matches_current_app": true,
+  "production_excludes_visual_fixture": true,
+  "candidate030_zip_preserved": true,
+  "signature": "Executable=/Users/lch/Desktop/project/my/test/target/release/bundle/macos/WorkTwill.app/Contents/MacOS/worktwill-desktop\nIdentifier=worktwill_desktop-3bdb780f1911ed23\nFormat=app bundle with Mach-O thin (arm64)\nCodeDirectory v=20400 size=132776 flags=0x20002(adhoc,linker-signed) hashes=4145+0 location=embedded\nSignature=adhoc\nInfo.plist=not bound\nTeamIdentifier=not set\nSealed Resources=none\nInternal requirements=none",
+  "developer_id_and_notarization": false,
+  "native_parented_restore_sheet_and_cancel_retested": true,
+  "full_restore_not_executed": true
+}

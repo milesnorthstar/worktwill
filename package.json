@@ -1,0 +1,50 @@
+{
+  "name": "worktwill",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.33.2",
+  "scripts": {
+    "website:pages": "node website/scripts/pages.mjs",
+    "website:check": "pnpm website:build && node website/scripts/check-site.mjs",
+    "website:indexnow": "node website/scripts/indexnow.mjs",
+    "website:geo:audit": "node website/scripts/audit-geo.mjs",
+    "website:dev": "pnpm website:pages && vite --config website/vite.config.ts --host 127.0.0.1",
+    "website:build": "node website/scripts/prepare.mjs && pnpm website:pages && vite build --config website/vite.config.ts",
+    "website:preview": "vite preview --config website/vite.config.ts --host 127.0.0.1",
+    "website:deploy:check": "pnpm website:build && cd website && cf deploy ./dist --dry-run",
+    "website:deploy": "pnpm website:check && cd website && cf deploy ./dist",
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "desktop": "tauri dev",
+    "desktop:build": "tauri build --no-bundle",
+    "types": "cargo run -p worktwill-core --bin export-types",
+    "types:check": "cargo run -p worktwill-core --bin export-types -- --check",
+    "check": "node scripts/check.mjs",
+    "tauri": "tauri",
+    "test:ui": "vitest run",
+    "bench:search": "cargo test --release -p worktwill-core disk_search_acceptance -- --ignored --nocapture --test-threads=1",
+    "bench:scan": "cargo test --release -p worktwill-core disk_scan_acceptance -- --ignored --nocapture --test-threads=1",
+    "bench:pagination": "cargo test --release -p worktwill-core disk_pagination_acceptance -- --ignored --nocapture --test-threads=1"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.0.0",
+    "lucide-react": "^0.468.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.13",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "cf": "1.0.0-rc.2",
+    "jsdom": "^27.4.0",
+    "lucide": "0.468.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.0.0",
+    "vitest": "^4.1.12"
+  }
+}

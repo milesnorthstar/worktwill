@@ -1,0 +1,15 @@
+{
+  "iteration": "024",
+  "scope": "Current directory-state visual fixture; not native WorkTwill acceptance",
+  "fixture": "/review.html?scope=root-locations",
+  "fixture_cases": ["available with a 180-character path segment", "legacy paused", "unavailable paused with an exclusion", "revoked unavailable"],
+  "current_visual_review": "not_executed",
+  "attempts": [
+    {"tool": "cua.getApp(com.google.Chrome)", "result": "Computer Use server error -10005: cgWindowNotFound"},
+    {"tool": "cua.getState", "result": "Chrome reported running; browsers inventory empty; The browser access host is unavailable"}
+  ],
+  "screenshots_saved": false,
+  "native_worktwill": "Previous explicit WorkTwill access denial remains unresolved; not retried or bypassed in 024",
+  "prior_visual_evidence": "2026-11-20-browser-scope-summary-023.json; belongs to 023, not current root-state visual review",
+  "current_component_coverage": "See unified 024 check log for actual execution count; mock IPC/jsdom is not screenshot or native UI proof"
+}

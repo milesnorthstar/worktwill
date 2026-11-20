@@ -1,0 +1,36 @@
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.25s
+     Running tests/workflows.rs (target/debug/deps/workflows-4d76343ba0f0e4d1)
+
+running 28 tests
+test future_schema_is_rejected_without_modification ... ok
+test failed_transfer_rolls_back_target_and_preserves_all_source_references ... ok
+test exclusions_and_open_gate_enforce_real_path_boundaries ... ok
+test delete_web_clears_all_references_and_search_but_rejects_file_deletion ... ok
+test create_workspace_with_five_selected_files_is_atomic_idempotent_and_persistent ... ok
+test create_workspace_rolls_back_references_projection_events_and_receipt_on_failure ... ok
+test explicit_relink_merge_keeps_original_uuid_and_unions_references_without_touching_source ... ok
+test including_excluded_folder_restores_visibility_without_changing_identity ... ok
+test ordinary_create_workspace_keeps_existing_serialized_operation_receipt ... ok
+test index_rebuild_does_not_modify_resources_or_associations ... ok
+test backup_restore_preserves_uuids_and_requires_reauthorization ... ok
+test native_file_reference_survives_rename_and_database_restart ... ok
+test rejected_backup_keeps_live_database_usable ... ok
+test old_directory_membership_cannot_authorize_moved_resource_after_new_root_revoked ... ok
+test file_timeline_records_first_discovery_once_then_real_changes_not_scan_replays ... ok
+test revoked_resources_are_anonymous_in_workspaces_and_hidden_elsewhere ... ok
+test same_path_replacement_never_inherits_original_relationships ... ok
+test overlapping_root_concurrent_discovery_deduplicates_and_revoke_is_union ... ok
+test symbolic_link_does_not_expand_authorized_scan ... ok
+test short_cjk_literal_queries_and_workspace_scope_are_correct ... ok
+test full_search_paginates_without_duplicates_and_sort_and_type_filters_work ... ok
+test workspace_reorder_survives_restart_and_rejects_partial_or_duplicate_lists ... ok
+test transfer_replay_does_not_remove_a_later_readded_source ... ok
+test version_one_backup_migrates_in_staging_without_reactivating_grants ... ok
+test workspace_web_save_is_atomic_and_operation_replay_does_not_duplicate ... ok
+test unlinking_and_deleting_workspace_preserves_other_references_and_all_source_metadata ... ok
+test single_file_import_rejects_without_grant_and_retains_partial_success ... ok
+test search_applies_authorization_and_workspace_scope_before_result_limit ... ok
+
+test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.67s
+

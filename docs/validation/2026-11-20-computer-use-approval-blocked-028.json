@@ -1,0 +1,37 @@
+{
+  "recorded_at": "2026-11-20T09:44:28.512296+08:00",
+  "client": {
+    "CFBundleDisplayName": "ChatGPT",
+    "CFBundleIdentifier": "com.openai.codex",
+    "CFBundleShortVersionString": "26.1111.71025",
+    "CFBundleVersion": "28661"
+  },
+  "target": {
+    "name": "WorkTwill",
+    "bundle_identifier": "app.worktwill.desktop",
+    "build": "026 release macOS arm64",
+    "launch": "user confirmed 正常打开了 after opening exact release path"
+  },
+  "settings_observed_from_user_screenshot": {
+    "any_app_control_enabled": true,
+    "worktwill_not_in_always_allowed_apps": "user reported"
+  },
+  "explicit_request": "@Computer-Use 使用电脑操控访问已经打开的 WorkTwill，继续本项目的原生验收",
+  "latest_tool_call": "cua.getApp(current release WorkTwill.app path)",
+  "latest_result": "Computer Use was not approved to use WorkTwill",
+  "elapsed_seconds_reported_by_tool": 0.0869,
+  "approval_prompt": "user repeatedly reported no approval prompt; explicit Computer-Use request did not change tool outcome",
+  "diagnostic_read": "macOS unified logs from preceding15m, predicate limited to WorkTwill messages from Codex/ChatGPT/computer processes; exit0, no matching records; no explanation established",
+  "confirmed": "Target release launch is successful according to user; computer-use app approval remains denied before any native UI tree or screenshot was returned",
+  "unknown": [
+    "why the client did not show app approval",
+    "whether restarting the client or a fresh interactive chat will reset the failed approval flow"
+  ],
+  "not_performed": [
+    "no permission store edits",
+    "no service restart or client termination",
+    "no alternate GUI automation or bypass",
+    "no native acceptance marked passed"
+  ],
+  "next_supported_user_action": "Fully restart ChatGPT client and return to this conversation for one retry; if denial persists, use client feedback with this diagnostic record rather than guessing more system permission changes"
+}

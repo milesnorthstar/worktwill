@@ -1,0 +1,488 @@
+{
+  "arch": "aarch64",
+  "checkpointed_bytes_after_events": 308830208,
+  "checkpointed_bytes_before_events": 291020800,
+  "day_lengths_hours": [
+    25.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0
+  ],
+  "distinct_synthetic_file_paths": 98900,
+  "distribution": {
+    "files": 98900,
+    "unauthorized_files": 400,
+    "web": 1000,
+    "workspaces": 100
+  },
+  "entities": 100000,
+  "event_growth_bytes": 17809408,
+  "event_resources": 99801,
+  "events": 100007,
+  "evidence": "synthetic_multi_resource_disk_pagination_not_scan_native_ui_or_cold_disk",
+  "existing_search_hot_budget_ms": 60,
+  "journal_mode": "wal",
+  "oracle_checks": 2240,
+  "oracle_failure_count": 0,
+  "oracle_failures_first_32": [],
+  "os": "macos",
+  "per_case": [
+    {
+      "case": "search_full_chain",
+      "pages": 996,
+      "results": 99599,
+      "timing": {
+        "max_ms": 7.197334,
+        "p50_ms": 2.535958,
+        "p95_ms": 2.788417,
+        "p99_ms": 3.298708,
+        "samples": 996
+      }
+    },
+    {
+      "case": "timeline_first_api_call_cold_calendar",
+      "ms": 294.776333,
+      "not_os_cache_cold": true
+    },
+    {
+      "calendar_points": 30,
+      "case": "timeline_full_chain",
+      "events": 97533,
+      "pages": 976,
+      "timing": {
+        "max_ms": 294.776333,
+        "p50_ms": 2.500833,
+        "p95_ms": 2.7974580000000002,
+        "p99_ms": 2.982166,
+        "samples": 976
+      }
+    },
+    {
+      "bounded_fts_routing_before_select": true,
+      "case": "native_search_select_plan",
+      "plan": [
+        "modified=All: SEARCH d USING INDEX search_documents_modified (modified_at>?)",
+        "modified=All: CORRELATED SCALAR SUBQUERY 4",
+        "modified=All: SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "modified=All: SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "modified=All: CORRELATED SCALAR SUBQUERY 1",
+        "modified=All: SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "modified=All: CORRELATED SCALAR SUBQUERY 3",
+        "modified=All: SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "modified=All: SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "modified=All: CORRELATED SCALAR SUBQUERY 2",
+        "modified=All: SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+      ]
+    },
+    {
+      "case": "native_search_depth_select_plan",
+      "offset": 0,
+      "plan": [
+        "modified=All: SEARCH d USING INDEX search_documents_modified (modified_at>?)",
+        "modified=All: CORRELATED SCALAR SUBQUERY 4",
+        "modified=All: SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "modified=All: SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "modified=All: CORRELATED SCALAR SUBQUERY 1",
+        "modified=All: SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "modified=All: CORRELATED SCALAR SUBQUERY 3",
+        "modified=All: SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "modified=All: SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "modified=All: CORRELATED SCALAR SUBQUERY 2",
+        "modified=All: SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+      ]
+    },
+    {
+      "case": "search_depth",
+      "offset": 0,
+      "response_bytes": 28436,
+      "returned": 100,
+      "timing": {
+        "max_ms": 2.8340829999999997,
+        "p50_ms": 2.3869160000000003,
+        "p95_ms": 2.695208,
+        "p99_ms": 2.8340829999999997,
+        "samples": 30
+      }
+    },
+    {
+      "case": "native_search_depth_select_plan",
+      "offset": 100,
+      "plan": [
+        "modified=Equal: SEARCH d USING INDEX search_documents_modified (modified_at=? AND (name,entity_id)>(?,?))",
+        "modified=Equal: CORRELATED SCALAR SUBQUERY 4",
+        "modified=Equal: SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "modified=Equal: SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "modified=Equal: CORRELATED SCALAR SUBQUERY 1",
+        "modified=Equal: SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "modified=Equal: CORRELATED SCALAR SUBQUERY 3",
+        "modified=Equal: SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "modified=Equal: SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "modified=Equal: CORRELATED SCALAR SUBQUERY 2",
+        "modified=Equal: SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+      ]
+    },
+    {
+      "case": "search_depth",
+      "offset": 100,
+      "response_bytes": 29114,
+      "returned": 100,
+      "timing": {
+        "max_ms": 2.871583,
+        "p50_ms": 2.414167,
+        "p95_ms": 2.7656669999999997,
+        "p99_ms": 2.871583,
+        "samples": 30
+      }
+    },
+    {
+      "case": "native_search_depth_select_plan",
+      "offset": 10000,
+      "plan": [
+        "modified=Equal: SEARCH d USING INDEX search_documents_modified (modified_at=? AND (name,entity_id)>(?,?))",
+        "modified=Equal: CORRELATED SCALAR SUBQUERY 4",
+        "modified=Equal: SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "modified=Equal: SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "modified=Equal: CORRELATED SCALAR SUBQUERY 1",
+        "modified=Equal: SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "modified=Equal: CORRELATED SCALAR SUBQUERY 3",
+        "modified=Equal: SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "modified=Equal: SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "modified=Equal: CORRELATED SCALAR SUBQUERY 2",
+        "modified=Equal: SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+      ]
+    },
+    {
+      "case": "search_depth",
+      "offset": 10000,
+      "response_bytes": 29118,
+      "returned": 100,
+      "timing": {
+        "max_ms": 2.617208,
+        "p50_ms": 2.3635,
+        "p95_ms": 2.615167,
+        "p99_ms": 2.617208,
+        "samples": 30
+      }
+    },
+    {
+      "case": "native_search_depth_select_plan",
+      "offset": 99500,
+      "plan": [
+        "modified=Null: SEARCH d USING INDEX search_documents_modified (modified_at=? AND (name,entity_id)>(?,?))",
+        "modified=Null: CORRELATED SCALAR SUBQUERY 4",
+        "modified=Null: SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "modified=Null: SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "modified=Null: CORRELATED SCALAR SUBQUERY 1",
+        "modified=Null: SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "modified=Null: CORRELATED SCALAR SUBQUERY 3",
+        "modified=Null: SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "modified=Null: SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "modified=Null: CORRELATED SCALAR SUBQUERY 2",
+        "modified=Null: SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+      ]
+    },
+    {
+      "case": "search_depth",
+      "offset": 99500,
+      "response_bytes": 16672,
+      "returned": 99,
+      "timing": {
+        "max_ms": 0.74625,
+        "p50_ms": 0.650833,
+        "p95_ms": 0.7341249999999999,
+        "p99_ms": 0.74625,
+        "samples": 30
+      }
+    },
+    {
+      "case": "timeline_depth",
+      "offset": 0,
+      "response_bytes": 53541,
+      "returned": 100,
+      "timing": {
+        "max_ms": 2.778125,
+        "p50_ms": 2.374333,
+        "p95_ms": 2.695209,
+        "p99_ms": 2.778125,
+        "samples": 30
+      }
+    },
+    {
+      "case": "timeline_native_shared_sql_diagnostic",
+      "diagnostic": {
+        "calendar_ms": 282.037166,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 0.398708,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 0,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 1.523625,
+        "total_ms_excludes_plan_collection": 284.265541
+      },
+      "offset": 0,
+      "uncached_calendar_diagnostic_not_api_timing": true
+    },
+    {
+      "case": "timeline_depth",
+      "offset": 100,
+      "response_bytes": 53986,
+      "returned": 100,
+      "timing": {
+        "max_ms": 2.603666,
+        "p50_ms": 2.3036659999999998,
+        "p95_ms": 2.4972499999999997,
+        "p99_ms": 2.603666,
+        "samples": 30
+      }
+    },
+    {
+      "case": "timeline_native_shared_sql_diagnostic",
+      "diagnostic": {
+        "calendar_ms": 285.349958,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 0.8752500000000001,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 100,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 1.599542,
+        "total_ms_excludes_plan_collection": 288.109542
+      },
+      "offset": 100,
+      "uncached_calendar_diagnostic_not_api_timing": true
+    },
+    {
+      "case": "timeline_depth",
+      "offset": 10000,
+      "response_bytes": 53891,
+      "returned": 100,
+      "timing": {
+        "max_ms": 2.5682080000000003,
+        "p50_ms": 2.33025,
+        "p95_ms": 2.5257919999999996,
+        "p99_ms": 2.5682080000000003,
+        "samples": 30
+      }
+    },
+    {
+      "case": "timeline_native_shared_sql_diagnostic",
+      "diagnostic": {
+        "calendar_ms": 289.57525,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 0.40287500000000004,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 10000,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 1.529541,
+        "total_ms_excludes_plan_collection": 291.77475000000004
+      },
+      "offset": 10000,
+      "uncached_calendar_diagnostic_not_api_timing": true
+    },
+    {
+      "case": "timeline_depth",
+      "offset": 97500,
+      "response_bytes": 18410,
+      "returned": 33,
+      "timing": {
+        "max_ms": 1.382375,
+        "p50_ms": 1.141416,
+        "p95_ms": 1.340625,
+        "p99_ms": 1.382375,
+        "samples": 30
+      }
+    },
+    {
+      "case": "timeline_native_shared_sql_diagnostic",
+      "diagnostic": {
+        "calendar_ms": 295.480458,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 0.192416,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 97500,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 0.518708,
+        "total_ms_excludes_plan_collection": 296.539042
+      },
+      "offset": 97500,
+      "uncached_calendar_diagnostic_not_api_timing": true
+    },
+    {
+      "case": "populated_schema_index_bootstrap",
+      "dropped_derived_indexes": 3,
+      "open_ms": 310.541375,
+      "os_cache_cold": false,
+      "schema_version": 5
+    },
+    {
+      "case": "structural_v3_to_current_migration",
+      "fixture_created_by_dropping_v4_column_indexes_and_v5_locator_table": true,
+      "open_ms": 584.703541,
+      "os_cache_cold": false,
+      "schema_version": 5
+    },
+    {
+      "capacity": 4,
+      "case": "timeline_calendar_cache_stats",
+      "entries": 4,
+      "hits": 1099
+    }
+  ],
+  "performance_status": "reported_separately_from_correctness_no_budget_relaxed",
+  "profile": "release",
+  "search_depth_exceeds_existing_60ms_budget": false,
+  "search_sort": "modified",
+  "seed_seconds": 8.614067916,
+  "sqlite_version": "3.50.2",
+  "synchronous": 2,
+  "timeline_executed": true
+}

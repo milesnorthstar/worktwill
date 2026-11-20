@@ -1,0 +1,25 @@
+{
+  "arch": "aarch64",
+  "evidence": "synthetic_events_on_disk_store_timeline_not_scan_or_ui_latency",
+  "os": "macos",
+  "profile": "release",
+  "results": [
+    {
+      "calendar_points": 100000,
+      "events": 100000,
+      "p50_ms": 149.261166,
+      "p95_ms": 150.858709,
+      "response_bytes": 3011119,
+      "samples": 10
+    },
+    {
+      "calendar_points": 500000,
+      "events": 500000,
+      "p50_ms": 743.098958,
+      "p95_ms": 754.060709,
+      "response_bytes": 14854189,
+      "samples": 10
+    }
+  ],
+  "sqlite_version": "3.50.2"
+}

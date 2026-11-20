@@ -1,0 +1,75 @@
+
+> worktwill@0.1.0 bench:pagination /Users/lch/Desktop/project/my/test
+> cargo test --release -p worktwill-core disk_pagination_acceptance -- --ignored --nocapture --test-threads=1
+
+   Compiling libsqlite3-sys v0.35.0
+   Compiling rusqlite v0.37.0
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `release` profile [optimized] target(s) in 17.96s
+     Running unittests src/lib.rs (target/release/deps/worktwill_core-96ec0a13e5fd6baa)
+
+running 1 test
+test acceptance_pagination::disk_pagination_acceptance ... PAGINATION_PROGRESS search pages=100
+PAGINATION_PROGRESS search pages=200
+PAGINATION_PROGRESS search pages=300
+PAGINATION_PROGRESS search pages=400
+PAGINATION_PROGRESS search pages=500
+PAGINATION_PROGRESS search pages=600
+PAGINATION_PROGRESS search pages=700
+PAGINATION_PROGRESS search pages=800
+PAGINATION_PROGRESS search pages=900
+PAGINATION_PROGRESS search chain pages=996 results=99599
+PAGINATION_ACCEPTANCE {"arch":"aarch64","checkpointed_bytes_after_events":294502400,"checkpointed_bytes_before_events":280207360,"day_lengths_hours":[25.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0,24.0],"distinct_synthetic_file_paths":98900,"distribution":{"files":98900,"unauthorized_files":400,"web":1000,"workspaces":100},"entities":100000,"event_growth_bytes":14295040,"event_resources":99801,"events":100007,"evidence":"synthetic_multi_resource_disk_pagination_not_scan_native_ui_or_cold_disk","existing_search_hot_budget_ms":60,"journal_mode":"wal","oracle_checks":1130,"oracle_failure_count":0,"oracle_failures_first_32":[],"os":"macos","per_case":[{"case":"search_full_chain","pages":996,"results":99599,"timing":{"max_ms":11.903542,"p50_ms":7.0109580000000005,"p95_ms":7.448375,"p99_ms":8.684625,"samples":996}},{"bounded_fts_routing_before_select":true,"case":"native_search_select_plan","plan":["SCAN d USING INDEX search_documents_name","CORRELATED SCALAR SUBQUERY 4","SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)","SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN","CORRELATED SCALAR SUBQUERY 1","SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)","CORRELATED SCALAR SUBQUERY 3","SEARCH fr USING COVERING INDEX root_resources (resource_id=?)","SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)","CORRELATED SCALAR SUBQUERY 2","SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"]},{"case":"native_search_depth_select_plan","offset":0,"plan":["SCAN d USING INDEX search_documents_name","CORRELATED SCALAR SUBQUERY 4","SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)","SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN","CORRELATED SCALAR SUBQUERY 1","SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)","CORRELATED SCALAR SUBQUERY 3","SEARCH fr USING COVERING INDEX root_resources (resource_id=?)","SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)","CORRELATED SCALAR SUBQUERY 2","SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"]},{"case":"search_depth","offset":0,"response_bytes":20616,"returned":100,"timing":{"max_ms":9.599583,"p50_ms":7.189875,"p95_ms":8.747167000000001,"p99_ms":9.599583,"samples":30}},{"case":"native_search_depth_select_plan","offset":100,"plan":["SEARCH d USING INDEX search_documents_name ((name,entity_id)>(?,?))","CORRELATED SCALAR SUBQUERY 4","SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)","SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN","CORRELATED SCALAR SUBQUERY 1","SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)","CORRELATED SCALAR SUBQUERY 3","SEARCH fr USING COVERING INDEX root_resources (resource_id=?)","SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)","CORRELATED SCALAR SUBQUERY 2","SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"]},{"case":"search_depth","offset":100,"response_bytes":20597,"returned":100,"timing":{"max_ms":7.027541,"p50_ms":6.836,"p95_ms":6.9959999999999996,"p99_ms":7.027541,"samples":30}},{"case":"native_search_depth_select_plan","offset":10000,"plan":["SEARCH d USING INDEX search_documents_name ((name,entity_id)>(?,?))","CORRELATED SCALAR SUBQUERY 4","SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)","SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN","CORRELATED SCALAR SUBQUERY 1","SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)","CORRELATED SCALAR SUBQUERY 3","SEARCH fr USING COVERING INDEX root_resources (resource_id=?)","SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)","CORRELATED SCALAR SUBQUERY 2","SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"]},{"case":"search_depth","offset":10000,"response_bytes":29077,"returned":100,"timing":{"max_ms":7.41625,"p50_ms":7.0756250000000005,"p95_ms":7.332667,"p99_ms":7.41625,"samples":30}},{"case":"native_search_depth_select_plan","offset":99500,"plan":["SEARCH d USING INDEX search_documents_name ((name,entity_id)>(?,?))","CORRELATED SCALAR SUBQUERY 4","SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)","SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN","CORRELATED SCALAR SUBQUERY 1","SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)","CORRELATED SCALAR SUBQUERY 3","SEARCH fr USING COVERING INDEX root_resources (resource_id=?)","SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)","CORRELATED SCALAR SUBQUERY 2","SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"]},{"case":"search_depth","offset":99500,"response_bytes":28463,"returned":99,"timing":{"max_ms":7.205625,"p50_ms":7.017583,"p95_ms":7.167458,"p99_ms":7.205625,"samples":30}},{"case":"populated_v3_index_bootstrap","dropped_derived_indexes":3,"open_ms":189.47129099999998,"os_cache_cold":false}],"performance_status":"reported_separately_from_correctness_no_budget_relaxed","profile":"release","search_depth_exceeds_existing_60ms_budget":false,"seed_seconds":11.181635417,"sqlite_version":"3.50.2","synchronous":2,"timeline_executed":false}
+PAGINATION_REPORT /private/tmp/worktwill-spikes-20261119/rust-pagination-report-1e191906-4053-4176-948d-375957521fce.json
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 33 filtered out; finished in 20.36s
+
+     Running unittests src/bin/export-types.rs (target/release/deps/export_types-fceed2e718ed1d2f)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/drop_identity.rs (target/release/deps/drop_identity-c60faef17ebbd608)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/relink_grants.rs (target/release/deps/relink_grants-d98b6a88c62d506a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/search_cancellation.rs (target/release/deps/search_cancellation-aa7da2c567bc55dc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/search_cursor.rs (target/release/deps/search_cursor-2bc825e435c3927e)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+     Running tests/search_filters.rs (target/release/deps/search_filters-8f1029569e473647)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/search_groups.rs (target/release/deps/search_groups-9972defb373b3ce9)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests/workflows.rs (target/release/deps/workflows-9c6c11601809867a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 28 filtered out; finished in 0.00s
+

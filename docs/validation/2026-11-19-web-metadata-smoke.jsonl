@@ -1,0 +1,6 @@
+{"elapsed_ms":0,"result":{"Err":{"code":"web_metadata_unavailable","message":"仅自动获取公网网页标题，其他网址可手动填写"}},"url":"http://127.0.0.1:9/"}
+{"elapsed_ms":0,"result":{"Err":{"code":"web_metadata_unavailable","message":"仅自动获取公网网页标题，其他网址可手动填写"}},"url":"http://[::1]:9/"}
+{"elapsed_ms":0,"result":{"Err":{"code":"web_metadata_unavailable","message":"仅自动获取公网网页标题，其他网址可手动填写"}},"url":"http://2130706433:9/"}
+{"elapsed_ms":0,"result":{"Err":{"code":"web_metadata_unavailable","message":"仅自动获取公网网页标题，其他网址可手动填写"}},"url":"http://[::ffff:8.8.8.8]/"}
+{"elapsed_ms":1280,"result":{"Ok":{"final_url":"https://example.com/","title":"Example Domain"}},"url":"https://example.com/"}
+{"elapsed_ms":3317,"result":{"Ok":{"final_url":"https://rust-lang.org/","title":"Rust Programming Language"}},"url":"https://www.rust-lang.org/"}

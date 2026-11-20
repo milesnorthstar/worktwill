@@ -1,0 +1,25 @@
+[package]
+name = "worktwill-core"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+rusqlite = { version = "0.37", features = ["bundled", "backup", "hooks"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+ts-rs = "11"
+uuid = { version = "1", features = ["v4"] }
+unicode-normalization = "0.1"
+url = "2"
+walkdir = "2"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2 = "=0.6.5"
+objc2-foundation = { version = "=0.3.2", default-features = false, features = ["std", "NSArray", "NSData", "NSError", "NSString", "NSURL"] }
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.61", features = ["Win32_Storage_FileSystem", "Win32_Foundation"] }
+
+[dev-dependencies]
+tempfile = "3"

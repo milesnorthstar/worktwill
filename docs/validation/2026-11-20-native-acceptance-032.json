@@ -1,0 +1,236 @@
+{
+  "recorded_at": "2026-11-20T11:48:34.707264+08:00",
+  "scope": "030 native acceptance resumed; in progress",
+  "launch": {
+    "normal_quit_via_cua": true,
+    "reopened_current_release": true,
+    "binary_matches_030_manifest": true,
+    "default_personal_workbench": true
+  },
+  "coordinate_correction": {
+    "raw_worktwill_jpeg_pixels": [
+      2560,
+      1680
+    ],
+    "rendered_preview_approximately": [
+      1950,
+      1280
+    ],
+    "prior_drag_attempts_used_preview_coordinates_without_scaling": true,
+    "prior_product_failure_inference_not_supported": true,
+    "corrected_single_contract_drag": {
+      "from": [
+        886,
+        1105
+      ],
+      "to": [
+        912,
+        567
+      ],
+      "target_count_before": 0,
+      "target_count_after": 1,
+      "source_count_after": 4
+    },
+    "corrected_two_item_file_and_web_drag": {
+      "target_count_before": 1,
+      "target_count_after": 3,
+      "receipt": "2 succeeded /0 failed",
+      "source_count_after": 4
+    },
+    "repeat_contract_drag_did_not_duplicate": true,
+    "drop_memo_in_non_target_blank_did_not_link": true,
+    "escape_mid_drag_not_yet_tested": true
+  },
+  "office_before_save": {
+    "app": "com.kingsoft.wpsoffice.mac",
+    "default_handler_open_from_worktwill": true,
+    "actual_window": "合作合同_张三.docx",
+    "original_marker_visually_observed": "NATIVE_ORIGINAL_029",
+    "file": "/private/tmp/worktwill-spikes-20261119/native-v1-029-c7e_58jw/资料根/合作合同_张三.docx",
+    "size": 929,
+    "mtime_ns": 1795141031124504850,
+    "inode": 94246733,
+    "sha256": "86178f984926bf03d0ee236f6f10b4956a2d7593ae2f2704fdc415a08cc1c56d",
+    "resource": {
+      "id": "3def8028-7ed3-4b49-936b-2a7c6de3c229",
+      "name": "合作合同_张三.docx",
+      "location": "/private/tmp/worktwill-spikes-20261119/native-v1-029-c7e_58jw/资料根/合作合同_张三.docx",
+      "identity": "unix:16777234:94246733:1795141031:124261934",
+      "favorite": 1,
+      "status": "available"
+    },
+    "workspaces": [
+      {
+        "id": "72f2c384-90a7-474d-8530-fb84ae2ef087",
+        "name": "原生验收030 · 交付归档"
+      },
+      {
+        "id": "8c45910d-8906-4e6b-a561-2016c9e510ab",
+        "name": "原生验收030 · 合作项目"
+      }
+    ]
+  },
+  "full_v1_passed": false,
+  "office_running_save": {
+    "recorded_at": "2026-11-20T11:50:20.839796+08:00",
+    "size": 9976,
+    "mtime_ns": 1795146568486046823,
+    "inode": 94246733,
+    "sha256": "99c0a2b5beb657069c0709016985d91a0978f76b9bb2c50178280e63bd119ff9",
+    "original_and_running_markers_in_saved_docx": true,
+    "inode_same_as_before": true,
+    "resource": {
+      "id": "3def8028-7ed3-4b49-936b-2a7c6de3c229",
+      "identity": "unix:16777234:94246733:1795141031:124261934",
+      "status": "available",
+      "favorite": 1,
+      "modified_at": 1795141031124.0
+    },
+    "workspaces": [
+      {
+        "id": "72f2c384-90a7-474d-8530-fb84ae2ef087",
+        "name": "原生验收030 · 交付归档"
+      },
+      {
+        "id": "8c45910d-8906-4e6b-a561-2016c9e510ab",
+        "name": "原生验收030 · 合作项目"
+      }
+    ]
+  },
+  "office_closed_save": {
+    "recorded_at": "2026-11-20T11:54:05.702268+08:00",
+    "worktwill_processes": 0,
+    "wps_contract_tab_closed_after_save": true,
+    "all_three_markers_in_saved_docx": true,
+    "size": 10018,
+    "mtime_ns": 1795146771836826775,
+    "inode": 94246733,
+    "sha256": "0c9af6888c1058476e19f3e1e358a4e8bc78e6c36b2dd87eeec6a4cf0512635e",
+    "inode_same_as_before": true
+  },
+  "office_restart_retrieval": {
+    "recorded_at": "2026-11-20T11:57:28.782897+08:00",
+    "restarted_worktwill_via_cua": true,
+    "second_workspace_count": 3,
+    "opened_original_via_second_workspace": true,
+    "wps_contract_had_been_closed_and_reloaded": true,
+    "all_three_markers_visually_observed_after_reopen": true,
+    "same_uuid_identity_favorite_and_two_workspace_links": true,
+    "one_resource_for_original_path": true,
+    "resource": {
+      "id": "3def8028-7ed3-4b49-936b-2a7c6de3c229",
+      "name": "合作合同_张三.docx",
+      "location": "/private/tmp/worktwill-spikes-20261119/native-v1-029-c7e_58jw/资料根/合作合同_张三.docx",
+      "identity": "unix:16777234:94246733:1795141031:124261934",
+      "favorite": 1,
+      "status": "available",
+      "modified_at": 1795146568486.0
+    },
+    "file_mtime_ms": 1795146771836.8267,
+    "metadata_caught_up": false
+  },
+  "native_search": {
+    "cmd_k_and_chinese_short_word": "张三",
+    "quick_search_file_count": 2,
+    "complete_search_both_docx_and_xlsx_visible": true,
+    "returned_to_same_workspace": true,
+    "global_visible_latency_not_measured": true
+  },
+  "native_calendar": {
+    "workspace": "原生验收030 · 交付归档",
+    "month": "2026-11",
+    "all_file_events_and_day20_count": 6,
+    "modified_events_and_day20_count": 2,
+    "discovered_events_and_day20_count": 2,
+    "select_day20_worked": true,
+    "previous_month_october_zero_and_real_empty_state": true,
+    "return_november_preserved_workspace_and_modified_filter": true,
+    "first_discovered_labels_separate_from_file_creation": true,
+    "original_mtime_and_observed_time_labels_visible": true
+  },
+  "update_latency_issue": {
+    "metadata_still_stale_388_seconds_after_closed_app_save": true,
+    "later_file_modified_events": [
+      {
+        "id": "b7b49f9a-82da-4d74-9a20-2d5912c88572",
+        "at": 1795146644859.0,
+        "file_modified_at": 1795146568486.0,
+        "source": "filesystem",
+        "mtime_to_observation_seconds": 76.373
+      },
+      {
+        "id": "e124e76e-9201-4356-9e91-1e641d8bc5fb",
+        "at": 1795147326206.0,
+        "file_modified_at": 1795146771836.0,
+        "source": "filesystem",
+        "mtime_to_observation_seconds": 554.37
+      }
+    ],
+    "all_events_later_caught_up": true,
+    "no_immediate_refresh_claim": true,
+    "current_runtime_scheduling": "notify coalesces pending bool; kick_scan serial scan_all loops all active roots",
+    "user_existing_roots_not_changed_for_test": true
+  },
+  "baseline029_comparison": {
+    "app_path": "/private/tmp/worktwill-spikes-20261119/baseline029-032-p9tvtpjt/WorkTwill.app",
+    "matches_029_binary_sha256": true,
+    "purpose": "Retest original pointer implementation with corrected raw-pixel coordinates before retaining speculative fix",
+    "no_app_access_denial_bypassed": true,
+    "verified_process_path": true,
+    "source": "会议纪要.txt",
+    "raw_from": [
+      886,
+      1408
+    ],
+    "raw_to": [
+      912,
+      567
+    ],
+    "target_before_and_after": 3,
+    "drag_overlay_persisted_after_release": true,
+    "escape_cleared_overlay": true,
+    "then_same_file_same_coordinates_030_target_count": 4,
+    "030_overlay_cleared": true,
+    "actual_fix_supported_by_corrected_comparison": true,
+    "current030_reopened_after_baseline": true
+  },
+  "native_backup": {
+    "recorded_at": "2026-11-20T12:38:44.407727+08:00",
+    "actual_native_save_panel": true,
+    "path": "/private/tmp/worktwill-spikes-20261119/native-v1-029-c7e_58jw/native-backup-032.sqlite3",
+    "outside_managed_synthetic_root_and_repository": true,
+    "bytes": 822034432,
+    "sha256": "d49c91042ead4d83f84daba75e334b207cb500598067fb5ac95892e62371fd3f",
+    "quick_check": "ok",
+    "schema": 8,
+    "synthetic_contract_favorite_and_two_links_retained": true,
+    "restored_through_ui": false
+  },
+  "native_restore_attempt": {
+    "clicked_restore_button": true,
+    "frontend_became_busy": true,
+    "alert_or_picker_not_returned_in_ax_or_main_window_screenshot": true,
+    "escape_did_not_release_busy_state": true,
+    "restore_confirmation_not_accepted_and_no_file_chosen": true,
+    "not_passed": true
+  },
+  "restore_parent_fix": {
+    "recorded_at": "2026-11-20T12:56:33.302285+08:00",
+    "current_build_release_sha256": "ff2a65000b75fab1b3ceb2337ef6fbbd20da57e58d596a0e08d00b4f3ebe05a6",
+    "tauri_injected_calling_webview_window": true,
+    "four_confirmation_builders_parented": true,
+    "native_sheet_visible_with_restore_warning_and_cancel_choose_backup_buttons": true,
+    "cancel_confirmation_released_busy": true,
+    "choose_backup_opened_native_picker": true,
+    "cancel_picker_released_busy": true,
+    "root_authorizations_and_permission_version_unchanged": true,
+    "contract_favorite_and_two_links_unchanged": true,
+    "actual_restore_not_executed": true,
+    "reason_actual_restore_pending": "Current app contains existing user metadata/managed roots; cancel-path acceptance does not authorize overwriting that live catalog as a disposable test fixture"
+  },
+  "source_integrity_final": {
+    "five_non_edited_sources_size_mtime_inode_sha_xattrs_unchanged": true,
+    "edited_docx_sha256_equals_closed_save": true
+  },
+  "status": "Partial native acceptance;030 drag and WPS lifecycle passed;032 restore confirmation/picker cancel passed; broad latency and other gates remain"
+}

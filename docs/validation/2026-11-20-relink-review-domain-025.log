@@ -1,0 +1,23 @@
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.91s
+     Running tests/relink_review.rs (target/debug/deps/relink_review-fd93a5d1645ffdb3)
+
+running 7 tests
+test source_changed_after_first_confirmation_is_rejected_before_target_review ... ok
+test impact_review_and_cancel_are_read_only_and_expose_both_records ... ok
+test replacing_candidate_after_review_never_grants_or_merges_the_new_object ... ok
+test candidate_added_to_library_after_review_requires_new_merge_impact_confirmation ... ok
+test unchanged_review_merges_all_workspaces_and_favorites_only_after_explicit_merge ... ok
+test revocation_restore_or_relink_after_review_cannot_commit_stale_consent ... ok
+test source_or_target_impact_changes_require_a_fresh_review ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.31s
+
+     Running tests/u8_recovery_review.rs (target/debug/deps/u8_recovery_review-3427ac5a8a030a7c)
+
+running 2 tests
+test manual_recovery_does_not_describe_past_open_as_opening_the_new_object ... ok
+test same_path_replacement_retains_identity_confirmation_reason_in_workspace ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.04s
+

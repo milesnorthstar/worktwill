@@ -1,0 +1,34 @@
+file target/release/bundle/macos/WorkTwill.app/Contents/MacOS/worktwill-desktop
+target/release/bundle/macos/WorkTwill.app/Contents/MacOS/worktwill-desktop: Mach-O 64-bit executable arm64
+
+
+codesign -dv --verbose=4 target/release/bundle/macos/WorkTwill.app
+
+Executable=/Users/lch/Desktop/project/my/test/target/release/bundle/macos/WorkTwill.app/Contents/MacOS/worktwill-desktop
+Identifier=worktwill_desktop-9d573e9c0bf91053
+Format=app bundle with Mach-O thin (arm64)
+CodeDirectory v=20400 size=130664 flags=0x20002(adhoc,linker-signed) hashes=4079+0 location=embedded
+VersionPlatform=1
+VersionMin=720896
+VersionSDK=984320
+Hash type=sha256 size=32
+CandidateCDHash sha256=ebfae293a062d8723169a64a525bf5068893d09b
+CandidateCDHashFull sha256=ebfae293a062d8723169a64a525bf5068893d09b3378fbe9a111f955befe8c7a
+Hash choices=sha256
+CMSDigest=ebfae293a062d8723169a64a525bf5068893d09b3378fbe9a111f955befe8c7a
+CMSDigestType=2
+Executable Segment base=0
+Executable Segment limit=12615680
+Executable Segment flags=0x1
+Page size=4096
+CDHash=ebfae293a062d8723169a64a525bf5068893d09b
+Signature=adhoc
+Info.plist=not bound
+TeamIdentifier=not set
+Sealed Resources=none
+Internal requirements=none
+
+ZIP CRC: passed
+Required bundle entries: passed
+Production excludes visual fixture: passed
+Archive bytes: 6507647

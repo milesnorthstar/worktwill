@@ -1,0 +1,283 @@
+{
+  "recorded_at": "2026-11-20T18:41:00.182115+08:00",
+  "runtime": "036 source/artifacts verified unchanged",
+  "fixture_directory": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl",
+  "initial_root": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录A",
+  "files": {
+    "暂停验收037_二.txt": {
+      "sha256": "914eae3c5f584d978b0b2328d7d0a5c3e338fc169a5ca08c9b44503cfa05538a",
+      "inode": 95259660,
+      "mtime_ns": 1795166728059431515
+    },
+    "暂停验收037_一.txt": {
+      "sha256": "3a50ef405a15f9af9b693372cd44395ddecf0fd66f0eb39dca9fc1db7961a774",
+      "inode": 95259659,
+      "mtime_ns": 1795166728059357348
+    }
+  },
+  "full_v1_passed": false,
+  "before_pause_move": {
+    "root": {
+      "id": "f3161e50-a21c-4999-a56c-f2feb37554f5",
+      "path": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录A",
+      "active": 1,
+      "paused": 1,
+      "scan_state": "paused"
+    },
+    "files": [
+      {
+        "id": "adb27a9b-b379-4c34-bd18-6a34e383cff2",
+        "name": "暂停验收037_一.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录A/暂停验收037_一.txt",
+        "identity": "unix:16777234:95259659:1795166728:59294682",
+        "favorite": 1,
+        "status": "available",
+        "workspace_ids": [
+          "456a1f64-8a9c-4d21-9dec-bfcd8075cf02"
+        ]
+      },
+      {
+        "id": "eddcf88f-ff89-4725-8bce-8c9920b217c4",
+        "name": "暂停验收037_二.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录A/暂停验收037_二.txt",
+        "identity": "unix:16777234:95259660:1795166728:59399973",
+        "favorite": 0,
+        "status": "available",
+        "workspace_ids": [
+          "456a1f64-8a9c-4d21-9dec-bfcd8075cf02"
+        ]
+      }
+    ]
+  },
+  "online_move": {
+    "from": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录A",
+    "to": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录B",
+    "moved_at_ms": 1795167574191.1501,
+    "method": "terminal filesystem rename while WorkTwill036 remains running"
+  },
+  "online_first_observation": {
+    "observed_at_ms": 1795167588240.781,
+    "root": {
+      "id": "f3161e50-a21c-4999-a56c-f2feb37554f5",
+      "path": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录B",
+      "active": 1,
+      "paused": 1,
+      "scan_state": "paused",
+      "valid": 1
+    },
+    "files": [
+      {
+        "id": "adb27a9b-b379-4c34-bd18-6a34e383cff2",
+        "name": "暂停验收037_一.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录A/暂停验收037_一.txt",
+        "identity": "unix:16777234:95259659:1795166728:59294682",
+        "favorite": 1,
+        "status": "available"
+      },
+      {
+        "id": "eddcf88f-ff89-4725-8bce-8c9920b217c4",
+        "name": "暂停验收037_二.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录A/暂停验收037_二.txt",
+        "identity": "unix:16777234:95259660:1795166728:59399973",
+        "favorite": 0,
+        "status": "available"
+      }
+    ],
+    "unknown_resources": 0,
+    "large_root_still_running": true
+  },
+  "online_later_native_observation": {
+    "at_ms": 1795168010481.976,
+    "elapsed_since_move_ms": 436290.8259277344,
+    "actual_workspace_names_and_open_buttons_restored": true,
+    "files": [
+      {
+        "id": "adb27a9b-b379-4c34-bd18-6a34e383cff2",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录B/暂停验收037_一.txt",
+        "status": "available"
+      },
+      {
+        "id": "eddcf88f-ff89-4725-8bce-8c9920b217c4",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录B/暂停验收037_二.txt",
+        "status": "available"
+      }
+    ],
+    "unknown_resources": 0
+  },
+  "baseline036_preserved": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/release-before-paused-priority-037.app",
+  "revision_guard_regression_before_fix": "docs/validation/2026-11-20-root-recovery-revision-first-037.log",
+  "final_online_move": {
+    "from": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录B",
+    "to": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录C",
+    "moved_at_ms": 1795169672906.988,
+    "actual_live_release_process": [
+      "23514 Fri Nov 20 18:12:56 2026     /Users/lch/Desktop/project/my/test/target/release/bundle/macos/WorkTwill.app/Contents/MacOS/worktwill-desktop"
+    ],
+    "binary_sha256": "2255367f8d84ed528fd51b2b1951d1fb76cf56daf5f3bad8c180b639bf4e33cf",
+    "no_reauthorization_or_resume": true
+  },
+  "final_online_move_result": {
+    "at_ms": 1795169676338.7231,
+    "first_valid_root_observed_ms": 1795169674677.665,
+    "root": {
+      "id": "f3161e50-a21c-4999-a56c-f2feb37554f5",
+      "path": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录C",
+      "active": 1,
+      "paused": 1,
+      "scan_state": "paused",
+      "valid": 1
+    },
+    "files": [
+      {
+        "id": "adb27a9b-b379-4c34-bd18-6a34e383cff2",
+        "name": "暂停验收037_一.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录C/暂停验收037_一.txt",
+        "identity": "unix:16777234:95259659:1795166728:59294682",
+        "favorite": 1,
+        "status": "available"
+      },
+      {
+        "id": "eddcf88f-ff89-4725-8bce-8c9920b217c4",
+        "name": "暂停验收037_二.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录C/暂停验收037_二.txt",
+        "identity": "unix:16777234:95259660:1795166728:59399973",
+        "favorite": 0,
+        "status": "available"
+      }
+    ],
+    "both_paths_updated": true,
+    "unknown_resource_count": 0,
+    "large_root_still_running": true
+  },
+  "final_native_open_while_paused": {
+    "actual_textedit_title": "暂停验收037_一.txt",
+    "actual_file_url_under": "暂停目录C",
+    "actual_text": "SYNTHETIC_PAUSED_037_一",
+    "same_root_and_resource_ids": true,
+    "existing_favorite_and_workspace_ids_preserved": true,
+    "native_search_while_paused": "没有匹配资料",
+    "query": "不应收录037"
+  },
+  "native_resume_result": {
+    "resume_clicked_ms": 1795169997092,
+    "observed_at_ms": 1795170061373.072,
+    "root": {
+      "id": "f3161e50-a21c-4999-a56c-f2feb37554f5",
+      "path": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录C",
+      "active": 1,
+      "paused": 0,
+      "scan_state": "completed",
+      "scanned": 4,
+      "failures": 0
+    },
+    "new_resources": [
+      {
+        "id": "49939366-68f0-4999-a8d2-50cd4535c06d",
+        "name": "不应收录037.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录C/不应收录037.txt"
+      },
+      {
+        "id": "84959b24-15d3-4056-85c3-193d1f7caa59",
+        "name": "不应收录子文件037.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录C/新增子目录037/不应收录子文件037.txt"
+      }
+    ],
+    "known_resources": [
+      {
+        "id": "adb27a9b-b379-4c34-bd18-6a34e383cff2",
+        "name": "暂停验收037_一.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录C/暂停验收037_一.txt",
+        "identity": "unix:16777234:95259659:1795166728:59294682",
+        "favorite": 1,
+        "status": "available",
+        "workspace_ids": [
+          "456a1f64-8a9c-4d21-9dec-bfcd8075cf02"
+        ]
+      },
+      {
+        "id": "eddcf88f-ff89-4725-8bce-8c9920b217c4",
+        "name": "暂停验收037_二.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录C/暂停验收037_二.txt",
+        "identity": "unix:16777234:95259660:1795166728:59399973",
+        "favorite": 0,
+        "status": "available",
+        "workspace_ids": [
+          "456a1f64-8a9c-4d21-9dec-bfcd8075cf02"
+        ]
+      }
+    ]
+  },
+  "native_revocation": {
+    "clicked_ms": 1795170246975,
+    "actual_location_status": "已撤销授权，关联保留",
+    "actual_workspace_rows": "two anonymous 未授权的文件 with relink entries; references retained",
+    "native_global_query": "暂停验收037",
+    "native_global_result": "没有匹配资料",
+    "no_source_files_deleted": true
+  },
+  "native_reauthorization": {
+    "clicked_ms": 1795170430844,
+    "root": {
+      "id": "f3161e50-a21c-4999-a56c-f2feb37554f5",
+      "path": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录C",
+      "active": 1,
+      "paused": 0,
+      "scan_state": "completed",
+      "scanned": 4,
+      "failures": 0
+    },
+    "known_resources": [
+      {
+        "id": "adb27a9b-b379-4c34-bd18-6a34e383cff2",
+        "name": "暂停验收037_一.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录C/暂停验收037_一.txt",
+        "identity": "unix:16777234:95259659:1795166728:59294682",
+        "favorite": 1,
+        "status": "available",
+        "workspace_ids": [
+          "456a1f64-8a9c-4d21-9dec-bfcd8075cf02"
+        ]
+      },
+      {
+        "id": "eddcf88f-ff89-4725-8bce-8c9920b217c4",
+        "name": "暂停验收037_二.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录C/暂停验收037_二.txt",
+        "identity": "unix:16777234:95259660:1795166728:59399973",
+        "favorite": 0,
+        "status": "available",
+        "workspace_ids": [
+          "456a1f64-8a9c-4d21-9dec-bfcd8075cf02"
+        ]
+      }
+    ],
+    "original_root_uuid_and_resource_uuids_preserved": true,
+    "native_original_names_and_favorite_restored": true,
+    "known_file_bytes_mtime_inode_unchanged": true,
+    "total_resources_in_root": 4,
+    "independent_file_grants": 0
+  },
+  "native_resume_search": {
+    "query": "不应收录037",
+    "actual_selected_result": "不应收录037.txt under 暂停目录C"
+  },
+  "scope": "Candidate037 paused scope maintenance, resume/revoke/reauthorization native acceptance; full V1 not passed",
+  "checks": {
+    "rust_passed": 224,
+    "ui_passed": 138,
+    "unified_exit": 0,
+    "release_build_exit": 0,
+    "debug_build_exit": 0,
+    "first_revision_regression_failed_and_preserved": true
+  },
+  "restored_chinese_personal_workbench": true,
+  "archive": {
+    "archive": "deliverables/WorkTwill-v0.1.0-v1-candidate-037-macOS-arm64.zip",
+    "bytes": 6628915,
+    "sha256": "5e4a16e0434e9cd5796c9b2a3f47536745e5530384f9bb5e156fcf8815c80664",
+    "crc": "passed",
+    "binary_matches_current_release": true,
+    "execute_mode_preserved": true,
+    "production_excludes_visual_fixture": true,
+    "developer_id_and_notarization": false
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "archive": "deliverables/WorkTwill-v0.1.0-v1-candidate-024-macOS-arm64.zip",
+  "bytes": 6577680,
+  "sha256": "f15c5d3a787d17ce903c1719bf60644ebc603c29fea00282983b6fc5baefc4b7",
+  "crc": "passed",
+  "required_entries": "passed",
+  "archive_binary_matches_app": true,
+  "executable_permission_preserved": true
+}
+{"production_dist": ["index.html", "assets/index-BLzniK-N.css", "assets/index-DpExlSrG.js"], "visual_fixture_excluded": true}
+file /Users/lch/Desktop/project/my/test/target/release/bundle/macos/WorkTwill.app/Contents/MacOS/worktwill-desktop
+/Users/lch/Desktop/project/my/test/target/release/bundle/macos/WorkTwill.app/Contents/MacOS/worktwill-desktop: Mach-O 64-bit executable arm64
+
+exit_code 0
+codesign -dv --verbose=4 /Users/lch/Desktop/project/my/test/target/release/bundle/macos/WorkTwill.app
+Executable=/Users/lch/Desktop/project/my/test/target/release/bundle/macos/WorkTwill.app/Contents/MacOS/worktwill-desktop
+Identifier=worktwill_desktop-3bdb780f1911ed23
+Format=app bundle with Mach-O thin (arm64)
+CodeDirectory v=20400 size=132008 flags=0x20002(adhoc,linker-signed) hashes=4121+0 location=embedded
+VersionPlatform=1
+VersionMin=720896
+VersionSDK=984320
+Hash type=sha256 size=32
+CandidateCDHash sha256=90e23d7c2a458166545cdeb6d65c62fe9c3c96ae
+CandidateCDHashFull sha256=90e23d7c2a458166545cdeb6d65c62fe9c3c96ae531168d77c5ccec13b711b4a
+Hash choices=sha256
+CMSDigest=90e23d7c2a458166545cdeb6d65c62fe9c3c96ae531168d77c5ccec13b711b4a
+CMSDigestType=2
+Executable Segment base=0
+Executable Segment limit=12763136
+Executable Segment flags=0x1
+Page size=4096
+CDHash=90e23d7c2a458166545cdeb6d65c62fe9c3c96ae
+Signature=adhoc
+Info.plist=not bound
+TeamIdentifier=not set
+Sealed Resources=none
+Internal requirements=none
+
+exit_code 0

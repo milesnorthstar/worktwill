@@ -1,0 +1,29 @@
+{
+  "before": {
+    "at": "2026-11-20T19:12:33.255958+08:00",
+    "revision": 576127,
+    "resource_count": 129709,
+    "resource_digest": "8921a311ad2f074b0f1a852d34852b08c4026a90e3d27f760e8c95faa42c4a7b",
+    "activity_count": 77976,
+    "root_scan_summary": [
+      8,
+      71277,
+      1
+    ]
+  },
+  "after": {
+    "at": "2026-11-20T19:12:35.947960+08:00",
+    "revision": 576145,
+    "resource_count": 129709,
+    "resource_digest": "c5d9e7fad9059463ca392b65be8eee489ff2a70ec169637938fb22993ce03ffc",
+    "activity_count": 77976,
+    "root_scan_summary": [
+      8,
+      73077,
+      1
+    ]
+  },
+  "resource_metadata_changed": true,
+  "activity_count_changed": false,
+  "note": "Read-only aggregate fingerprints; no user resource names or paths exported. This sample does not prove which transaction invalidated the earlier cursor."
+}

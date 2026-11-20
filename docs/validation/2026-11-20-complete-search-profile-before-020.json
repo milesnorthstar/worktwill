@@ -1,0 +1,335 @@
+{
+  "entities": 100000,
+  "evidence": "synthetic_100k_complete_search_first_pages_only_not_native_or_deep_chain",
+  "existing_hot_budget_ms": 60,
+  "failures": [],
+  "oracle_checks": 372,
+  "oracle_failure_count": 0,
+  "per_case": [
+    {
+      "case": 0,
+      "matching": 99599,
+      "native_select_plan": [
+        "SCAN f VIRTUAL TABLE INDEX 0:M1",
+        "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)",
+        "CORRELATED SCALAR SUBQUERY 4",
+        "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "CORRELATED SCALAR SUBQUERY 1",
+        "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "CORRELATED SCALAR SUBQUERY 3",
+        "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "CORRELATED SCALAR SUBQUERY 2",
+        "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "sort": "relevance",
+      "timing": {
+        "max_ms": 91.41466600000001,
+        "p50_ms": 89.89095900000001,
+        "p95_ms": 91.126667,
+        "p99_ms": 91.41466600000001,
+        "samples": 30
+      }
+    },
+    {
+      "case": 1,
+      "matching": 986,
+      "native_select_plan": [
+        "SCAN f VIRTUAL TABLE INDEX 0:M1",
+        "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)",
+        "CORRELATED SCALAR SUBQUERY 4",
+        "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "CORRELATED SCALAR SUBQUERY 1",
+        "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "CORRELATED SCALAR SUBQUERY 3",
+        "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "CORRELATED SCALAR SUBQUERY 2",
+        "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "sort": "relevance",
+      "timing": {
+        "max_ms": 746.6355,
+        "p50_ms": 31.642249999999997,
+        "p95_ms": 60.534749999999995,
+        "p99_ms": 746.6355,
+        "samples": 30
+      }
+    },
+    {
+      "case": 2,
+      "matching": 98499,
+      "native_select_plan": [
+        "SCAN f VIRTUAL TABLE INDEX 0:M1",
+        "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)",
+        "CORRELATED SCALAR SUBQUERY 4",
+        "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "CORRELATED SCALAR SUBQUERY 1",
+        "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "CORRELATED SCALAR SUBQUERY 3",
+        "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "CORRELATED SCALAR SUBQUERY 2",
+        "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "sort": "relevance",
+      "timing": {
+        "max_ms": 111.626958,
+        "p50_ms": 91.540875,
+        "p95_ms": 101.24741700000001,
+        "p99_ms": 111.626958,
+        "samples": 30
+      }
+    },
+    {
+      "case": 3,
+      "matching": 3316,
+      "native_select_plan": [
+        "SCAN f VIRTUAL TABLE INDEX 0:M1",
+        "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)",
+        "CORRELATED SCALAR SUBQUERY 4",
+        "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "CORRELATED SCALAR SUBQUERY 1",
+        "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "CORRELATED SCALAR SUBQUERY 3",
+        "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "CORRELATED SCALAR SUBQUERY 2",
+        "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "sort": "relevance",
+      "timing": {
+        "max_ms": 624.979417,
+        "p50_ms": 86.706666,
+        "p95_ms": 289.892084,
+        "p99_ms": 624.979417,
+        "samples": 30
+      }
+    },
+    {
+      "case": 4,
+      "matching": 2662,
+      "native_select_plan": [
+        "SCAN f VIRTUAL TABLE INDEX 0:M1",
+        "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)",
+        "CORRELATED SCALAR SUBQUERY 4",
+        "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "CORRELATED SCALAR SUBQUERY 1",
+        "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "CORRELATED SCALAR SUBQUERY 3",
+        "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "CORRELATED SCALAR SUBQUERY 2",
+        "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "sort": "relevance",
+      "timing": {
+        "max_ms": 24.296583000000002,
+        "p50_ms": 23.05375,
+        "p95_ms": 23.605417,
+        "p99_ms": 24.296583000000002,
+        "samples": 30
+      }
+    },
+    {
+      "case": 5,
+      "matching": 1,
+      "native_select_plan": [
+        "SCAN f VIRTUAL TABLE INDEX 0:M1",
+        "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)",
+        "CORRELATED SCALAR SUBQUERY 4",
+        "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "CORRELATED SCALAR SUBQUERY 1",
+        "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "CORRELATED SCALAR SUBQUERY 3",
+        "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "CORRELATED SCALAR SUBQUERY 2",
+        "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "sort": "relevance",
+      "timing": {
+        "max_ms": 0.561417,
+        "p50_ms": 0.4045,
+        "p95_ms": 0.511458,
+        "p99_ms": 0.561417,
+        "samples": 30
+      }
+    },
+    {
+      "case": 0,
+      "matching": 99599,
+      "native_select_plan": [
+        "SCAN f VIRTUAL TABLE INDEX 0:M1",
+        "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)",
+        "CORRELATED SCALAR SUBQUERY 4",
+        "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "CORRELATED SCALAR SUBQUERY 1",
+        "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "CORRELATED SCALAR SUBQUERY 3",
+        "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "CORRELATED SCALAR SUBQUERY 2",
+        "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "sort": "modified",
+      "timing": {
+        "max_ms": 264.713458,
+        "p50_ms": 87.027375,
+        "p95_ms": 125.26458300000002,
+        "p99_ms": 264.713458,
+        "samples": 30
+      }
+    },
+    {
+      "case": 1,
+      "matching": 986,
+      "native_select_plan": [
+        "SCAN f VIRTUAL TABLE INDEX 0:M1",
+        "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)",
+        "CORRELATED SCALAR SUBQUERY 4",
+        "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "CORRELATED SCALAR SUBQUERY 1",
+        "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "CORRELATED SCALAR SUBQUERY 3",
+        "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "CORRELATED SCALAR SUBQUERY 2",
+        "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "sort": "modified",
+      "timing": {
+        "max_ms": 48.318833,
+        "p50_ms": 31.509209000000002,
+        "p95_ms": 33.174833,
+        "p99_ms": 48.318833,
+        "samples": 30
+      }
+    },
+    {
+      "case": 2,
+      "matching": 98499,
+      "native_select_plan": [
+        "SCAN f VIRTUAL TABLE INDEX 0:M1",
+        "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)",
+        "CORRELATED SCALAR SUBQUERY 4",
+        "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "CORRELATED SCALAR SUBQUERY 1",
+        "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "CORRELATED SCALAR SUBQUERY 3",
+        "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "CORRELATED SCALAR SUBQUERY 2",
+        "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "sort": "modified",
+      "timing": {
+        "max_ms": 148.323125,
+        "p50_ms": 87.457041,
+        "p95_ms": 144.459125,
+        "p99_ms": 148.323125,
+        "samples": 30
+      }
+    },
+    {
+      "case": 3,
+      "matching": 3316,
+      "native_select_plan": [
+        "SCAN f VIRTUAL TABLE INDEX 0:M1",
+        "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)",
+        "CORRELATED SCALAR SUBQUERY 4",
+        "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "CORRELATED SCALAR SUBQUERY 1",
+        "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "CORRELATED SCALAR SUBQUERY 3",
+        "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "CORRELATED SCALAR SUBQUERY 2",
+        "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "sort": "modified",
+      "timing": {
+        "max_ms": 163.725541,
+        "p50_ms": 85.455458,
+        "p95_ms": 103.144209,
+        "p99_ms": 163.725541,
+        "samples": 30
+      }
+    },
+    {
+      "case": 4,
+      "matching": 2662,
+      "native_select_plan": [
+        "SCAN f VIRTUAL TABLE INDEX 0:M1",
+        "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)",
+        "CORRELATED SCALAR SUBQUERY 4",
+        "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "CORRELATED SCALAR SUBQUERY 1",
+        "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "CORRELATED SCALAR SUBQUERY 3",
+        "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "CORRELATED SCALAR SUBQUERY 2",
+        "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "sort": "modified",
+      "timing": {
+        "max_ms": 91.555125,
+        "p50_ms": 23.049291999999998,
+        "p95_ms": 32.231457999999996,
+        "p99_ms": 91.555125,
+        "samples": 30
+      }
+    },
+    {
+      "case": 5,
+      "matching": 1,
+      "native_select_plan": [
+        "SCAN f VIRTUAL TABLE INDEX 0:M1",
+        "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)",
+        "CORRELATED SCALAR SUBQUERY 4",
+        "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+        "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+        "CORRELATED SCALAR SUBQUERY 1",
+        "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+        "CORRELATED SCALAR SUBQUERY 3",
+        "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+        "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+        "CORRELATED SCALAR SUBQUERY 2",
+        "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+        "USE TEMP B-TREE FOR ORDER BY"
+      ],
+      "sort": "modified",
+      "timing": {
+        "max_ms": 0.63,
+        "p50_ms": 0.482375,
+        "p95_ms": 0.619334,
+        "p99_ms": 0.63,
+        "samples": 30
+      }
+    }
+  ],
+  "sqlite_version": "3.50.2"
+}

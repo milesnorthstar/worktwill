@@ -1,0 +1,33 @@
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.37s
+     Running tests/u8_recovery_review.rs (target/debug/deps/u8_recovery_review-3427ac5a8a030a7c)
+
+running 2 tests
+test same_path_replacement_retains_identity_confirmation_reason_in_workspace ... FAILED
+test manual_recovery_does_not_describe_past_open_as_opening_the_new_object ... FAILED
+
+failures:
+
+---- same_path_replacement_retains_identity_confirmation_reason_in_workspace stdout ----
+
+thread 'same_path_replacement_retains_identity_confirmation_reason_in_workspace' (7480026) panicked at crates/worktwill-core/tests/u8_recovery_review.rs:98:5:
+assertion `left == right` failed
+  left: "missing"
+ right: "identity_unconfirmed"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- manual_recovery_does_not_describe_past_open_as_opening_the_new_object stdout ----
+
+thread 'manual_recovery_does_not_describe_past_open_as_opening_the_new_object' (7480025) panicked at crates/worktwill-core/tests/u8_recovery_review.rs:163:5:
+assertion `left == right` failed
+  left: "selected-new-contract.txt"
+ right: "original-contract.txt"
+
+
+failures:
+    manual_recovery_does_not_describe_past_open_as_opening_the_new_object
+    same_path_replacement_retains_identity_confirmation_reason_in_workspace
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.00s
+
+error: test failed, to rerun pass `-p worktwill-core --test u8_recovery_review`

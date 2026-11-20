@@ -1,0 +1,11 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main",
+  "description": "仅主窗口调用经过业务授权检查的命令，不暴露通用文件系统或启动命令。",
+  "windows": ["main"],
+  "permissions": [
+    "core:default", "allow-begin-search-session", "allow-cancel-search", "allow-search-page", "allow-timeline", "allow-fetch-web-metadata", "allow-import-drop", "allow-cancel-drop", "allow-pick-files", "allow-overview", "allow-resources", "allow-search", "allow-mutate",
+    "allow-pick-root", "allow-rescan", "allow-open-resource", "allow-reveal-resource",
+    "allow-pick-relink", "allow-backup", "allow-restore"
+  ]
+}

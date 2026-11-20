@@ -1,0 +1,57 @@
+
+> worktwill@0.1.0 tauri /Users/lch/Desktop/project/my/test
+> tauri build --debug --bundles app
+
+        Info Looking up installed tauri packages to check mismatched versions...
+     Running beforeBuildCommand `pnpm build`
+
+> worktwill@0.1.0 build /Users/lch/Desktop/project/my/test
+> tsc --noEmit && vite build
+
+vite v7.3.8 building client environment for production...
+transforming...
+✓ 1587 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/index.html                   0.46 kB │ gzip:  0.32 kB
+../dist/assets/index-CU85cPSC.css   42.37 kB │ gzip:  9.68 kB
+../dist/assets/index-CadCyY4L.js   303.45 kB │ gzip: 94.96 kB
+✓ built in 697ms
+   Compiling objc2-exception-helper v0.1.1
+   Compiling objc2 v0.6.5
+   Compiling ring v0.17.14
+   Compiling libsqlite3-sys v0.35.0
+   Compiling objc2-foundation v0.3.2
+   Compiling wry v0.57.3
+   Compiling objc2-core-foundation v0.3.2
+   Compiling block2 v0.6.2
+   Compiling rustls v0.23.46
+   Compiling dispatch2 v0.3.1
+   Compiling objc2-core-services v0.3.2
+   Compiling rustls-webpki v0.103.17
+   Compiling notify v8.2.2
+   Compiling rusqlite v0.37.0
+   Compiling tokio-rustls v0.26.6
+   Compiling hyper-rustls v0.27.10
+   Compiling objc2-quartz-core v0.3.2
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+   Compiling reqwest v0.12.28
+   Compiling objc2-app-kit v0.3.2
+   Compiling objc2-web-kit v0.3.2
+   Compiling tao v0.37.3
+   Compiling window-vibrancy v0.8.1
+   Compiling muda v0.20.0
+   Compiling rfd v0.17.2
+   Compiling tauri-runtime v2.12.4
+   Compiling tauri-runtime-wry v2.12.5
+   Compiling tauri v2.12.7
+   Compiling tauri-plugin-fs v2.7.1
+   Compiling tauri-plugin-opener v2.7.3
+   Compiling tauri-plugin-dialog v2.8.4
+   Compiling worktwill-desktop v0.1.0 (/Users/lch/Desktop/project/my/test/src-tauri)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 18.18s
+       Built application at: /Users/lch/Desktop/project/my/test/target/debug/worktwill-desktop
+    Bundling WorkTwill.app (/Users/lch/Desktop/project/my/test/target/debug/bundle/macos/WorkTwill.app)
+    Finished 1 bundle at:
+        /Users/lch/Desktop/project/my/test/target/debug/bundle/macos/WorkTwill.app (44.70 MiB)
+

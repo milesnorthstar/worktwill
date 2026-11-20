@@ -1,0 +1,14 @@
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.76s
+     Running tests/search_cursor.rs (target/debug/deps/search_cursor-bd74ec243462a7b1)
+
+running 6 tests
+test revocation_invalidates_cursor_and_neither_later_page_nor_fresh_query_leaks_files ... ok
+test backend_issued_unicode_position_need_not_be_a_normalization_fixed_point ... ok
+test data_mutation_invalidates_old_page_and_fresh_first_page_remains_available ... ok
+test changed_conditions_versions_offsets_and_missing_cursors_are_rejected ... ok
+test complete_cursor_chain_covers_every_result_once_and_normalizes_equivalent_criteria ... ok
+test restart_and_repeated_restore_invalidate_cursors_even_with_same_data ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.07s
+

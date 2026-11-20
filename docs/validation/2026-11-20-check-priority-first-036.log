@@ -1,0 +1,434 @@
+
+> worktwill@0.1.0 check /Users/lch/Desktop/project/my/test
+> node scripts/check.mjs --fixtures /private/tmp/worktwill-spikes-20261119
+
+
+cargo run -p worktwill-core --bin export-types -- --check
+   Compiling libsqlite3-sys v0.35.0
+   Compiling rusqlite v0.37.0
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 10.78s
+     Running `target/debug/export-types --check`
+
+pnpm build
+
+> worktwill@0.1.0 build /Users/lch/Desktop/project/my/test
+> tsc --noEmit && vite build
+
+vite v7.3.8 building client environment for production...
+transforming...
+✓ 1587 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/index.html                   0.46 kB │ gzip:  0.32 kB
+../dist/assets/index-CU85cPSC.css   42.37 kB │ gzip:  9.68 kB
+../dist/assets/index-CadCyY4L.js   303.45 kB │ gzip: 94.96 kB
+✓ built in 912ms
+
+pnpm test:ui
+
+> worktwill@0.1.0 test:ui /Users/lch/Desktop/project/my/test
+> vitest run
+
+
+ RUN  v4.1.12 /Users/lch/Desktop/project/my/test
+
+
+ Test Files  5 passed (5)
+      Tests  138 passed (138)
+   Start at  15:32:45
+   Duration  17.40s (transform 838ms, setup 2.12s, import 1.37s, tests 20.72s, environment 3.93s)
+
+
+cargo fmt --all -- --check
+
+cargo test --workspace
+   Compiling objc2-exception-helper v0.1.1
+   Compiling rusqlite v0.37.0
+   Compiling objc2 v0.6.5
+   Compiling ring v0.17.14
+   Compiling objc2-core-foundation v0.3.2
+   Compiling block2 v0.6.2
+   Compiling objc2-foundation v0.3.2
+   Compiling rustls v0.23.46
+   Compiling dispatch2 v0.3.1
+   Compiling wry v0.57.3
+   Compiling objc2-core-services v0.3.2
+   Compiling notify v8.2.2
+   Compiling rustls-webpki v0.103.17
+   Compiling tokio-rustls v0.26.6
+   Compiling hyper-rustls v0.27.10
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+   Compiling objc2-quartz-core v0.3.2
+   Compiling reqwest v0.12.28
+   Compiling objc2-app-kit v0.3.2
+   Compiling objc2-web-kit v0.3.2
+   Compiling tao v0.37.3
+   Compiling muda v0.20.0
+   Compiling window-vibrancy v0.8.1
+   Compiling rfd v0.17.2
+   Compiling tauri-runtime v2.12.4
+   Compiling tauri-runtime-wry v2.12.5
+   Compiling tauri v2.12.7
+   Compiling tauri-plugin-fs v2.7.1
+   Compiling tauri-plugin-opener v2.7.3
+   Compiling tauri-plugin-dialog v2.8.4
+   Compiling worktwill-desktop v0.1.0 (/Users/lch/Desktop/project/my/test/src-tauri)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 28.54s
+     Running unittests src/lib.rs (target/debug/deps/worktwill_core-2e62345e90d6e4ba)
+
+running 116 tests
+test acceptance_pagination::disk_pagination_acceptance ... ignored, explicit multi-resource deep pagination acceptance; requires confirmed WORKTWILL_TEST_ROOT
+test acceptance_root_locator::disk_root_locator_acceptance ... ignored, explicit 10k real-file directory locator acceptance; requires approved WORKTWILL_TEST_ROOT
+test acceptance_scan::disk_scan_acceptance ... ignored, explicit real-file scan benchmark; requires confirmed WORKTWILL_TEST_ROOT
+test acceptance_search::disk_search_acceptance ... ignored, explicit acceptance benchmark; requires confirmed WORKTWILL_TEST_ROOT
+test acceptance_search_mixed::disk_search_acceptance_mixed ... ignored, explicit mixed acceptance benchmark; requires confirmed WORKTWILL_TEST_ROOT
+test activity_origin_tests::genuine_v6_migration_binds_only_current_permitted_scopes_without_inventing_observed_uuid ... ok
+test cancellation::tests::cancellation_interrupts_an_already_executing_vm_and_leaves_connections_usable ... ok
+test cancellation::tests::cancelling_before_binding_never_starts_the_query ... ok
+test activity_origin_tests::genuine_v7_retired_flag_upgrade_rolls_back_alter_rows_and_version_then_retries ... ok
+test activity_origin_tests::migrated_empty_history_names_fall_back_only_while_current_resource_is_authorized ... ok
+test activity_origin_tests::genuine_v7_existing_retired_flags_keep_both_zero_and_one_while_advancing_to_v8 ... ok
+test cancellation::tests::public_store_quick_and_page_queries_really_interrupt_their_private_vm ... ok
+test activity_origin_tests::genuine_v6_origin_table_conflicts_roll_back_all_ddl_and_data_then_retry ... ok
+test activity_origin_tests::genuine_v7_four_column_scope_migrates_to_v8_without_losing_current_history_or_reviving_retired_history ... ok
+test cancellation::tests::public_queries_keep_items_and_versions_in_one_snapshot_during_external_commit ... ok
+test activity_origin_tests::migrated_v7_scopes_keep_new_capture_default_and_allow_fresh_known_retirement_only ... ok
+test catalog::root_tests::replacement_root_with_the_same_file_object_still_rejects_old_batch ... ok
+test activity_origin_tests::genuine_v7_backup_restores_via_v8_staging_without_changing_source_or_reviving_unknown_scope ... ok
+test catalog::root_tests::moved_root_rejects_captured_batch_and_finishes_without_false_completion ... ok
+test catalog::tests::catalog_batch_can_commit_while_a_reader_holds_the_restore_barrier ... ok
+test catalog::root_tests::late_invalid_cleanup_cannot_overwrite_new_root_scan_completion ... ok
+test catalog::tests::parent_replaced_with_symlink_cannot_publish_candidate_outside_original_scope ... ok
+test catalog::root_tests::restored_root_generation_aba_does_not_revive_old_batch_or_cleanup ... ok
+test catalog::tests::vanished_candidate_counts_as_failure_without_publishing_resource_or_projection ... ok
+test catalog::root_tests::invalid_overlapping_root_cannot_protect_a_missing_resource ... ok
+test catalog::tests::restore_and_reauthorization_cannot_revive_an_old_batch_with_the_same_generation ... ok
+test catalog::tests::older_overlapping_batch_cannot_restore_stale_metadata_or_invent_an_extra_modification ... ok
+test activity_origin_tests::merge_keeps_original_event_origins_and_relink_provenance_after_duplicate_deletion_reopen_and_restore ... ok
+test file_locator_tests::recovery_identity_guard_cannot_be_bypassed_by_omitting_expected_identity ... ok
+test catalog::root_tests::excluded_directory_does_not_override_independent_file_grant_status ... ok
+test file_locator_tests::explicit_relink_replaces_locator_identity_and_does_not_preserve_old_object_grant ... ok
+test file_locator_tests::recovery_requires_the_original_bookmark_even_if_versions_have_not_changed ... ok
+test file_locator_tests::copies_and_same_path_replacements_do_not_inherit_original_identity_or_references ... ok
+test file_locator_tests::merge_keeps_surviving_uuid_with_target_locator_and_cascades_duplicate_locator ... ok
+test file_locator_tests::missing_locator_creation_failure_keeps_available_original_and_clears_after_backfill ... ok
+test file_locator_tests::broken_bookmark_reports_error_after_unrelated_root_finishes_and_status_changes_once ... ok
+test known_refresh::tests::captured_refresh_rejects_restore_epoch_and_resource_repointing ... ok
+test file_locator_tests::delayed_bookmark_failure_is_discarded_after_relink_same_path_repair_or_revocation ... ok
+test known_refresh::tests::exclusion_blocks_a_pending_refresh_without_creating_a_new_reference ... ok
+test known_refresh::tests::known_save_refresh_does_not_wait_for_catalog_writer_and_preserves_references ... ok
+test known_refresh::tests::new_authorized_file_is_discovered_once_without_inheriting_copy_references ... ok
+test file_locator_tests::scan_backfills_missing_single_file_locator_without_capturing_every_directory_file ... ok
+test file_locator_tests::single_file_rename_move_reopen_and_scan_keep_uuid_references_and_original_bytes ... ok
+test macos_bookmark::tests::bookmark_resolves_after_rename_and_same_volume_move ... ok
+test known_refresh::tests::new_file_notification_is_rejected_outside_authorization_or_while_paused ... ok
+test macos_bookmark::tests::directory_bookmark_resolves_rename_move_and_parent_rename ... ok
+test known_refresh::tests::new_file_guard_rechecks_restore_permission_and_competing_discovery ... ok
+test macos_bookmark::tests::directory_copy_does_not_receive_the_original_bookmark_identity ... ok
+test macos_bookmark::tests::invalid_data_and_nonlocal_urls_return_short_bilingual_errors ... ok
+test macos_bookmark::tests::directory_replacement_candidate_requires_the_original_physical_identity ... ok
+test macos_bookmark::tests::same_name_recreation_does_not_supply_identity_evidence ... ok
+test known_refresh::tests::notification_does_not_discover_new_files_or_inherit_replacement_identity ... ok
+test file_locator_tests::revoke_and_restore_keep_saved_locators_from_reactivating_single_file_authorization ... ok
+test known_refresh::tests::new_file_notifications_respect_default_skips_app_data_and_explicit_root_exclusions ... ok
+test known_refresh::tests::notified_discovery_marks_current_scan_generation_as_observed ... ok
+test file_locator_tests::stale_resolved_snapshot_cannot_overwrite_mutation_relink_or_restore ... ok
+test known_refresh::tests::paused_and_revoked_roots_cannot_refresh_but_independent_grant_can ... ok
+test root_locator::guard_tests::root_guard_rejects_a_replacement_file_even_without_expected_identity_argument ... ok
+test activity_origin_tests::current_schema_backups_missing_each_origin_table_or_required_column_never_replace_live_data ... ok
+test root_locator_tests::explicit_regrant_conflicting_existing_root_identity_and_path_is_atomic ... ok
+test root_locator_tests::historical_v5_roots_are_legacy_and_not_retroactively_assigned_bookmarks ... ok
+test resource_relation_tests::existing_v3_reverse_membership_index_preserves_shared_resource_and_versions ... ok
+test root_locator_tests::consecutive_directory_moves_and_explicit_regrant_reuse_physical_root_identity ... ok
+test root_locator_tests::broken_single_file_bookmark_does_not_prevent_moved_root_recovery_and_scan ... ok
+test root_locator_tests::explicit_regrant_of_different_identity_clears_old_directory_aliases ... ok
+test root_locator_tests::managed_directory_rename_move_and_reopen_keep_root_uuid_and_resource_relationships ... ok
+test root_locator_tests::malformed_schema6_root_locator_backups_never_replace_live_state ... ok
+test root_locator_tests::paused_root_recovers_known_paths_but_does_not_enumerate_new_files_until_resumed ... ok
+test root_locator_tests::schema6_migration_conflict_rolls_back_new_tables_and_retries_without_retroactive_trust ... ok
+test root_locator_tests::opening_unchanged_root_preserves_versions_and_search_projection_without_scanning ... ok
+test root_locator_tests::replacement_at_old_directory_path_is_not_authorized_or_given_old_references ... ok
+test search::projection_tests::mtime_only_updates_one_projection_row_without_rewriting_fts_and_keeps_null_distinct ... ok
+test search::projection_tests::unchanged_normalized_projection_does_not_write_and_missing_fts_rows_are_repaired ... ok
+test search::projection_tests::renamed_projection_drops_old_terms_and_explicit_rebuild_repairs_existing_bad_content ... ok
+test search_modified_tests::genuine_v3_backfills_nullable_times_without_changing_fts_or_relationships ... ok
+test search_modified_tests::failed_v3_migration_rolls_back_alter_and_backfill_then_can_retry ... ok
+test root_locator_tests::relative_exclusions_and_revocation_remain_effective_after_root_movement ... ok
+test root_locator_tests::root_and_descendant_symlinks_cannot_expand_directory_authorization ... ok
+test search_modified_tests::version_four_adds_only_private_locator_table_and_failure_keeps_its_version ... ok
+test root_locator_tests::vanished_root_recreated_at_same_name_fails_closed_without_identity_inheritance ... ok
+test search_modified_tests::reopening_migrated_database_does_not_repeat_projection_backfill ... ok
+test search_modified_tests::restoring_genuine_v3_backup_migrates_rebuilds_and_revokes_both_grant_types ... ok
+test search_page_tests::low_match_fts_keeps_all_sort_orders_and_workspace_null_time ... ok
+test search_page_tests::nul_query_is_rejected_by_quick_and_full_search_before_rank_selection ... ok
+test macos_bookmark::tests::bookmark_resolves_in_a_fresh_process ... ok
+test root_locator_tests::unavailable_mixed_root_and_file_grant_preserves_references_and_scans_healthy_root ... ok
+test snapshot_read_tests::overview_keeps_roots_activities_grants_and_versions_in_one_snapshot ... ok
+test snapshot_read_tests::resources_keep_candidates_details_and_versions_in_one_snapshot ... ok
+test store::restore_backup_tests::dropping_partial_backup_rolls_back_actual_written_pages ... ok
+test search_page_tests::low_match_modified_seeks_equal_negative_zero_and_multiple_null_pages ... ok
+test root_locator::guard_tests::captured_root_file_guard_cannot_survive_authority_or_resource_changes ... ok
+test store::restore_backup_tests::current_schema_backup_missing_locator_table_or_columns_is_rejected_before_live_write ... ok
+test store::restore_backup_tests::pinned_source_keeps_validated_snapshot_during_external_wal_commit ... ok
+test store::restore_backup_tests::restoring_live_database_path_drops_source_read_lock_before_target_copy ... ok
+test store::restore_backup_tests::sqlite_full_during_copy_rolls_back_target_and_allows_retry ... ok
+test timeline::tests::calendar_aggregates_variable_length_days_with_exact_half_open_boundaries ... ok
+test timeline::tests::calendar_cache_keys_include_all_calendar_conditions_but_not_list_pagination ... ok
+test timeline::tests::cached_calendar_invalidates_for_transfer_exclusion_activity_writes_and_restore ... ok
+test timeline::tests::disk_timeline_acceptance ... ignored, explicit timeline scale benchmark; requires confirmed WORKTWILL_TEST_ROOT
+test timeline::tests::calendar_rejects_unbounded_or_inconsistent_day_requests ... ok
+test timeline::tests::file_time_basis_preserves_discovery_time_and_half_open_boundaries ... ok
+test timeline::tests::invalid_filters_and_nonfinite_dates_do_not_expand_query ... ok
+test root_locator_tests::opening_moved_or_replaced_root_only_invalidates_metadata_until_explicit_refresh ... ok
+test search_page_tests::high_match_name_pages_filter_before_limit_and_use_ordered_index ... ok
+test timeline::tests::mixed_resources_and_months_keep_calendar_authorization_and_workspace_scope ... ok
+test timeline::tests::revocation_hides_both_event_text_and_calendar_counts ... ok
+test timeline::tests::selected_dates_use_index_ranges_with_open_and_half_open_boundaries ... ok
+test timeline::tests::calendar_covers_whole_range_while_events_paginate_with_stable_ties ... ok
+test timeline::tests::workspace_scope_and_system_filter_are_explicit_and_share_calendar_filter ... ok
+test store::restore_backup_tests::copy_busy_finishes_backup_handle_and_preserves_target ... ok
+test store::restore_backup_tests::locked_restore_returns_error_releases_gate_and_allows_explicit_retry ... ok
+test timeline::tests::forged_legal_cursor_position_cannot_bypass_authorization_or_date_range ... ok
+test timeline::tests::timeline_cursor_binds_versions_all_conditions_and_rejects_missing_or_invalid_positions ... ok
+test timeline::tests::both_time_bases_traverse_tied_mixed_event_chains_without_duplicates ... ok
+test root_locator_tests::paused_mapping_recovers_every_known_resource_across_more_than_two_batches ... ok
+test search_page_tests::high_match_relevance_and_modified_traverse_all_ranks_times_nulls_and_filters ... ok
+
+test result: ok. 110 passed; 0 failed; 6 ignored; 0 measured; 0 filtered out; finished in 8.99s
+
+     Running unittests src/bin/export-types.rs (target/debug/deps/export_types-eaef93bc1fc69b79)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/drop_identity.rs (target/debug/deps/drop_identity-25dd93b2665b0ce3)
+
+running 4 tests
+test capture_failure_cannot_become_an_implicit_grant_when_file_appears_later ... ok
+test captured_object_cannot_be_replaced_at_same_path_before_authorization ... ok
+test mixed_checked_import_keeps_unchanged_success_and_rejects_replaced_selection ... ok
+test unchanged_capture_has_no_source_writes_and_checked_import_remains_idempotent ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.70s
+
+     Running tests/history_authority.rs (target/debug/deps/history_authority-59033fbb17f8cf97)
+
+running 11 tests
+test merge_into_unopened_object_does_not_inherit_source_recent_usage ... ok
+test recent_usage_keeps_same_identity_moves_but_not_cross_identity_relink_and_keeps_web_history ... ok
+test recent_merge_sort_uses_target_actual_open_time_instead_of_later_source_open ... ok
+test new_file_grant_cannot_revive_revoked_original_history_after_anonymous_relink ... ok
+test moved_root_preserves_history_scope_but_current_relative_exclusions_hide_it ... ok
+test excluded_known_location_cannot_regain_public_history_after_anonymous_relink ... ok
+test merge_does_not_launder_revoked_older_target_identity_history_through_new_grant ... ok
+test unknown_observation_identity_cannot_borrow_current_or_retired_root_authority ... ok
+test old_root_history_uses_its_original_anchor_after_resource_relinks_outside ... ok
+test independent_original_record_controls_named_history_and_empty_name_requires_canonical_authority ... ok
+test known_move_revocation_stays_effective_after_anonymous_relink_and_restore ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.27s
+
+     Running tests/modified_projection.rs (target/debug/deps/modified_projection-c100f3c2073c4c93)
+
+running 1 test
+test every_formal_write_path_preserves_modified_projection_through_rebuild_and_restore ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.15s
+
+     Running tests/open_target.rs (target/debug/deps/open_target-80137f8b7abc7a86)
+
+running 10 tests
+test target_is_bound_to_its_store_session ... ok
+test unobserved_same_path_physical_replacement_is_rejected_before_recording ... ok
+test changed_web_url_is_rejected_but_title_only_change_keeps_snapshot_observation ... ok
+test preparation_is_read_only_and_success_records_the_prepared_file_origin ... ok
+test same_identity_new_path_requires_a_new_prepared_location ... ok
+test different_identity_relink_cannot_receive_an_earlier_open_acceptance ... ok
+test merging_rejects_both_changed_source_and_removed_target_snapshots ... ok
+test restore_then_reauthorization_cannot_reuse_a_pre_restore_target ... ok
+test unrelated_scan_favorite_workspace_and_other_open_do_not_invalidate_target ... ok
+test revoked_or_revoked_then_regranted_authority_cannot_commit_an_old_target ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.21s
+
+     Running tests/relink_grants.rs (target/debug/deps/relink_grants-ae5573b38f674e4e)
+
+running 8 tests
+test selected_capture_failure_does_not_grant_a_file_which_appears_later ... ok
+test same_physical_object_keeps_its_existing_single_file_grant_after_move ... ok
+test selected_merge_rejects_replacement_while_confirmation_is_pending ... ok
+test active_old_grant_does_not_authorize_an_unrelated_object_but_selection_can ... ok
+test selected_relink_repairs_directory_owned_file_outside_without_granting_parent ... ok
+test old_grant_is_deactivated_when_relinking_to_different_directory_authorized_object ... ok
+test merge_unions_active_target_grant_over_inactive_original_grant ... ok
+test merge_does_not_reactivate_revoked_target_or_transfer_unrelated_original_grant ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.90s
+
+     Running tests/relink_review.rs (target/debug/deps/relink_review-c1fb7c66d98802bc)
+
+running 8 tests
+test replacing_candidate_after_review_never_grants_or_merges_the_new_object ... ok
+test source_changed_after_first_confirmation_is_rejected_before_target_review ... ok
+test impact_review_and_cancel_are_read_only_and_expose_both_records ... ok
+test same_identity_no_op_relink_review_cannot_write_a_second_event_on_replay ... ok
+test candidate_added_to_library_after_review_requires_new_merge_impact_confirmation ... ok
+test unchanged_review_merges_all_workspaces_and_favorites_only_after_explicit_merge ... ok
+test revocation_restore_or_relink_after_review_cannot_commit_stale_consent ... ok
+test source_or_target_impact_changes_require_a_fresh_review ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.03s
+
+     Running tests/search_cancellation.rs (target/debug/deps/search_cancellation-9fdad97ca81de756)
+
+running 2 tests
+test both_public_query_interfaces_reject_pre_cancelled_tokens_instead_of_empty_results ... ok
+test uncancelled_interfaces_preserve_results_and_cancelling_one_token_does_not_poison_later_queries ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running tests/search_cursor.rs (target/debug/deps/search_cursor-7d8f65a2cdd4f45b)
+
+running 8 tests
+test backend_issued_unicode_position_need_not_be_a_normalization_fixed_point ... ok
+test revocation_invalidates_cursor_and_neither_later_page_nor_fresh_query_leaks_files ... ok
+test changed_conditions_versions_offsets_and_missing_cursors_are_rejected ... ok
+test relevance_cursor_requires_rank_position_and_rejects_old_protocol_and_wrong_slots ... ok
+test data_mutation_invalidates_old_page_and_fresh_first_page_remains_available ... ok
+test complete_cursor_chain_covers_every_result_once_and_normalizes_equivalent_criteria ... ok
+test modified_cursor_requires_its_own_position_and_mtime_change_invalidates_the_chain ... ok
+test restart_and_repeated_restore_invalidate_cursors_even_with_same_data ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.86s
+
+     Running tests/search_filters.rs (target/debug/deps/search_filters-291ca0323cd7cf18)
+
+running 4 tests
+test invalid_ranges_prefixes_and_legacy_requests_have_explicit_behavior ... ok
+test prefix_is_literal_normalized_and_supports_urls_without_filesystem_access ... ok
+test half_open_modified_range_handles_files_web_and_excludes_workspaces ... ok
+test scope_permission_date_and_path_are_applied_before_limit_and_paging ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.77s
+
+     Running tests/search_groups.rs (target/debug/deps/search_groups-560e48337e90101c)
+
+running 3 tests
+test rare_groups_return_unused_capacity_to_relevance_and_keep_scope ... ok
+test many_files_do_not_hide_matching_workspaces_and_websites ... ok
+test reservations_never_restore_revoked_files_or_shrink_single_type_results ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.80s
+
+     Running tests/u8_recovery_review.rs (target/debug/deps/u8_recovery_review-14743bd428d5be68)
+
+running 2 tests
+test manual_recovery_does_not_describe_past_open_as_opening_the_new_object ... ok
+test same_path_replacement_retains_identity_confirmation_reason_in_workspace ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.59s
+
+     Running tests/workflows.rs (target/debug/deps/workflows-1a62d376a4db64a4)
+
+running 28 tests
+test future_schema_is_rejected_without_modification ... ok
+test failed_transfer_rolls_back_target_and_preserves_all_source_references ... ok
+test delete_web_clears_all_references_and_search_but_rejects_file_deletion ... ok
+test create_workspace_with_five_selected_files_is_atomic_idempotent_and_persistent ... ok
+test exclusions_and_open_gate_enforce_real_path_boundaries ... ok
+test including_excluded_folder_restores_visibility_without_changing_identity ... ok
+test create_workspace_rolls_back_references_projection_events_and_receipt_on_failure ... ok
+test explicit_relink_merge_keeps_original_uuid_and_unions_references_without_touching_source ... ok
+test ordinary_create_workspace_keeps_existing_serialized_operation_receipt ... ok
+test index_rebuild_does_not_modify_resources_or_associations ... ok
+test backup_restore_preserves_uuids_and_requires_reauthorization ... ok
+test rejected_backup_keeps_live_database_usable ... ok
+test native_file_reference_survives_rename_and_database_restart ... ok
+test full_search_paginates_without_duplicates_and_sort_and_type_filters_work ... ok
+test revoked_resources_are_anonymous_in_workspaces_and_hidden_elsewhere ... ok
+test old_directory_membership_cannot_authorize_moved_resource_after_new_root_revoked ... ok
+test overlapping_root_concurrent_discovery_deduplicates_and_revoke_is_union ... ok
+test file_timeline_records_first_discovery_once_then_real_changes_not_scan_replays ... ok
+test short_cjk_literal_queries_and_workspace_scope_are_correct ... ok
+test same_path_replacement_never_inherits_original_relationships ... ok
+test workspace_reorder_survives_restart_and_rejects_partial_or_duplicate_lists ... ok
+test version_one_backup_migrates_in_staging_without_reactivating_grants ... ok
+test symbolic_link_does_not_expand_authorized_scan ... ok
+test workspace_web_save_is_atomic_and_operation_replay_does_not_duplicate ... ok
+test transfer_replay_does_not_remove_a_later_readded_source ... ok
+test unlinking_and_deleting_workspace_preserves_other_references_and_all_source_metadata ... ok
+test single_file_import_rejects_without_grant_and_retains_partial_success ... ok
+test search_applies_authorization_and_workspace_scope_before_result_limit ... ok
+
+test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.87s
+
+     Running unittests src/main.rs (target/debug/deps/worktwill_desktop-5736ff79b0d0f15d)
+
+running 21 tests
+test dialog_copy::tests::unauthorized_impact_hides_cached_filename_but_preserves_named_relationships ... ok
+test drop_import::tests::cancellation_discards_only_matching_credentials_even_during_work ... ok
+test drop_import::tests::rejects_invalid_batch_and_clears_hover_without_consuming_pending ... ok
+test drop_import::tests::preparation_is_bound_to_latest_token_and_can_be_cancelled ... ok
+test drop_import::tests::rejects_forged_expired_and_parallel_consumption ... ok
+test dialog_copy::tests::relink_impact_lists_every_workspace_and_favorite_in_both_languages ... ok
+test drop_import::tests::old_completion_failure_or_cancel_cannot_replace_new_drop ... ok
+test drop_import::tests::partial_success_retries_only_unapproved_and_binds_original_workspace ... ok
+test priority_scans::tests::queue_deduplicates_bounds_pending_roots_and_keeps_fifo ... ok
+test priority_scans::tests::request_during_execution_uses_same_worker_and_after_exit_starts_a_new_worker ... ok
+test search_requests::tests::cancellation_before_spawn_or_even_before_command_arrival_cannot_be_lost ... ok
+test search_requests::tests::newer_requests_cancel_only_their_lane_and_late_older_requests_cannot_take_over ... ok
+test search_requests::tests::reloading_session_cancels_both_lanes_resets_ids_and_rejects_old_session ... ok
+test web_metadata::tests::rejects_private_special_and_mapped_addresses ... ok
+test web_metadata::tests::dns_answers_cannot_smuggle_private_or_malformed_addresses ... ok
+test web_metadata::tests::accepts_only_credential_free_http_urls_and_removes_fragment ... ok
+test known_changes::tests::notification_flood_is_bounded_and_paths_are_deduplicated ... ok
+test web_metadata::tests::title_is_decoded_bounded_and_plain_text ... ok
+test picked_files::tests::discarded_capture_does_not_create_authorization_or_resources ... ok
+test picked_files::tests::captured_batch_rejects_replaced_later_file_without_losing_other_items ... ok
+test dialog_copy::tests::real_relink_reviews_feed_named_impacts_and_selected_path_into_bilingual_dialogs ... ok
+
+test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.60s
+
+   Doc-tests worktwill_core
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+cargo clippy --workspace --all-targets -- -D warnings
+    Checking objc2-exception-helper v0.1.1
+    Checking libsqlite3-sys v0.35.0
+    Checking ring v0.17.14
+    Checking objc2 v0.6.5
+    Checking rusqlite v0.37.0
+    Checking rustls-webpki v0.103.17
+    Checking objc2-core-foundation v0.3.2
+    Checking block2 v0.6.2
+    Checking dispatch2 v0.3.1
+    Checking rustls v0.23.46
+    Checking objc2-foundation v0.3.2
+    Checking objc2-core-services v0.3.2
+    Checking notify v8.2.2
+    Checking tokio-rustls v0.26.6
+    Checking hyper-rustls v0.27.10
+    Checking reqwest v0.12.28
+    Checking worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Checking objc2-quartz-core v0.3.2
+    Checking objc2-app-kit v0.3.2
+    Checking objc2-web-kit v0.3.2
+    Checking tao v0.37.3
+    Checking window-vibrancy v0.8.1
+    Checking muda v0.20.0
+    Checking rfd v0.17.2
+    Checking wry v0.57.3
+    Checking tauri-runtime v2.12.4
+    Checking tauri-runtime-wry v2.12.5
+    Checking tauri v2.12.7
+    Checking tauri-plugin-fs v2.7.1
+    Checking tauri-plugin-opener v2.7.3
+    Checking tauri-plugin-dialog v2.8.4
+    Checking worktwill-desktop v0.1.0 (/Users/lch/Desktop/project/my/test/src-tauri)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 17.05s

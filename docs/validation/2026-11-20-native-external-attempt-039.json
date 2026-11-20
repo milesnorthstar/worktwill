@@ -1,0 +1,51 @@
+{
+  "recorded_at": "2026-11-20T20:09:53.208300+08:00",
+  "runtime": "038 unchanged release",
+  "action": "One current-layout raw-pixel mixed external drag attempt after three synthetic files selected in Finder",
+  "coordinates": {
+    "from_x": 520,
+    "from_y": 145,
+    "to_x": 2184,
+    "to_y": 750
+  },
+  "receipt_confirmed": false,
+  "result": "WorkTwill target still1, source2, no import receipt; no confirmed native external drop; do not interpret as proven product failure",
+  "original_files": {
+    "拖入重复038.txt": {
+      "inode": 95483879,
+      "mtime_ns": "1795171498873502805",
+      "sha256": "752f8ba082fd8deaad63645ee519bc76df055296567a6003209f70f80437f9e4"
+    },
+    "拖入待授权038.txt": {
+      "inode": 95483880,
+      "mtime_ns": "1795171498873613846",
+      "sha256": "2ce63d09c1168bfd6185c999ae1848d7ec1610d5c49d047a766b2efe787341df"
+    },
+    "拖入已授权038.txt": {
+      "inode": 95483878,
+      "mtime_ns": "1795171498873418097",
+      "sha256": "7a79ebd835cc764d26706b4de887375501b741c67ff89da95057843cde4e53a5"
+    }
+  },
+  "workspace_links": [
+    {
+      "name": "原生拖入038",
+      "id": "8fe46cb3-ea1c-4d2d-bf62-ac85e7ee7725",
+      "resource": "拖入重复038.txt"
+    },
+    {
+      "name": "原生拖入038 · 来源",
+      "id": "12af7785-777b-4916-95f0-4d3073612d22",
+      "resource": "拖入已授权038.txt"
+    },
+    {
+      "name": "原生拖入038 · 来源",
+      "id": "8fe46cb3-ea1c-4d2d-bf62-ac85e7ee7725",
+      "resource": "拖入重复038.txt"
+    }
+  ],
+  "next_action": "Manual cross-window gesture requested; no further automated retry without new evidence",
+  "new_build": false,
+  "full_mac_core_passed": false,
+  "full_v1_passed": false
+}

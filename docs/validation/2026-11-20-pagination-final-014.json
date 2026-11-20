@@ -1,0 +1,198 @@
+{
+  "arch": "aarch64",
+  "checkpointed_bytes_after_events": 293941248,
+  "checkpointed_bytes_before_events": 279339008,
+  "day_lengths_hours": [
+    25.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0,
+    24.0
+  ],
+  "distinct_synthetic_file_paths": 98900,
+  "distribution": {
+    "files": 98900,
+    "unauthorized_files": 400,
+    "web": 1000,
+    "workspaces": 100
+  },
+  "entities": 100000,
+  "event_growth_bytes": 14602240,
+  "event_resources": 99801,
+  "events": 100007,
+  "evidence": "synthetic_multi_resource_disk_pagination_not_scan_native_ui_or_cold_disk",
+  "existing_search_hot_budget_ms": 60,
+  "journal_mode": "wal",
+  "oracle_checks": 2239,
+  "oracle_failure_count": 0,
+  "oracle_failures_first_32": [],
+  "os": "macos",
+  "per_case": [
+    {
+      "case": "search_full_chain",
+      "pages": 996,
+      "results": 99599,
+      "timing": {
+        "max_ms": 1786.831042,
+        "p50_ms": 123.882959,
+        "p95_ms": 255.59091699999996,
+        "p99_ms": 470.128375,
+        "samples": 996
+      }
+    },
+    {
+      "calendar_points": 30,
+      "case": "timeline_full_chain",
+      "events": 97533,
+      "pages": 976,
+      "timing": {
+        "max_ms": 3438.6849580000003,
+        "p50_ms": 447.182542,
+        "p95_ms": 588.169083,
+        "p99_ms": 1149.990084,
+        "samples": 976
+      }
+    },
+    {
+      "case": "search_depth",
+      "offset": 0,
+      "response_bytes": 20558,
+      "returned": 100,
+      "timing": {
+        "max_ms": 134.421792,
+        "p50_ms": 93.241083,
+        "p95_ms": 95.421708,
+        "p99_ms": 134.421792,
+        "samples": 30
+      }
+    },
+    {
+      "case": "search_depth",
+      "offset": 100,
+      "response_bytes": 20539,
+      "returned": 100,
+      "timing": {
+        "max_ms": 608.604375,
+        "p50_ms": 92.799667,
+        "p95_ms": 532.5662920000001,
+        "p99_ms": 608.604375,
+        "samples": 30
+      }
+    },
+    {
+      "case": "search_depth",
+      "offset": 10000,
+      "response_bytes": 29013,
+      "returned": 100,
+      "timing": {
+        "max_ms": 97.06587499999999,
+        "p50_ms": 95.227958,
+        "p95_ms": 96.58083400000001,
+        "p99_ms": 97.06587499999999,
+        "samples": 30
+      }
+    },
+    {
+      "case": "search_depth",
+      "offset": 99500,
+      "response_bytes": 28463,
+      "returned": 99,
+      "timing": {
+        "max_ms": 721.749583,
+        "p50_ms": 165.65754199999998,
+        "p95_ms": 295.950041,
+        "p99_ms": 721.749583,
+        "samples": 30
+      }
+    },
+    {
+      "case": "timeline_depth",
+      "offset": 0,
+      "response_bytes": 52671,
+      "returned": 100,
+      "timing": {
+        "max_ms": 1198.860166,
+        "p50_ms": 298.37625,
+        "p95_ms": 1041.643916,
+        "p99_ms": 1198.860166,
+        "samples": 30
+      }
+    },
+    {
+      "case": "timeline_depth",
+      "offset": 100,
+      "response_bytes": 53116,
+      "returned": 100,
+      "timing": {
+        "max_ms": 554.296208,
+        "p50_ms": 294.216167,
+        "p95_ms": 305.61787499999997,
+        "p99_ms": 554.296208,
+        "samples": 30
+      }
+    },
+    {
+      "case": "timeline_depth",
+      "offset": 10000,
+      "response_bytes": 53019,
+      "returned": 100,
+      "timing": {
+        "max_ms": 744.402916,
+        "p50_ms": 329.708334,
+        "p95_ms": 474.675875,
+        "p99_ms": 744.402916,
+        "samples": 30
+      }
+    },
+    {
+      "case": "timeline_depth",
+      "offset": 97500,
+      "response_bytes": 18410,
+      "returned": 33,
+      "timing": {
+        "max_ms": 1015.132,
+        "p50_ms": 587.828333,
+        "p95_ms": 1004.5434170000001,
+        "p99_ms": 1015.132,
+        "samples": 30
+      }
+    },
+    {
+      "case": "populated_v3_index_bootstrap",
+      "dropped_derived_indexes": 3,
+      "open_ms": 483.488917,
+      "os_cache_cold": false
+    }
+  ],
+  "performance_status": "reported_separately_from_correctness_no_budget_relaxed",
+  "profile": "release",
+  "search_depth_exceeds_existing_60ms_budget": true,
+  "seed_seconds": 8.02353375,
+  "sqlite_version": "3.50.2",
+  "synchronous": 2
+}

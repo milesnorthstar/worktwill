@@ -1,0 +1,14 @@
+[
+  { "id": "brand-zh", "locale": "zh-CN", "intent": "brand", "question": "WorkTwill 是什么？它会移动或修改我的文件吗？", "pages": ["/about"] },
+  { "id": "brand-en", "locale": "en", "intent": "brand", "question": "What is WorkTwill, and does it move or modify my original files?", "pages": ["/en/about"] },
+  { "id": "task-zh", "locale": "zh-CN", "intent": "discovery", "question": "不移动原文件，怎么把客户合同、预算表和网页按项目放在一起？", "pages": ["/contract-workspace"] },
+  { "id": "task-en", "locale": "en", "intent": "discovery", "question": "How can I organize contracts, budgets, and web links by project without moving my files?", "pages": ["/en/contract-workspace"] },
+  { "id": "offline-zh", "locale": "zh-CN", "intent": "capability", "question": "WorkTwill 需要账号、联网或 AI 配置吗？会上传我的文件吗？", "pages": ["/about", "/privacy"] },
+  { "id": "offline-en", "locale": "en", "intent": "capability", "question": "Does WorkTwill need an account, internet, or AI setup, and does it upload my files?", "pages": ["/en/about", "/en/privacy"] },
+  { "id": "platform-zh", "locale": "zh-CN", "intent": "support", "question": "WorkTwill 支持 Windows 和 Intel Mac 吗？在哪里直接下载官方版本？", "pages": ["/download"] },
+  { "id": "platform-en", "locale": "en", "intent": "support", "question": "Does WorkTwill support Windows or Intel Macs, and where is the official direct download?", "pages": ["/en/download"] },
+  { "id": "source-zh", "locale": "zh-CN", "intent": "open-source", "question": "WorkTwill 会完全开源吗？源码仓库和许可证发布了吗？", "pages": ["/about", "/download"] },
+  { "id": "source-en", "locale": "en", "intent": "open-source", "question": "Will WorkTwill be fully open source? Are the repository and license published yet?", "pages": ["/en/about", "/en/download"] },
+  { "id": "tracking-zh", "locale": "zh-CN", "intent": "limitations", "question": "WorkTwill 对文件改名、移动和 Word 保存的支持范围是什么？", "pages": ["/download", "/guide"] },
+  { "id": "tracking-en", "locale": "en", "intent": "limitations", "question": "What are WorkTwill's limitations for file renames, moves, and saving in Word?", "pages": ["/en/download", "/en/guide"] }
+]

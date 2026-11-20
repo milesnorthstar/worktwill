@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>WorkTwill · 个人工作台</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar" aria-label="主导航" id="sidebar"></aside>
+      <div class="main-shell">
+        <header class="topbar">
+          <div id="breadcrumb" class="breadcrumb" aria-label="当前位置"></div>
+          <div class="search-area" id="search-area">
+            <div class="search-field">
+              <span class="search-icon" id="search-icon" aria-hidden="true"></span>
+              <input id="search" type="search" placeholder="搜索文件、网页或工作区" autocomplete="off" spellcheck="false" role="combobox" aria-label="全局搜索" aria-autocomplete="list" aria-controls="quick-options" aria-expanded="false">
+              <kbd id="search-shortcut"></kbd>
+            </div>
+            <div id="search-panel" class="search-panel" hidden></div>
+          </div>
+          <button id="locations-top" class="button top-locations" data-action="locations"></button>
+        </header>
+        <main id="page" class="page" tabindex="-1"></main>
+      </div>
+    </div>
+    <input id="directory-picker" type="file" webkitdirectory multiple hidden>
+    <dialog id="dialog" aria-labelledby="dialog-title"></dialog>
+    <div class="toast" id="toast" role="status" hidden></div>
+  </body>
+</html>

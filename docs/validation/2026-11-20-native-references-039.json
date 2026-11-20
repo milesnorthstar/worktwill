@@ -1,0 +1,53 @@
+{
+  "recorded_at": "2026-11-20T20:12:14.647625+08:00",
+  "runtime": "038 release unchanged",
+  "resource_before": {
+    "id": "adb27a9b-b379-4c34-bd18-6a34e383cff2",
+    "name": "暂停验收037_一.txt",
+    "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录C/暂停验收037_一.txt",
+    "identity": "unix:16777234:95259659:1795166728:59294682",
+    "favorite": 1,
+    "status": "available"
+  },
+  "links_before": [
+    {
+      "id": "3abcd6c4-90b6-47f6-87cd-672be5c59822",
+      "name": "原生引用039 · 来源"
+    },
+    {
+      "id": "456a1f64-8a9c-4d21-9dec-bfcd8075cf02",
+      "name": "原生暂停037"
+    }
+  ],
+  "workspaces": [
+    {
+      "id": "3abcd6c4-90b6-47f6-87cd-672be5c59822",
+      "name": "原生引用039 · 来源"
+    },
+    {
+      "id": "e172b22b-9d3a-4154-9a48-e390c7ac89e0",
+      "name": "原生引用039 · 目标"
+    }
+  ],
+  "original_before": {
+    "path": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录C/暂停验收037_一.txt",
+    "inode": 95259659,
+    "mtime_ns": "1795166728059357348",
+    "sha256": "3a50ef405a15f9af9b693372cd44395ddecf0fd66f0eb39dca9fc1db7961a774"
+  },
+  "transfer_executed": false,
+  "reference_unlink_executed": false,
+  "full_mac_core_passed": false,
+  "transfer_cancel": {
+    "at": "2026-11-20T20:14:25.078022+08:00",
+    "source": "原生引用039 · 来源",
+    "target": "原生引用039 · 目标",
+    "selected_resource": "暂停验收037_一.txt",
+    "cancelled_before_save": true,
+    "links_unchanged": true,
+    "source_count": 1,
+    "target_count": 0,
+    "original_unchanged": true
+  },
+  "next_step": "Actual transfer and reference unlink through GUI remain unexecuted. Preserve the prepared synthetic workspaces for action-time confirmation under Computer-Use data deletion/local move policy."
+}

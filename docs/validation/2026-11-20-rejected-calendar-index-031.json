@@ -1,0 +1,60 @@
+{
+  "recorded_at": "2026-11-20T11:18:41.177269+08:00",
+  "scope": "Bounded performance experiment; rejected; no new product artifact or performance acceptance",
+  "baseline": "Current030 schema8 runtime",
+  "candidate": "Cover activity_origins(activity_id,identity), optionally INDEXED BY shared history-visibility lookup",
+  "permission_semantics_changed": false,
+  "reports": {
+    "before": {
+      "report": "docs/validation/2026-11-20-timeline-profile-before-031.json",
+      "checks": 16,
+      "failures": 0,
+      "calendar_ms_min": 433.173958,
+      "calendar_ms_median": 539.1292085,
+      "calendar_ms_max": 2944.668666,
+      "origin_plan": [
+        "SEARCH o USING INDEX sqlite_autoindex_activity_origins_1 (activity_id=?)"
+      ]
+    },
+    "index": {
+      "report": "docs/validation/2026-11-20-timeline-profile-index-031.json",
+      "checks": 16,
+      "failures": 0,
+      "calendar_ms_min": 403.9375,
+      "calendar_ms_median": 411.3549165,
+      "calendar_ms_max": 419.02612500000004,
+      "origin_plan": [
+        "SEARCH o USING INDEX sqlite_autoindex_activity_origins_1 (activity_id=?)"
+      ]
+    },
+    "covering": {
+      "report": "docs/validation/2026-11-20-timeline-profile-covering-031.json",
+      "checks": 16,
+      "failures": 0,
+      "calendar_ms_min": 440.176875,
+      "calendar_ms_median": 478.06475,
+      "calendar_ms_max": 917.832042,
+      "origin_plan": [
+        "SEARCH o USING COVERING INDEX activity_origins_observed_identity (activity_id=?)"
+      ]
+    }
+  },
+  "decision": "Rejected: unhinted index unused; hinted covering index has no reliable improvement over unhinted group; variability precludes attributing before/after medians to index",
+  "production_changes_reverted": true,
+  "current_source_artifact_and_original_evidence_digests_match_030_before_document_update": {
+    "source_sha256": 204,
+    "artifact_sha256": 4,
+    "evidence_sha256": 307
+  },
+  "current_release_candidate": "deliverables/WorkTwill-v0.1.0-v1-candidate-030-macOS-arm64.zip",
+  "current_gui_blocker": "Sky Computer Use native pipe startup failed on current-turn retry; same inability to run native acceptance as preceding goal turns",
+  "no_alternate_gui_bridge_used": true,
+  "full_goal_remaining": [
+    "Fixed internal/external native drag and cancellation/scale matrix",
+    "Office ordinary/safe save and closed-app save/restart retrieval",
+    "Native calendar/search/exclusions/backup restore complete U1-U8",
+    "Windows, signed install/notarization/upgrade rollback",
+    "Native performance/idle/flood/long-term budgets and repeated target-user tasks"
+  ],
+  "full_v1_passed": false
+}

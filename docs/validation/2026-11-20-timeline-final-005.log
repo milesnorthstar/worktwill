@@ -1,0 +1,53 @@
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `release` profile [optimized] target(s) in 5.01s
+     Running unittests src/lib.rs (target/release/deps/worktwill_core-96ec0a13e5fd6baa)
+
+running 1 test
+test timeline::tests::disk_timeline_acceptance ... TIMELINE_ACCEPTANCE {"arch":"aarch64","distribution":"one_authorized_file_repeated_changes_in_one_month_unique_event_timestamps","evidence":"synthetic_events_on_disk_store_timeline_not_scan_or_ui_latency","os":"macos","profile":"release","results":[{"calendar_points":30,"events":100000,"p50_ms":122.599333,"p95_ms":124.85499999999999,"response_bytes":52104,"samples":10},{"calendar_points":30,"events":500000,"p50_ms":613.8374170000001,"p95_ms":624.695583,"response_bytes":52134,"samples":10}],"sqlite_version":"3.50.2"}
+TIMELINE_REPORT /private/tmp/worktwill-spikes-20261119/rust-timeline-report-178c1834-cc20-4f6f-a63c-816a4c2690aa.json
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 9.27s
+
+     Running unittests src/bin/export-types.rs (target/release/deps/export_types-fceed2e718ed1d2f)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/drop_identity.rs (target/release/deps/drop_identity-c60faef17ebbd608)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/relink_grants.rs (target/release/deps/relink_grants-d98b6a88c62d506a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/search_cancellation.rs (target/release/deps/search_cancellation-aa7da2c567bc55dc)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/search_filters.rs (target/release/deps/search_filters-8f1029569e473647)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/search_groups.rs (target/release/deps/search_groups-9972defb373b3ce9)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests/workflows.rs (target/release/deps/workflows-9c6c11601809867a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 25 filtered out; finished in 0.00s
+

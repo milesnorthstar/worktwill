@@ -1,0 +1,40 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.25s
+     Running unittests src/lib.rs (target/debug/deps/worktwill_core-18a0898f5bc211e9)
+
+running 5 tests
+
+thread 'activity_origin_tests::genuine_v7_retired_flag_upgrade_rolls_back_alter_rows_and_version_then_retries' (8292111) panicked at crates/worktwill-core/src/activity_origin_tests.rs:995:5:
+assertion failed: crate::migrations::migrate(&mut db).is_err()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'activity_origin_tests::genuine_v7_existing_retired_flags_keep_both_zero_and_one_while_advancing_to_v8' (8292109) panicked at crates/worktwill-core/src/activity_origin_tests.rs:908:5:
+assertion `left == right` failed
+  left: 7
+ right: 8
+
+thread 'activity_origin_tests::genuine_v7_four_column_scope_migrates_to_v8_without_losing_current_history_or_reviving_retired_history' (8292110) panicked at crates/worktwill-core/src/activity_origin_tests.rs:846:37:
+called `Result::unwrap()` on an `Err` value: AppError { code: "database_error", message: "本地数据操作失败，请重试或检查备份", message_en: "The local data operation failed. Try again or check your backup." }
+test activity_origin_tests::genuine_v7_retired_flag_upgrade_rolls_back_alter_rows_and_version_then_retries ... FAILED
+test activity_origin_tests::genuine_v7_existing_retired_flags_keep_both_zero_and_one_while_advancing_to_v8 ... FAILED
+test activity_origin_tests::genuine_v7_four_column_scope_migrates_to_v8_without_losing_current_history_or_reviving_retired_history ... FAILED
+
+thread 'activity_origin_tests::migrated_v7_scopes_keep_new_capture_default_and_allow_fresh_known_retirement_only' (8292112) panicked at crates/worktwill-core/src/activity_origin_tests.rs:927:146:
+called `Result::unwrap()` on an `Err` value: SqlInputError { error: Error { code: Unknown, extended_code: 1 }, msg: "no such column: retired_location_valid", sql: "SELECT retired_location_valid FROM activity_root_scopes WHERE activity_id=?", offset: 7 }
+test activity_origin_tests::migrated_v7_scopes_keep_new_capture_default_and_allow_fresh_known_retirement_only ... FAILED
+
+thread 'activity_origin_tests::genuine_v7_backup_restores_via_v8_staging_without_changing_source_or_reviving_unknown_scope' (8292108) panicked at crates/worktwill-core/src/activity_origin_tests.rs:961:37:
+called `Result::unwrap()` on an `Err` value: AppError { code: "database_error", message: "本地数据操作失败，请重试或检查备份", message_en: "The local data operation failed. Try again or check your backup." }
+test activity_origin_tests::genuine_v7_backup_restores_via_v8_staging_without_changing_source_or_reviving_unknown_scope ... FAILED
+
+failures:
+
+failures:
+    activity_origin_tests::genuine_v7_backup_restores_via_v8_staging_without_changing_source_or_reviving_unknown_scope
+    activity_origin_tests::genuine_v7_existing_retired_flags_keep_both_zero_and_one_while_advancing_to_v8
+    activity_origin_tests::genuine_v7_four_column_scope_migrates_to_v8_without_losing_current_history_or_reviving_retired_history
+    activity_origin_tests::genuine_v7_retired_flag_upgrade_rolls_back_alter_rows_and_version_then_retries
+    activity_origin_tests::migrated_v7_scopes_keep_new_capture_default_and_allow_fresh_known_retirement_only
+
+test result: FAILED. 0 passed; 5 failed; 0 ignored; 0 measured; 101 filtered out; finished in 0.10s
+
+error: test failed, to rerun pass `-p worktwill-core --lib`

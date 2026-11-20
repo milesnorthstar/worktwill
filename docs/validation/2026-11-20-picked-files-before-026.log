@@ -1,0 +1,21 @@
+   Compiling worktwill-desktop v0.1.0 (/Users/lch/Desktop/project/my/test/src-tauri)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.31s
+     Running unittests src/main.rs (target/debug/deps/worktwill_desktop-5736ff79b0d0f15d)
+
+running 1 test
+
+thread 'picked_files::tests::captured_batch_rejects_replaced_later_file_without_losing_other_items' (8033727) panicked at src-tauri/src/picked_files.rs:85:9:
+assertion `left == right` failed
+  left: "added"
+ right: "failed"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test picked_files::tests::captured_batch_rejects_replaced_later_file_without_losing_other_items ... FAILED
+
+failures:
+
+failures:
+    picked_files::tests::captured_batch_rejects_replaced_later_file_without_losing_other_items
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 16 filtered out; finished in 0.51s
+
+error: test failed, to rerun pass `-p worktwill-desktop --bin worktwill-desktop`

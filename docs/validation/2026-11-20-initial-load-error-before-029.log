@@ -1,0 +1,38 @@
+
+> worktwill@0.1.0 test:ui /Users/lch/Desktop/project/my/test
+> vitest run
+
+
+ RUN  v4.1.12 /Users/lch/Desktop/project/my/test
+
+ ❯ desktop/src/App.test.tsx (93 tests | 2 failed) 11859ms
+   × 首次范围读取失败显示中英重试状态，重新读取成功后才呈现empty资料 9ms
+   × 首次范围读取失败显示中英重试状态，重新读取成功后才呈现authorized资料 6ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  desktop/src/App.test.tsx > 首次范围读取失败显示中英重试状态，重新读取成功后才呈现empty资料
+ FAIL  desktop/src/App.test.tsx > 首次范围读取失败显示中英重试状态，重新读取成功后才呈现authorized资料
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  读取失败
+Received:
+  正在读取资料管理范围
+ ❯ desktop/src/App.test.tsx:1085:18
+    1083|   await act(async()=>rejectOverview({code:'database_error',message:'本地…
+    1084|   expect(await screen.findByRole('alert')).toHaveTextContent('本地数据操作失败…
+    1085|   expect(status).toHaveTextContent('读取失败');
+       |                  ^
+    1086|   expect(status).not.toHaveTextContent('正在读取资料');
+    1087|   expect(status).not.toHaveTextContent('尚未添加管理位置');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  2 failed | 133 passed (135)
+   Start at  10:00:56
+   Duration  12.95s (transform 773ms, setup 1.30s, import 962ms, tests 15.06s, environment 2.45s)
+
+ ELIFECYCLE  Command failed with exit code 1.

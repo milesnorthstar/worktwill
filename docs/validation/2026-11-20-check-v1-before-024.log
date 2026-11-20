@@ -1,0 +1,137 @@
+
+> worktwill@0.1.0 check /Users/lch/Desktop/project/my/test
+> node scripts/check.mjs --fixtures /private/tmp/worktwill-spikes-20261119
+
+
+cargo run -p worktwill-core --bin export-types -- --check
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.61s
+     Running `target/debug/export-types --check`
+
+pnpm build
+
+> worktwill@0.1.0 build /Users/lch/Desktop/project/my/test
+> tsc --noEmit && vite build
+
+vite v7.3.8 building client environment for production...
+transforming...
+✓ 1587 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/index.html                   0.46 kB │ gzip:  0.32 kB
+../dist/assets/index-BLzniK-N.css   42.63 kB │ gzip:  9.74 kB
+../dist/assets/index-DpExlSrG.js   301.49 kB │ gzip: 94.52 kB
+✓ built in 1.05s
+
+pnpm test:ui
+
+> worktwill@0.1.0 test:ui /Users/lch/Desktop/project/my/test
+> vitest run
+
+
+ RUN  v4.1.12 /Users/lch/Desktop/project/my/test
+
+
+ Test Files  5 passed (5)
+      Tests  116 passed (116)
+   Start at  06:36:50
+   Duration  12.76s (transform 812ms, setup 995ms, import 1.09s, tests 15.38s, environment 3.12s)
+
+
+cargo fmt --all -- --check
+Diff in /Users/lch/Desktop/project/my/test/crates/worktwill-core/src/root_locator_tests.rs:855:
+     assert_eq!(root_generation(&f.store, &root_id), generation);
+     assert!(persisted == snapshot(&f.store));
+     assert_eq!(f.root_state(&root_id).location_status, "available");
+-    assert_eq!(f.store.search_page(request.clone()).unwrap().page.items.len(), 100);
++    assert_eq!(
++        f.store
++            .search_page(request.clone())
++            .unwrap()
++            .page
++            .items
++            .len(),
++        100
++    );
+     // 新会话有独立session；同步它后验证未变化的权限/数据版本仍可续页。
+     cursor.session = reopened.session;
+     request.offset = cursor.next_offset;
+Diff in /Users/lch/Desktop/project/my/test/crates/worktwill-core/src/root_locator_tests.rs:876:
+         let before = f.store.overview().unwrap();
+         let generation = root_generation(&f.store, &root_id);
+         let mut request = startup_search_request();
+-        let mut cursor = f.store.search_page(request.clone()).unwrap().next_cursor.unwrap();
++        let mut cursor = f
++            .store
++            .search_page(request.clone())
++            .unwrap()
++            .next_cursor
++            .unwrap();
+         let moved = f.home.join("moved-before-startup");
+         fs::rename(&f.root, &moved).unwrap();
+         if replacement {
+Diff in /Users/lch/Desktop/project/my/test/crates/worktwill-core/src/root_locator_tests.rs:894:
+         assert_eq!(count(&f.store, "resources"), 101);
+         let db = f.store.connection().unwrap();
+         assert_eq!(
+-            db.query_row("SELECT valid FROM root_locators WHERE root_id=?", [&root_id], |row| row.get::<_, u32>(0)).unwrap(),
++            db.query_row(
++                "SELECT valid FROM root_locators WHERE root_id=?",
++                [&root_id],
++                |row| row.get::<_, u32>(0)
++            )
++            .unwrap(),
+             0
+         );
+         let hidden = Store::resource_db(&db, &rid, true).unwrap();
+Diff in /Users/lch/Desktop/project/my/test/crates/worktwill-core/src/root_locator_tests.rs:904:
+         cursor.session = reopened.session;
+         request.offset = cursor.next_offset;
+         request.cursor = Some(cursor);
+-        assert_eq!(f.store.search_page(request).unwrap_err().code, "stale_cursor");
++        assert_eq!(
++            f.store.search_page(request).unwrap_err().code,
++            "stale_cursor"
++        );
+         drop(db);
+         match f.store.refresh_roots() {
+             Ok(()) => {
+Diff in /Users/lch/Desktop/project/my/test/crates/worktwill-core/src/root_locator_tests.rs:932:
+     assert_eq!(f.store.grant_root(&renamed).unwrap(), root_id);
+     f.store.scan_all().unwrap();
+     assert_eq!(count(&f.store, "root_aliases"), 1);
+-    let old_identity: String = f.store.connection().unwrap().query_row("SELECT identity FROM root_locators WHERE root_id=?",[&root_id],|row|row.get(0)).unwrap();
++    let old_identity: String = f
++        .store
++        .connection()
++        .unwrap()
++        .query_row(
++            "SELECT identity FROM root_locators WHERE root_id=?",
++            [&root_id],
++            |row| row.get(0),
++        )
++        .unwrap();
+     let old_original = f.home.join("old-original-retained");
+     fs::rename(&renamed, &old_original).unwrap();
+     fs::create_dir_all(renamed.join("nested")).unwrap();
+Diff in /Users/lch/Desktop/project/my/test/crates/worktwill-core/src/root_locator_tests.rs:939:
+-    fs::write(renamed.join("nested/contract.txt"), b"new directory fixture").unwrap();
++    fs::write(
++        renamed.join("nested/contract.txt"),
++        b"new directory fixture",
++    )
++    .unwrap();
+     assert_eq!(f.store.grant_root(&renamed).unwrap(), root_id);
+     let db = f.store.connection().unwrap();
+-    let identity: String = db.query_row("SELECT identity FROM root_locators WHERE root_id=?",[&root_id],|row|row.get(0)).unwrap();
++    let identity: String = db
++        .query_row(
++            "SELECT identity FROM root_locators WHERE root_id=?",
++            [&root_id],
++            |row| row.get(0),
++        )
++        .unwrap();
+     assert_ne!(identity, old_identity);
+     assert_eq!(count(&f.store, "root_aliases"), 0);
+     assert_eq!(f.root_state(&root_id).location_status, "available");
+ ELIFECYCLE  Command failed with exit code 1.

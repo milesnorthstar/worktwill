@@ -1,0 +1,716 @@
+{
+  "entities": 100000,
+  "events": 100007,
+  "evidence": "synthetic_multi_resource_diagnostic_shared_sql_not_production_api_sla",
+  "failures": [],
+  "first_sample_per_offset_is_not_warmup_excluded": true,
+  "oracle_checks": 16,
+  "oracle_failure_count": 0,
+  "samples": [
+    {
+      "repeat": 0,
+      "segments": {
+        "calendar_ms": 290.845,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 0.607292,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 0,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 1.6225,
+        "total_ms_excludes_plan_collection": 293.4765
+      }
+    },
+    {
+      "repeat": 1,
+      "segments": {
+        "calendar_ms": 293.34337500000004,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 0.577542,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 0,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 1.630708,
+        "total_ms_excludes_plan_collection": 295.911208
+      }
+    },
+    {
+      "repeat": 2,
+      "segments": {
+        "calendar_ms": 294.09524999999996,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 0.493375,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 0,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 1.5680830000000001,
+        "total_ms_excludes_plan_collection": 296.577916
+      }
+    },
+    {
+      "repeat": 3,
+      "segments": {
+        "calendar_ms": 287.229541,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 0.597208,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 0,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 1.6108330000000002,
+        "total_ms_excludes_plan_collection": 289.778792
+      }
+    },
+    {
+      "repeat": 0,
+      "segments": {
+        "calendar_ms": 288.198167,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 0.8629589999999999,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 100,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 1.542417,
+        "total_ms_excludes_plan_collection": 290.977916
+      }
+    },
+    {
+      "repeat": 1,
+      "segments": {
+        "calendar_ms": 288.90175,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 1.046958,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 100,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 1.5997080000000001,
+        "total_ms_excludes_plan_collection": 291.925666
+      }
+    },
+    {
+      "repeat": 2,
+      "segments": {
+        "calendar_ms": 297.583333,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 0.8355,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 100,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 1.5828330000000002,
+        "total_ms_excludes_plan_collection": 300.426417
+      }
+    },
+    {
+      "repeat": 3,
+      "segments": {
+        "calendar_ms": 288.64050000000003,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 0.8695839999999999,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 100,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 1.5805,
+        "total_ms_excludes_plan_collection": 291.49375
+      }
+    },
+    {
+      "repeat": 0,
+      "segments": {
+        "calendar_ms": 291.436833,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 30.700042,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 10000,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 1.6352090000000001,
+        "total_ms_excludes_plan_collection": 324.137791
+      }
+    },
+    {
+      "repeat": 1,
+      "segments": {
+        "calendar_ms": 294.659458,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 31.710792,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 10000,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 1.695791,
+        "total_ms_excludes_plan_collection": 328.49904200000003
+      }
+    },
+    {
+      "repeat": 2,
+      "segments": {
+        "calendar_ms": 292.72145900000004,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 30.207375000000003,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 10000,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 1.573875,
+        "total_ms_excludes_plan_collection": 324.898791
+      }
+    },
+    {
+      "repeat": 3,
+      "segments": {
+        "calendar_ms": 287.945916,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 30.681875,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 10000,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 1.623667,
+        "total_ms_excludes_plan_collection": 320.574917
+      }
+    },
+    {
+      "repeat": 0,
+      "segments": {
+        "calendar_ms": 283.159333,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 287.230125,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 97500,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 0.581625,
+        "total_ms_excludes_plan_collection": 571.3937500000001
+      }
+    },
+    {
+      "repeat": 1,
+      "segments": {
+        "calendar_ms": 283.299958,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 283.220417,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 97500,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 0.5892080000000001,
+        "total_ms_excludes_plan_collection": 567.5354580000001
+      }
+    },
+    {
+      "repeat": 2,
+      "segments": {
+        "calendar_ms": 280.255834,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 282.502667,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 97500,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 0.596,
+        "total_ms_excludes_plan_collection": 563.78825
+      }
+    },
+    {
+      "repeat": 3,
+      "segments": {
+        "calendar_ms": 292.943,
+        "calendar_plan": [
+          "CO-ROUTINE days",
+          "SCAN 30 CONSTANT ROWS",
+          "SCAN days",
+          "CORRELATED SCALAR SUBQUERY 35",
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 34",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 31",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 33",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 32",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)",
+          "USE TEMP B-TREE FOR ORDER BY"
+        ],
+        "event_ms": 286.649333,
+        "event_plan": [
+          "SEARCH a USING INDEX activities_file_time (<expr>>? AND <expr><?)",
+          "CORRELATED SCALAR SUBQUERY 4",
+          "SEARCH wr USING COVERING INDEX sqlite_autoindex_workspace_resources_1 (workspace_id=? AND resource_id=?)",
+          "SEARCH r USING INDEX sqlite_autoindex_resources_1 (id=?) LEFT-JOIN",
+          "CORRELATED SCALAR SUBQUERY 1",
+          "SEARCH fg USING INDEX sqlite_autoindex_file_grants_1 (resource_id=?)",
+          "CORRELATED SCALAR SUBQUERY 3",
+          "SEARCH fr USING COVERING INDEX root_resources (resource_id=?)",
+          "SEARCH sr USING INDEX sqlite_autoindex_scan_roots_1 (id=?)",
+          "CORRELATED SCALAR SUBQUERY 2",
+          "SEARCH ex USING COVERING INDEX sqlite_autoindex_scan_exclusions_1 (root_id=?)"
+        ],
+        "offset": 97500,
+        "relationship_plan": [
+          "SEARCH workspace_resources USING COVERING INDEX workspace_resource_memberships (resource_id=?)"
+        ],
+        "resources_ms": 0.594542,
+        "total_ms_excludes_plan_collection": 580.570708
+      }
+    }
+  ],
+  "sqlite_version": "3.50.2"
+}

@@ -1,0 +1,22 @@
+   Compiling worktwill-core v0.1.0 (/Users/lch/Desktop/project/my/test/crates/worktwill-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.04s
+     Running tests/search_cursor.rs (target/debug/deps/search_cursor-bd74ec243462a7b1)
+
+running 1 test
+test backend_issued_unicode_position_need_not_be_a_normalization_fixed_point ... FAILED
+
+failures:
+
+---- backend_issued_unicode_position_need_not_be_a_normalization_fixed_point stdout ----
+
+thread 'backend_issued_unicode_position_need_not_be_a_normalization_fixed_point' (6972777) panicked at crates/worktwill-core/tests/search_cursor.rs:315:47:
+called `Result::unwrap()` on an `Err` value: AppError { code: "stale_cursor", message: "搜索结果或条件已变化，请从第一页重新加载", message_en: "The search results or criteria have changed. Reload from the first page." }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    backend_issued_unicode_position_need_not_be_a_normalization_fixed_point
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.17s
+
+error: test failed, to rerun pass `-p worktwill-core --test search_cursor`

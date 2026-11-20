@@ -1,0 +1,24 @@
+{
+  "recorded_at": "2026-11-20T10:35:49.533201+08:00",
+  "scope": "Observed post-freeze concurrent dependency changes; preserve candidate validation provenance",
+  "mismatches": {
+    "package.json": {
+      "frozen_sha256": "c1fdfd29f4bcab349e8b342aadc220cc0b57e6586d555fa6d16145fd6fdc3eaa",
+      "observed_sha256": "3446376f7a89a7c1968e220566ab1d3ec9aa5eb090c4b3d2ed450d10bf706540"
+    },
+    "pnpm-lock.yaml": {
+      "frozen_sha256": "1b0190a0e557065f5ad7cf2883d9c4250d2eba7fbff55ec35b578477b787e4be",
+      "observed_sha256": "c578ace1867f4201cb655d4fdf25b722662a4c1f997e7477b3b40d396063e38d"
+    }
+  },
+  "other_original_manifest_entries_verified": 503,
+  "observed_dependency_change": "cf dev dependency added; observed 0.0.3 followed by 1.0.0-rc.2",
+  "change_author": "not established; not made by this native acceptance task",
+  "current_dependency_files_preserved": true,
+  "new_dependency_not_covered_by_029_checks_or_build": true,
+  "original_package_snapshot": "docs/validation/2026-11-20-package-build-input-029.json",
+  "original_package_snapshot_sha256_matches_frozen_manifest": true,
+  "original_lockfile_sha256_recorded_but_no_snapshot_recovered": true,
+  "candidate_zip_and_binary_still_match_manifest": true,
+  "native_full_acceptance_still_pending": true
+}

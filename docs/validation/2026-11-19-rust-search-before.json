@@ -1,0 +1,42 @@
+[
+  {
+    "oracle_checks": 165,
+    "p50_ms": 3.437917,
+    "p95_ms": 12.021041,
+    "p99_ms": 12.159958999999999,
+    "resources": 10000,
+    "samples": 150,
+    "seed_seconds": 0.683446208,
+    "sqlite_version": "3.50.2"
+  },
+  {
+    "oracle_checks": 165,
+    "p50_ms": 13.163917000000001,
+    "p95_ms": 57.640334,
+    "p99_ms": 59.258832999999996,
+    "resources": 50000,
+    "samples": 150,
+    "seed_seconds": 2.7215691250000003,
+    "sqlite_version": "3.50.2"
+  },
+  {
+    "oracle_checks": 165,
+    "p50_ms": 25.152250000000002,
+    "p95_ms": 116.388167,
+    "p99_ms": 127.0045,
+    "resources": 100000,
+    "samples": 150,
+    "seed_seconds": 3.59024025,
+    "sqlite_version": "3.50.2"
+  },
+  {
+    "oracle_checks": 165,
+    "p50_ms": 123.63591699999999,
+    "p95_ms": 3065.045666,
+    "p99_ms": 3425.2709999999997,
+    "resources": 500000,
+    "samples": 150,
+    "seed_seconds": 32.287635333,
+    "sqlite_version": "3.50.2"
+  }
+]
