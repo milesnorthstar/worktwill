@@ -1,0 +1,92 @@
+[
+  {
+    "backend_ms": 0.945958,
+    "boundary": "Core search only; no user or OS open; physical target files plus 10000 synthetic indexed distractors",
+    "opened": false,
+    "query": "招聘计划2026.txt",
+    "query_rewrites": 0,
+    "target_ranks": [
+      1
+    ],
+    "task": "精确名"
+  },
+  {
+    "backend_ms": 0.582209,
+    "boundary": "Core search only; no user or OS open; physical target files plus 10000 synthetic indexed distractors",
+    "opened": false,
+    "query": "招聘计划",
+    "query_rewrites": 0,
+    "target_ranks": [
+      1
+    ],
+    "task": "部分名称"
+  },
+  {
+    "backend_ms": 0.565291,
+    "boundary": "Core search only; no user or OS open; physical target files plus 10000 synthetic indexed distractors",
+    "opened": false,
+    "query": "张",
+    "query_rewrites": 0,
+    "target_ranks": [
+      1,
+      2
+    ],
+    "task": "短中文"
+  },
+  {
+    "backend_ms": 0.49295800000000006,
+    "boundary": "Core search only; no user or OS open; physical target files plus 10000 synthetic indexed distractors",
+    "opened": false,
+    "query": "客户甲",
+    "query_rewrites": 0,
+    "target_ranks": [
+      1
+    ],
+    "task": "路径"
+  },
+  {
+    "backend_ms": 0.73275,
+    "boundary": "Core search only; no user or OS open; physical target files plus 10000 synthetic indexed distractors",
+    "opened": false,
+    "query": "合作合同_张三.txt",
+    "query_rewrites": 0,
+    "target_ranks": [
+      1,
+      2
+    ],
+    "task": "同名不同目录"
+  },
+  {
+    "backend_ms": 0.9228339999999999,
+    "boundary": "Core search only; no user or OS open; physical target files plus 10000 synthetic indexed distractors",
+    "opened": false,
+    "query": "20261121_001.jpg",
+    "query_rewrites": 0,
+    "target_ranks": [
+      1
+    ],
+    "task": "数字文件名"
+  },
+  {
+    "backend_ms": 0.8982089999999999,
+    "boundary": "Core search only; no user or OS open; physical target files plus 10000 synthetic indexed distractors",
+    "opened": false,
+    "query": "合同管理制度",
+    "query_rewrites": 0,
+    "target_ranks": [
+      1
+    ],
+    "task": "网页"
+  },
+  {
+    "backend_ms": 0.6285419999999999,
+    "boundary": "Core search only; no user or OS open; physical target files plus 10000 synthetic indexed distractors",
+    "opened": false,
+    "query": "合同项目工作区",
+    "query_rewrites": 0,
+    "target_ranks": [
+      1
+    ],
+    "task": "工作区"
+  }
+]

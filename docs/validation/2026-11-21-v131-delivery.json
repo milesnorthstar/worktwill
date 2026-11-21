@@ -1,0 +1,46 @@
+{
+  "status": "local_candidate_mac_native_acceptance_partial",
+  "product_version": "1.3.1",
+  "schema": 9,
+  "head": "9124cc6b7381f65b45d4f6d2b2724f6da1e18697",
+  "source_fingerprint_sha256": "ab8a0e79f5fccac7f61b315affb0d3cf20149dc15f61d588c8b4df0cb65f139b",
+  "checks": {
+    "command": "pnpm check --fixtures /private/tmp/worktwill-spikes-20261119",
+    "exit_code": 0,
+    "ui_passed": 151,
+    "rust_passed": 237,
+    "rust_ignored": 6,
+    "rust_failed": 0,
+    "dto_build_fmt_clippy": "passed",
+    "log": "docs/validation/2026-11-21-v131-check-final-quality.log"
+  },
+  "build": {
+    "command": "pnpm tauri build --bundles app",
+    "exit_code": 0,
+    "profile": "release optimized",
+    "bundle": "/Users/lch/Desktop/project/my/test/deliverables/WorkTwill-V1.3.1-macOS-arm64-local/WorkTwill.app",
+    "binary_sha256": "4889f57d5676fed8a2ccdb6cd4b42e5ab1ca14fcf14bb02acb5d73107a10dd74",
+    "plist": "1.3.1",
+    "log": "docs/validation/2026-11-21-v131-release-build-quality.log"
+  },
+  "git": "uncommitted, unpushed; no stage/commit/merge/release/deploy",
+  "remaining_mac": [
+    "foreground-visible search performance and IME",
+    "real Finder gesture and authorization matrix",
+    "default editor content/visual flash and later-page scroll matrix"
+  ],
+  "windows": "V1.3.1 not executed; independent stage",
+  "runtime": {
+    "observed_processes": [
+      "33326 /Users/lch/Desktop/project/my/test/deliverables/WorkTwill-V1.3.1-macOS-arm64-local/WorkTwill.app/Contents/MacOS/worktwill-desktop"
+    ],
+    "native_settings_version": "WorkTwill 1.3.1 · SQLite 3.50.2",
+    "launch": "final copied release bundle with original app data directory; no debug fixture env",
+    "source_fingerprints_verified": true
+  },
+  "archive": {
+    "path": "/Users/lch/Desktop/project/my/test/deliverables/WorkTwill-V1.3.1-macOS-arm64-local.zip",
+    "sha256": "a6147a5ed94678622d3f29bc437231cdbbabfa7bc0e17d25ca47a8ddffae599d",
+    "bytes": 6711906
+  }
+}

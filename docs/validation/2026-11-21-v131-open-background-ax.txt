@@ -1,0 +1,96 @@
+Window: "WorkTwill", App: WorkTwill.
+0 standard window WorkTwill, Secondary Actions: Raise
+	1 scroll area
+		2 HTML content Description: WorkTwill · 个人工作台, URL: tauri://localhost
+			3 container 主侧栏
+				4 button WorkTwill
+				5 text 你的个人工作台
+				6 container 主导航
+					7 button 个人工作台
+					8 button 搜索与筛选
+					9 button 工作区
+					10 button 收藏
+					11 button 动态
+				12 text 我的工作区
+				13 button 新建工作区
+				14 button 资料归档工作区 1
+				15 button 合同项目工作区 2
+				16 button 管理位置与设置
+			17 container
+				18 combo box (collapsed, settable) 全局搜索, Placeholder: 搜索文件、网页或工作区, Secondary Actions: Expand
+					19 text 搜索文件、网页或工作区
+				20 text ⌘  K
+				21 button EN
+			22 container
+				23 text WORKTWILL
+				24 heading 搜索结果：合作合同_张三.txt, Value: 1
+					25 text 搜索结果：合作合同_张三.txt
+				26 button 添加网页
+				27 button 新建工作区
+				28 container 筛选条件
+					29 heading 筛选条件, Value: 2
+						30 text 筛选条件
+					31 container
+						32 text 搜索名称或路径
+						33 text field (settable) 完整搜索词, Value: 合作合同_张三.txt
+					34 button 全部
+					35 button 文件
+					36 button 网页
+					37 button 工作区
+					38 container
+						39 text 搜索排序
+						40 pop up button 搜索排序, Value: 相关性
+					41 container
+						42 text 工作区范围
+						43 pop up button 工作区范围, Value: 全部资料
+					44 container
+						45 text 修改日期，从
+						46 date time area 修改日期，从, Value: 2026/11/21
+							47 container
+								48 stepper (settable, float) year, Value: 0
+								49 text /
+								50 stepper (settable, float) month, Value: 0
+								51 text /
+								52 stepper (settable, float) day, Value: 0
+					53 container
+						54 text 至
+						55 date time area 至, Value: 2026/11/21
+							56 container
+								57 stepper (settable, float) year, Value: 0
+								58 text /
+								59 stepper (settable, float) month, Value: 0
+								60 text /
+								61 stepper (settable, float) day, Value: 0
+					62 container
+						63 text 路径或网址前缀
+						64 text field (settable) 路径或网址前缀, Placeholder: 例如 /资料/ 或 https://example.com/
+					65 button (disabled) 清除筛选
+				66 text 1 项已选择
+				67 button 加入工作区
+				68 button 新建工作区并加入
+				69 button 取消选择
+				70 text 资料名称 最近修改 操作
+				71 container 资料列表
+					72 checkbox 选择 合作合同_张三.txt, Value: 1
+					73 button 合作合同_张三.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-QF8Beq/documents/客户甲, Help: 打开原件
+					74 text 2026/11/21
+					75 button 取消收藏 合作合同_张三.txt, Help: 取消收藏
+					76 button 显示原始位置 合作合同_张三.txt, Help: 显示原始位置
+					77 checkbox 选择 合作合同_张三.txt, Value: 0
+					78 button 合作合同_张三.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-QF8Beq/documents/客户乙, Help: 打开原件
+					79 text 2026/11/21
+					80 button 收藏 合作合同_张三.txt, Help: 收藏
+					81 button 显示原始位置 合作合同_张三.txt, Help: 显示原始位置
+				82 text 原件在原处，工作在一起。
+		83 scroll bar (settable, float) 0
+	84 close button
+	85 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	86 minimize button
+	87 text WorkTwill
+88 menu bar
+	89 WorkTwill
+	90 File
+	91 Edit
+	92 View
+	93 Window
+	94 Help

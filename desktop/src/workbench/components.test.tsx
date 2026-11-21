@@ -9,13 +9,16 @@ const file: Resource = { id: 'file1', kind: 'file', name: '合作合同_张三.d
 
 describe('资料列表的打开与权限行为', () => {
   const props = () => ({ t, lang: 'zh' as const, items: [file], selected: new Set<string>(), busy: false, onToggle: vi.fn(), onOpen: vi.fn(), onFavorite: vi.fn(), onReveal: vi.fn(), onRelink: vi.fn(), onEdit: vi.fn() });
-  it('单击选择、双击只打开一次；不会连续调用系统打开', async () => {
+  it('名称单击打开、双击归为一次，复选框独立选择且无冗余打开箭头', async () => {
     const p = props(); const user = userEvent.setup(); render(<ResourceList {...p} />);
     const name = screen.getByRole('button', { name: /^合作合同_张三/ });
-    await user.click(name); expect(p.onOpen).not.toHaveBeenCalled();
+    await user.click(name); expect(p.onOpen).toHaveBeenCalledExactlyOnceWith(file);
+    expect(p.onToggle).not.toHaveBeenCalled();p.onOpen.mockClear();
     await user.dblClick(name); expect(p.onOpen).toHaveBeenCalledExactlyOnceWith(file);
-    await user.click(screen.getByRole('button', { name: `打开 ${file.name}` }));
-    expect(p.onOpen).toHaveBeenCalledTimes(2);
+    expect(screen.queryByRole('button', { name: `打开 ${file.name}` })).not.toBeInTheDocument();
+    await user.click(screen.getByRole('checkbox'));expect(p.onToggle).toHaveBeenCalledExactlyOnceWith(file.id);
+    expect(p.onOpen).toHaveBeenCalledTimes(1);
+
   });
   it('撤权资料可移除引用，但不提供打开或显示原始位置入口', async () => {
     const p = props(); p.items = [{ ...file, status: 'permission_denied', location: '', name: '未授权的文件' }]; render(<ResourceList {...p} />);

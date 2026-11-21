@@ -1,0 +1,19 @@
+{
+  "workspaces": {
+    "old_count": 10,
+    "current_count": 10,
+    "old_records_preserved": true,
+    "extra_count": 0
+  },
+  "workspace_resources": {
+    "old_count": 31,
+    "current_count": 31,
+    "old_records_preserved": true,
+    "extra_count": 0
+  },
+  "old_favorites_preserved": true,
+  "schema": 9,
+  "upgrade_snapshots": [
+    "before-schema-8-to-9-a63c4080-422a-41b2-b453-7cc6760a8f4a.sqlite3"
+  ]
+}

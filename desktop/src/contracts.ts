@@ -29,7 +29,13 @@ export type Root = { location_status: string, id: string, path: string, active: 
 
 export type Workspace = { id: string, name: string, count: number, };
 
-export type Resource = { id: string, kind: string, name: string, location: string, status: string, modified_at: number, size: number, favorite: boolean, workspace_ids: Array<string>, };
+export type Resource = { id: string, kind: string, name: string, location: string, status: string, modified_at: number, size: number, favorite: boolean, workspace_ids: Array<string>, opened_at?: number, match_field?: string, };
+
+export type ScratchNote = { id: string, text: string, pinned: boolean, version: number, updated_at: number, };
+
+export type NotesState = { scope: string, items: Array<ScratchNote>, };
+
+export type NoteWrite = { scope: string, id: string, text: string, pinned: boolean, expected_version: number, deleted: boolean, };
 
 export type Activity = { id: string, kind: string, name: string, resource_id: string | null, at: number, source: string, file_modified_at: number | null, };
 

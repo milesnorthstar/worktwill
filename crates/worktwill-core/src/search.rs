@@ -335,7 +335,9 @@ pub fn page_criteria(request: &SearchPageRequest) -> Result<SearchCriteria> {
                 value.to_owned()
             }
         };
-        normalize(&value)
+        #[cfg(windows)]
+        let value = value.as_str();
+        normalize(value)
     });
     if prefix
         .as_ref()
@@ -725,6 +727,24 @@ pub(crate) fn explain_page_positions(
             |row| row.get(3),
         )?
         .collect::<rusqlite::Result<_>>()?)
+}
+
+// 命中说明复用查询规范化；不让前端按高亮缺失猜测命中来源。
+pub(crate) fn matched_field(resource: &crate::model::Resource, query: &str) -> Option<String> {
+    if normalize(&resource.name).contains(query) {
+        Some("name".into())
+    } else if normalize(&resource.location).contains(query) {
+        Some(
+            if resource.kind == "web" {
+                "url"
+            } else {
+                "path"
+            }
+            .into(),
+        )
+    } else {
+        None
+    }
 }
 
 #[cfg(test)]

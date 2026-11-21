@@ -148,6 +148,19 @@ impl Store {
             session: id(),
         };
         let mut db = store.connection()?;
+        let previous: u32 = db.pragma_query_value(None, "user_version", |r| r.get(0))?;
+        if previous > 0 && previous < crate::migrations::VERSION {
+            // 升级前用在线快照保留旧程序可用的数据组合，不复制活动 WAL 主文件。
+            let snapshot_path = store.data_directory().join(format!(
+                "before-schema-{previous}-to-{}-{}.sqlite3",
+                crate::migrations::VERSION,
+                id()
+            ));
+            let snapshot = db.unchecked_transaction()?;
+            version(&snapshot, "revision")?;
+            let mut target = Connection::open(snapshot_path)?;
+            copy_snapshot(&snapshot, &mut target)?;
+        }
         crate::migrations::migrate(&mut db)?;
         db.execute(
             "UPDATE scan_roots SET scan_state='partial_failure' WHERE scan_state='running'",
@@ -211,7 +224,11 @@ impl Store {
         let db = connection.transaction()?;
         let roots = Self::roots_db(&db)?;
         let workspaces=db.prepare("SELECT w.id,w.name,count(wr.resource_id) FROM workspaces w LEFT JOIN workspace_resources wr ON wr.workspace_id=w.id GROUP BY w.id ORDER BY w.sort_order,w.created_at DESC,w.id")?.query_map([],|r|Ok(Workspace{id:r.get(0)?,name:r.get(1)?,count:r.get(2)?}))?.collect::<rusqlite::Result<Vec<_>>>()?;
-        let activity_visible = crate::activity_origin::activity_visible();
+        let activity_visible = format!(
+            "({}) AND ({})",
+            crate::activity_origin::activity_visible(),
+            crate::quality::activity_quality()
+        );
         let sql=format!("SELECT a.id,a.kind,CASE WHEN a.name<>'' THEN a.name WHEN a.resource_id IS NOT NULL THEN r.name ELSE a.name END,a.resource_id,a.at,a.source,a.file_modified_at FROM activities a LEFT JOIN resources r ON r.id=a.resource_id WHERE {activity_visible} ORDER BY a.at DESC,a.id LIMIT 100");
         let activities = db
             .prepare(&sql)?
@@ -253,10 +270,20 @@ impl Store {
                     size: row.get(6)?,
                     favorite: row.get(7)?,
                     workspace_ids: vec![],
+                    opened_at: None,
+                    match_field: None,
                 },
                 row.get::<_, bool>(8)?,
             ))
         })?;
+        item.opened_at = db.query_row(
+            &format!(
+                "SELECT MAX(a.at) FROM activities a WHERE {}",
+                crate::quality::OPENED_BY_ID
+            ),
+            [rid],
+            |r| r.get(0),
+        )?;
         item.workspace_ids = db
             .prepare("SELECT workspace_id FROM workspace_resources WHERE resource_id=?")?
             .query_map([rid], |r| r.get(0))?
@@ -275,6 +302,7 @@ impl Store {
             item.modified_at = 0.;
             item.size = 0.;
             item.favorite = false;
+            item.opened_at = None;
         }
         Ok(item)
     }
@@ -292,8 +320,9 @@ impl Store {
         let in_workspace = query.workspace_id.is_some();
         let filter = if in_workspace { "1" } else { VISIBLE };
         // 文件打开还须属于当前物理对象；网页没有文件origin，保留其记录语义。筛选和排序共用条件。
-        let recent_opened = "a.resource_id=r.id AND a.kind='opened' AND (r.kind='web' OR EXISTS(SELECT 1 FROM activity_origins o WHERE o.activity_id=a.id AND o.identity=r.identity))";
-        let sql=format!("SELECT r.id FROM resources r WHERE {filter} AND (?1 IS NULL OR EXISTS(SELECT 1 FROM workspace_resources wr WHERE wr.workspace_id=?1 AND wr.resource_id=r.id)) AND (?2='all' OR r.kind=?2) AND (?3<>'favorites' OR r.favorite=1) AND (?3<>'recent' OR EXISTS(SELECT 1 FROM activities a WHERE {recent_opened})) ORDER BY CASE WHEN ?3='recent' THEN (SELECT MAX(a.at) FROM activities a WHERE {recent_opened}) ELSE r.modified_at END DESC,r.id LIMIT 101 OFFSET ?4");
+        let recent_opened = crate::quality::RECENT_OPENED;
+        let recommended = crate::quality::recommended();
+        let sql=format!("SELECT r.id FROM resources r WHERE {filter} AND (?3<>'modified' OR ?1 IS NOT NULL OR {recommended}) AND (?1 IS NULL OR EXISTS(SELECT 1 FROM workspace_resources wr WHERE wr.workspace_id=?1 AND wr.resource_id=r.id)) AND (?2='all' OR r.kind=?2) AND (?3<>'favorites' OR r.favorite=1) AND (?3<>'recent' OR EXISTS(SELECT 1 FROM activities a WHERE {recent_opened})) ORDER BY CASE WHEN ?3='recent' THEN (SELECT MAX(a.at) FROM activities a WHERE {recent_opened}) ELSE r.modified_at END DESC,r.id LIMIT 101 OFFSET ?4");
         let ids = db
             .prepare(&sql)?
             .query_map(
@@ -368,11 +397,16 @@ impl Store {
                             size: 0.,
                             favorite: false,
                             workspace_ids: vec![],
+                            opened_at: None,
+                            match_field: None,
                         });
                     } else {
                         items.push(Self::resource_db(&db, &rid, false)?);
                     }
                 }
+            }
+            for item in &mut items {
+                item.match_field = search::matched_field(item, &q);
             }
             Ok(SearchResponse {
                 request_id: request.request_id,
@@ -470,11 +504,14 @@ impl Store {
                         size: 0.,
                         favorite: false,
                         workspace_ids: vec![],
+                    opened_at: None,
+                    match_field: None,
                     });
                 } else {
                     items.push(Self::resource_db(&db, &rid, false)?);
                 }
             }
+            for item in &mut items { item.match_field=search::matched_field(item,&criteria.query); }
             let (name_position,rank_position)=if more && criteria.sort!="modified" {
                 let id=&items.last().expect("a full page has a last item").id;
                 let (name,rank):(String,u8)=db.query_row("SELECT name,CASE WHEN name=?2 THEN 0 WHEN substr(name,1,length(?2))=?2 THEN 1 WHEN instr(name,?2)>0 THEN 2 ELSE 3 END FROM search_documents WHERE entity_id=?1",params![id,criteria.query],|row|Ok((row.get(0)?,row.get(1)?)))?;
@@ -1382,6 +1419,9 @@ impl Store {
         ] {
             staging.prepare(&format!("SELECT * FROM {table} LIMIT 0"))?;
         }
+        staging.prepare(
+            "SELECT id,text,pinned,version,updated_at,deleted FROM scratch_notes LIMIT 0",
+        )?;
         staging.prepare("SELECT resource_id,identity,bookmark FROM file_locators LIMIT 0")?;
         staging.prepare("SELECT root_id,identity,bookmark,valid FROM root_locators LIMIT 0")?;
         staging.prepare("SELECT root_id,path FROM root_aliases LIMIT 0")?;

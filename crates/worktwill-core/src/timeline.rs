@@ -362,7 +362,11 @@ impl Store {
         };
         let timestamp = effective(&request.basis);
         // 日历与列表使用同一授权/类型/工作区条件，日期与分页分别应用。
-        let activity_visible = crate::activity_origin::activity_visible();
+        let activity_visible = format!(
+            "({}) AND ({})",
+            crate::activity_origin::activity_visible(),
+            crate::quality::activity_quality()
+        );
         let where_sql = format!("({}) AND {activity_visible} AND (?1 IS NULL OR EXISTS(SELECT 1 FROM workspace_resources wr WHERE wr.resource_id=a.resource_id AND wr.workspace_id=?1))",filter_sql(&request.filter));
         let (events, has_more) = read_events(&tx, &request, &where_sql, timestamp)?;
         let cached = self
@@ -438,7 +442,11 @@ impl Store {
         let mut db = self.connection()?;
         let tx = db.transaction()?;
         let timestamp = effective(&request.basis);
-        let activity_visible = crate::activity_origin::activity_visible();
+        let activity_visible = format!(
+            "({}) AND ({})",
+            crate::activity_origin::activity_visible(),
+            crate::quality::activity_quality()
+        );
         let where_sql = format!("({}) AND {activity_visible} AND (?1 IS NULL OR EXISTS(SELECT 1 FROM workspace_resources wr WHERE wr.resource_id=a.resource_id AND wr.workspace_id=?1))", filter_sql(&request.filter));
         let event_query = event_sql(request, &where_sql, timestamp);
         let (calendar_query, values) = calendar_query(request, &where_sql, timestamp);
@@ -1015,7 +1023,11 @@ mod tests {
                 request.from = from;
                 request.to = to;
                 let timestamp = effective(basis);
-                let activity_visible = crate::activity_origin::activity_visible();
+                let activity_visible = format!(
+                    "({}) AND ({})",
+                    crate::activity_origin::activity_visible(),
+                    crate::quality::activity_quality()
+                );
                 let where_sql=format!("({}) AND {activity_visible} AND (?1 IS NULL OR EXISTS(SELECT 1 FROM workspace_resources wr WHERE wr.resource_id=a.resource_id AND wr.workspace_id=?1))",filter_sql(&request.filter));
                 let sql = event_sql(&request, &where_sql, timestamp);
                 let plan = f

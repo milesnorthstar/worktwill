@@ -11,6 +11,8 @@ fn main() {
             "cancel_drop",
             "pick_files",
             "resources",
+            "notes",
+            "write_note",
             "search",
             "mutate",
             "pick_root",

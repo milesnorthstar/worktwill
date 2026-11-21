@@ -414,3 +414,63 @@ input:focus, select:focus { outline-color: #9fbcf0; }
 .search-return-bar { margin-bottom: 16px; }
 .search-return-bar .button { max-width: 100%; }
 .search-return-bar span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* V1.3.1：保留同一输入节点的大型分栏弹层，避免组字和焦点被重建。 */
+.search-area.quick-dialog { position: fixed; z-index: 80; left: 50%; top: 7vh; transform: translateX(-50%); width: min(920px,calc(100vw - 48px)); max-width: none; padding: 18px; background: white; border: 1px solid #dce4f2; border-radius: 18px; box-shadow: 0 0 0 100vmax #19243d65,0 24px 90px #17243a40; }
+.quick-dialog .search-field { height: 49px; border-color: #83a9ff; }
+.quick-dialog .search-panel { position: static; width: 100%; max-width: none; margin-top: 14px; border: 0; box-shadow: none; display: grid; grid-template-columns: 176px minmax(0,1fr); overflow: hidden; border-radius: 0; }
+.quick-sidebar { border-right: 1px solid #e5eaf3; padding: 14px 16px 14px 0; display: flex; flex-direction: column; gap: 8px; }
+.quick-sidebar h3 { font-size: 12px; color: #8090aa; padding: 4px 9px 10px; }
+.quick-sidebar > button { text-align: left; padding: 10px 12px; border: 0; border-radius: 8px; background: transparent; color: #52637f; font-size: 13px; }
+.quick-sidebar > button.on { background: #eaf1ff; color: #2563eb; font-weight: 600; }
+.quick-sidebar p { font-size: 11px; color: #8b98ad; line-height: 1.8; padding: 15px 10px; }
+.quick-content { min-width: 0; padding-left: 14px; display: flex; flex-direction: column; }
+.quick-dialog .search-results { min-height: 250px; max-height: calc(80vh - 215px); overflow-y: auto; }
+.quick-dialog .search-result { min-height: 64px; }
+.quick-dialog .search-result:disabled { opacity: .55; cursor: wait; }
+.quick-dialog .search-group-heading { background: #f1f4fa; margin-top: 8px; border-radius: 5px; }
+.home-layout { display: grid; grid-template-columns: minmax(0,1fr) 320px; gap: 22px; align-items: start; }
+.home-layout > .resources-section { grid-column: 1; grid-row: 1; min-width: 0; }
+.home-layout > .workspace-section { grid-column: 1; grid-row: 2; min-width: 0; background: white; border: 1px solid #e1e7f0; border-radius: 12px; padding: 22px; margin: 0; }
+.home-layout .workspace-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.home-layout .workspace-card { padding: 15px; min-height: 125px; }
+.home-layout .resource-row,.home-layout .table-heading { grid-template-columns: minmax(0,1fr) 78px 70px; }
+.home-layout .row-actions { flex-wrap: wrap; }
+.home-layout .resource-name small { max-width: 100%; }
+.home-widgets { grid-column: 2; grid-row: 1 / span 3; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+.home-widgets[hidden] { display: none; }
+.companion-card,.notes-card { border: 1px solid #e1e7ef; border-radius: 15px; background: white; padding: 18px; }
+.companion-card { background: linear-gradient(140deg,#fbfff7,#f3f9ee); }
+.companion-card .section-heading,.notes-card .section-heading { margin-bottom: 12px; }
+.companion-card h2,.notes-card h2 { font-size: 17px; }
+.companion-card img { display: block; width: 100%; border-radius: 12px; }
+.companion-card p { text-align: center; font-size: 12px; color: #5c7657; line-height: 1.7; margin-top: 12px; }
+.scratch-note { margin-bottom: 12px; padding: 10px; border: 1px solid #f2e7c5; border-radius: 10px; background: #fffae9; }
+.scratch-note:nth-of-type(2n) { background: #f5f0ff; border-color: #e8dffb; }
+.scratch-note:nth-of-type(3n) { background: #edf6ff; border-color: #dfebfa; }
+.scratch-note textarea { width: 100%; resize: vertical; min-height: 66px; background: transparent; color: #39455c; font: inherit; font-size: 13px; border: none; padding: 4px; line-height: 1.7; }
+.note-actions { display: flex; gap: 3px; align-items: center; }
+.note-actions > span { flex: 1; font-size: 10px; color: #7e8a9d; }
+.note-actions button[aria-pressed=true] { color: #a9832e; }
+.scratch-note p[role=alert],.notes-card > p[role=alert] { font-size: 11px; color: #a05443; line-height: 1.7; }
+.note-promise { font-size: 10px; color: #8a95a7; line-height: 1.7; margin-top: 10px; }
+.full-search-layout { display: grid; grid-template-columns: 210px minmax(0,1fr); gap: 20px; align-items: start; }
+.full-search-filters { border: 1px solid #e1e7f0; border-radius: 12px; background: white; padding: 18px; min-width: 0; }
+.full-search-filters h2 { font-size: 16px; margin-bottom: 20px; }
+.full-search-filters label { display: block; color: #6e7f97; font-size: 12px; margin: 14px 0; }
+.full-search-filters input,.full-search-filters select { width: 100%; min-width: 0; display: block; border: 1px solid #dce5f3; padding: 9px; border-radius: 7px; color: #3e526f; background: #fcfdff; margin-top: 7px; }
+.full-search-filters .search-filter-bar { padding: 0; margin: 0; border: 0; display: block; }
+.full-search-filters .path-filter { min-width: 0; }
+.full-search-filters .filter-tabs { flex-wrap: wrap; gap: 8px 12px; }
+.full-search-layout > .resources-section { min-width: 0; }
+.full-search-layout .resource-row,.full-search-layout .table-heading { grid-template-columns: minmax(0,1fr) 80px 95px; }
+.full-search-layout .row-actions { flex-wrap: wrap; }
+@media(max-width:1200px) { .home-layout { grid-template-columns: minmax(0,1fr); } .home-widgets { grid-column: 1; grid-row: 3; display: grid; grid-template-columns: 1fr 1fr; } .home-layout .resource-row,.home-layout .table-heading { grid-template-columns: minmax(0,1fr) 90px 100px; } }
+@media(max-width:1000px) { main { padding: 24px 20px; } .full-search-layout { grid-template-columns: 180px minmax(0,1fr); gap: 14px; } .full-search-layout .resource-row,.full-search-layout .table-heading { grid-template-columns: minmax(0,1fr) 60px 65px; gap: 5px; } .full-search-layout .resource-copy { gap: 6px; } .full-search-layout .resource-icon { width: 28px; flex-shrink: 0; } .full-search-layout .file-type { display: none; } .full-search-filters { padding: 12px; } }
+.note-exit-error { position: fixed; z-index: 100; bottom: 24px; left: 50%; transform: translateX(-50%); max-width: 600px; padding: 14px 18px; background: #fff3e9; border: 1px solid #e7c1ac; border-radius: 10px; color: #8a4b34; font-size: 13px; }
+.match-field { font-size: 10px; font-style: normal; color: #7c8da6; margin-left: 8px; }
+.quick-backdrop { position: fixed; inset: 0; z-index: 70; background: #19243d65; }
+.search-area.quick-dialog { box-shadow: 0 24px 90px #17243a40; }
+/* backdrop-filter 会将 fixed 弹层的定位参照收进顶栏；展开时恢复视口定位并覆盖侧栏。 */
+.topbar:has(.quick-dialog) { backdrop-filter: none; -webkit-backdrop-filter: none; z-index: 80; }
+.search-area.quick-dialog { margin-left: 0; }

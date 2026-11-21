@@ -3,7 +3,7 @@
 **v0.6 · 2026-11-19 · V1 实现与验收基线**  
 文件身份、原生拖入、日历时间线、标题联网行为、跨平台分发和端到端搜索性能仍须对应环境验收。产品路径和交互契约见 [PRD](PRD.md)。
 
-当前正式工程在 `desktop/`、`src-tauri/` 与 `crates/worktwill-core/`，当前 schema v8；已增加原生 token 拖入/单文件授权、可关闭的网页标题获取、日历文件时间线与完整搜索分页代码。浏览器原型和独立实验保持独立。以下是完整实施契约，不是全部已完成能力。实现与验收缺口见 [开发状态](docs/DEVELOPMENT_STATUS.md)，当前工程选择见 [原生开发基线](docs/decisions/0001-native-development-baseline.md)。已确定的技术栈与领域边界保持不变；文中尚未实施的索引优化、原生文档身份和发行方式须通过验证后记录决定。[文件跟踪调研](FILE_TRACKING_RESEARCH.md) 提供 API 与竞品依据，实际实验状态见 [实验结果](spikes/RESULTS.md)。AI 开发维护流程见第 12 节，与第 11 节未来产品 Agent 分开。
+当前正式工程在 `desktop/`、`src-tauri/` 与 `crates/worktwill-core/`，当前 schema v9；已增加原生 token 拖入/单文件授权、可关闭的网页标题获取、日历文件时间线与完整搜索分页代码。浏览器原型和独立实验保持独立。以下是完整实施契约，不是全部已完成能力。实现与验收缺口见 [开发状态](docs/DEVELOPMENT_STATUS.md)，当前工程选择见 [原生开发基线](docs/decisions/0001-native-development-baseline.md)。已确定的技术栈与领域边界保持不变；文中尚未实施的索引优化、原生文档身份和发行方式须通过验证后记录决定。[文件跟踪调研](FILE_TRACKING_RESEARCH.md) 提供 API 与竞品依据，实际实验状态见 [实验结果](spikes/RESULTS.md)。AI 开发维护流程见第 12 节，与第 11 节未来产品 Agent 分开。
 
 ## 0. 核心不变量
 
@@ -20,7 +20,7 @@
 - 桌面：**Tauri 2**，不将浏览器网页作为具备全盘原生操作能力的独立客户端。
 - UI：Vite + React + TypeScript；左侧全局导航与右侧主内容，个人工作台为默认首页，全局搜索常驻右侧内容顶部；轻量分页列表，日历/时间线仅为动态页私有视图。资源数超过100时启用固定84px行高、最多16行的窗口渲染；实际缩放、长文本、滚动选择和规模性能仍需验收。
 - 核心：Rust；将文件扫描、ID 获取、定位、权限检查、监听、搜索及数据库写入留在原生后端。
-- 存储：rusqlite bundled SQLite，独立连接、WAL + synchronous=FULL、事务与显式 migration；当前 schema v8，数据库放系统应用数据目录。磁盘与并发故障验收仍单独执行。
+- 存储：rusqlite bundled SQLite，独立连接、WAL + synchronous=FULL、事务与显式 migration；当前 schema v9，数据库放系统应用数据目录。磁盘与并发故障验收仍单独执行。
 - 搜索：统一资源搜索服务 + SQLite 索引视图；V1 查询文件名/路径、网页标题/URL、工作区名，不读取 Office/PDF 正文、不生成语义 embedding。
 - 平台：Windows 和 macOS 适配器隔离，避免将 NTFS 特性误认为通用标准。
 - 网络：本地核心无登录、AI 和永久后台服务依赖。新增网页可关闭自动标题：启用时访问目标网站并经固定 Cloudflare DoH 解析域名；关闭或失败仍可手填保存。没有网页脚本、浏览器 cookie、远端图标或正文持久化依赖。
@@ -28,7 +28,7 @@
 ## 2. 参考分层
 
 ```text
-React Workbench (左侧导航 / 个人工作台默认首页 / 右侧顶部搜索 / 工作区 / 动态 / 所有文件 / 收藏)
+React Workbench (左侧导航 / 个人工作台默认首页 / 右侧顶部搜索 / 工作区 / 动态 / 收藏)
         │ typed Tauri commands + events
 Rust Application API (path checks, orchestration, transactions)
    ├── RootPermissionService  目录与单文件授权/排除/撤销
@@ -62,7 +62,7 @@ Rust 和 TS 的 API 必须使用明确的参数/返回类型；不要把可执�
 
 React 仅持有视图、输入、多选和当前请求等交互状态，通过命令结果与版本事件刷新业务状态；不在 localStorage 中维护第二份正式业务库。Rust 内部服务相互调用共享业务能力，不再经前端或 IPC 绕回。上述是逻辑职责，工程初始化不要求每项单独建 crate、进程或 store。
 
-本轮布局纠正保留 App 的交互状态归属：`home` 对应默认「个人工作台」，`files` 承载「所有文件」及 `favorites` 模式，两者具有独立左侧入口与返回上下文；左侧导航按个人工作台、工作区、动态、所有文件、收藏排列。首页复用现有资源查询与列表面板，工作区卡片读取当前概览中的前3项，继续以原工作区及资源UUID导航、关联、打开；不增加「上次工作区」持久状态，不将排序数据伪装成访问历史。全局搜索与完整结果的来源上下文继续由 App 管理；日历、时间线、局部筛选只在动态视图内部使用。
+App 保留交互状态归属：`home` 对应默认「个人工作台」，`favorites` 为固定读取收藏资料的独立视图，不再借用 `files` 及可切换模式；`files` 页面状态、所有文件导航及返回文案已移除。左侧导航按个人工作台、工作区、动态、收藏排列。首页复用现有资源查询与列表面板，只提供最近修改/最近打开，工作区卡片读取当前概览中的前3项，继续以原工作区及资源UUID导航、关联、打开；不增加「上次工作区」持久状态，不将排序数据伪装成访问历史。全局搜索与完整结果的来源上下文继续由 App 管理，收藏返回由视图固定恢复收藏查询；日历、时间线、局部筛选只在动态视图内部使用。本次删除不改 Rust 查询、授权、DTO 或数据表，空词仅进入完整页而不执行搜索，不新增旧视图兼容层；见[决定0037](docs/decisions/0037-remove-all-files-page.md)。
 
 026的最近使用查询以当前文件identity与opened观察来源匹配，筛选和排序共用条件；网页不强制文件origin。选择器返回后先固定整批ImportSelection，再复用checked导入。正式原生打开使用Rust私有ResolvedOpen，prepare在同一读事务冻结对象/位置/名称/权限/session/恢复epoch，系统接受后用短事务重新核身份和授权才记录观察；不以完整revision拒绝无关变更，不跨系统调用持锁。变化明确报告已接受但活动未记录。schema及DTO未变，按路径打开的OS时间窗口仍存在，详见[决定0026](docs/decisions/0026-current-object-recent-and-open.md)。
 
@@ -101,7 +101,17 @@ React 仅持有视图、输入、多选和当前请求等交互状态，通过�
 
 `resources.status` 是服务按类型与定位/授权结果维护的摘要，不是前端可独立设置的事实；对文件以当前授权及 `locator_status` 判定可访问性，禁止两套状态各自演化。
 
-## 3. 当前持久模型与迁移（schema v8）
+### V1.3.1 数据与刷新增量
+
+- `Resource.opened_at` 是可选的当前物理对象最后真实打开时间，不覆盖 `modified_at`；未授权占位清除它。`match_field` 由Rust按同一NFC/lowercase匹配返回 name/path/url，前端不猜测高亮或命中。
+- `quality.rs` 仅识别 `.DS_Store`、`Thumbs.db`、`desktop.ini`、Office `~$` 锁文件，以及明确工具链目录段 `.git/node_modules/.cache/.next/.next-core-local/target/debug/target/release`。不概括全部隐藏文件、target业务目录或媒体。最近修改的默认推荐在LIMIT前应用，文件观察明细/日历/概览共用同一质量谓词；不删除任何记录。当前收藏/关系/打开豁免历史噪声必须属于同一观察identity；既有授权谓词独立生效。搜索不套用推荐过滤。
+- 原生普通打开成功发送 `resource-opened`，App复验session/权限后后台重读当前已加载范围及新游标，按UUID保留仍有效选择。失败可能提交定位变化，仍发送 `catalog-changed` 强失效。打开不再复用成功后重复reload的通用run。扫描、撤权、身份与恢复强失效保留；无变化scan-progress继续只更新进度。
+- `notes` 返回带进程session/恢复epoch scope的正式便签集合；`write_note(NoteWrite)` 使用预期版本、稳定UUID与墓碑，在同一短事务提交正文/置顶/删除。相同已提交快照重试返回回执，不重复创建；过时版本或恢复scope明确conflict。便签写不改资源revision、不入资源索引/活动，发送独立 `notes-changed`；恢复另发 `data-restored`。
+- `scratch_notes(id PK,text,pinned,version,updated_at,deleted)` 在v8→v9事务创建，现有旧库无便签。备份包含此表，恢复暂存校验列及迁移；恢复epoch阻止旧待保存污染恢复库。Store打开较旧正式库前用Online Backup保留唯一命名的升级快照；失败不跳过迁移。发布回退须匹配旧程序与升级快照，不能让旧程序写schema9。
+- `HomeWidgets` 持有便签编辑草稿和提交状态，按条串行发送最新快照；只有草稿等于已确认版本显示已保存。失败允许重试，冲突可明确保留为新便签。关闭窗口尝试提交，失败保留应用；强制退出不承诺未提交内存草稿恢复。组件一直挂载，页面/响应断点不丢草稿。
+- 调试包仅在显式 `WORKTWILL_NATIVE_DATA_DIR` 位于 `WORKTWILL_TEST_ROOT` 的独立子目录时隔离原生验收数据，可选原生最小900×640及Web Inspector观测；release编译不读取这些选项。此机制用于测试，不宣称OS级隔离或新授权。
+
+## 3. 当前持久模型与迁移（schema v9）
 
 物理事实源为 `crates/worktwill-core/src/schema.sql` 和 `migrations.rs`。schema.sql 先建 v1，再依次执行 v1→v2（活动来源/文件时间、单文件授权）、v2→v3（工作区排序）、v3→v4（搜索排序派生时间与索引）、v4→v5（独立文件私有定位数据）、v5→v6（目录身份锚点与定位候选）、v6→v7（历史观察来源与修复审计）及v7→v8（补齐旧范围退休资格列）；新库也走同一迁移链。文档不再把未建的 file_resources/web_resources/identity_bindings 表描述成现存表。
 
@@ -263,7 +273,7 @@ search_tri / search_short                         FTS5 派生投影
 
 ### 6.1 搜索语义与排序
 
-- 跨所有主页面在**右侧主内容顶部**使用同一处固定全局搜索框，左侧主导航保留；快捷键 `⌘K` / `Ctrl+K`；展开原位下拉面板，按「工作区 / 文件 / 网页」分组，支持方向键、Enter 打开、Esc 关闭。
+- 跨所有主页面在**右侧主内容顶部**使用同一处固定全局搜索框，左侧主导航保留；快捷键 `⌘K` / `Ctrl+K`；展开大型分类弹层，按「工作区 / 文件 / 网页」分组，支持方向键、Enter 打开、Esc 关闭。
 - 普通搜索默认范围为 `all`，可显式选择 `current_workspace`。面板始终显示范围。工作区「添加文件」使用全局范围加文件类型过滤，目标工作区只作为加入参数。完整结果页继承当次查询的范围和来源页面，支持按类型、日期和路径筛选。
 - 文件索引字段：`file_name`、`cached_path`、扩展名、mtime；网页：`display_name`、`url`；工作区：`display_name`。首版**不索引文件正文或网页正文**。
 - 排序按精确名称、名称前缀、名称子串、路径或 URL 命中的顺序。同档次权重用实际样本调优。分组用于展示，由全局相关性决定默认高亮，Enter 打开当前高亮项。同名且同档次时显示可区分的路径，等待用户明确选择。
@@ -273,7 +283,7 @@ search_tri / search_short                         FTS5 派生投影
 
 - 每次输入只查询**SQLite 已建立的本地索引**，不得遍历磁盘、等待网络、打开 Office/PDF 或触发云占位文件下载。
 - 当前采用FTS5 trigram和预生成编码unigram/bigram；先估计最多2049个候选，低命中走FTS，高命中走按名称辅助索引的精确/前缀/子串/路径四档查询。每档权限/类型/工作区条件均在LIMIT前，不按预取Top-N后丢弃。此优化已跑Rust合成磁盘基准，但不能由该分布推断所有授权/查询组合达标。
-- 当前UI输入40ms去抖、请求序号丢弃旧响应，按工作区/文件/网页分组；快速搜索最多30项，all且匹配>30时每类预留至多10项，稀少类别空位按全局相关性补齐。类型候选使用派生(kind,name,entity_id)索引，所有授权/范围条件在limit前。完整结果仍保持纯全局排序。search_page每页100项，支持类型过滤及相关性/名称/修改时间排序。第一页不带游标，有后续页才返回next_cursor；后续页必须携带游标及对应next_offset。后端核对协议版本4、Store session/权限/revision和全部规范化查询条件；过期或缺失返回stale_cursor，UI仅对后续页清掉旧列表和选择并重读首页，首页报错不循环重试。016名称排序按规范化name/ID末项续读，next_offset仅保留逻辑计数；020相关性携带rank/name/id末项位置，按精确/前缀/子串/仅路径四个互斥档次续读；高命中复用名称索引，低命中保留FTS，所有筛选在LIMIT前。021修改时间增加独立nullable时间/name/id位置，同时间余项、较早时间、NULL工作区尾段分别续读；高命中使用时间或kind+时间索引，低命中FTS复合位置，所有排序OFFSET均为0。三种位置槽互斥，旧版本、缺失位置或错误位置槽明确stale_cursor。修改时间决定与证据见[决定0019](docs/decisions/0019-modified-projection-and-seek.md)。相关性决定与性能见[决定0018](docs/decisions/0018-relevance-rank-seek.md)。见[决定0014](docs/decisions/0014-complete-search-name-seek.md)；深分页及原生性能按排序分别验收。Core每请求独立SQLite连接/progress_handler执行取消，native固定quick/page槽和查询会话防止旧请求抢占；App清理显式取消，模块序号不因组件重挂归零。013修复分组后的默认高亮、返回来源上下文与重置加载集合时的旧选择，见[决定0011](docs/decisions/0011-selected-workspace-and-search-context.md)。实现与边界另见[决定0003](docs/decisions/0003-search-cancellation-and-groups.md)。
+- 当前UI关键词与路径输入80ms尾部防抖、请求序号丢弃旧响应，按工作区/文件/网页分组；快速搜索最多30项，all且匹配>30时每类预留至多10项，稀少类别空位按全局相关性补齐。类型候选使用派生(kind,name,entity_id)索引，所有授权/范围条件在limit前。完整结果仍保持纯全局排序。search_page每页100项，支持类型过滤及相关性/名称/修改时间排序。第一页不带游标，有后续页才返回next_cursor；后续页必须携带游标及对应next_offset。后端核对协议版本4、Store session/权限/revision和全部规范化查询条件；过期或缺失返回stale_cursor，UI仅对后续页清掉旧列表和选择并重读首页，首页报错不循环重试。016名称排序按规范化name/ID末项续读，next_offset仅保留逻辑计数；020相关性携带rank/name/id末项位置，按精确/前缀/子串/仅路径四个互斥档次续读；高命中复用名称索引，低命中保留FTS，所有筛选在LIMIT前。021修改时间增加独立nullable时间/name/id位置，同时间余项、较早时间、NULL工作区尾段分别续读；高命中使用时间或kind+时间索引，低命中FTS复合位置，所有排序OFFSET均为0。三种位置槽互斥，旧版本、缺失位置或错误位置槽明确stale_cursor。修改时间决定与证据见[决定0019](docs/decisions/0019-modified-projection-and-seek.md)。相关性决定与性能见[决定0018](docs/decisions/0018-relevance-rank-seek.md)。见[决定0014](docs/decisions/0014-complete-search-name-seek.md)；深分页及原生性能按排序分别验收。Core每请求独立SQLite连接/progress_handler执行取消，native固定quick/page槽和查询会话防止旧请求抢占；App清理显式取消，模块序号不因组件重挂归零。013修复分组后的默认高亮、返回来源上下文与重置加载集合时的旧选择，见[决定0011](docs/decisions/0011-selected-workspace-and-search-context.md)。实现与边界另见[决定0003](docs/decisions/0003-search-cancellation-and-groups.md)。
 - 完整搜索 `SearchPageRequest` 新增可省略的 modified_from/modified_to/path_prefix，不改变快速 Top30 算法。时间为有限的 Unix 毫秒，使用 `[from,to)`，拒绝倒置/空区间与超出 Date 范围的值；工作区无 mtime，启用任一时间边界时排除，网页使用当前 resources.modified_at。路径或网址前缀按现有 NFC + lowercase 投影做字面前缀匹配，`%`/`_` 不作通配；不展开 `~`、不解析相对路径、不读磁盘，空串无筛选。路径前缀不是授权规则；授权、工作区、类型、时间与路径条件均在 LIMIT/OFFSET 前应用。前缀不擅自去除真实路径空格，NUL 或超过8192字节返回 invalid_input。专用核心回归见 tests/search_filters.rs，UI 输入/渲染验收另记。
 - 授权、资源类型及工作区范围过滤进入候选选择与分页过程，不先取 Top-N 再丢弃未授权项。返回前复验授权版本；权限外条目不能泄露，也不能挤掉合法匹配。
 - 用户输入作为字面量查询处理，SQL 参数化之外仍须处理 FTS 表达式与 LIKE/GLOB 元字符；不默认开放高级查询语法。S03 固定大小写、Unicode/重音与符号的匹配规则，保留原始显示文本；检索规范化不能用来合并物理文件。
@@ -380,7 +390,7 @@ S01/S02 的“保存成功”指无需人工修复即可从原 UUID 和工作区
 ## 10. 将来可扩展但当前不开发
 
 - smart collections 自定义日期、类型、组合规则。
-- `note`/个人工作记录、Widget 个性面板、激励卡片、任务与 AI Agent；未来使用资源类型专表/独立聚合扩展，**不要求零迁移、不提前写业务逻辑**。
+- 富文本笔记、任务、提醒、激励成长及 AI Agent。V1.3.1已实现独立全局纯文本便签与静态伙伴，不能再视为范围外。
 - 浏览器扩展一键收藏当前页面、实时标签/会话管理；首版只支持手动 URL 引用，任何网页都使用默认浏览器打开，不内嵌网页预览。
 - 全文内容索引、OCR、embedding、可选本地/远程 AI 分类。
 - 用户明确授权的微信/钉钉/飞书附件来源与人物/群关系桥接。

@@ -1,0 +1,21 @@
+{
+  "before": {
+    "sha256": "f4b9607f826c5c6fc63fd3c5d5bd67c93ff29946e6523847cc29e151c593b4cd",
+    "inode": 116802801,
+    "mtime_ns": 1795250332358440178,
+    "size": 46,
+    "opened_count": 1
+  },
+  "after": {
+    "sha256": "f4b9607f826c5c6fc63fd3c5d5bd67c93ff29946e6523847cc29e151c593b4cd",
+    "inode": 116802801,
+    "mtime_ns": 1795250332358440178,
+    "size": 46
+  },
+  "links": [
+    [
+      "bdb234ab-5627-4c6e-a31b-6f04f903f747"
+    ]
+  ],
+  "favorite": true
+}

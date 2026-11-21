@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Overview, Resource, ResourcePage, SearchCursor, SearchResponse } from './contracts';
 
-const mocks = vi.hoisted(() => ({ overview: vi.fn(), resources: vi.fn(), search: vi.fn(), mutate: vi.fn(), open: vi.fn(), searchPage: vi.fn(), importDrop: vi.fn(), pickFiles: vi.fn(), relink:vi.fn(), backup:vi.fn(), restore:vi.fn(), webMetadata: vi.fn(), timeline:vi.fn(), cancelDrop:vi.fn(), cancelSearch:vi.fn(), requestCounter:0, pickRoot:vi.fn(), rescan:vi.fn(), listen: vi.fn() }));
+const mocks = vi.hoisted(() => ({ notes:vi.fn(),writeNote:vi.fn(), overview: vi.fn(), resources: vi.fn(), search: vi.fn(), mutate: vi.fn(), open: vi.fn(), searchPage: vi.fn(), importDrop: vi.fn(), pickFiles: vi.fn(), relink:vi.fn(), backup:vi.fn(), restore:vi.fn(), webMetadata: vi.fn(), timeline:vi.fn(), cancelDrop:vi.fn(), cancelSearch:vi.fn(), requestCounter:0, pickRoot:vi.fn(), rescan:vi.fn(), listen: vi.fn() }));
 vi.mock('./api', async importOriginal => ({ ...(await importOriginal<typeof import('./api')>()), native: true, api: mocks, nextSearchRequestId:()=>++mocks.requestCounter }));
 vi.mock('@tauri-apps/api/event', () => ({ listen: mocks.listen }));
 import App from './App';
@@ -14,7 +14,7 @@ const file = (id: string, name: string): Resource => ({ id, name, kind: 'file', 
 const cursor = (offset:number,query='合同'):SearchCursor => ({version:4,session:'s',permission_version:1,revision:1,next_offset:offset,rank_position:{rank:1,name:query+'_099',id:'fixture-position'},criteria:{query,workspace_id:null,kind:'all',sort:'relevance',modified_from:null,modified_to:null,path_prefix:null}});
 
 beforeEach(() => {
-  vi.resetAllMocks();vi.spyOn(window,'scrollTo').mockImplementation(()=>{});mocks.requestCounter=0;mocks.cancelSearch.mockResolvedValue(true);
+  vi.resetAllMocks();mocks.notes.mockResolvedValue({scope:"s:0",items:[]});vi.spyOn(window,'scrollTo').mockImplementation(()=>{});mocks.requestCounter=0;mocks.cancelSearch.mockResolvedValue(true);
   mocks.pickFiles.mockResolvedValue(null);mocks.relink.mockResolvedValue(false);mocks.backup.mockResolvedValue(false);mocks.restore.mockResolvedValue(false);
   mocks.webMetadata.mockResolvedValue({title:'招聘后台',final_url:'https://example.com/jobs'}); mocks.overview.mockResolvedValue(structuredClone(meta)); mocks.resources.mockResolvedValue(page);
   mocks.listen.mockResolvedValue(() => {});mocks.cancelDrop.mockResolvedValue(true);mocks.pickRoot.mockResolvedValue(null);mocks.timeline.mockResolvedValue({session:'s',permission_version:1,revision:1,events:[],calendar:[],has_more:false}); mocks.mutate.mockResolvedValue({ id: 'new', changed: 1 });
@@ -22,8 +22,8 @@ beforeEach(() => {
 
 describe('工作台交互回归', () => {
   it('在工作区添加网页时将目标交给同一个后端命令', async () => {
-    const user = userEvent.setup(); render(<App initialView="files" />);
-    await user.click(await within(screen.getByRole('complementary')).findByRole('button', { name: /^客户 A/ }));
+    const user = userEvent.setup(); render(<App initialView="home" />);
+    await user.click(await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button', { name: /^客户 A/ }));
     await user.click(screen.getAllByRole('button', { name: '添加网页' })[0]);
     const dialog = screen.getByRole('dialog');
     await user.type(within(dialog).getByRole('textbox', { name: '标题，可修改' }), '招聘后台');
@@ -34,7 +34,7 @@ describe('工作台交互回归', () => {
   });
   it('后端保存失败时弹窗内显示错误且保留输入', async () => {
     mocks.mutate.mockRejectedValue({ message: '本地数据操作失败' });
-    const user = userEvent.setup(); render(<App initialView="files" />);
+    const user = userEvent.setup(); render(<App initialView="home" />);
     await user.click((await screen.findAllByRole('button', { name: '新建工作区' }))[1]);
     const dialog = screen.getByRole('dialog');
     await user.type(within(dialog).getByRole('textbox', { name: '名称' }), '保留的输入');
@@ -44,8 +44,8 @@ describe('工作台交互回归', () => {
   });
   it('删除失败时保留当前工作区，取消确认不发出删除命令', async () => {
     mocks.mutate.mockRejectedValue({ message: '删除失败' });
-    const user = userEvent.setup(); render(<App initialView="files" />);
-    await user.click(await within(screen.getByRole('complementary')).findByRole('button', { name: /^客户 A/ }));
+    const user = userEvent.setup(); render(<App initialView="home" />);
+    await user.click(await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button', { name: /^客户 A/ }));
     await user.click(screen.getByRole('button', { name: '删除工作区' }));
     await user.click(within(screen.getByRole('dialog')).getByRole('button', { name: '取消' }));
     expect(mocks.mutate).not.toHaveBeenCalled();
@@ -58,8 +58,8 @@ describe('工作台交互回归', () => {
   it('快速输入后，较早请求晚返回不能覆盖当前搜索结果', async () => {
     const pending: Array<{ request: { request_id: number; query: string }; resolve: (value: unknown) => void }> = [];
     mocks.search.mockImplementation(request => new Promise(resolve => pending.push({ request, resolve })));
-    const user = userEvent.setup(); render(<App initialView="files" />);
-    await within(screen.getByRole('complementary')).findByRole('button', { name: /^客户 A/ });
+    const user = userEvent.setup(); render(<App initialView="home" />);
+    await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button', { name: /^客户 A/ });
     const search = screen.getByRole('combobox');
     await user.type(search, '张'); await waitFor(() => expect(pending).toHaveLength(1));
     await user.type(search, '三'); await waitFor(() => expect(pending).toHaveLength(2));
@@ -73,8 +73,8 @@ describe('工作台交互回归', () => {
   });
   it('英文设置不向用户显示内部扫描状态码', async () => {
     mocks.overview.mockResolvedValue({ ...meta, roots: [{ id: 'root', path: '/fixture', active: true, paused: false, scan_state: 'completed', location_status: 'available', scanned: 2, failures: 0, exclusions: [] }] });
-    const user = userEvent.setup(); render(<App initialView="files" />);
-    await within(screen.getByRole('complementary')).findByRole('button', { name: /^客户 A/ });
+    const user = userEvent.setup(); render(<App initialView="home" />);
+    await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button', { name: /^客户 A/ });
     await user.click(screen.getByRole('button', { name: 'EN' }));
     await user.click(screen.getByRole('button', { name: 'Locations & settings' }));
     expect(await screen.findByText(/Scan complete/)).toBeVisible();
@@ -83,7 +83,7 @@ describe('工作台交互回归', () => {
   it('自动标题晚返回不能覆盖用户手动修改的标题', async()=>{
     let resolve!:(value:unknown)=>void;
     mocks.webMetadata.mockImplementation(()=>new Promise(done=>{resolve=done;}));
-    const user=userEvent.setup();render(<App initialView="files"/>);
+    const user=userEvent.setup();render(<App initialView="home"/>);
     await user.click(await screen.findByRole('button',{name:'添加网页'}));
     const dialog=screen.getByRole('dialog');
     await user.type(within(dialog).getByRole('textbox',{name:'网址'}),'https://example.com');
@@ -95,8 +95,8 @@ describe('工作台交互回归', () => {
   });
   it('退出添加搜索后快捷键进入普通搜索，回车打开而不继续加入',async()=>{
     mocks.search.mockImplementation(request=>Promise.resolve({request_id:request.request_id,page:{...page,items:[file('f','合同.docx')]}}));
-    const user=userEvent.setup();render(<App initialView="files"/>);
-    await user.click(await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/}));
+    const user=userEvent.setup();render(<App initialView="home"/>);
+    await user.click(await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/}));
     await user.click(screen.getAllByRole('button',{name:'添加文件'})[0]);
     await user.click(screen.getByRole('heading',{level:1}));
     await user.keyboard('{Control>}k{/Control}');
@@ -107,8 +107,8 @@ describe('工作台交互回归', () => {
   it('全部结果入口使用分页查询并允许选择类型和排序',async()=>{
     mocks.search.mockImplementation(request=>Promise.resolve({request_id:request.request_id,page:{...page,items:[file('f','合同.docx')]}}));
     mocks.searchPage.mockImplementation(request=>Promise.resolve({request_id:request.request.request_id,page:{...page,items:[file('f','合同.docx')]}}));
-    const user=userEvent.setup();render(<App initialView="files"/>);
-    await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});
+    const user=userEvent.setup();render(<App initialView="home"/>);
+    await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});
     await user.type(screen.getByRole('combobox'),'合同');await screen.findByRole('option');
     vi.mocked(window.scrollTo).mockClear();
     await user.click(screen.getByRole('button',{name:'查看全部搜索结果'}));
@@ -124,7 +124,7 @@ describe('工作台交互回归', () => {
 });
 
 it('关闭标题获取后可直接保存裸域名，不依赖网络',async()=>{
-  const user=userEvent.setup();render(<App initialView="files"/>);
+  const user=userEvent.setup();render(<App initialView="home"/>);
   await user.click(await screen.findByRole('button',{name:'添加网页'}));
   const dialog=screen.getByRole('dialog');
   await user.click(within(dialog).getByRole('checkbox',{name:'自动获取网站标题'}));
@@ -137,7 +137,7 @@ it('关闭标题获取后可直接保存裸域名，不依赖网络',async()=>{
 it('网址失效后清除获取状态，之前的回包不能填写标题',async()=>{
   let resolve!:(value:unknown)=>void;
   mocks.webMetadata.mockImplementation(()=>new Promise(done=>{resolve=done;}));
-  const user=userEvent.setup();render(<App initialView="files"/>);
+  const user=userEvent.setup();render(<App initialView="home"/>);
   await user.click(await screen.findByRole('button',{name:'添加网页'}));
   const dialog=screen.getByRole('dialog');const url=within(dialog).getByRole('textbox',{name:'网址'});
   await user.type(url,'https://example.com');await waitFor(()=>expect(mocks.webMetadata).toHaveBeenCalled(),{timeout:2000});
@@ -151,8 +151,8 @@ it('批量转移逐项提交，失败项保留来源并展示结果',async()=>{
   mocks.overview.mockResolvedValue({...meta,workspaces:[...meta.workspaces,{id:'workspace2',name:'客户 B',count:0}]});
   mocks.resources.mockResolvedValue({...page,items:[file('a','成功资料.txt'),file('b','失效资料.txt')]});
   mocks.mutate.mockImplementation(mutation=>mutation.resource_ids?.[0]==='b'?Promise.reject({message:'原件未授权',message_en:'The original file is not authorized.'}):Promise.resolve({changed:1,id:null}));
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await user.click(await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/}));
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await user.click(await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/}));
   await user.click(await screen.findByRole('checkbox',{name:'选择 成功资料.txt'}));
   await user.click(screen.getByRole('checkbox',{name:'选择 失效资料.txt'}));
   await user.click(screen.getByRole('button',{name:'移到工作区'}));
@@ -170,19 +170,19 @@ it('批量转移逐项提交，失败项保留来源并展示结果',async()=>{
 it('完整搜索修改关键词回到第一页，不沿用旧的分页偏移',async()=>{
   mocks.search.mockImplementation(request=>Promise.resolve({request_id:request.request_id,page:{...page,items:[file('a','合同')]}}));
   mocks.searchPage.mockImplementation(request=>Promise.resolve({request_id:request.request.request_id,page:{...page,has_more:true,items:[file(String(request.offset),'合同'+request.offset)]},next_cursor:cursor(request.offset+100,request.request.query)}));
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});
   await user.type(screen.getByRole('combobox'),'合同');await screen.findByRole('option');await user.click(screen.getByRole('button',{name:'查看全部搜索结果'}));
   await user.click(await screen.findByRole('button',{name:'加载更多'}));
   await waitFor(()=>expect(mocks.searchPage).toHaveBeenLastCalledWith(expect.objectContaining({offset:100})));
-  await user.type(screen.getByRole('combobox',{name:'全局搜索'}),'新');
+  await user.type(screen.getByRole('textbox',{name:'完整搜索词'}),'新');
   await waitFor(()=>expect(mocks.searchPage).toHaveBeenLastCalledWith(expect.objectContaining({offset:0,request:expect.objectContaining({query:'合同新'})})));
   expect(mocks.searchPage.mock.calls.at(-1)?.[0].cursor).toBeUndefined();
 });
 
 it('没有搜索匹配时不误导为正在扫描或需要重新授权',async()=>{
   mocks.searchPage.mockImplementation(request=>Promise.resolve({request_id:request.request.request_id,page}));
-  render(<App initialView="search"/>);
+  render(<App initialView="search"/>);fireEvent.change(screen.getByRole("textbox",{name:"完整搜索词"}),{target:{value:"合同"}});
   expect(await screen.findByRole('heading',{name:'没有匹配的资料'})).toBeVisible();
   expect(screen.queryByText(/扫描期间资料会逐步出现/)).not.toBeInTheDocument();
 });
@@ -196,8 +196,8 @@ it('动态页空库可直接添加管理位置，取消不制造文件',async()=
 
 it('混合原生拖入展示成功及未授权，完成后丢弃短时凭据',async()=>{
   mocks.importDrop.mockResolvedValue({items:[{path:'/fixture/a.txt',status:'added',resource_id:'a',message:null},{path:'/fixture/b.txt',status:'not_authorized',resource_id:null,message:'未授权'}]});
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});
   const handler=mocks.listen.mock.calls.find(([name])=>name==='files-dropped')![1];
   Object.defineProperty(document,'elementFromPoint',{configurable:true,value:()=>document.querySelector('main')});
   const start=mocks.listen.mock.calls.find(([name])=>name==='files-drop-started')![1];
@@ -211,7 +211,7 @@ it('混合原生拖入展示成功及未授权，完成后丢弃短时凭据',as
 it('目录变更通知后迟到的旧资源读取不能恢复被隐藏名称',async()=>{
   let resolve!:(value:ResourcePage)=>void;
   mocks.resources.mockImplementationOnce(()=>new Promise(done=>{resolve=done;})).mockResolvedValue(page);
-  render(<App initialView="files"/>);
+  render(<App initialView="home"/>);
   await waitFor(()=>expect(mocks.resources).toHaveBeenCalledOnce());
   const handler=mocks.listen.mock.calls.find(([name])=>name==='catalog-changed')![1];
   await act(async()=>{handler({payload:null});resolve({...page,items:[file('old','已撤权的旧文件')]});});
@@ -221,7 +221,7 @@ it('目录变更通知后迟到的旧资源读取不能恢复被隐藏名称',as
 
 it('日期与路径筛选传本地半开日期并清除回到第一页',async()=>{
   mocks.searchPage.mockImplementation(request=>Promise.resolve({request_id:request.request.request_id,page}));
-  const user=userEvent.setup();render(<App initialView="search"/>);
+  const user=userEvent.setup();render(<App initialView="search"/>);fireEvent.change(screen.getByRole("textbox",{name:"完整搜索词"}),{target:{value:"合同"}});
   await screen.findByRole('heading',{name:'没有匹配的资料'});
   fireEvent.change(screen.getByLabelText('修改日期，从'),{target:{value:'2026-03-08'}});
   fireEvent.change(screen.getByLabelText('至'),{target:{value:'2026-03-08'}});
@@ -234,8 +234,8 @@ it('日期与路径筛选传本地半开日期并清除回到第一页',async()=
 it('工作区范围完整搜索保留范围，全局添加网页不继承隐藏工作区',async()=>{
   mocks.search.mockImplementation(request=>Promise.resolve({request_id:request.request_id,page:{...page,items:[file('a','合同')]}}));
   mocks.searchPage.mockImplementation(request=>Promise.resolve({request_id:request.request.request_id,page}));
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await user.click(await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/}));
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await user.click(await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/}));
   await user.type(screen.getByRole('combobox'),'合同');await screen.findByRole('option');
   await user.click(screen.getByRole('button',{name:'当前工作区'}));await screen.findByRole('option');
   await user.click(screen.getByRole('button',{name:'查看全部搜索结果'}));
@@ -249,8 +249,8 @@ it('工作区范围完整搜索保留范围，全局添加网页不继承隐藏�
 
 it('慢盘拖入开始后切换工作区，完成时仍关联松手时的工作区',async()=>{
   mocks.overview.mockResolvedValue({...meta,workspaces:[...meta.workspaces,{id:'workspace2',name:'客户 B',count:0}]});
-  mocks.importDrop.mockResolvedValue({items:[]});const user=userEvent.setup();render(<App initialView="files"/>);
-  const sidebar=within(screen.getByRole('complementary'));
+  mocks.importDrop.mockResolvedValue({items:[]});const user=userEvent.setup();render(<App initialView="home"/>);
+  const sidebar=within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/}));
   await user.click(await sidebar.findByRole('button',{name:/^客户 A/}));
   const start=mocks.listen.mock.calls.find(([name])=>name==='files-drop-started')![1];
   const ready=mocks.listen.mock.calls.find(([name])=>name==='files-dropped')![1];
@@ -264,8 +264,8 @@ it('慢盘拖入开始后切换工作区，完成时仍关联松手时的工作�
 
 it('旧或没有开始凭据的ready被忽略，新拖入只消费自己的目标',async()=>{
   mocks.overview.mockResolvedValue({...meta,workspaces:[...meta.workspaces,{id:'workspace2',name:'客户 B',count:0}]});
-  mocks.importDrop.mockResolvedValue({items:[]});const user=userEvent.setup();render(<App initialView="files"/>);
-  const sidebar=within(screen.getByRole('complementary'));await user.click(await sidebar.findByRole('button',{name:/^客户 A/}));
+  mocks.importDrop.mockResolvedValue({items:[]});const user=userEvent.setup();render(<App initialView="home"/>);
+  const sidebar=within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/}));await user.click(await sidebar.findByRole('button',{name:/^客户 A/}));
   const start=mocks.listen.mock.calls.find(([name])=>name==='files-drop-started')![1];const ready=mocks.listen.mock.calls.find(([name])=>name==='files-dropped')![1];
   Object.defineProperty(document,'elementFromPoint',{configurable:true,value:()=>document.querySelector('main')});
   const payload=(token:string)=>({payload:{token,x:100,y:100,count:1}});
@@ -276,7 +276,7 @@ it('旧或没有开始凭据的ready被忽略，新拖入只消费自己的目�
 });
 
 it('准备阶段取消拖入，迟到ready不能授权或关联',async()=>{
-  const user=userEvent.setup();render(<App initialView="files"/>);await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});
+  const user=userEvent.setup();render(<App initialView="home"/>);await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});
   const start=mocks.listen.mock.calls.find(([name])=>name==='files-drop-started')![1];const ready=mocks.listen.mock.calls.find(([name])=>name==='files-dropped')![1];
   Object.defineProperty(document,'elementFromPoint',{configurable:true,value:()=>document.querySelector('main')});const event={payload:{token:'cancelled',x:100,y:100,count:1}};
   await act(async()=>start(event));await user.click(screen.getByRole('button',{name:'取消拖入'}));
@@ -284,8 +284,8 @@ it('准备阶段取消拖入，迟到ready不能授权或关联',async()=>{
 });
 
 it('删改和Esc关闭搜索时取消对应快速查询，迟到结果不再显示',async()=>{
-  mocks.search.mockImplementation(()=>new Promise(()=>{}));const user=userEvent.setup();render(<App initialView="files"/>);
-  await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});const input=screen.getByRole('combobox');
+  mocks.search.mockImplementation(()=>new Promise(()=>{}));const user=userEvent.setup();render(<App initialView="home"/>);
+  await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});const input=screen.getByRole('combobox');
   await user.type(input,'合同');await waitFor(()=>expect(mocks.search).toHaveBeenCalledOnce());
   const first=mocks.search.mock.calls[0][0].request_id;
   await user.type(input,'新');await waitFor(()=>expect(mocks.cancelSearch).toHaveBeenCalledWith('quick',first));await waitFor(()=>expect(mocks.search).toHaveBeenCalledTimes(2));
@@ -293,17 +293,17 @@ it('删改和Esc关闭搜索时取消对应快速查询，迟到结果不再显�
   await user.keyboard('{Escape}');await waitFor(()=>expect(mocks.cancelSearch).toHaveBeenCalledWith('quick',second));expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
 });
 it('完整搜索改筛选或离开页面会取消其独立page查询',async()=>{
-  mocks.searchPage.mockImplementation(()=>new Promise(()=>{}));const user=userEvent.setup();render(<App initialView="search"/>);
+  mocks.searchPage.mockImplementation(()=>new Promise(()=>{}));const user=userEvent.setup();render(<App initialView="search"/>);fireEvent.change(screen.getByRole("textbox",{name:"完整搜索词"}),{target:{value:"合同"}});
   await waitFor(()=>expect(mocks.searchPage).toHaveBeenCalledOnce());const first=mocks.searchPage.mock.calls[0][0].request.request_id;
   await user.selectOptions(screen.getByRole('combobox',{name:'搜索排序'}),'modified');await waitFor(()=>expect(mocks.cancelSearch).toHaveBeenCalledWith('page',first));
   await waitFor(()=>expect(mocks.searchPage).toHaveBeenCalledTimes(2));const second=mocks.searchPage.mock.calls[1][0].request.request_id;
-  await user.click(screen.getByRole('button',{name:'所有文件'}));await waitFor(()=>expect(mocks.cancelSearch).toHaveBeenCalledWith('page',second));
+  await user.click(screen.getByRole('button',{name:'个人工作台'}));await waitFor(()=>expect(mocks.cancelSearch).toHaveBeenCalledWith('page',second));
 });
 
 it('跳到网页分类后回车打开当前网页，不打开滚出视口的第一项',async()=>{
   const web={...file('web','合同网页'),kind:'web',location:'https://example.com/'};
   mocks.search.mockImplementation(request=>Promise.resolve({request_id:request.request_id,page:{...page,items:[file('a','合同文件'),web]}}));
-  const user=userEvent.setup();render(<App initialView="files"/>);await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});
+  const user=userEvent.setup();render(<App initialView="home"/>);await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});
   await user.type(screen.getByRole('combobox'),'合同');await screen.findByRole('option',{name:/合同网页/});
   await user.click(screen.getByRole('button',{name:'跳到网页结果'}));await user.keyboard('{Enter}');
   expect(mocks.open).toHaveBeenCalledExactlyOnceWith('web');
@@ -314,7 +314,7 @@ it('完整搜索原样回传后端游标，失效后清空旧页并从首页重�
   mocks.searchPage.mockImplementationOnce(request=>Promise.resolve({request_id:request.request.request_id,page:{...page,has_more:true,items:[file('old','变动前资料')]},next_cursor:issued}))
     .mockRejectedValueOnce({code:'stale_cursor',message:'结果已变更'})
     .mockImplementationOnce(request=>Promise.resolve({request_id:request.request.request_id,page:{...page,revision:2,items:[file('new','变动后资料')]}}));
-  const user=userEvent.setup();render(<App initialView="search"/>);
+  const user=userEvent.setup();render(<App initialView="search"/>);fireEvent.change(screen.getByRole("textbox",{name:"完整搜索词"}),{target:{value:"合同"}});
   await user.click(await screen.findByRole('checkbox',{name:'选择 变动前资料'}));
   await user.click(screen.getByRole('button',{name:'加载更多'}));
   await screen.findByRole('checkbox',{name:'选择 变动后资料'});
@@ -328,11 +328,11 @@ it('完整搜索原样回传后端游标，失效后清空旧页并从首页重�
 
 it('首页报错不循环自动重读，缺少后续游标也不发任意offset请求',async()=>{
   mocks.searchPage.mockRejectedValue({code:'stale_cursor',message:'首页无法读取'});
-  const {unmount}=render(<App initialView="search"/>);
+  const {unmount}=render(<App initialView="search"/>);fireEvent.change(screen.getByRole("textbox",{name:"完整搜索词"}),{target:{value:"合同"}});
   expect(await screen.findByText('首页无法读取')).toBeVisible();
   expect(mocks.searchPage).toHaveBeenCalledOnce();unmount();mocks.searchPage.mockReset();
   mocks.searchPage.mockImplementation(request=>Promise.resolve({request_id:request.request.request_id,page:{...page,has_more:true,items:[file('old','不完整分页')]}}));
-  render(<App initialView="search"/>);
+  render(<App initialView="search"/>);fireEvent.change(screen.getByRole("textbox",{name:"完整搜索词"}),{target:{value:"合同"}});
   expect(await screen.findByText('搜索分页信息不完整，请重试')).toBeVisible();
   expect(screen.queryByRole('button',{name:'加载更多'})).not.toBeInTheDocument();
   expect(mocks.searchPage).toHaveBeenCalledOnce();
@@ -346,10 +346,10 @@ it('迟到的旧分页不能覆盖新查询的资料或后续游标',async()=>{
     .mockImplementationOnce(()=>new Promise(resolve=>{resolveOld=resolve;}))
     .mockImplementationOnce(request=>Promise.resolve({request_id:request.request.request_id,page:{...page,has_more:true,items:[file('new','新查询资料')]},next_cursor:freshCursor}))
     .mockImplementationOnce(request=>Promise.resolve({request_id:request.request.request_id,page:{...page,items:[file('next','新查询后续')]}}));
-  const user=userEvent.setup();render(<App initialView="search"/>);
+  const user=userEvent.setup();render(<App initialView="search"/>);fireEvent.change(screen.getByRole("textbox",{name:"完整搜索词"}),{target:{value:"合同"}});
   await user.click(await screen.findByRole('button',{name:'加载更多'}));
   const oldId=mocks.searchPage.mock.calls[1][0].request.request_id;
-  await user.type(screen.getByRole('combobox',{name:'全局搜索'}),'新');
+  await user.type(screen.getByRole('textbox',{name:'完整搜索词'}),'新');
   await screen.findByRole('checkbox',{name:'选择 新查询资料'});
   await act(async()=>resolveOld({request_id:oldId,page:{...page,has_more:true,items:[file('late','过期分页资料')]},next_cursor:cursor(200,'')}));
   expect(screen.queryByRole('checkbox',{name:'选择 过期分页资料'})).not.toBeInTheDocument();
@@ -360,8 +360,8 @@ it('迟到的旧分页不能覆盖新查询的资料或后续游标',async()=>{
 });
 
 it('英文设置中的原生位置、备份和恢复入口传递当前语言',async()=>{
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});
   await user.click(screen.getByRole('button',{name:'EN'}));
   await user.click(screen.getByRole('button',{name:'Locations & settings'}));
   await user.click(screen.getByRole('button',{name:'Add location'}));expect(mocks.pickRoot).toHaveBeenCalledExactlyOnceWith('en');
@@ -372,17 +372,17 @@ it('英文设置中的原生位置、备份和恢复入口传递当前语言',as
 
 it('英文资料重新指向和工作区文件选择使用同一当前语言',async()=>{
   mocks.resources.mockResolvedValue({...page,items:[{...file('missing','待定位资料.txt'),status:'missing'}]});
-  const user=userEvent.setup();render(<App initialView="files"/>);
+  const user=userEvent.setup();render(<App initialView="home"/>);
   await user.click(await screen.findByRole('button',{name:'EN'}));
   await user.click(await screen.findByRole('button',{name:'Relink'}));expect(mocks.relink).toHaveBeenCalledExactlyOnceWith('missing','en');
-  await user.click(await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/}));
+  await user.click(await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/}));
   await user.click(await screen.findByRole('button',{name:'Choose local files'}));expect(mocks.pickFiles).toHaveBeenCalledExactlyOnceWith('workspace1','en');
 });
 
 it('切换英文后原生拖入和后续授权不沿用监听注册时的语言',async()=>{
   mocks.importDrop.mockResolvedValueOnce({items:[{path:'/fixture/a.txt',status:'not_authorized',resource_id:null,message:null}]}).mockResolvedValueOnce({items:[{path:'/fixture/a.txt',status:'added',resource_id:'a',message:null}]});
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});await user.click(screen.getByRole('button',{name:'EN'}));
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});await user.click(screen.getByRole('button',{name:'EN'}));
   Object.defineProperty(document,'elementFromPoint',{configurable:true,value:()=>document.querySelector('main')});
   const start=mocks.listen.mock.calls.find(([name])=>name==='files-drop-started')![1];const ready=mocks.listen.mock.calls.find(([name])=>name==='files-dropped')![1];
   const event={payload:{token:'language-drop',x:100,y:100,count:1}};
@@ -451,24 +451,31 @@ it('选择器请求期间禁用全部首次位置入口，失败可重试且不�
   expect(mocks.pickRoot).toHaveBeenNthCalledWith(2,'zh','downloads');expect(mocks.mutate).not.toHaveBeenCalled();
 });
 
-it('明确导航在新页面提交后回顶，同一files视图进入侧栏收藏也回顶',async()=>{
+it('明确导航在新页面提交后回顶，进入和再次进入侧栏收藏也回顶',async()=>{
   const titles:Array<string|null>=[];
+  mocks.resources.mockResolvedValue({...page,items:[{...file('saved','已收藏合同.txt'),favorite:true}]});
   vi.mocked(window.scrollTo).mockImplementation(()=>{titles.push(document.querySelector('main h1')?.textContent??null);});
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});
   vi.mocked(window.scrollTo).mockClear();titles.length=0;
   await user.click(screen.getByRole('button',{name:'管理位置与设置'}));
   expect(window.scrollTo).toHaveBeenCalledExactlyOnceWith(0,0);expect(titles).toEqual(['由你决定管理范围。']);
-  await user.click(within(screen.getByRole('navigation')).getByRole('button',{name:'所有文件'}));
+  await user.click(within(screen.getByRole('navigation')).getByRole('button',{name:'个人工作台'}));
   vi.mocked(window.scrollTo).mockClear();titles.length=0;
   await user.click(within(screen.getByRole('navigation')).getByRole('button',{name:'收藏'}));
   expect(window.scrollTo).toHaveBeenCalledExactlyOnceWith(0,0);expect(titles).toEqual(['收藏']);
+  await screen.findByRole('checkbox',{name:'选择 已收藏合同.txt'});
+  mocks.resources.mockClear();vi.mocked(window.scrollTo).mockClear();titles.length=0;
+  await user.click(within(screen.getByRole('navigation')).getByRole('button',{name:'收藏'}));
+  expect(window.scrollTo).toHaveBeenCalledExactlyOnceWith(0,0);expect(titles).toEqual(['收藏']);
+  expect(await screen.findByRole('checkbox',{name:'选择 已收藏合同.txt'})).toBeVisible();
+  expect(mocks.resources).toHaveBeenCalledExactlyOnceWith({workspace_id:null,kind:'all',mode:'favorites',offset:0});
 });
 
 it('同一工作区视图切换UUID也回顶，资料刷新不会再次回顶',async()=>{
   mocks.overview.mockResolvedValue({...meta,workspaces:[...meta.workspaces,{id:'workspace2',name:'客户 B',count:0}]});
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  const sidebar=screen.getByRole('complementary');
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  const sidebar=screen.getByRole('complementary',{name:/主侧栏|Main sidebar/});
   await user.click(await within(sidebar).findByRole('button',{name:/^客户 A/}));
   vi.mocked(window.scrollTo).mockClear();
   await user.click(within(sidebar).getByRole('button',{name:/^客户 B/}));
@@ -483,19 +490,19 @@ it('同一工作区视图切换UUID也回顶，资料刷新不会再次回顶',a
 
 it('加载更多、页内筛选和语言切换不重置文档滚动',async()=>{
   mocks.resources.mockImplementation(query=>Promise.resolve({...page,has_more:query.offset===0,items:[file(query.offset?'second':'first',query.offset?'第二页资料.txt':'第一页资料.txt')]}));
-  const user=userEvent.setup();render(<App initialView="files"/>);
+  const user=userEvent.setup();render(<App initialView="home"/>);
   await screen.findByText('第一页资料.txt');vi.mocked(window.scrollTo).mockClear();
   await user.click(screen.getByRole('button',{name:'加载更多'}));
   await screen.findByText('第二页资料.txt');expect(window.scrollTo).not.toHaveBeenCalled();
-  await user.click(within(screen.getByRole('main')).getByRole('button',{name:'收藏'}));
-  await waitFor(()=>expect(mocks.resources).toHaveBeenLastCalledWith(expect.objectContaining({mode:'favorites',offset:0})));
+  await user.click(within(screen.getByRole('main')).getByRole('button',{name:'最近打开'}));
+  await waitFor(()=>expect(mocks.resources).toHaveBeenLastCalledWith(expect.objectContaining({mode:'recent',offset:0})));
   await user.click(screen.getByRole('button',{name:'EN'}));
   expect(window.scrollTo).not.toHaveBeenCalled();
 });
 
 it('已显示的保存失败随语言更新，草稿保留且不重复提交',async()=>{
   mocks.mutate.mockRejectedValue({message:'本地数据操作失败',message_en:'The local data operation failed.'});
-  const user=userEvent.setup();render(<App initialView="files"/>);
+  const user=userEvent.setup();render(<App initialView="home"/>);
   await user.click((await screen.findAllByRole('button',{name:'新建工作区'}))[1]);
   const dialog=screen.getByRole('dialog');
   await user.type(within(dialog).getByRole('textbox'),'保留的输入');
@@ -510,8 +517,8 @@ it('已显示的保存失败随语言更新，草稿保留且不重复提交',as
 });
 
 it('常驻原生错误监听使用当前语言，切语言不重新订阅',async()=>{
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});
   const handler=mocks.listen.mock.calls.find(([name])=>name==='operation-error')![1];
   await user.click(screen.getByRole('button',{name:'EN'}));
   await act(async()=>handler({payload:{message:'拖入失败',message_en:'Drop failed.'}}));
@@ -523,8 +530,8 @@ it('常驻原生错误监听使用当前语言，切语言不重新订阅',async
 
 it.each([null,false,''])('无标准正文的拒绝 %j 仍显示失败并可关闭',async cause=>{
   mocks.pickRoot.mockRejectedValueOnce(cause);
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await user.click(await screen.findByRole('button',{name:'添加管理位置'}));
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await user.click((await screen.findAllByRole('button',{name:'添加管理位置'}))[0]);
   expect(await screen.findByRole('alert')).toHaveTextContent('操作失败，请重试');
   await user.click(screen.getByRole('button',{name:'EN'}));
   expect(screen.getByRole('alert')).toHaveTextContent('Operation failed. Please try again.');
@@ -535,7 +542,7 @@ it.each([null,false,''])('无标准正文的拒绝 %j 仍显示失败并可关�
 it.each(['failure','no-title'] as const)('网页标题 %s 反馈切语言不重抓、不覆盖已编辑标题',async scenario=>{
   if(scenario==='failure')mocks.webMetadata.mockRejectedValue({message:'网站暂不可用，可手动填写标题',message_en:'The website is unavailable. Enter the title manually.'});
   else mocks.webMetadata.mockResolvedValue({title:null,final_url:'https://example.com'});
-  const user=userEvent.setup();render(<App initialView="files"/>);
+  const user=userEvent.setup();render(<App initialView="home"/>);
   await user.click(await screen.findByRole('button',{name:'添加网页'}));
   const dialog=screen.getByRole('dialog');
   await user.type(within(dialog).getByRole('textbox',{name:'网址'}),'https://example.com');
@@ -552,8 +559,8 @@ it.each(['failure','no-title'] as const)('网页标题 %s 反馈切语言不重�
 
 it('拖入逐项错误保留双语，语言切换不重新导入',async()=>{
   mocks.importDrop.mockResolvedValue({items:[{path:'/fixture/failure.txt',status:'failed',resource_id:null,message:'对象已改变，请重新拖入',message_en:'The file changed. Drop it again.'}]});
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});
   Object.defineProperty(document,'elementFromPoint',{configurable:true,value:()=>document.querySelector('main')});
   const start=mocks.listen.mock.calls.find(([name])=>name==='files-drop-started')![1];
   const ready=mocks.listen.mock.calls.find(([name])=>name==='files-dropped')![1];
@@ -566,8 +573,8 @@ it('拖入逐项错误保留双语，语言切换不重新导入',async()=>{
 
 it('快速搜索失败随语言更新，切语言不重发搜索',async()=>{
   mocks.search.mockRejectedValue({message:'查询暂不可用',message_en:'Search is unavailable.'});
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});
   await user.type(screen.getByRole('combobox'),'合同');
   expect(await screen.findByRole('alert')).toHaveTextContent('查询暂不可用');
   await user.click(screen.getByRole('button',{name:'EN'}));
@@ -578,7 +585,7 @@ it('快速搜索失败随语言更新，切语言不重发搜索',async()=>{
 it('批量提交前资料页变化，缺失名称使用当前语言占位并保留逐项失败',async()=>{
   mocks.overview.mockResolvedValue({...meta,workspaces:[...meta.workspaces,{id:'workspace2',name:'客户 B',count:0}]});
   mocks.resources.mockResolvedValue({...page,items:[file('a','资料A.txt'),file('b','资料B.txt')]});
-  const user=userEvent.setup();render(<App initialView="files"/>);
+  const user=userEvent.setup();render(<App initialView="home"/>);
   await user.click(await screen.findByRole('checkbox',{name:'选择 资料A.txt'}));
   await user.click(screen.getByRole('checkbox',{name:'选择 资料B.txt'}));
   await user.click(screen.getByRole('button',{name:'加入工作区'}));
@@ -600,7 +607,7 @@ it('多选五份资料后新建并加入只发出一个原子命令，成功进�
   const items=Array.from({length:5},(_,index)=>file('f'+index,`资料${index}.txt`));
   mocks.resources.mockImplementation(()=>Promise.resolve({...page,items}));
   mocks.mutate.mockImplementation(mutation=>{mocks.overview.mockResolvedValue({...meta,workspaces:[...meta.workspaces,{id:'created',name:mutation.name,count:5}]});return Promise.resolve({id:'created',changed:6});});
-  const user=userEvent.setup();render(<App initialView="files"/>);
+  const user=userEvent.setup();render(<App initialView="home"/>);
   for(const item of items)await user.click(await screen.findByRole('checkbox',{name:'选择 '+item.name}));
   await user.click(screen.getByRole('button',{name:'新建工作区并加入'}));
   const dialog=screen.getByRole('dialog');
@@ -617,7 +624,7 @@ it('多选五份资料后新建并加入只发出一个原子命令，成功进�
 it('所选资料创建失败或取消保留原选择与名称，重试仍提交原UUID集合',async()=>{
   mocks.resources.mockResolvedValue({...page,items:[file('a','A.txt'),file('b','B.txt')]});
   mocks.mutate.mockRejectedValueOnce({message:'资源未授权',message_en:'Resource unauthorized.'}).mockResolvedValueOnce({id:'created',changed:3});
-  const user=userEvent.setup();render(<App initialView="files"/>);
+  const user=userEvent.setup();render(<App initialView="home"/>);
   await user.click(await screen.findByRole('checkbox',{name:'选择 A.txt'}));await user.click(screen.getByRole('checkbox',{name:'选择 B.txt'}));
   await user.click(screen.getByRole('button',{name:'新建工作区并加入'}));
   let dialog=screen.getByRole('dialog');await user.click(within(dialog).getByRole('button',{name:'取消'}));
@@ -635,7 +642,7 @@ it('所选资料创建失败或取消保留原选择与名称，重试仍提交�
 
 it('普通新建保持创建空工作区，不隐式消费列表选择',async()=>{
   mocks.resources.mockResolvedValue({...page,items:[file('a','A.txt')]});
-  const user=userEvent.setup();render(<App initialView="files"/>);
+  const user=userEvent.setup();render(<App initialView="home"/>);
   await user.click(await screen.findByRole('checkbox',{name:'选择 A.txt'}));
   await user.click(screen.getAllByRole('button',{name:'新建工作区'})[1]);
   const dialog=screen.getByRole('dialog');expect(within(dialog).queryByText(/项资料加入/)).not.toBeInTheDocument();
@@ -646,8 +653,8 @@ it('普通新建保持创建空工作区，不隐式消费列表选择',async()=
 it('分组展示仍默认高亮后端第一精确文件，回车不跳到前缀工作区',async()=>{
   const exact=file('exact','合同');
   mocks.search.mockImplementation(request=>Promise.resolve({request_id:request.request_id,page:{...page,items:[exact,{...file('workspace1','合同项目'),kind:'workspace'}, {...file('web','合同网页'),kind:'web'}]}}));
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});
   const input=screen.getByRole('combobox',{name:'全局搜索'});await user.type(input,'合同');
   const option=await within(await screen.findByRole('group',{name:'文件'})).findByRole('option');
   expect(option).toHaveAttribute('aria-selected','true');
@@ -658,8 +665,8 @@ it('分组展示仍默认高亮后端第一精确文件，回车不跳到前缀�
 
 it('同名候选不默认猜测原件，明确方向键选择后才能回车打开',async()=>{
   mocks.search.mockImplementation(request=>Promise.resolve({request_id:request.request_id,page:{...page,items:[file('a','合同'),{...file('b','合同'),location:'/other/合同'}]}}));
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});
   const input=screen.getByRole('combobox',{name:'全局搜索'});await user.type(input,'合同');await screen.findAllByRole('option');
   expect(input).not.toHaveAttribute('aria-activedescendant');
   expect(screen.getAllByRole('option').every(item=>item.getAttribute('aria-selected')==='false')).toBe(true);
@@ -670,8 +677,8 @@ it('同名候选不默认猜测原件，明确方向键选择后才能回车打�
 it('完整搜索可返回原工作区并恢复分类，查询不改变来源上下文',async()=>{
   mocks.search.mockImplementation(request=>Promise.resolve({request_id:request.request_id,page:{...page,items:[file('a','合同')]}}));
   mocks.searchPage.mockImplementation(request=>Promise.resolve({request_id:request.request.request_id,page}));
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await user.click(await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/}));
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await user.click(await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/}));
   await user.click(screen.getByRole('button',{name:'文件'}));
   await user.type(screen.getByRole('combobox',{name:'全局搜索'}),'合同');await screen.findByRole('option');
   await user.click(screen.getByRole('button',{name:'查看全部搜索结果'}));
@@ -687,12 +694,12 @@ it('完整搜索可返回原工作区并恢复分类，查询不改变来源上�
 it('完整搜索返回收藏保留原模式，来源工作区已删除则返回列表',async()=>{
   mocks.search.mockImplementation(request=>Promise.resolve({request_id:request.request_id,page:{...page,items:[file('a','合同')]}}));
   mocks.searchPage.mockImplementation(request=>Promise.resolve({request_id:request.request.request_id,page}));
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await user.click(within(screen.getByRole('complementary')).getByRole('button',{name:'收藏'}));
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await user.click(within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).getByRole('button',{name:'收藏'}));
   await user.type(screen.getByRole('combobox',{name:'全局搜索'}),'合同');await screen.findByRole('option');await user.click(screen.getByRole('button',{name:'查看全部搜索结果'}));
   await user.click(await screen.findByRole('button',{name:'返回收藏'}));
   await waitFor(()=>expect(mocks.resources).toHaveBeenLastCalledWith(expect.objectContaining({mode:'favorites'})));
-  await user.click(within(screen.getByRole('complementary')).getByRole('button',{name:/^客户 A/}));
+  await user.click(within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).getByRole('button',{name:/^客户 A/}));
   await user.type(screen.getByRole('combobox',{name:'全局搜索'}),'合同');await screen.findByRole('option');await user.click(screen.getByRole('button',{name:'查看全部搜索结果'}));
   await screen.findByRole('button',{name:'返回：客户 A'});
   mocks.overview.mockResolvedValue({...meta,workspaces:[]});
@@ -705,17 +712,15 @@ it.each(['query','kind','scope','sort'])('完整搜索更换%s清除旧选择，
   const a=file('a','旧资料.txt');const b={...file('b','新网页'),kind:'web'};
   mocks.search.mockImplementation(request=>Promise.resolve({request_id:request.request_id,page:{...page,items:[a]}}));
   mocks.searchPage.mockImplementation(request=>Promise.resolve({request_id:request.request.request_id,page:{...page,items:[a]}}));
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await user.click(await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/}));
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await user.click(await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/}));
   await user.type(screen.getByRole('combobox',{name:'全局搜索'}),'资料');await screen.findByRole('option');await user.click(screen.getByRole('button',{name:'查看全部搜索结果'}));
   await user.click(await screen.findByRole('checkbox',{name:'选择 旧资料.txt'}));
   mocks.searchPage.mockImplementation(request=>Promise.resolve({request_id:request.request.request_id,page:{...page,items:[b]}}));
   if(change==='kind')await user.click(screen.getByRole('button',{name:'网页'}));
   else if(change==='sort')await user.selectOptions(screen.getByRole('combobox',{name:'搜索排序'}),'modified');
   else{
-    const input=screen.getByRole('combobox',{name:'全局搜索'});await user.click(input);
-    if(change==='query')await user.type(input,'新');else await user.click(screen.getByRole('button',{name:'当前工作区'}));
-    await user.keyboard('{Escape}');
+    if(change==='query')await user.type(screen.getByRole('textbox',{name:'完整搜索词'}),'新');else await user.selectOptions(screen.getByRole('combobox',{name:'工作区范围'}),'current');
   }
   await user.click(await screen.findByRole('checkbox',{name:'选择 新网页'}));
   expect(screen.getByText('1 项已选择')).toBeVisible();
@@ -729,8 +734,8 @@ it('搜索加载后页的选择在切换排序后清除，新的关联不夹带�
   mocks.search.mockImplementation(request=>Promise.resolve({request_id:request.request_id,page:{...page,items:[old]}}));
   let sorted=false;
   mocks.searchPage.mockImplementation(request=>Promise.resolve({request_id:request.request.request_id,page:{...page,has_more:!sorted&&request.offset===0,items:sorted?[fresh]:request.offset===0?[file('first','原首页.txt')]:[old]},next_cursor:!sorted&&request.offset===0?cursor(100,'资料'):undefined}));
-  const user=userEvent.setup();render(<App initialView="files"/>);
-  await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});
+  const user=userEvent.setup();render(<App initialView="home"/>);
+  await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});
   await user.type(screen.getByRole('combobox',{name:'全局搜索'}),'资料');await screen.findByRole('option');await user.click(screen.getByRole('button',{name:'查看全部搜索结果'}));
   await user.click(await screen.findByRole('button',{name:'加载更多'}));
   await user.click(await screen.findByRole('checkbox',{name:'选择 后页资料.txt'}));
@@ -746,7 +751,7 @@ it('搜索加载后页的选择在切换排序后清除，新的关联不夹带�
 it('普通列表后续页版本变化重读首页时清除旧选择',async()=>{
   mocks.resources.mockResolvedValueOnce({...page,has_more:true,items:[file('old','旧页资料.txt')]})
     .mockResolvedValue({...page,revision:2,items:[file('fresh','新快照资料.txt')]});
-  const user=userEvent.setup();render(<App initialView="files"/>);
+  const user=userEvent.setup();render(<App initialView="home"/>);
   await user.click(await screen.findByRole('checkbox',{name:'选择 旧页资料.txt'}));
   await user.click(screen.getByRole('button',{name:'加载更多'}));
   await screen.findByRole('checkbox',{name:'选择 新快照资料.txt'});
@@ -766,7 +771,7 @@ it.each([
   {name:'只有已撤权目录',roots:[managedRoot('revoked',{active:false})],files:[],zh:'尚未添加管理位置',en:'No managed locations yet'},
 ])('管理范围摘要：$name，中英文均使用真实授权数量',async({roots,files,zh,en})=>{
   mocks.overview.mockResolvedValue({...meta,roots,file_grants:files});
-  const user=userEvent.setup();render(<App initialView="files"/>);
+  const user=userEvent.setup();render(<App initialView="home"/>);
   expect(await screen.findByText(zh,{selector:'.catalog-status > span'})).toBeVisible();
   expect(screen.queryByText('已管理 0 个位置')).not.toBeInTheDocument();
   await user.click(screen.getByRole('button',{name:'EN'}));
@@ -821,7 +826,7 @@ it.each([
 
 it('首页unavailable目录保留授权数量且不把旧running状态写成正在索引',async()=>{
   mocks.overview.mockResolvedValue({...meta,roots:[managedRoot('retained',{location_status:'unavailable',scan_state:'running'})]});
-  const user=userEvent.setup();render(<App initialView="files"/>);
+  const user=userEvent.setup();render(<App initialView="home"/>);
   expect(await screen.findByText('已管理 1 个目录',{selector:'.catalog-status > span'})).toBeVisible();
   expect(screen.queryByText(/正在索引/,{selector:'.catalog-status > span'})).not.toBeInTheDocument();
   await user.click(screen.getByRole('button',{name:'EN'}));
@@ -831,7 +836,7 @@ it('首页unavailable目录保留授权数量且不把旧running状态写成正�
 
 it('legacy目录正在扫描时首页与搜索均显示索引提示，设置仍提示启用目录定位',async()=>{
   mocks.overview.mockResolvedValue({...meta,roots:[managedRoot('legacy',{location_status:'legacy',scan_state:'running'})]});
-  const user=userEvent.setup();render(<App initialView="files"/>);
+  const user=userEvent.setup();render(<App initialView="home"/>);
   expect(await screen.findByText('正在索引 · 已管理 1 个目录',{selector:'.catalog-status > span'})).toBeVisible();
   await user.click(screen.getByRole('combobox',{name:'全局搜索'}));
   expect(screen.getByText('索引中',{selector:'.search-footer span'})).toBeVisible();
@@ -858,7 +863,7 @@ it('初次默认个人工作台优先添加管理位置，取消不创建授权�
   await screen.findByRole('group',{name:'常用位置'});
   const heading=screen.getByRole('heading',{level:1,name:'个人工作台'});
   expect(heading).toBeVisible();
-  const sidebar=screen.getByRole('complementary');const nav=within(sidebar).getByRole('navigation');
+  const sidebar=screen.getByRole('complementary',{name:/主侧栏|Main sidebar/});const nav=within(sidebar).getByRole('navigation');
   expect(within(nav).getByRole('button',{name:'个人工作台'})).toHaveAttribute('aria-current','page');
   expect(screen.queryByRole('region',{name:'我的工作区'})).not.toBeInTheDocument();
   const pageTitle=heading.closest('.page-title') as HTMLElement;
@@ -880,6 +885,7 @@ it('初次默认个人工作台优先添加管理位置，取消不创建授权�
   await user.click(within(pageTitle).getByRole('button',{name:'Add location'}));
   expect(mocks.pickRoot).toHaveBeenNthCalledWith(2,'en');
   await waitFor(()=>expect(within(pageTitle).getByRole('button',{name:'Add location'})).toBeEnabled());
+  expect(within(nav).queryByRole('button',{name:'All files'})).not.toBeInTheDocument();
   expect(screen.getByRole('heading',{level:1,name:'Personal workbench'})).toBeVisible();
   expect(within(nav).getByRole('button',{name:'Personal workbench'})).toHaveAttribute('aria-current','page');
   expect(screen.queryByRole('region',{name:'My workspaces'})).not.toBeInTheDocument();
@@ -891,14 +897,16 @@ it('默认个人工作台为侧栏首菜单，展示前三工作区卡和内容�
   mocks.overview.mockResolvedValue({...meta,workspaces:dashboardWorkspaces});
   const user=userEvent.setup();render(<App/>);
   expect(screen.getByRole('heading',{level:1,name:'个人工作台'})).toBeVisible();
-  const sidebar=screen.getByRole('complementary');const nav=within(sidebar).getByRole('navigation');
+  const sidebar=screen.getByRole('complementary',{name:/主侧栏|Main sidebar/});const nav=within(sidebar).getByRole('navigation');
   const entries=[
     within(nav).getByRole('button',{name:'个人工作台'}),
+    within(nav).getByRole('button',{name:'搜索与筛选'}),
     within(nav).getByRole('button',{name:/^工作区/}),
-    within(nav).getByRole('button',{name:'动态'}),
-    within(nav).getByRole('button',{name:'所有文件'}),
     within(nav).getByRole('button',{name:'收藏'}),
+    within(nav).getByRole('button',{name:'动态'}),
   ];
+  expect(within(nav).queryByRole('button',{name:'所有文件'})).not.toBeInTheDocument();
+  expect(entries).toHaveLength(5);
   expect(entries[0]).toHaveAttribute('aria-current','page');
   for(let index=1;index<entries.length;index++){
     expect(entries[index-1].compareDocumentPosition(entries[index])&Node.DOCUMENT_POSITION_FOLLOWING).not.toBe(0);
@@ -914,6 +922,7 @@ it('默认个人工作台为侧栏首菜单，展示前三工作区卡和内容�
   expect(sidebar).toContainElement(settings);expect(screen.getAllByRole('button',{name:'管理位置与设置'})).toHaveLength(1);
   expect(mocks.timeline).not.toHaveBeenCalled();
   await user.click(screen.getByRole('button',{name:'EN'}));
+  expect(within(nav).queryByRole('button',{name:'All files'})).not.toBeInTheDocument();
   expect(screen.getByRole('heading',{level:1,name:'Personal workbench'})).toBeVisible();
   expect(within(nav).getByRole('button',{name:'Personal workbench'})).toHaveAttribute('aria-current','page');
   expect(screen.getByRole('region',{name:'My workspaces'})).toBeVisible();
@@ -921,13 +930,13 @@ it('默认个人工作台为侧栏首菜单，展示前三工作区卡和内容�
   expect(screen.getByRole('combobox',{name:'Global search'})).toBeVisible();
 });
 
-it('个人工作台资料收藏筛选不改变全局菜单，并可从卡片或查看全部进入工作区',async()=>{
+it('个人工作台最近打开筛选不改变全局菜单，并可从卡片或查看全部进入工作区',async()=>{
   mocks.overview.mockResolvedValue({...meta,workspaces:dashboardWorkspaces});
   mocks.resources.mockResolvedValue({...page,items:[file('recent','最近资料.txt')]});
   const user=userEvent.setup();render(<App/>);
-  const nav=within(screen.getByRole('complementary')).getByRole('navigation');
-  await user.click(within(screen.getByRole('main')).getByRole('button',{name:'收藏'}));
-  await waitFor(()=>expect(mocks.resources).toHaveBeenLastCalledWith(expect.objectContaining({workspace_id:null,mode:'favorites'})));
+  const nav=within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).getByRole('navigation');
+  await user.click(within(screen.getByRole('main')).getByRole('button',{name:'最近打开'}));
+  await waitFor(()=>expect(mocks.resources).toHaveBeenLastCalledWith(expect.objectContaining({workspace_id:null,mode:'recent'})));
   expect(screen.getByRole('heading',{level:1})).toHaveTextContent('个人工作台');
   expect(within(nav).getByRole('button',{name:'个人工作台'})).toHaveAttribute('aria-current','page');
   expect(within(nav).getByRole('button',{name:'收藏'})).not.toHaveAttribute('aria-current','page');
@@ -943,10 +952,10 @@ it('个人工作台资料收藏筛选不改变全局菜单，并可从卡片或�
 
 it('动态只在明确导航时打开，重新挂载仍以个人工作台为默认入口',async()=>{
   const user=userEvent.setup();const first=render(<App/>);
-  await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});
+  await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});
   expect(screen.getByRole('heading',{level:1,name:'个人工作台'})).toBeVisible();
   expect(mocks.timeline).not.toHaveBeenCalled();
-  const nav=within(screen.getByRole('complementary')).getByRole('navigation');
+  const nav=within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).getByRole('navigation');
   await user.click(within(nav).getByRole('button',{name:'动态'}));
   expect(await screen.findByRole('region',{name:'文件活动时间线'})).toBeVisible();
   expect(within(nav).getByRole('button',{name:'动态'})).toHaveAttribute('aria-current','page');
@@ -954,35 +963,38 @@ it('动态只在明确导航时打开，重新挂载仍以个人工作台为默�
   first.unmount();mocks.timeline.mockClear();render(<App/>);
   await screen.findByRole('region',{name:'我的工作区'});
   expect(screen.getByRole('heading',{level:1,name:'个人工作台'})).toBeVisible();
-  expect(within(screen.getByRole('complementary')).getByRole('button',{name:'个人工作台'})).toHaveAttribute('aria-current','page');
+  expect(within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).getByRole('button',{name:'个人工作台'})).toHaveAttribute('aria-current','page');
   expect(mocks.timeline).not.toHaveBeenCalled();
 });
 
 it.each([
-  {view:'home' as const,mode:'recent',tab:'最近使用',back:'返回个人工作台',heading:'个人工作台',menu:'个人工作台'},
-  {view:'files' as const,mode:'recent',tab:'最近使用',back:'返回所有文件',heading:'所有文件',menu:'所有文件'},
-  {view:'home' as const,mode:'favorites',tab:'收藏',back:'返回个人工作台',heading:'个人工作台',menu:'个人工作台'},
-  {view:'files' as const,mode:'favorites',tab:'收藏',back:'返回收藏',heading:'收藏',menu:'收藏'},
+  {view:'home' as const,mode:'recent',tab:'最近打开',back:'返回个人工作台',heading:'个人工作台',menu:'个人工作台'},
+  {view:'home' as const,mode:'modified',tab:'最近修改',back:'返回个人工作台',heading:'个人工作台',menu:'个人工作台'},
+  {view:'favorites' as const,mode:'favorites',tab:null,back:'返回收藏',heading:'收藏',menu:'收藏'},
 ])('完整搜索返回$view的$mode时恢复正确页面和资料模式',async({view,mode,tab,back,heading,menu})=>{
   mocks.search.mockImplementation(request=>Promise.resolve({request_id:request.request_id,page:{...page,items:[file('found','合同.txt')]}}));
   mocks.searchPage.mockImplementation(request=>Promise.resolve({request_id:request.request.request_id,page}));
   const user=userEvent.setup();render(<App initialView={view}/>);
-  await within(screen.getByRole('complementary')).findByRole('button',{name:/^客户 A/});
-  await user.click(within(screen.getByRole('main')).getByRole('button',{name:tab}));
+  await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/^客户 A/});
+  if(tab)await user.click(within(screen.getByRole('main')).getByRole('button',{name:tab}));
   await waitFor(()=>expect(mocks.resources).toHaveBeenLastCalledWith(expect.objectContaining({mode})));
   await user.type(screen.getByRole('combobox',{name:'全局搜索'}),'合同');await screen.findByRole('option');
   await user.click(screen.getByRole('button',{name:'查看全部搜索结果'}));
   await user.click(await screen.findByRole('button',{name:back}));
   expect(screen.getByRole('heading',{level:1})).toHaveTextContent(heading);
-  expect(within(screen.getByRole('complementary')).getByRole('button',{name:menu})).toHaveAttribute('aria-current','page');
+  expect(within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).getByRole('button',{name:menu})).toHaveAttribute('aria-current','page');
   await waitFor(()=>expect(mocks.resources).toHaveBeenLastCalledWith(expect.objectContaining({workspace_id:null,mode,offset:0})));
+  if(view==='favorites'){
+    const main=within(screen.getByRole('main'));
+    for(const name of ['最近修改','最近使用','收藏','全部资料'])expect(main.queryByRole('button',{name})).not.toBeInTheDocument();
+  }
   expect(screen.getByRole('combobox',{name:'全局搜索'})).toHaveValue('');
 });
 
 it('侧栏工作区保留UUID拖放入口，首页前三卡以外的工作区也可直接接收原生拖入',async()=>{
   mocks.overview.mockResolvedValue({...meta,workspaces:dashboardWorkspaces});mocks.importDrop.mockResolvedValue({items:[]});
   const user=userEvent.setup();render(<App/>);
-  const sidebar=screen.getByRole('complementary');
+  const sidebar=screen.getByRole('complementary',{name:/主侧栏|Main sidebar/});
   const target=await within(sidebar).findByRole('button',{name:/^客户 D/});
   expect(target).toHaveAttribute('data-workspace-id','workspace4');
   expect(within(screen.getByRole('region',{name:'我的工作区'})).queryByText('客户 D')).not.toBeInTheDocument();
@@ -1002,7 +1014,7 @@ it.each([1,2])('原生物理坐标在%d倍屏按实际位置选择工作区入�
   const workspaces=[{id:'a',name:'坐标 A',count:0},{id:'b',name:'坐标 B',count:0},{id:'c',name:'坐标 C',count:0}];
   mocks.overview.mockResolvedValue({...meta,workspaces});mocks.importDrop.mockResolvedValue({items:[]});
   const user=userEvent.setup();render(<App/>);
-  const sidebar=screen.getByRole('complementary');
+  const sidebar=screen.getByRole('complementary',{name:/主侧栏|Main sidebar/});
   await user.click(await within(sidebar).findByRole('button',{name:/^坐标 C/}));
   const start=mocks.listen.mock.calls.find(([name])=>name==='files-drop-started')![1];
   const hover=mocks.listen.mock.calls.find(([name])=>name==='files-dragging')![1];
@@ -1053,7 +1065,7 @@ it.each(['home','search'] as const)('%s侧栏第13个以后工作区保留真实
     expect(cards.querySelectorAll('[data-workspace-id]')).toHaveLength(3);
     expect(within(cards).queryByText('项目 13')).not.toBeInTheDocument();
   }
-  const sidebar=screen.getByRole('complementary');
+  const sidebar=screen.getByRole('complementary',{name:/主侧栏|Main sidebar/});
   await within(sidebar).findByRole('button',{name:/^项目 15/});
   expect(sidebar.querySelectorAll('[data-workspace-id]')).toHaveLength(15);
   const target=within(sidebar).getByRole('button',{name:/^项目 13/});
@@ -1173,7 +1185,7 @@ it('已有资料的收藏操作失败不改成首次读取失败或触发重新�
 
 it('同页失效重读保留几何高度但立即清除旧资料，完成后释放高度',async()=>{
   mocks.resources.mockResolvedValue({...page,items:[file('private-old','授权变化前的合同.txt')]});
-  render(<App initialView="files"/>);
+  render(<App initialView="home"/>);
   await screen.findByText('授权变化前的合同.txt');
   const main=screen.getByRole('main');
   vi.spyOn(main,'getBoundingClientRect').mockReturnValue({...main.getBoundingClientRect(),height:1800});
@@ -1194,7 +1206,7 @@ it('同页失效重读保留几何高度但立即清除旧资料，完成后释�
 
 it('仅扫描进度通知保留已加载搜索后页和选择，真实版本变化仍重读',async()=>{
   mocks.searchPage.mockImplementation(request=>Promise.resolve({request_id:request.request.request_id,page:{...page,has_more:request.offset===0,items:[file(request.offset?'tail':'head',request.offset?'后页合同':'首页合同')]},next_cursor:request.offset?undefined:cursor(100,'')}));
-  const user=userEvent.setup();render(<App initialView="search"/>);
+  const user=userEvent.setup();render(<App initialView="search"/>);fireEvent.change(screen.getByRole("textbox",{name:"完整搜索词"}),{target:{value:"合同"}});
   await screen.findByText('首页合同');await user.click(screen.getByRole('button',{name:'加载更多'}));
   await screen.findByText('后页合同');await user.click(screen.getByRole('checkbox',{name:'选择 后页合同'}));
   const progress=mocks.listen.mock.calls.find(([name])=>name==='scan-progress')![1];
@@ -1209,7 +1221,7 @@ it('仅扫描进度通知保留已加载搜索后页和选择，真实版本变�
 
 it('迟到扫描进度不能覆盖撤权通知后的新概览或恢复旧名称',async()=>{
   mocks.resources.mockResolvedValue({...page,items:[file('old','旧授权合同')]});
-  render(<App initialView="files"/>);await screen.findByText('旧授权合同');
+  render(<App initialView="home"/>);await screen.findByText('旧授权合同');
   let finish!:(value:Overview)=>void;
   mocks.overview.mockImplementationOnce(()=>new Promise<Overview>(resolve=>{finish=resolve;}));
   const progress=mocks.listen.mock.calls.find(([name])=>name==='scan-progress')![1];
@@ -1219,16 +1231,16 @@ it('迟到扫描进度不能覆盖撤权通知后的新概览或恢复旧名称'
   const changed=mocks.listen.mock.calls.find(([name])=>name==='catalog-changed')![1];
   await act(async()=>changed({payload:null}));
   expect(screen.queryByText('旧授权合同')).not.toBeInTheDocument();
-  await within(screen.getByRole('complementary')).findByRole('button',{name:/新授权工作区/});
+  await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button',{name:/新授权工作区/});
   await act(async()=>finish(meta));
-  expect(within(screen.getByRole('complementary')).getByRole('button',{name:/新授权工作区/})).toBeVisible();
+  expect(within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).getByRole('button',{name:/新授权工作区/})).toBeVisible();
   expect(screen.queryByText('旧授权合同')).not.toBeInTheDocument();
 });
 
 it('修正无效日期后成功查询清除旧查询错误，但保留操作失败',async()=>{
   mocks.searchPage.mockRejectedValueOnce({code:'invalid_input',message:'请选择有效的修改时间范围'})
     .mockImplementation(request=>Promise.resolve({request_id:request.request.request_id,page:{...page,items:[file('valid','有效日期资料')]}}));
-  const user=userEvent.setup();render(<App initialView="search"/>);
+  const user=userEvent.setup();render(<App initialView="search"/>);fireEvent.change(screen.getByRole("textbox",{name:"完整搜索词"}),{target:{value:"合同"}});
   expect(await screen.findByRole('alert')).toHaveTextContent('请选择有效的修改时间范围');
   fireEvent.change(screen.getByLabelText('修改日期，从'),{target:{value:'2026-11-21'}});
   await screen.findByRole('checkbox',{name:'选择 有效日期资料'});
@@ -1239,4 +1251,52 @@ it('修正无效日期后成功查询清除旧查询错误，但保留操作失�
   fireEvent.change(screen.getByLabelText('修改日期，从'),{target:{value:'2026-11-22'}});
   await waitFor(()=>expect(mocks.searchPage).toHaveBeenCalledTimes(3));
   expect(screen.getByRole('alert')).toHaveTextContent('收藏操作失败');
+});
+it('空词可进入完整搜索且不请求空词或自动列全库',async()=>{
+  const user=userEvent.setup();render(<App/>);
+  await user.click(screen.getByRole('button',{name:'搜索与筛选'}));
+  expect(await screen.findByRole('heading',{name:'输入名称或路径'})).toBeVisible();
+  expect(mocks.searchPage).not.toHaveBeenCalled();
+  const count=mocks.resources.mock.calls.length;
+  await user.click(screen.getByRole('combobox',{name:'全局搜索'}));
+  await user.click(screen.getByRole('button',{name:'查看全部搜索结果'}));
+  expect(mocks.searchPage).not.toHaveBeenCalled();expect(mocks.resources.mock.calls.length).toBe(count);
+});
+it('完整页合同与快捷招聘隔离，Esc保持筛选排序选择及已加载页',async()=>{
+  mocks.search.mockImplementation(request=>Promise.resolve({request_id:request.request_id,page:{...page,items:[file('quick',request.query)]}}));
+  mocks.searchPage.mockImplementation(request=>Promise.resolve({request_id:request.request.request_id,page:{...page,items:[file(String(request.offset),'合同'+request.offset)],has_more:request.offset===0},next_cursor:request.offset===0?cursor(100):undefined}));
+  const user=userEvent.setup();render(<App/>);await user.click(screen.getByRole('button',{name:'搜索与筛选'}));
+  await user.type(screen.getByRole('textbox',{name:'完整搜索词'}),'合同');await user.click(await screen.findByRole('checkbox',{name:'选择 合同0'}));
+  await user.click(screen.getByRole('button',{name:'加载更多'}));await screen.findByText('合同100');
+  const count=mocks.searchPage.mock.calls.length;
+  await user.type(screen.getByRole('combobox',{name:'全局搜索'}),'招聘');await within(screen.getByRole('listbox')).findByRole('option');await user.keyboard('{Escape}');
+  expect(screen.getByRole('textbox',{name:'完整搜索词'})).toHaveValue('合同');expect(screen.getByText('合同100')).toBeVisible();expect(screen.getByRole('checkbox',{name:'选择 合同0'})).toBeChecked();expect(mocks.searchPage).toHaveBeenCalledTimes(count);
+  await user.click(screen.getByRole('combobox',{name:'全局搜索'}));await user.click(screen.getByRole('button',{name:'查看全部搜索结果'}));
+  await waitFor(()=>expect(mocks.searchPage).toHaveBeenLastCalledWith(expect.objectContaining({offset:0,request:expect.objectContaining({query:'招聘'})})));
+  expect(screen.queryByText('1 项已选择')).not.toBeInTheDocument();
+});
+it('组字不查中间词，候选Enter与改词后的Enter不打开旧命中',async()=>{
+  mocks.search.mockImplementation(request=>Promise.resolve({request_id:request.request_id,page:{...page,items:[file('old','旧结果')]}}));
+  const user=userEvent.setup();render(<App/>);const input=screen.getByRole('combobox',{name:'全局搜索'});await user.click(input);
+  fireEvent.compositionStart(input);fireEvent.change(input,{target:{value:'hetong'}});
+  await act(async()=>{await new Promise(resolve=>setTimeout(resolve,100));});expect(mocks.search).not.toHaveBeenCalled();
+  fireEvent.change(input,{target:{value:'合同'}});fireEvent.compositionEnd(input);fireEvent.keyDown(input,{key:'Enter'});expect(mocks.open).not.toHaveBeenCalled();
+  await screen.findByRole('option');fireEvent.change(input,{target:{value:'招聘'}});fireEvent.keyDown(input,{key:'Enter'});expect(mocks.open).not.toHaveBeenCalled();
+  await screen.findByRole('option');expect(mocks.search.mock.calls.map(([r])=>r.query)).toEqual(['合同','招聘']);
+});
+it('普通打开事件后台更新不清列表或选择，双击仅一个IPC且权限变化仍强失效',async()=>{
+  const item=file('kept','保持选择.txt');mocks.resources.mockResolvedValue({...page,items:[item]});
+  let finish!:(value:ResourcePage)=>void;
+  mocks.open.mockImplementation(async()=>{mocks.resources.mockImplementationOnce(()=>new Promise(resolve=>{finish=resolve;}));await mocks.listen.mock.calls.find(([name])=>name==='resource-opened')![1]({payload:null});});
+  const user=userEvent.setup();render(<App/>);await user.click(await screen.findByRole('checkbox',{name:'选择 保持选择.txt'}));
+  await user.dblClick(screen.getByRole('button',{name:/^保持选择.txt/}));await waitFor(()=>expect(finish).toBeTypeOf('function'));
+  expect(mocks.open).toHaveBeenCalledExactlyOnceWith('kept');expect(screen.getByRole('checkbox',{name:'选择 保持选择.txt'})).toBeChecked();expect(screen.queryByRole('heading',{name:'正在读取资料'})).not.toBeInTheDocument();
+  await act(async()=>finish({...page,items:[{...item,opened_at:1234}]}));expect(screen.getByRole('checkbox')).toBeChecked();
+  mocks.resources.mockImplementation(()=>new Promise(()=>{}));await act(async()=>mocks.listen.mock.calls.find(([name])=>name==='catalog-changed')![1]({payload:null}));expect(screen.queryByText('保持选择.txt')).not.toBeInTheDocument();
+});
+it('连续普通打开的后台重读晚返回不能覆盖较新的有效列表',async()=>{
+  mocks.resources.mockResolvedValue({...page,items:[file('a','打开前.txt')]});render(<App/>);await screen.findByText('打开前.txt');
+  const pending:Array<(value:ResourcePage)=>void>=[];mocks.resources.mockImplementation(()=>new Promise(resolve=>pending.push(resolve)));const handler=mocks.listen.mock.calls.find(([name])=>name==='resource-opened')![1];
+  await act(async()=>{void handler({payload:null});});await waitFor(()=>expect(pending).toHaveLength(1));await act(async()=>{void handler({payload:null});});await waitFor(()=>expect(pending).toHaveLength(2));
+  await act(async()=>pending[1]({...page,items:[file('a','第二次打开已更新.txt')]}));await screen.findByText('第二次打开已更新.txt');await act(async()=>pending[0]({...page,items:[file('a','第一次打开迟到.txt')]}));expect(screen.getByText('第二次打开已更新.txt')).toBeVisible();expect(screen.queryByText('第一次打开迟到.txt')).not.toBeInTheDocument();
 });

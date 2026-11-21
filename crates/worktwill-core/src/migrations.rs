@@ -1,7 +1,7 @@
 use crate::model::{AppError, Result};
 use rusqlite::{Connection, TransactionBehavior};
 
-pub(crate) const VERSION: u32 = 8;
+pub(crate) const VERSION: u32 = 9;
 pub(crate) fn migrate(db: &mut Connection) -> Result<()> {
     let version: u32 = db.pragma_query_value(None, "user_version", |r| r.get(0))?;
     if version > VERSION {
@@ -86,6 +86,13 @@ pub(crate) fn migrate(db: &mut Connection) -> Result<()> {
                 UPDATE activity_root_scopes SET retired_location_valid=0;")?;
         }
         tx.execute_batch("PRAGMA user_version=8;")?;
+        tx.commit()?;
+    }
+    let version: u32 = db.pragma_query_value(None, "user_version", |r| r.get(0))?;
+    if version == 8 {
+        // 正式库此前没有便签；保留墓碑阻止删除后的迟到保存重新创建。
+        let tx = db.transaction_with_behavior(TransactionBehavior::Immediate)?;
+        tx.execute_batch("CREATE TABLE scratch_notes(id TEXT PRIMARY KEY,text TEXT NOT NULL,pinned INTEGER NOT NULL CHECK(pinned IN(0,1)),version INTEGER NOT NULL,updated_at REAL NOT NULL,deleted INTEGER NOT NULL DEFAULT 0 CHECK(deleted IN(0,1))); PRAGMA user_version=9;")?;
         tx.commit()?;
     }
     db.execute("CREATE INDEX IF NOT EXISTS activities_resource_kind_time ON activities(resource_id,kind,at DESC,id DESC)",[])?;

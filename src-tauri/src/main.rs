@@ -176,6 +176,29 @@ async fn overview(state: State<'_, Arc<Runtime>>) -> Result<Overview> {
         .map_err(|_| internal_error())?
 }
 #[tauri::command]
+async fn notes(state: State<'_, Arc<Runtime>>) -> Result<NotesState> {
+    let store = state.store.clone();
+    tauri::async_runtime::spawn_blocking(move || store.notes_state())
+        .await
+        .map_err(|_| internal_error())?
+}
+#[tauri::command]
+async fn write_note(
+    app: tauri::AppHandle,
+    state: State<'_, Arc<Runtime>>,
+    request: NoteWrite,
+) -> Result<ScratchNote> {
+    let store = state.store.clone();
+    let result = tauri::async_runtime::spawn_blocking(move || store.write_note(request))
+        .await
+        .map_err(|_| internal_error())?;
+    if result.is_ok() {
+        let _ = app.emit("notes-changed", ());
+    }
+    result
+}
+
+#[tauri::command]
 async fn resources(state: State<'_, Arc<Runtime>>, query: ResourceQuery) -> Result<ResourcePage> {
     let store = state.store.clone();
     tauri::async_runtime::spawn_blocking(move || store.resources(query))
@@ -336,7 +359,11 @@ async fn open_resource(
             Ok(())
         })();
         // 定位可能已提交，即使随后系统打开失败也要让界面读取新位置。
-        let _ = app.emit("catalog-changed", ());
+        if result.is_ok() {
+            let _ = app.emit("resource-opened", ());
+        } else {
+            let _ = app.emit("catalog-changed", ());
+        }
         result
     })
     .await
@@ -518,6 +545,7 @@ async fn restore(
     .map_err(|_| internal_error())??;
     if result {
         let _ = app.emit("catalog-changed", ());
+        let _ = app.emit("data-restored", ());
     }
     Ok(result)
 }
@@ -869,8 +897,35 @@ fn main() {
                 _=>{}
             }
         })
+        .on_menu_event(|app,event| {
+            if event.id().as_ref()=="worktwill-quit" {
+                if let Some(window)=app.get_webview_window("main") {if window.close().is_err(){let _=app.emit("operation-error",internal_error());}}
+            }
+        })
         .setup(|app| {
+            #[cfg(target_os="macos")]
+            {
+                // 原生预定义Quit直接终止NSApplication，改为同一窗口关闭/保存路径。
+                let menu=tauri::menu::Menu::default(app.handle())?;
+                if let Some(tauri::menu::MenuItemKind::Submenu(application))=menu.items()?.first(){
+                    let items=application.items()?;
+                    if let Some(index)=items.iter().position(|item|matches!(item,tauri::menu::MenuItemKind::Predefined(predefined) if predefined.text().is_ok_and(|text|text.starts_with("Quit")))) {
+                        application.remove_at(index)?;
+                        application.insert(&tauri::menu::MenuItem::with_id(app,"worktwill-quit","Quit WorkTwill",true,Some("Cmd+Q"))?,index)?;
+                    }
+                }
+                app.set_menu(menu)?;
+            }
+
             let path = app.path().app_data_dir()?.join("worktwill.sqlite3");
+            #[cfg(debug_assertions)]
+            let path = if let Some(directory)=std::env::var_os("WORKTWILL_NATIVE_DATA_DIR") {
+                // 调试原生验收仅允许显式测试根内的现存独立目录，正式包不读取此配置。
+                let root=std::fs::canonicalize(std::env::var_os("WORKTWILL_TEST_ROOT").ok_or_else(||std::io::Error::other("WORKTWILL_TEST_ROOT is required"))?)?;
+                let directory=std::fs::canonicalize(directory)?;
+                if directory==root||!directory.starts_with(&root){return Err(std::io::Error::other("native test data must be inside the confirmed test root").into());}
+                directory.join("worktwill.sqlite3")
+            } else {path};
             let store = Store::open(path).map_err(|error| std::io::Error::other(error.message))?;
             app.manage(Arc::new(Runtime {
                 store: Arc::new(store),
@@ -883,6 +938,13 @@ fn main() {
                 pending_drop: Mutex::new(drop_import::DropInbox::default()),
                 search_requests: Mutex::new(search_requests::SearchRequests::default()),
             }));
+            #[cfg(debug_assertions)]
+            if std::env::var_os("WORKTWILL_NATIVE_DATA_DIR").is_some() {
+                if let Some(window)=app.get_webview_window("main") {
+                    if std::env::var_os("WORKTWILL_NATIVE_MINIMUM").is_some() { window.set_size(tauri::LogicalSize::new(900.,640.))?; }
+                    if std::env::var_os("WORKTWILL_NATIVE_INSPECTOR").is_some() { window.open_devtools(); }
+                }
+            }
             start_watcher(app.handle().clone());
             kick_scan(app.handle().clone());
             Ok(())
@@ -898,6 +960,8 @@ fn main() {
             pick_files,
             overview,
             resources,
+            notes,
+            write_note,
             search,
             mutate,
             pick_root,
@@ -908,6 +972,15 @@ fn main() {
             backup,
             restore
         ])
-        .run(tauri::generate_context!())
-        .expect("WorkTwill startup failed");
+        .build(tauri::generate_context!())
+        .expect("WorkTwill startup failed")
+        .run(|app,event| {
+            if let tauri::RunEvent::ExitRequested{code:None|Some(0),api,..}=event {
+                if let Some(window)=app.get_webview_window("main") {
+                    // macOS ⌘Q 同样经过窗口的便签保存守卫，不能直接丢弃草稿。
+                    api.prevent_exit();
+                    if window.close().is_err(){let _=app.emit("operation-error",internal_error());}
+                }
+            }
+        });
 }

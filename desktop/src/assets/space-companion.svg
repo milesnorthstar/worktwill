@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 230" role="img" aria-label="空间伙伴">
+<defs><radialGradient id="bg"><stop stop-color="#f9fff1"/><stop offset="1" stop-color="#e5f4dc"/></radialGradient><linearGradient id="leaf" x2="1" y2="1"><stop stop-color="#b9df5a"/><stop offset="1" stop-color="#51974b"/></linearGradient><linearGradient id="pot" x2="0" y2="1"><stop stop-color="#edc38a"/><stop offset="1" stop-color="#d69c60"/></linearGradient></defs>
+<rect width="360" height="230" rx="18" fill="url(#bg)"/><ellipse cx="180" cy="208" rx="78" ry="11" fill="#629153" opacity=".13"/>
+<path d="M179 90Q115 91 117 34Q171 32 180 83Q190 23 242 26Q243 84 183 95" fill="url(#leaf)"/>
+<path d="M180 90L179 57M185 83L220 47M175 79L135 49" stroke="#73a74e" stroke-width="3" fill="none" stroke-linecap="round"/>
+<ellipse cx="180" cy="128" rx="58" ry="55" fill="#e0ecc1" stroke="#8bb96c" stroke-width="4"/>
+<ellipse cx="180" cy="134" rx="43" ry="39" fill="#fff7d9"/><ellipse cx="165" cy="129" rx="4" ry="6" fill="#514436"/><ellipse cx="195" cy="129" rx="4" ry="6" fill="#514436"/>
+<path d="M174 141q6 8 12 0" fill="none" stroke="#514436" stroke-width="3" stroke-linecap="round"/><ellipse cx="151" cy="141" rx="9" ry="5" fill="#f3c7a6"/><ellipse cx="209" cy="141" rx="9" ry="5" fill="#f3c7a6"/>
+<path d="M132 165L144 204Q180 216 216 204L228 165" fill="url(#pot)" stroke="#ce9c67" stroke-width="2"/><rect x="127" y="157" width="106" height="18" rx="7" fill="#edc38a" stroke="#ce9c67" stroke-width="2"/>
+<ellipse cx="149" cy="160" rx="10" ry="7" fill="#fff1cd"/><ellipse cx="211" cy="160" rx="10" ry="7" fill="#fff1cd"/>
+<path d="M98 110l-9-7M101 96l-4-10M258 102l9-6" stroke="#e4bb51" stroke-width="5" stroke-linecap="round"/>
+</svg>

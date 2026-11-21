@@ -1,5 +1,5 @@
 import { invoke, isTauri } from '@tauri-apps/api/core';
-import type { Mutation, MutationResponse, Overview, ResourcePage, ResourceQuery, SearchRequest, SearchResponse, ImportResult, TimelineRequest, TimelinePage, SearchPageRequest, WebMetadata, UiLanguage, SuggestedLocation } from './contracts';
+import type { Mutation, MutationResponse, Overview, ResourcePage, ResourceQuery, SearchRequest, SearchResponse, ImportResult, TimelineRequest, TimelinePage, SearchPageRequest, WebMetadata, UiLanguage, SuggestedLocation, NotesState, NoteWrite, ScratchNote } from './contracts';
 
 export const native = isTauri();
 let searchSession:Promise<string>|null=null;
@@ -17,6 +17,8 @@ function currentSearchSession():Promise<string> {
   return searchSession;
 }
 export const api = {
+  notes: () => invoke<NotesState>("notes"),
+  writeNote: (request:NoteWrite) => invoke<ScratchNote>("write_note",{request}),
   searchPage: async(request:SearchPageRequest) => invoke<SearchResponse>('search_page',{request,session:await currentSearchSession()}),
   cancelSearch: async(lane:'quick'|'page',requestId:number) => {
     const active=searchSession;

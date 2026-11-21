@@ -346,7 +346,7 @@ fn restoring_genuine_v3_backup_migrates_rebuilds_and_revokes_both_grant_types() 
 fn version_four_adds_only_private_locator_table_and_failure_keeps_its_version() {
     let mut db = Connection::open_in_memory().unwrap();
     migrations::migrate(&mut db).unwrap();
-    db.execute_batch("DROP TABLE activity_root_scopes; DROP TABLE activity_origins; DROP TABLE resource_relinks; DROP INDEX activities_resource_kind_time; DROP TABLE root_aliases; DROP TABLE root_locators; DROP TABLE file_locators; PRAGMA user_version=4;")
+    db.execute_batch("DROP TABLE scratch_notes; DROP TABLE activity_root_scopes; DROP TABLE activity_origins; DROP TABLE resource_relinks; DROP INDEX activities_resource_kind_time; DROP TABLE root_aliases; DROP TABLE root_locators; DROP TABLE file_locators; PRAGMA user_version=4;")
         .unwrap();
     let projection_columns = columns(&db, "search_documents");
     // 在真实v4结构上制造同名对象冲突；建表失败不能提前推进版本。

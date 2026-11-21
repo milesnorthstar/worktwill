@@ -12,8 +12,10 @@ mod known_refresh;
 mod macos_bookmark;
 mod migrations;
 pub mod model;
+mod notes;
 mod open_target;
 mod platform;
+mod quality;
 mod relink_review;
 mod root_locator;
 #[cfg(all(test, target_os = "macos"))]

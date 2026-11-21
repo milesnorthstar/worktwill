@@ -94,6 +94,12 @@ pub struct Resource {
     pub size: f64,
     pub favorite: bool,
     pub workspace_ids: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub opened_at: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[ts(optional)]
+    pub match_field: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
@@ -299,4 +305,29 @@ pub struct MutationRequest {
 pub struct MutationResponse {
     pub id: Option<String>,
     pub changed: u32,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+pub struct ScratchNote {
+    pub id: String,
+    pub text: String,
+    pub pinned: bool,
+    pub version: u32,
+    pub updated_at: f64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+pub struct NotesState {
+    pub scope: String,
+    pub items: Vec<ScratchNote>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+pub struct NoteWrite {
+    pub scope: String,
+    pub id: String,
+    pub text: String,
+    pub pinned: bool,
+    pub expected_version: u32,
+    pub deleted: bool,
 }

@@ -1,0 +1,49 @@
+Window: "WorkTwill", App: WorkTwill.
+0 standard window WorkTwill, Secondary Actions: Raise
+	1 scroll area
+		2 HTML content Description: WorkTwill · 个人工作台, URL: tauri://localhost
+			3 container 主侧栏
+				4 button WorkTwill
+				5 text 你的个人工作台
+				6 container 主导航
+					7 button 个人工作台
+					8 button 搜索与筛选
+					9 button 工作区
+					10 button 收藏
+					11 button 动态
+				12 text 我的工作区
+				13 button 新建工作区
+				14 button 资料归档工作区 1
+				15 button 合同项目工作区 2
+				16 button 管理位置与设置
+			17 container
+				18 combo box (collapsed, settable) 全局搜索, Placeholder: 搜索文件、网页或工作区, Secondary Actions: Expand
+					19 text 搜索文件、网页或工作区
+				20 text ⌘  K
+				21 button EN
+			22 container
+				23 text WORKTWILL
+				24 heading 每件工作，都有自己的位置。, Value: 1
+					25 text 每件工作，都有自己的位置。
+				26 button 添加网页
+				27 button 新建工作区
+				28 container 工作区列表
+					29 heading 从工作区继续, Value: 2
+						30 text 从工作区继续
+					31 text 2 个工作区
+					32 button 资料归档工作区 1 份资料
+					33 button 合同项目工作区 2 份资料
+					34 button 为一件工作，留一个位置
+				35 text 原件在原处，工作在一起。
+		36 scroll bar (settable, float) 0
+	37 close button
+	38 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	39 minimize button
+	40 text WorkTwill
+41 menu bar
+	42 WorkTwill
+	43 File
+	44 Edit
+	45 View
+	46 Window
+	47 Help

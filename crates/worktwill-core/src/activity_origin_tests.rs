@@ -909,7 +909,7 @@ fn genuine_v7_four_column_scope_migrates_to_v8_without_losing_current_history_or
     // 真正执行共用权限SQL，修复前这里复现原生overview的缺列错误。
     assert_v7_history_visibility(&store, &seed);
     let db = store.connection().unwrap();
-    assert_eq!(schema_version(&db), 8);
+    assert_eq!(schema_version(&db), crate::migrations::VERSION);
     assert_eq!(raw_table(&db, "activity_origins"), old_origins);
     assert_eq!(four_scope_columns(&db), old_scopes);
     assert_eq!(raw_table(&db, "resources"), old_resources);
@@ -964,7 +964,7 @@ fn genuine_v7_existing_retired_flags_keep_both_zero_and_one_while_advancing_to_v
         2
     );
     crate::migrations::migrate(&mut db).unwrap();
-    assert_eq!(schema_version(&db), 8);
+    assert_eq!(schema_version(&db), crate::migrations::VERSION);
     assert_eq!(raw_table(&db, "activity_root_scopes"), before);
     assert_eq!(raw_table(&db, "activity_origins"), origins);
     crate::migrations::migrate(&mut db).unwrap();
@@ -1084,7 +1084,7 @@ fn genuine_v7_backup_restores_via_v8_staging_without_changing_source_or_reviving
     store.restore_from(&f.database).unwrap();
     assert_eq!(fs::read(&f.database).unwrap(), source_before);
     let db = store.connection().unwrap();
-    assert_eq!(schema_version(&db), 8);
+    assert_eq!(schema_version(&db), crate::migrations::VERSION);
     assert_eq!(raw_table(&db, "activity_origins"), origins);
     assert_eq!(four_scope_columns(&db), scopes);
     assert_eq!(raw_table(&db, "workspace_resources"), links);
@@ -1150,7 +1150,7 @@ fn genuine_v7_retired_flag_upgrade_rolls_back_alter_rows_and_version_then_retrie
     db.execute("DROP TRIGGER stop_unknown_retired_scope_update", [])
         .unwrap();
     crate::migrations::migrate(&mut db).unwrap();
-    assert_eq!(schema_version(&db), 8);
+    assert_eq!(schema_version(&db), crate::migrations::VERSION);
     assert_eq!(
         db.query_row(
             "SELECT count(*) FROM activity_root_scopes WHERE retired_location_valid<>0",
