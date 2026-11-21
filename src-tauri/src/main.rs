@@ -1,6 +1,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod dialog_copy;
+mod drop_coordinates;
 mod drop_import;
 mod known_changes;
 mod picked_files;
@@ -824,29 +825,32 @@ fn main() {
         .on_window_event(|window,event| {
             let WindowEvent::DragDrop(event)=event else {return;};
             let state=window.state::<Arc<Runtime>>();
+            let scale=match window.scale_factor(){Ok(scale)=>scale,Err(_)=>{let _=window.emit("operation-error",internal_error());return;}};
             match event {
                 DragDropEvent::Enter{paths,position} => {
+                    let (x,y)=drop_coordinates::physical_point(position.x,position.y,scale,cfg!(target_os="macos"));
                     if let Ok(mut pending)=state.pending_drop.lock(){pending.hover(paths.len());}
-                    let _=window.emit("files-dragging",serde_json::json!({"x":position.x,"y":position.y,"count":paths.len()}));
+                    let _=window.emit("files-dragging",serde_json::json!({"x":x,"y":y,"count":paths.len()}));
                 }
                 DragDropEvent::Over{position} => {
+                    let (x,y)=drop_coordinates::physical_point(position.x,position.y,scale,cfg!(target_os="macos"));
                     let count=state.pending_drop.lock().map(|pending|pending.hover_count()).unwrap_or(0);
-                    let _=window.emit("files-dragging",serde_json::json!({"x":position.x,"y":position.y,"count":count}));
+                    let _=window.emit("files-dragging",serde_json::json!({"x":x,"y":y,"count":count}));
                 }
                 DragDropEvent::Leave => {
                     if let Ok(mut pending)=state.pending_drop.lock(){pending.leave();}
                     let _=window.emit("files-drag-left",());
                 }
                 DragDropEvent::Drop{paths,position} => {
+                    let (x,y)=drop_coordinates::physical_point(position.x,position.y,scale,cfg!(target_os="macos"));
                     let _=window.emit("files-drag-left",());
                     let reserved=state.pending_drop.lock().map_err(|_|internal_error()).and_then(|mut pending|pending.reserve(paths.iter().map(|p|p.to_string_lossy().into_owned()).collect(),Instant::now()));
                     match reserved {
                         Ok((token,count,paths))=>{
                             // 松手时立即固定目标；身份捕获完成前切换工作区不能改变本次拖入归属。
-                            let _=window.emit("files-drop-started",serde_json::json!({"token":token,"count":count,"x":position.x,"y":position.y}));
+                            let _=window.emit("files-drop-started",serde_json::json!({"token":token,"count":count,"x":x,"y":y}));
                             let app=window.app_handle().clone();
                             let window=window.clone();
-                            let (x,y)=(position.x,position.y);
                             // 身份快照可能涉及慢盘；在后台捕获，且旧任务不能覆盖后来拖入。
                             tauri::async_runtime::spawn_blocking(move || {
                                 let selections=worktwill_core::capture_import_selections(&paths);

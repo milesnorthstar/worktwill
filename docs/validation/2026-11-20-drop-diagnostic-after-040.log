@@ -1,0 +1,26 @@
+
+> worktwill@0.1.0 tauri /Users/lch/Desktop/project/my/test
+> tauri build --bundles app
+
+        Info Looking up installed tauri packages to check mismatched versions...
+     Running beforeBuildCommand `pnpm build`
+
+> worktwill@0.1.0 build /Users/lch/Desktop/project/my/test
+> tsc --noEmit && vite build
+
+vite v7.3.8 building client environment for production...
+transforming...
+✓ 1587 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/index.html                   0.46 kB │ gzip:  0.32 kB
+../dist/assets/index-CU85cPSC.css   42.37 kB │ gzip:  9.68 kB
+../dist/assets/index-DZtxwnoA.js   304.34 kB │ gzip: 95.26 kB
+✓ built in 762ms
+   Compiling worktwill-desktop v0.1.0 (/Users/lch/Desktop/project/my/test/src-tauri)
+    Finished `release` profile [optimized] target(s) in 16.03s
+       Built application at: /Users/lch/Desktop/project/my/test/target/release/worktwill-desktop
+    Bundling WorkTwill.app (/Users/lch/Desktop/project/my/test/target/release/bundle/macos/WorkTwill.app)
+    Finished 1 bundle at:
+        /Users/lch/Desktop/project/my/test/target/release/bundle/macos/WorkTwill.app (16.55 MiB)
+

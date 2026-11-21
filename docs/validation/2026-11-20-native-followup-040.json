@@ -1,0 +1,80 @@
+{
+  "recorded_at": "2026-11-20T22:34:24.023075+08:00",
+  "runtime": "040 final unchanged; no build or dependency change this followup",
+  "source_fingerprint_matches_sealed040": [
+    "src-tauri/src/main.rs",
+    "src-tauri/src/drop_coordinates.rs",
+    "desktop/src/App.tsx",
+    "desktop/src/App.test.tsx"
+  ],
+  "native_default_open": {
+    "action": "Computer Use coordinate click at (2340,978) on visible Open control in current raw 2560x1680 WorkTwill screenshot",
+    "workspace": "原生拖入038",
+    "resource_id": "8fe46cb3-ea1c-4d2d-bf62-ac85e7ee7725",
+    "editor": "TextEdit",
+    "observed_window_title": "拖入重复038.txt",
+    "observed_document_url": "/private/tmp/worktwill-spikes-20261119/native-drop-038-h_15pwfq/拖入样本/拖入重复038.txt",
+    "observed_content": "ALREADY_LINKED_038\n",
+    "passed": true,
+    "closed_without_edits": true,
+    "original_matches038_baseline": {
+      "inode": 95483879,
+      "mtime_ns": "1795171498873502805",
+      "sha256": "752f8ba082fd8deaad63645ee519bc76df055296567a6003209f70f80437f9e4"
+    },
+    "supersedes_only": "Earlier040 extra-open attempt was unconfirmed. That failed observation is retained; this is a separate successful later attempt."
+  },
+  "finder_boundary": {
+    "observed_window": "拖入样本 with only the three approved synthetic TXT samples",
+    "window_menu_action": "Attempted Move to Q27G4(1); reread menu continued to offer same destination. Keyboard menu sequence also returned unchanged tree.",
+    "new_external_drop_attempt": false,
+    "reason": "Could not authoritatively establish intended same-screen window geometry; did not repeat an ungrounded drag or fabricate receiving evidence.",
+    "external_drop_after_fix_passed": false,
+    "manual_support_requested_now": false
+  },
+  "final_visible_state": {
+    "worktwill": "原生拖入038, 1 item, brought to front",
+    "source_workspace_count": 2,
+    "reference039_source_count": 0,
+    "reference039_target_count": 4,
+    "related_links": [
+      {
+        "workspace_id": "456a1f64-8a9c-4d21-9dec-bfcd8075cf02",
+        "resource_id": "adb27a9b-b379-4c34-bd18-6a34e383cff2"
+      },
+      {
+        "workspace_id": "5c2b9089-70d4-4737-b020-cf3c465b501b",
+        "resource_id": "12af7785-777b-4916-95f0-4d3073612d22"
+      },
+      {
+        "workspace_id": "5c2b9089-70d4-4737-b020-cf3c465b501b",
+        "resource_id": "8fe46cb3-ea1c-4d2d-bf62-ac85e7ee7725"
+      },
+      {
+        "workspace_id": "b26967ab-8ebb-428e-be67-36c5dc48e8d9",
+        "resource_id": "8fe46cb3-ea1c-4d2d-bf62-ac85e7ee7725"
+      }
+    ]
+  },
+  "remaining_mac": [
+    "After-fix native Finder target/hover/order and mixed authorization/cancel matrix",
+    "Restart retrieval for externally formed reference",
+    "Direct capture of SQLite interrupt in native UI"
+  ],
+  "full_mac_core_passed": false,
+  "full_v1_passed": false,
+  "git_mutations": false,
+  "new_build": false,
+  "blocked_audit": {
+    "at": "2026-11-20T22:38:22.148073+08:00",
+    "same_condition_observed_across": "040 repair/native attempts,040 default-open followup,current goal continuation",
+    "current_live_ui": "原生拖入038 still1; no import result; source2; reference039 source0/target4",
+    "read_only_db_matches_ui": true,
+    "checked_runtime_source_unchanged": true,
+    "new_external_action_or_build": false,
+    "blocking_condition": "No receivable post-fix native Finder gesture with an authoritative target; previous cross-window attempts had no event or windowNotFound and display-menu actions did not establish a changed geometry. User offline, no bypass or new permissions.",
+    "independent_work": "Coordinate repair,automated checks,reference safety,final package,default open and records completed. No new failure/change justifies more build or broad checks.",
+    "resume_condition": "A receivable native gesture or changed/working native input/window environment; then run fixed finite target/authorization/restart matrix. Windows remains later separate real-PC validation.",
+    "full_mac_core_passed": false
+  }
+}

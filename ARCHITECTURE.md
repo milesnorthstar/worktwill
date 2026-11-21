@@ -148,7 +148,7 @@ search_tri / search_short                         FTS5 派生投影
 
 ### 3.1 拖放与引用转移
 
-- 系统适配器从 Tauri 原生 Drop 事件取得 Explorer/Finder 路径，仅在 Rust `DropInbox` 保存，创建随机 UUID token；当前单一待处理批次有效期为300秒，新批次替换旧批次。先立即发送files-drop-started，前端按token在松手时固定目标UUID；后台捕获物理身份后发送ready，再消费该目标，迟到旧token不重选当前页面。前端只收到 token/count/物理坐标，按 devicePixelRatio 转CSS坐标识别目标工作区；Retina、Windows缩放和多屏仍须真机验收。
+- 系统适配器从 Tauri 原生 Drop 事件取得 Explorer/Finder 路径，仅在 Rust `DropInbox` 保存，创建随机 UUID token；当前单一待处理批次有效期为300秒，新批次替换旧批次。先立即发送files-drop-started，前端按token在松手时固定目标UUID；后台捕获物理身份后发送ready，再消费该目标，迟到旧token不重选当前页面。前端只收到 token/count/物理坐标，按 devicePixelRatio 转CSS坐标识别目标工作区。当前锁定Wry的macOS坐标实际为AppKit逻辑点，040在原生边界乘当前屏幕倍率后再发送；其他平台已是物理像素，不重复缩放，见[决定0036](docs/decisions/0036-native-drop-coordinate-units.md)。修前已捕获真实错位，修后Retina、Windows缩放和多屏目标矩阵仍须真机验收；依赖变化时重新核对坐标约定。
 - 首次 import_drop 不扩大权限，逐项导入已有授权项；未授权项留在同一 token 中，用户明确同意原生“仅授权所选文件”对话框后再补导入。取消时成功项保留，未授权项无关系。pick_files 的明确文件选择只授予所选文件；添加父目录另走 pick_root。token 本身不构成权限，提交仍重新规范化路径、复验身份、目标工作区与当前授权。
 - 内部拖动使用 Pointer Events 与7px阈值，传资源UUID集合，不使用系统文件路径；默认只加入目标，释放后抑制意外点击，取消清理目标状态。与Tauri原生拖放分开，避免Windows原生handler和HTML5 draggable冲突。
 - 030在资料pointerdown通过复选框/行操作guard后阻止默认手势，保持UUID集合、目标命中与mutation路径。032纠正了最初缩略图坐标误用；以原029/当前030同纪要、同原图坐标对照确认：原实现松手残留浮层，030成功关联并清理。单项/多项/重复/非目标松手有原生证据，见[决定0028](docs/decisions/0028-native-resource-pointer-gesture.md)。

@@ -1,0 +1,461 @@
+{
+  "recorded_at": "2026-11-20T22:20:07.439674+08:00",
+  "candidate": "040 final release, temporary probes removed",
+  "root_cause": {
+    "confirmed": "Wry 0.57.3 macOS uses AppKit logical points; tauri-runtime-wry 2.12.5 labels values PhysicalPosition without conversion; App.tsx divides by devicePixelRatio. At scale2 target hit test shifts up/left.",
+    "before_native_event": {
+      "count": 1,
+      "dpr": 2,
+      "fallback": null,
+      "phase": "start",
+      "scale": 2,
+      "scrollY": 0,
+      "targets": [
+        {
+          "id": "e172b22b-9d3a-4154-9a48-e390c7ac89e0",
+          "rect": {
+            "bottom": 454,
+            "height": 39,
+            "left": 12,
+            "right": 183,
+            "top": 415,
+            "width": 171,
+            "x": 12,
+            "y": 415
+          }
+        },
+        {
+          "id": "3abcd6c4-90b6-47f6-87cd-672be5c59822",
+          "rect": {
+            "bottom": 493,
+            "height": 39,
+            "left": 12,
+            "right": 183,
+            "top": 454,
+            "width": 171,
+            "x": 12,
+            "y": 454
+          }
+        },
+        {
+          "id": "b26967ab-8ebb-428e-be67-36c5dc48e8d9",
+          "rect": {
+            "bottom": 532,
+            "height": 39,
+            "left": 12,
+            "right": 183,
+            "top": 493,
+            "width": 171,
+            "x": 12,
+            "y": 493
+          }
+        },
+        {
+          "id": "5c2b9089-70d4-4737-b020-cf3c465b501b",
+          "rect": {
+            "bottom": 571,
+            "height": 39,
+            "left": 12,
+            "right": 183,
+            "top": 532,
+            "width": 171,
+            "x": 12,
+            "y": 532
+          }
+        },
+        {
+          "id": "456a1f64-8a9c-4d21-9dec-bfcd8075cf02",
+          "rect": {
+            "bottom": 610,
+            "height": 39,
+            "left": 12,
+            "right": 183,
+            "top": 571,
+            "width": 171,
+            "x": 12,
+            "y": 571
+          }
+        },
+        {
+          "id": "ee368222-85ca-46bd-8942-b3aa0888797b",
+          "rect": {
+            "bottom": 649,
+            "height": 39,
+            "left": 12,
+            "right": 183,
+            "top": 610,
+            "width": 171,
+            "x": 12,
+            "y": 610
+          }
+        },
+        {
+          "id": "4f210861-e437-4a90-a3f6-b9d6462ec8c8",
+          "rect": {
+            "bottom": 688,
+            "height": 39,
+            "left": 12,
+            "right": 183,
+            "top": 649,
+            "width": 171,
+            "x": 12,
+            "y": 649
+          }
+        },
+        {
+          "id": "72f2c384-90a7-474d-8530-fb84ae2ef087",
+          "rect": {
+            "bottom": 727,
+            "height": 39,
+            "left": 12,
+            "right": 183,
+            "top": 688,
+            "width": 171,
+            "x": 12,
+            "y": 688
+          }
+        },
+        {
+          "id": "8c45910d-8906-4e6b-a561-2016c9e510ab",
+          "rect": {
+            "bottom": 766,
+            "height": 39,
+            "left": 12,
+            "right": 183,
+            "top": 727,
+            "width": 171,
+            "x": 12,
+            "y": 727
+          }
+        },
+        {
+          "id": "c56e0ff0-880e-4c47-9c96-7c9eacbe1d76",
+          "rect": {
+            "bottom": 805,
+            "height": 39,
+            "left": 12,
+            "right": 183,
+            "top": 766,
+            "width": 171,
+            "x": 12,
+            "y": 766
+          }
+        },
+        {
+          "id": "e172b22b-9d3a-4154-9a48-e390c7ac89e0",
+          "rect": {
+            "bottom": 402,
+            "height": 146,
+            "left": 232,
+            "right": 597.5,
+            "top": 256,
+            "width": 365.5,
+            "x": 232,
+            "y": 256
+          }
+        },
+        {
+          "id": "3abcd6c4-90b6-47f6-87cd-672be5c59822",
+          "rect": {
+            "bottom": 402,
+            "height": 146,
+            "left": 611.5,
+            "right": 977,
+            "top": 256,
+            "width": 365.5,
+            "x": 611.5,
+            "y": 256
+          }
+        },
+        {
+          "id": "b26967ab-8ebb-428e-be67-36c5dc48e8d9",
+          "rect": {
+            "bottom": 562,
+            "height": 146,
+            "left": 232,
+            "right": 597.5,
+            "top": 416,
+            "width": 365.5,
+            "x": 232,
+            "y": 416
+          }
+        },
+        {
+          "id": "5c2b9089-70d4-4737-b020-cf3c465b501b",
+          "rect": {
+            "bottom": 562,
+            "height": 146,
+            "left": 611.5,
+            "right": 977,
+            "top": 416,
+            "width": 365.5,
+            "x": 611.5,
+            "y": 416
+          }
+        },
+        {
+          "id": "456a1f64-8a9c-4d21-9dec-bfcd8075cf02",
+          "rect": {
+            "bottom": 722,
+            "height": 146,
+            "left": 232,
+            "right": 597.5,
+            "top": 576,
+            "width": 365.5,
+            "x": 232,
+            "y": 576
+          }
+        },
+        {
+          "id": "ee368222-85ca-46bd-8942-b3aa0888797b",
+          "rect": {
+            "bottom": 722,
+            "height": 146,
+            "left": 611.5,
+            "right": 977,
+            "top": 576,
+            "width": 365.5,
+            "x": 611.5,
+            "y": 576
+          }
+        },
+        {
+          "id": "4f210861-e437-4a90-a3f6-b9d6462ec8c8",
+          "rect": {
+            "bottom": 882,
+            "height": 146,
+            "left": 232,
+            "right": 597.5,
+            "top": 736,
+            "width": 365.5,
+            "x": 232,
+            "y": 736
+          }
+        },
+        {
+          "id": "72f2c384-90a7-474d-8530-fb84ae2ef087",
+          "rect": {
+            "bottom": 882,
+            "height": 146,
+            "left": 611.5,
+            "right": 977,
+            "top": 736,
+            "width": 365.5,
+            "x": 611.5,
+            "y": 736
+          }
+        },
+        {
+          "id": "8c45910d-8906-4e6b-a561-2016c9e510ab",
+          "rect": {
+            "bottom": 1042,
+            "height": 146,
+            "left": 232,
+            "right": 597.5,
+            "top": 896,
+            "width": 365.5,
+            "x": 232,
+            "y": 896
+          }
+        },
+        {
+          "id": "c56e0ff0-880e-4c47-9c96-7c9eacbe1d76",
+          "rect": {
+            "bottom": 1042,
+            "height": 146,
+            "left": 611.5,
+            "right": 977,
+            "top": 896,
+            "width": 365.5,
+            "x": 611.5,
+            "y": 896
+          }
+        }
+      ],
+      "token": "1bfa9843-21b6-4ca7-a8d9-564be1768067",
+      "trace": true,
+      "viewport": {
+        "height": 1083,
+        "width": 1013
+      },
+      "workspace": null,
+      "x": 421,
+      "y": 526
+    },
+    "before_import_request": {
+      "authorize": false,
+      "phase": "import",
+      "token": "1bfa9843-21b6-4ca7-a8d9-564be1768067",
+      "workspace": null
+    },
+    "raw_point_inside_workspace": "b26967ab-8ebb-428e-be67-36c5dc48e8d9",
+    "old_css_point": {
+      "x": 210.5,
+      "y": 263.0
+    },
+    "old_resolved_workspace": null,
+    "captured_event_provenance": "A real native event was captured between tool observations; no claim it was user manual or the preceding automated attempt.",
+    "first_vs_fixed_uuid": "No fixed UUID/index in target resolution; coordinate error confirmed. Native reordered-workspace test remains unexecuted.",
+    "upstream_registry_matches_cached_crate": true
+  },
+  "fix": {
+    "native_boundary": "Mac point multiplied by current screen scale; other platforms already physical remain unchanged; all enter/over/start/ready share same units.",
+    "frontend": "Unchanged hit-test/frozen target/current-workspace fallback and authorization ownership.",
+    "dependencies": "No lockfile or dependency changes, no registry patch."
+  },
+  "checks": {
+    "full_check_exit": 0,
+    "rust_passed": 230,
+    "rust_ignored": 6,
+    "ui_api_passed": 143,
+    "types_build_fmt_clippy_passed": true,
+    "final_release_bundle_exit": 0,
+    "new_rust_tests": 3,
+    "new_ui_tests": 2,
+    "native_windows_executed": false
+  },
+  "native_after_fix": {
+    "external_drop_passed": false,
+    "diagnostic_automated_attempts": [
+      {
+        "source": "Finder screenshot point (475,120)",
+        "destination": "(1830,355)",
+        "native_event_captured": false
+      },
+      {
+        "source": "Finder screenshot point (950,240), current raw pixels and window menus reread",
+        "destination": "(3660,715)",
+        "native_event_captured": false
+      },
+      {
+        "source": "WorkTwill-relative (-1110,240)",
+        "destination": "(1600,715)",
+        "result": "windowNotFoundAtPosition((2520.0,153.0))",
+        "retry_after_system_dual_window_arrangement": "same error; stopped"
+      }
+    ],
+    "after_trace_file_created": false,
+    "interpretation": "No after-fix native receiving evidence; neither passed nor attributed solely to product or automation.",
+    "remaining": [
+      "manual/receivable Finder gesture with hover and actual UUID: first/other card, sidebar/current content, reordered targets",
+      "single/multi/duplicate/mixed authorization/cancel/explicit grant",
+      "restart retrieval for externally created link"
+    ],
+    "final_app_restarted": true,
+    "process_absent_before_final_launch": true,
+    "final_visible_target": "原生拖入038, 1 item; source2; unapproved sample remains unimported",
+    "final_default_editor_open_attempt": "Not confirmed: Computer Use timeout then editor startup panel; earlier default-open evidence retained, not counted as this round pass."
+  },
+  "references": {
+    "user_confirmation": "Granted earlier for specific resource transfer then unlink; no new confirmation required",
+    "after_transfer": {
+      "phase": "after_transfer",
+      "resource": {
+        "id": "adb27a9b-b379-4c34-bd18-6a34e383cff2",
+        "kind": "file",
+        "name": "暂停验收037_一.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录C/暂停验收037_一.txt",
+        "identity": "unix:16777234:95259659:1795166728:59294682",
+        "modified_at": 1795166728059.0,
+        "size": 25.0,
+        "status": "available",
+        "favorite": 1,
+        "created_at": 1795167037059.0
+      },
+      "links": [
+        {
+          "workspace_id": "456a1f64-8a9c-4d21-9dec-bfcd8075cf02",
+          "resource_id": "adb27a9b-b379-4c34-bd18-6a34e383cff2",
+          "added_at": 1795167148537.0
+        },
+        {
+          "workspace_id": "e172b22b-9d3a-4154-9a48-e390c7ac89e0",
+          "resource_id": "adb27a9b-b379-4c34-bd18-6a34e383cff2",
+          "added_at": 1795183310277.0
+        }
+      ],
+      "original": {
+        "inode": 95259659,
+        "mtime_ns": "1795166728059357348",
+        "sha256": "3a50ef405a15f9af9b693372cd44395ddecf0fd66f0eb39dca9fc1db7961a774"
+      }
+    },
+    "after_remove": {
+      "phase": "after_remove",
+      "resource": {
+        "id": "adb27a9b-b379-4c34-bd18-6a34e383cff2",
+        "kind": "file",
+        "name": "暂停验收037_一.txt",
+        "location": "/private/tmp/worktwill-spikes-20261119/native-paused-037-vqa_mqzl/暂停目录C/暂停验收037_一.txt",
+        "identity": "unix:16777234:95259659:1795166728:59294682",
+        "modified_at": 1795166728059.0,
+        "size": 25.0,
+        "status": "available",
+        "favorite": 1,
+        "created_at": 1795167037059.0
+      },
+      "links": [
+        {
+          "workspace_id": "456a1f64-8a9c-4d21-9dec-bfcd8075cf02",
+          "resource_id": "adb27a9b-b379-4c34-bd18-6a34e383cff2",
+          "added_at": 1795167148537.0
+        }
+      ],
+      "original": {
+        "inode": 95259659,
+        "mtime_ns": "1795166728059357348",
+        "sha256": "3a50ef405a15f9af9b693372cd44395ddecf0fd66f0eb39dca9fc1db7961a774"
+      },
+      "removed_links": [
+        {
+          "workspace_id": "3abcd6c4-90b6-47f6-87cd-672be5c59822",
+          "resource_id": "adb27a9b-b379-4c34-bd18-6a34e383cff2",
+          "added_at": 1795176673270.0
+        }
+      ],
+      "new_links": []
+    },
+    "source_final_count": 0,
+    "target_final_count": 4,
+    "target_unrelated_four_links_retained": true,
+    "restarted_original_workspace_visible": true,
+    "original_matches039_baseline": true,
+    "all_unrelated_links_unchanged": true
+  },
+  "original_drop_samples_unchanged": [
+    {
+      "path": "/private/tmp/worktwill-spikes-20261119/native-drop-038-h_15pwfq/拖入样本/拖入重复038.txt",
+      "inode": 95483879,
+      "mtime_ns": "1795171498873502805",
+      "sha256": "752f8ba082fd8deaad63645ee519bc76df055296567a6003209f70f80437f9e4"
+    },
+    {
+      "path": "/private/tmp/worktwill-spikes-20261119/native-drop-038-h_15pwfq/拖入样本/拖入待授权038.txt",
+      "inode": 95483880,
+      "mtime_ns": "1795171498873613846",
+      "sha256": "2ce63d09c1168bfd6185c999ae1848d7ec1610d5c49d047a766b2efe787341df"
+    },
+    {
+      "path": "/private/tmp/worktwill-spikes-20261119/native-drop-038-h_15pwfq/拖入样本/拖入已授权038.txt",
+      "inode": 95483878,
+      "mtime_ns": "1795171498873418097",
+      "sha256": "7a79ebd835cc764d26706b4de887375501b741c67ff89da95057843cde4e53a5"
+    }
+  ],
+  "temporary_probe_location": "/private/tmp/worktwill-spikes-20261119/native-drop-040-2awm6xwc",
+  "artifact": {
+    "path": "deliverables/WorkTwill-v0.1.0-v1-candidate-040-macOS-arm64.zip",
+    "bytes": 6632126,
+    "sha256": "ab2678316bb595533fbc0a1cea5e5be9a89188be34bf4ecb3e3313e48fa3084f",
+    "crc_ok": true,
+    "executable_mode": "0o100755",
+    "bundle_binary_sha256": "af5f3cb9f4b39b1007f9bd2d5ba42c55ca85c45dca0ba0332ca7f13ebe2e9040",
+    "bundle_binary_matches_archive": true,
+    "contains_database_or_review_fixture": false,
+    "signed_notarized_release_passed": false
+  },
+  "full_mac_core_passed": false,
+  "full_v1_passed": false,
+  "windows": "Not executed; later user PC, no Windows environment actions",
+  "git": "No init, commit, push or publish performed"
+}

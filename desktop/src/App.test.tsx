@@ -998,6 +998,43 @@ it('侧栏工作区保留UUID拖放入口，首页前三卡以外的工作区也
   await user.click(screen.getByRole('button',{name:'完成'}));
 });
 
+it.each([1,2])('原生物理坐标在%d倍屏按实际位置选择工作区入口和侧栏，换序后跟随UUID且优先于当前工作区',async(dpr)=>{
+  const workspaces=[{id:'a',name:'坐标 A',count:0},{id:'b',name:'坐标 B',count:0},{id:'c',name:'坐标 C',count:0}];
+  mocks.overview.mockResolvedValue({...meta,workspaces});mocks.importDrop.mockResolvedValue({items:[]});
+  const user=userEvent.setup();render(<App/>);
+  const sidebar=screen.getByRole('complementary');
+  await user.click(await within(sidebar).findByRole('button',{name:/^坐标 C/}));
+  const start=mocks.listen.mock.calls.find(([name])=>name==='files-drop-started')![1];
+  const hover=mocks.listen.mock.calls.find(([name])=>name==='files-dragging')![1];
+  const ready=mocks.listen.mock.calls.find(([name])=>name==='files-dropped')![1];
+  const changed=mocks.listen.mock.calls.find(([name])=>name==='catalog-changed')![1];
+  vi.stubGlobal('devicePixelRatio',dpr);
+  try{
+    // 坐标桩按几何区域命中真实DOM，而非无视坐标总返回同一按钮。
+    Object.defineProperty(document,'elementFromPoint',{configurable:true,value:vi.fn((x:number,y:number)=>{
+      if(x>=12&&x<183&&y>=454&&y<493)return sidebar.querySelectorAll('[data-workspace-id]')[1].querySelector('span');
+      if(x>=611.5&&x<977&&y>=256&&y<402)return document.querySelectorAll('.workspace-drop-tray [data-workspace-id]')[1];
+      return document.querySelector('main');
+    })});
+    for(const [index,point] of [[0,{x:800,y:330}],[1,{x:100,y:470}]] as const){
+      const payload={token:`position-${index}`,x:point.x*dpr,y:point.y*dpr,count:1};
+      await act(async()=>hover({payload}));
+      expect(document.querySelector('.native-drop-target')).toHaveAttribute('data-workspace-id','b');
+      await act(async()=>{start({payload});ready({payload});});
+      await waitFor(()=>expect(mocks.importDrop).toHaveBeenLastCalledWith(payload.token,'b',false,'zh'));
+      await within(sidebar).findByRole('button',{name:/^坐标 B/});
+    }
+    mocks.overview.mockResolvedValue({...meta,workspaces:[workspaces[1],workspaces[0],workspaces[2]]});
+    await act(async()=>changed({payload:null}));
+    await waitFor(()=>expect(sidebar.querySelectorAll('[data-workspace-id]')[1]).toHaveAttribute('data-workspace-id','a'));
+    const payload={token:'reordered',x:100*dpr,y:470*dpr,count:1};
+    await act(async()=>hover({payload}));expect(document.querySelector('.native-drop-target')).toHaveAttribute('data-workspace-id','a');
+    await act(async()=>{start({payload});ready({payload});});
+    await waitFor(()=>expect(mocks.importDrop).toHaveBeenLastCalledWith('reordered','a',false,'zh'));
+    expect(document.querySelector('.native-drop-target')).toBeNull();
+  }finally{vi.unstubAllGlobals();}
+});
+
 it.each(['home','search'] as const)('%s侧栏第13个以后工作区保留真实DOM目标，内部拖拽与原生拖入均按UUID关联',async(view)=>{
   const workspaces=Array.from({length:15},(_,index)=>({id:`workspace${index+1}`,name:`项目 ${index+1}`,count:0}));
   const resource=file('drag-resource','可拖拽资料.txt');
