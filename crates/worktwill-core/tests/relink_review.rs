@@ -1,4 +1,4 @@
-#![cfg(target_os = "macos")]
+#![cfg(any(target_os = "macos", windows))]
 
 use rusqlite::{types::Value, Connection};
 use std::{fs, path::PathBuf};
@@ -91,7 +91,14 @@ impl Fixture {
     }
 
     fn selection(&self, name: &str) -> ImportSelection {
-        capture_import_selections(&[self.root.join(name).to_string_lossy().into_owned()]).remove(0)
+        capture_import_selections(&[self
+            .root
+            .join(name)
+            .canonicalize()
+            .unwrap()
+            .to_string_lossy()
+            .into_owned()])
+        .remove(0)
     }
 
     fn snapshot(&self) -> Vec<Vec<Vec<Value>>> {
@@ -378,7 +385,7 @@ fn candidate_added_to_library_after_review_requires_new_merge_impact_confirmatio
     let added = f
         .store
         .import_files(
-            &[fresh.to_string_lossy().into_owned()],
+            &[fresh.canonicalize().unwrap().to_string_lossy().into_owned()],
             Some(&f.target_workspace),
             true,
         )
@@ -446,7 +453,11 @@ fn unchanged_review_merges_all_workspaces_and_favorites_only_after_explicit_merg
     assert_eq!(current[0].workspace_ids.len(), 3);
     assert_eq!(
         f.store.resolve_resource(&f.source).unwrap().0,
-        f.root.join("target.txt").to_string_lossy()
+        f.root
+            .join("target.txt")
+            .canonicalize()
+            .unwrap()
+            .to_string_lossy()
     );
     assert_eq!(fs::read(f.root.join("source.txt")).unwrap(), source_bytes);
     assert_eq!(fs::read(f.root.join("target.txt")).unwrap(), target_bytes);
@@ -487,7 +498,11 @@ fn same_identity_no_op_relink_review_cannot_write_a_second_event_on_replay() {
     assert_eq!(f.workspace_ids(&f.target_workspace), vec![f.target.clone()]);
     assert_eq!(
         f.store.resolve_resource(&f.source).unwrap().0,
-        f.root.join("source.txt").to_string_lossy()
+        f.root
+            .join("source.txt")
+            .canonicalize()
+            .unwrap()
+            .to_string_lossy()
     );
     assert_eq!(
         db.query_row(

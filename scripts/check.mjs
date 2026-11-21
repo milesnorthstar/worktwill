@@ -19,7 +19,12 @@ const steps = [
 ];
 for (const [command, args] of steps) {
   console.log(`\n${command} ${args.join(' ')}`);
-  const result = spawnSync(command, args, { env, stdio: 'inherit' });
+  // Windows 的 pnpm 是 .cmd；仅对上面固定的检查命令启用命令解释器。
+  const result = spawnSync(command, args, {
+    env,
+    stdio: 'inherit',
+    shell: process.platform === 'win32' && command === 'pnpm',
+  });
   if (result.error) throw result.error;
   if (result.status !== 0) process.exit(result.status ?? 1);
 }

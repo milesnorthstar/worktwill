@@ -102,6 +102,9 @@ fn disk_search_acceptance_mixed() {
     let denied_root = directory.path().join("unauthorized");
     fs::create_dir(&root).unwrap();
     fs::create_dir(&denied_root).unwrap();
+    // 与正式授权入库路径一致；权限外样本仍使用独立目录并显式撤权。
+    let root = root.canonicalize().unwrap();
+    let denied_root = denied_root.canonicalize().unwrap();
     let store = Store::open(directory.path().join("app/catalog.sqlite3")).unwrap();
     let root_id = store.grant_root(&root).unwrap();
     let denied_id = store.grant_root(&denied_root).unwrap();

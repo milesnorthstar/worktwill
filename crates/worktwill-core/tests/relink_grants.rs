@@ -73,7 +73,7 @@ fn selected_relink_repairs_directory_owned_file_outside_without_granting_parent(
         .unwrap();
     assert_eq!(
         f.store.resolve_resource(&rid).unwrap().0,
-        target.to_string_lossy()
+        target.canonicalize().unwrap().to_string_lossy()
     );
     assert_eq!(f.store.file_grants().unwrap()[0].id, rid);
     assert_eq!(f.store.roots().unwrap().len(), 1);
@@ -105,14 +105,14 @@ fn active_old_grant_does_not_authorize_an_unrelated_object_but_selection_can() {
     );
     assert_eq!(
         f.store.resolve_resource(&rid).unwrap().0,
-        old.to_string_lossy()
+        old.canonicalize().unwrap().to_string_lossy()
     );
     f.store
         .relink_selected(&rid, &f.selected(&target), false)
         .unwrap();
     assert_eq!(
         f.store.resolve_resource(&rid).unwrap().0,
-        target.to_string_lossy()
+        target.canonicalize().unwrap().to_string_lossy()
     );
     assert_eq!(f.store.file_grants().unwrap().len(), 1);
     assert!(f.store.roots().unwrap().is_empty());
@@ -195,7 +195,7 @@ fn selected_merge_rejects_replacement_while_confirmation_is_pending() {
     );
     assert_eq!(
         f.store.resolve_resource(&rid).unwrap().0,
-        old.to_string_lossy()
+        old.canonicalize().unwrap().to_string_lossy()
     );
     assert_eq!(f.store.file_grants().unwrap().len(), 2);
     assert_ne!(rid, other);

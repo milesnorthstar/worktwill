@@ -110,7 +110,7 @@ fn native_file_reference_survives_rename_and_database_restart() {
     assert_eq!(resources[0].id, rid);
     assert_eq!(
         reopened.resolve_resource(&rid).unwrap().0,
-        renamed.to_string_lossy()
+        renamed.canonicalize().unwrap().to_string_lossy()
     );
     assert_eq!(fs::read(renamed).unwrap(), before);
 }

@@ -1,0 +1,26 @@
+ControlType.Image |  | 
+ControlType.Button | 编辑网页 Windows 验收网页 Example | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Image |  | 
+ControlType.Text | 原件在原处，工作在一起。 | 
+ControlType.StatusBar |  | 
+ControlType.Text | 文件添加结果 | 
+ControlType.Text | 1 | 
+ControlType.Text |   | 
+ControlType.Text | 项已加入 | 
+ControlType.Text |  ·  | 
+ControlType.Text | 1 | 
+ControlType.Text |   | 
+ControlType.Text | 项已存在 | 
+ControlType.Text |  ·  | 
+ControlType.Text | 1 | 
+ControlType.Text |   | 
+ControlType.Text | 项未授权 | 
+ControlType.Text |  ·  | 
+ControlType.Text | 0 | 
+ControlType.Text |   | 
+ControlType.Text | 项失败 | 
+ControlType.Button | 仅授权未加入的文件 | 
+ControlType.Button | 完成 | 
+ControlType.Pane |  | 

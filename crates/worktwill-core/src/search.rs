@@ -320,7 +320,23 @@ pub fn page_criteria(request: &SearchPageRequest) -> Result<SearchCriteria> {
             "Select a valid modification date range.",
         ));
     }
-    let prefix = request.path_prefix.as_deref().map(normalize);
+    // Windows 入库使用规范路径；筛选只做词法转换，不访问或授权用户输入的路径。
+    let prefix = request.path_prefix.as_deref().map(|value| {
+        #[cfg(windows)]
+        let value = {
+            let bytes = value.as_bytes();
+            if bytes.len() >= 3
+                && bytes[0].is_ascii_alphabetic()
+                && bytes[1] == b':'
+                && matches!(bytes[2], b'\\' | b'/')
+            {
+                format!("\\\\?\\{}", value.replace('/', "\\"))
+            } else {
+                value.to_owned()
+            }
+        };
+        normalize(&value)
+    });
     if prefix
         .as_ref()
         .is_some_and(|value| value.len() > 8192 || value.contains('\0'))

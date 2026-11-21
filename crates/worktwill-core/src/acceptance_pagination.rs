@@ -286,6 +286,9 @@ fn disk_pagination_acceptance() {
     let denied = directory.path().join("unauthorized");
     fs::create_dir(&root).unwrap();
     fs::create_dir(&denied).unwrap();
+    // 合成路径必须与正式授权根使用同一规范路径，避免 Windows 卷前缀造成假撤权。
+    let root = root.canonicalize().unwrap();
+    let denied = denied.canonicalize().unwrap();
     let database = directory.path().join("app/catalog.sqlite3");
     let store = Store::open(&database).unwrap();
     let root_id = store.grant_root(&root).unwrap();
@@ -503,8 +506,10 @@ fn disk_pagination_acceptance() {
                         request.modified_to = Some(boundaries[15]);
                     }
                     4 => {
-                        request.path_prefix =
-                            Some(root.join("部门17").to_string_lossy().into_owned() + "/")
+                        request.path_prefix = Some(
+                            root.join("部门17").to_string_lossy().into_owned()
+                                + std::path::MAIN_SEPARATOR_STR,
+                        )
                     }
                     5 => request.request.query = "唯一".into(),
                     6 => request.request.query = "record".into(),
@@ -828,7 +833,10 @@ fn disk_pagination_acceptance() {
                 request.modified_to = Some(boundaries[15]);
             }
             4 => {
-                request.path_prefix = Some(root.join("部门17").to_string_lossy().into_owned() + "/")
+                request.path_prefix = Some(
+                    root.join("部门17").to_string_lossy().into_owned()
+                        + std::path::MAIN_SEPARATOR_STR,
+                )
             }
             5 => {
                 request.request.kind = "web".into();

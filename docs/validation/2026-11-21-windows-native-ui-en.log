@@ -1,0 +1,102 @@
+ControlType.Pane |  | 
+ControlType.Pane | WorkTwill · 个人工作台 | 
+ControlType.Pane |  | 
+ControlType.Pane | WorkTwill · 个人工作台 - Web 内容 | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Document | WorkTwill · 个人工作台 | RootWebArea
+ControlType.Group |  | root
+ControlType.Group |  | 
+ControlType.Button | WorkTwill | 
+ControlType.Image |  | 
+ControlType.Text | Your personal workbench | 
+ControlType.Group | Main navigation | 
+ControlType.Button | Personal workbench | 
+ControlType.Image |  | 
+ControlType.Button | Workspaces | 
+ControlType.Image |  | 
+ControlType.Button | Activity | 
+ControlType.Image |  | 
+ControlType.Button | All files | 
+ControlType.Image |  | 
+ControlType.Button | Favorites | 
+ControlType.Image |  | 
+ControlType.Text | MY WORKSPACES | 
+ControlType.Button | New workspace | 
+ControlType.Image |  | 
+ControlType.Button | Windows V1 验收 A 2 | 
+ControlType.Button | Locations & settings | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text | Personal workbench | 
+ControlType.Text | / | 
+ControlType.Text | Windows V1 验收 A | 
+ControlType.Image |  | 
+ControlType.ComboBox | Global search | 
+ControlType.Text | Ctrl | 
+ControlType.Text |  K | 
+ControlType.Button | 中文 | 
+ControlType.Group |  | 
+ControlType.Text | WORKSPACE | 
+ControlType.Text | Windows V1 验收 A | 
+ControlType.Text | Connect resources without moving the originals. | 
+ControlType.Button | Add link | 
+ControlType.Image |  | 
+ControlType.Button | New workspace | 
+ControlType.Image |  | 
+ControlType.Text | Drop to add to a workspace | 
+ControlType.Button | Windows V1 验收 A 2 | 
+ControlType.Image |  | 
+ControlType.Button | All | 
+ControlType.Button | Files | 
+ControlType.Button | Links | 
+ControlType.Button | Rename | 
+ControlType.Button | Delete workspace | 
+ControlType.Image |  | 
+ControlType.Button | Add files | 
+ControlType.Image |  | 
+ControlType.Button | Choose local files | 
+ControlType.Text | Resource | 
+ControlType.Text | Modified | 
+ControlType.Text | Actions | 
+ControlType.Group | Resource list | 
+ControlType.CheckBox | Select 合同验收_2.txt | 
+ControlType.Image |  | 
+ControlType.Button | 合同验收_2.txt \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-ee053eff96f4453dbf7ad48d1ceafbc7\普通本地资料 | 
+ControlType.Group |  | 
+ControlType.Text | TXT | 
+ControlType.Text | 11/21/2026 | 
+ControlType.Button | Favorite 合同验收_2.txt | 
+ControlType.Image |  | 
+ControlType.Button | Open 合同验收_2.txt | 
+ControlType.Image |  | 
+ControlType.Button | Reveal original 合同验收_2.txt | 
+ControlType.Image |  | 
+ControlType.CheckBox | Select 合同验收_1.txt | 
+ControlType.Image |  | 
+ControlType.Button | 合同验收_1.txt \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-ee053eff96f4453dbf7ad48d1ceafbc7\普通本地资料 | 
+ControlType.Group |  | 
+ControlType.Text | TXT | 
+ControlType.Text | 11/21/2026 | 
+ControlType.Button | Unfavorite 合同验收_1.txt | 
+ControlType.Image |  | 
+ControlType.Button | Open 合同验收_1.txt | 
+ControlType.Image |  | 
+ControlType.Button | Reveal original 合同验收_1.txt | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Image |  | 
+ControlType.Text | Originals in place. Your work together. | 
+ControlType.StatusBar |  | 
+ControlType.Text | 2 | 
+ControlType.Text |   | 
+ControlType.Text | succeeded | 
+ControlType.Text |  ·  | 
+ControlType.Text | 0 | 
+ControlType.Text |   | 
+ControlType.Text | failed | 
+ControlType.List |  | 
+ControlType.Button | Done | 
+ControlType.Pane |  | 

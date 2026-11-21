@@ -1,0 +1,123 @@
+{
+  "at": "2026-11-21T05:24:06.598Z",
+  "resources": [
+    {
+      "id": "883786d7-f5a0-474d-9a75-03dc7f188ba6",
+      "name": "Office验收.docx",
+      "location": "\\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-ee053eff96f4453dbf7ad48d1ceafbc7\\普通本地资料\\Office验收.docx",
+      "identity": "win:4091540820536225406:[87, 17, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0]:134397120112011775",
+      "status": "identity_unconfirmed",
+      "favorite": 1
+    },
+    {
+      "id": "89bc0db4-8251-4acd-9455-0eedaf674bd0",
+      "name": "Office验收.docx",
+      "location": "\\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-ee053eff96f4453dbf7ad48d1ceafbc7\\普通本地资料\\Office验收.docx",
+      "identity": "win:4091540820536225406:[2c, 18, 2, 0, 0, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0]:134397120112011775",
+      "status": "available",
+      "favorite": 0
+    }
+  ],
+  "memberships": [
+    {
+      "resource_id": "883786d7-f5a0-474d-9a75-03dc7f188ba6",
+      "name": "Windows V1 验收 B"
+    },
+    {
+      "resource_id": "883786d7-f5a0-474d-9a75-03dc7f188ba6",
+      "name": "Windows V1 验收 A"
+    }
+  ],
+  "activities": [
+    {
+      "kind": "file_discovered",
+      "name": "Office验收.docx",
+      "resource_id": "89bc0db4-8251-4acd-9455-0eedaf674bd0",
+      "at": 1795238617942
+    },
+    {
+      "kind": "file_discovered",
+      "name": "~$fice验收.docx",
+      "resource_id": "a905b6cf-d102-4295-a251-e21ebc024f4f",
+      "at": 1795238555827
+    },
+    {
+      "kind": "opened",
+      "name": "Office验收.docx",
+      "resource_id": "883786d7-f5a0-474d-9a75-03dc7f188ba6",
+      "at": 1795238554443
+    },
+    {
+      "kind": "linked",
+      "name": "Office验收.docx",
+      "resource_id": "883786d7-f5a0-474d-9a75-03dc7f188ba6",
+      "at": 1795238543256
+    },
+    {
+      "kind": "linked",
+      "name": "Office验收.docx",
+      "resource_id": "883786d7-f5a0-474d-9a75-03dc7f188ba6",
+      "at": 1795238514533
+    },
+    {
+      "kind": "file_discovered",
+      "name": "Office验收.docx",
+      "resource_id": "883786d7-f5a0-474d-9a75-03dc7f188ba6",
+      "at": 1795238411561
+    },
+    {
+      "kind": "file_discovered",
+      "name": "待授权_7.txt",
+      "resource_id": "525729c5-cc4d-454d-adf1-1802cd02940a",
+      "at": 1795238385201
+    },
+    {
+      "kind": "linked",
+      "name": "待授权_6.txt",
+      "resource_id": "464458ca-e4d2-4dfa-8d79-cf2538a451b0",
+      "at": 1795238147400
+    },
+    {
+      "kind": "file_discovered",
+      "name": "待授权_6.txt",
+      "resource_id": "464458ca-e4d2-4dfa-8d79-cf2538a451b0",
+      "at": 1795237921977
+    },
+    {
+      "kind": "linked",
+      "name": "合同验收_4.txt",
+      "resource_id": "99c79dd7-f118-449d-a1b8-fc9e8055f787",
+      "at": 1795237914365
+    },
+    {
+      "kind": "linked",
+      "name": "合同验收_3.txt",
+      "resource_id": "ebea04d4-12df-430b-b47e-ae8ca173fd0f",
+      "at": 1795237888550
+    },
+    {
+      "kind": "transferred",
+      "name": "合同验收_2.txt",
+      "resource_id": "a3d7e9b7-a740-4af8-885b-5d47f2aba97e",
+      "at": 1795237775197
+    },
+    {
+      "kind": "opened",
+      "name": "合同验收_1.txt",
+      "resource_id": "9c1a674c-75f5-43d7-9f3d-61ce67b66fbf",
+      "at": 1795237609610
+    },
+    {
+      "kind": "linked",
+      "name": "合同验收_1.txt",
+      "resource_id": "9c1a674c-75f5-43d7-9f3d-61ce67b66fbf",
+      "at": 1795237600606
+    },
+    {
+      "kind": "workspace_created",
+      "name": "Windows V1 验收 B",
+      "resource_id": null,
+      "at": 1795237572926
+    }
+  ]
+}

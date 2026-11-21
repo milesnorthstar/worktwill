@@ -1,0 +1,73 @@
+{
+  "roots": [
+    {
+      "id": "5795f186-31fa-4227-9202-a01c7f9a13c4",
+      "path": "\\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-ee053eff96f4453dbf7ad48d1ceafbc7\\普通本地资料",
+      "active": 0
+    }
+  ],
+  "grants": [
+    {
+      "id": "464458ca-e4d2-4dfa-8d79-cf2538a451b0",
+      "name": "待授权_6.txt",
+      "active": 1
+    },
+    {
+      "id": "09b94987-de2f-468b-baab-e012df82a711",
+      "name": "混合未授权_8.txt",
+      "active": 1
+    }
+  ],
+  "memberships": [
+    {
+      "workspace": "Windows V1 验收 A",
+      "id": "09b94987-de2f-468b-baab-e012df82a711",
+      "name": "混合未授权_8.txt"
+    },
+    {
+      "workspace": "Windows V1 验收 A",
+      "id": "464458ca-e4d2-4dfa-8d79-cf2538a451b0",
+      "name": "待授权_6.txt"
+    },
+    {
+      "workspace": "Windows V1 验收 B",
+      "id": "883786d7-f5a0-474d-9a75-03dc7f188ba6",
+      "name": "Office验收.docx"
+    },
+    {
+      "workspace": "Windows V1 验收 A",
+      "id": "883786d7-f5a0-474d-9a75-03dc7f188ba6",
+      "name": "Office验收.docx"
+    },
+    {
+      "workspace": "Windows V1 验收 A",
+      "id": "99c79dd7-f118-449d-a1b8-fc9e8055f787",
+      "name": "合同验收_4.txt"
+    },
+    {
+      "workspace": "Windows V1 验收 B",
+      "id": "9c1a674c-75f5-43d7-9f3d-61ce67b66fbf",
+      "name": "合同验收_1.txt"
+    },
+    {
+      "workspace": "Windows V1 验收 A",
+      "id": "9c1a674c-75f5-43d7-9f3d-61ce67b66fbf",
+      "name": "合同验收_1.txt"
+    },
+    {
+      "workspace": "Windows V1 验收 B",
+      "id": "a3d7e9b7-a740-4af8-885b-5d47f2aba97e",
+      "name": "合同验收_2.txt"
+    },
+    {
+      "workspace": "Windows V1 验收 A",
+      "id": "d554a563-6163-407e-bb70-89d89fabbc71",
+      "name": "Windows 验收网页 Example"
+    },
+    {
+      "workspace": "Windows V1 验收 A",
+      "id": "ebea04d4-12df-430b-b47e-ae8ca173fd0f",
+      "name": "合同验收_3.txt"
+    }
+  ]
+}

@@ -7,3 +7,6 @@ src-tauri/gen/
 
 deliverables/
 !docs/validation/*.log
+
+# 本机构建工具安装器，不作为产品源码提交。
+.tools/

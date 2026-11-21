@@ -1,0 +1,336 @@
+{
+  "arch": "x86_64",
+  "budget_failed": false,
+  "budget_ms": 60,
+  "distribution": {
+    "file": 98900,
+    "unauthorized_files": 400,
+    "web": 1000,
+    "workspace": 100
+  },
+  "evidence": "synthetic_metadata_on_disk_store_search_not_scan_or_ui_latency",
+  "journal_mode": "wal",
+  "oracle_checks": 242,
+  "oracle_failures": [],
+  "os": "windows",
+  "p50_ms": 6.9266,
+  "p95_ms": 29.9974,
+  "p99_ms": 36.1809,
+  "per_query": [
+    {
+      "expected_counts": {
+        "file": 10,
+        "web": 10,
+        "workspace": 10
+      },
+      "kind": "all",
+      "p50_ms": 12.460600000000001,
+      "p95_ms": 14.5802,
+      "p99_ms": 14.5802,
+      "query": "张",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 10,
+        "web": 10,
+        "workspace": 10
+      },
+      "kind": "all",
+      "p50_ms": 11.8222,
+      "p95_ms": 16.4988,
+      "p99_ms": 16.4988,
+      "query": "张三",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 10,
+        "web": 10,
+        "workspace": 10
+      },
+      "kind": "all",
+      "p50_ms": 10.6872,
+      "p95_ms": 12.851700000000001,
+      "p99_ms": 12.851700000000001,
+      "query": "合同",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 10,
+        "web": 10,
+        "workspace": 10
+      },
+      "kind": "all",
+      "p50_ms": 3.8573,
+      "p95_ms": 4.0029,
+      "p99_ms": 4.0029,
+      "query": "合作合同",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 10,
+        "web": 10,
+        "workspace": 10
+      },
+      "kind": "all",
+      "p50_ms": 3.4555,
+      "p95_ms": 5.5909,
+      "p99_ms": 5.5909,
+      "query": "招聘",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 10,
+        "web": 10,
+        "workspace": 10
+      },
+      "kind": "all",
+      "p50_ms": 17.4647,
+      "p95_ms": 22.912,
+      "p99_ms": 22.912,
+      "query": "2026",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 10,
+        "web": 10,
+        "workspace": 10
+      },
+      "kind": "all",
+      "p50_ms": 28.8332,
+      "p95_ms": 33.1738,
+      "p99_ms": 33.1738,
+      "query": "report",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 10,
+        "web": 10,
+        "workspace": 10
+      },
+      "kind": "all",
+      "p50_ms": 3.6439,
+      "p95_ms": 8.8605,
+      "p99_ms": 8.8605,
+      "query": "项目 r",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 10,
+        "web": 10,
+        "workspace": 10
+      },
+      "kind": "all",
+      "p50_ms": 8.812800000000001,
+      "p95_ms": 12.0006,
+      "p99_ms": 12.0006,
+      "query": "100%",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 10,
+        "web": 10,
+        "workspace": 10
+      },
+      "kind": "all",
+      "p50_ms": 3.7448,
+      "p95_ms": 5.032,
+      "p99_ms": 5.032,
+      "query": "_",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 10,
+        "web": 10,
+        "workspace": 10
+      },
+      "kind": "all",
+      "p50_ms": 21.445,
+      "p95_ms": 27.755100000000002,
+      "p99_ms": 27.755100000000002,
+      "query": "\"draft\"",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 10,
+        "web": 10,
+        "workspace": 10
+      },
+      "kind": "all",
+      "p50_ms": 5.4163,
+      "p95_ms": 7.4066,
+      "p99_ms": 7.4066,
+      "query": "archive",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 30,
+        "web": 0,
+        "workspace": 0
+      },
+      "kind": "all",
+      "p50_ms": 5.8165,
+      "p95_ms": 6.3756,
+      "p99_ms": 6.3756,
+      "query": "docx",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 30,
+        "web": 0,
+        "workspace": 0
+      },
+      "kind": "all",
+      "p50_ms": 31.943199999999997,
+      "p95_ms": 45.665499999999994,
+      "p99_ms": 45.665499999999994,
+      "query": "部门17",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 0,
+        "web": 30,
+        "workspace": 0
+      },
+      "kind": "all",
+      "p50_ms": 7.9498,
+      "p95_ms": 12.0868,
+      "p99_ms": 12.0868,
+      "query": "example.com",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 25,
+        "web": 3,
+        "workspace": 2
+      },
+      "kind": "all",
+      "p50_ms": 4.236,
+      "p95_ms": 5.827,
+      "p99_ms": 5.827,
+      "query": "限额余位",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 1,
+        "web": 1,
+        "workspace": 1
+      },
+      "kind": "all",
+      "p50_ms": 1.3883999999999999,
+      "p95_ms": 1.7184,
+      "p99_ms": 1.7184,
+      "query": "稀少唯一",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 0,
+        "web": 0,
+        "workspace": 0
+      },
+      "kind": "all",
+      "p50_ms": 1.0427,
+      "p95_ms": 1.3680999999999999,
+      "p99_ms": 1.3680999999999999,
+      "query": "不存在的资料",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 17,
+        "web": 12,
+        "workspace": 1
+      },
+      "kind": "all",
+      "p50_ms": 7.901800000000001,
+      "p95_ms": 13.1117,
+      "p99_ms": 13.1117,
+      "query": "合同",
+      "samples": 10,
+      "workspace_scoped": true
+    },
+    {
+      "expected_counts": {
+        "file": 26,
+        "web": 3,
+        "workspace": 1
+      },
+      "kind": "all",
+      "p50_ms": 3.867,
+      "p95_ms": 5.5884,
+      "p99_ms": 5.5884,
+      "query": "限额余位",
+      "samples": 10,
+      "workspace_scoped": true
+    },
+    {
+      "expected_counts": {
+        "file": 30,
+        "web": 0,
+        "workspace": 0
+      },
+      "kind": "file",
+      "p50_ms": 7.7347,
+      "p95_ms": 9.838,
+      "p99_ms": 9.838,
+      "query": "张",
+      "samples": 10,
+      "workspace_scoped": false
+    },
+    {
+      "expected_counts": {
+        "file": 0,
+        "web": 30,
+        "workspace": 0
+      },
+      "kind": "web",
+      "p50_ms": 3.6753,
+      "p95_ms": 4.662,
+      "p99_ms": 4.662,
+      "query": "report",
+      "samples": 10,
+      "workspace_scoped": false
+    }
+  ],
+  "profile": "release",
+  "queries": 22,
+  "resources": 100000,
+  "samples": 220,
+  "seed_seconds": 34.1298727,
+  "sqlite_version": "3.50.2",
+  "synchronous": 2
+}

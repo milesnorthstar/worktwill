@@ -1,4 +1,4 @@
-#![cfg(target_os = "macos")]
+#![cfg(any(target_os = "macos", windows))]
 
 use rusqlite::Connection;
 use std::{fs, path::PathBuf};
@@ -95,7 +95,10 @@ fn preparation_is_read_only_and_success_records_the_prepared_file_origin() {
     let f = Fixture::new();
     let (path, rid) = f.file("normal-open.txt");
     let target = f.store.prepare_open(&rid).unwrap();
-    assert_eq!(target.location(), path.to_string_lossy());
+    assert_eq!(
+        target.location(),
+        path.canonicalize().unwrap().to_string_lossy()
+    );
     assert!(!target.is_web());
     assert_eq!(f.opened_count(), 0);
     f.store.record_open_checked(target).unwrap();
@@ -220,7 +223,10 @@ fn same_identity_new_path_requires_a_new_prepared_location() {
     f.store.relink(&rid, &moved).unwrap();
     f.assert_changed(target);
     let current = f.store.prepare_open(&rid).unwrap();
-    assert_eq!(current.location(), moved.to_string_lossy());
+    assert_eq!(
+        current.location(),
+        moved.canonicalize().unwrap().to_string_lossy()
+    );
     f.store.record_open_checked(current).unwrap();
     assert_eq!(f.opened_count(), 1);
 }

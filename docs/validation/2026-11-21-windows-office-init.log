@@ -1,0 +1,4 @@
+   Compiling worktwill-core v0.1.0 (C:\Users\Administrator\Desktop\work\worktwill\crates\worktwill-core)
+    Finished `release` profile [optimized] target(s) in 1.05s
+     Running `target\release\examples\office_acceptance.exe init C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-ee053eff96f4453dbf7ad48d1ceafbc7`
+{"id":"b0e48f52-7070-4eee-8e9b-2da959c0ece9","location":"\\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-ee053eff96f4453dbf7ad48d1ceafbc7\\documents\\Office验收.docx","workspaces":["97cfa9c8-b1ea-4455-a75e-a80908e836df","fd7962be-1b00-47e3-adbe-1adbe02c65d5"]}

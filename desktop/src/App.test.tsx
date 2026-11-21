@@ -1224,3 +1224,19 @@ it('迟到扫描进度不能覆盖撤权通知后的新概览或恢复旧名称'
   expect(within(screen.getByRole('complementary')).getByRole('button',{name:/新授权工作区/})).toBeVisible();
   expect(screen.queryByText('旧授权合同')).not.toBeInTheDocument();
 });
+
+it('修正无效日期后成功查询清除旧查询错误，但保留操作失败',async()=>{
+  mocks.searchPage.mockRejectedValueOnce({code:'invalid_input',message:'请选择有效的修改时间范围'})
+    .mockImplementation(request=>Promise.resolve({request_id:request.request.request_id,page:{...page,items:[file('valid','有效日期资料')]}}));
+  const user=userEvent.setup();render(<App initialView="search"/>);
+  expect(await screen.findByRole('alert')).toHaveTextContent('请选择有效的修改时间范围');
+  fireEvent.change(screen.getByLabelText('修改日期，从'),{target:{value:'2026-11-21'}});
+  await screen.findByRole('checkbox',{name:'选择 有效日期资料'});
+  await waitFor(()=>expect(screen.queryByRole('alert')).not.toBeInTheDocument());
+  mocks.mutate.mockRejectedValueOnce({message:'收藏操作失败'});
+  await user.click(screen.getByRole('button',{name:'收藏 有效日期资料'}));
+  expect(await screen.findByRole('alert')).toHaveTextContent('收藏操作失败');
+  fireEvent.change(screen.getByLabelText('修改日期，从'),{target:{value:'2026-11-22'}});
+  await waitFor(()=>expect(mocks.searchPage).toHaveBeenCalledTimes(3));
+  expect(screen.getByRole('alert')).toHaveTextContent('收藏操作失败');
+});

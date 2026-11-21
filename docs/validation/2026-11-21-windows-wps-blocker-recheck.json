@@ -1,0 +1,13 @@
+{
+  "at": "2026-11-21T06:16:07.7671996Z",
+  "probe": "read_only_fsutil",
+  "file_id": [
+    "File ID is 0x0000000000000000001500000002182c"
+  ],
+  "object_id": [
+    "The specified file has no object id"
+  ],
+  "object_id_query_exit": 0,
+  "prior_native_failure": "2026-11-21-windows-wps-native-save-failed.json",
+  "conclusion": "file_id_matches_post_save_object_no_existing_object_id_continuity_still_unproven"
+}

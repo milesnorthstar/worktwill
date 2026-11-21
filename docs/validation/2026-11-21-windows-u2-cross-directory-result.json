@@ -1,0 +1,42 @@
+{
+  "fixture": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\u2-cross-directory-c0a30ec5d21c4d01840bd0b3fdfb0309",
+  "old_pid": 30596,
+  "new_pid": 33288,
+  "resources_and_relationships_unchanged": true,
+  "opened_title": "U2客户验收_5.txt - 记事本",
+  "opened_body": "WORKTWILL_U2_CROSS_DIRECTORY_5",
+  "body_observation": "native_editor_UIA_Name_automation_id_15",
+  "integrity": [
+    {
+      "Path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\u2-cross-directory-c0a30ec5d21c4d01840bd0b3fdfb0309\\目录1\\U2客户验收_1.txt",
+      "HashUnchanged": true,
+      "SizeUnchanged": true,
+      "MtimeUnchanged": true
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\u2-cross-directory-c0a30ec5d21c4d01840bd0b3fdfb0309\\目录2\\U2客户验收_2.txt",
+      "HashUnchanged": true,
+      "SizeUnchanged": true,
+      "MtimeUnchanged": true
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\u2-cross-directory-c0a30ec5d21c4d01840bd0b3fdfb0309\\目录3\\U2客户验收_3.txt",
+      "HashUnchanged": true,
+      "SizeUnchanged": true,
+      "MtimeUnchanged": true
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\u2-cross-directory-c0a30ec5d21c4d01840bd0b3fdfb0309\\目录4\\U2客户验收_4.txt",
+      "HashUnchanged": true,
+      "SizeUnchanged": true,
+      "MtimeUnchanged": true
+    },
+    {
+      "Path": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\u2-cross-directory-c0a30ec5d21c4d01840bd0b3fdfb0309\\目录5\\U2客户验收_5.txt",
+      "HashUnchanged": true,
+      "SizeUnchanged": true,
+      "MtimeUnchanged": true
+    }
+  ],
+  "exact_search_multiselect_U2_not_executed": true
+}

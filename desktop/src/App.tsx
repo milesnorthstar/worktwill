@@ -10,7 +10,7 @@ import { EmptyState, ResourceList, SearchPanel, SearchFilters, LocationSuggestio
 type View = 'home' | 'files' | 'workspaces' | 'workspace' | 'activity' | 'settings' | 'search';
 type SearchOrigin = {view:Exclude<View,'search'>;workspace:string|null;mode:string;kind:string};
 type Lang = UiLanguage;
-type Failure = { cause: unknown } | null;
+type Failure = { cause: unknown; source?: 'page' } | null;
 type FormState = { kind: 'workspace' | 'rename' | 'web' | 'link' | 'transfer' | 'delete' | 'deleteweb'; resourceIds?: string[]; id?: string; name?: string; url?: string };
 
 function webUrl(value:string) {
@@ -159,6 +159,8 @@ export default function App({initialView='home'}:{initialView?:View}) {
           nextSearchCursor.current=response.next_cursor??null;
         }
         currentPermission.current.revision=data.revision;
+        // 只有本轮成功的列表查询可消除旧查询错误，不能吞掉并行操作失败。
+        setError(previous => previous?.source === 'page' ? null : previous);
         setPage(old => offset > 0 && old ? { ...data, items: [...old.items, ...data.items.filter(item=>!old.items.some(previous=>previous.id===item.id))] } : data);
       } catch (cause) {
         if (sequence !== loadSequence.current) return;
@@ -166,7 +168,7 @@ export default function App({initialView='home'}:{initialView?:View}) {
           // 失效页不能拼进旧列表；只重读首页一次，首页失败仍明确显示错误。
           nextSearchCursor.current=null;setPage(null);setSelected(new Set());setOffset(0);setError(null);
           setNotice(t('资料已更新，正在重新加载搜索结果','Resources changed. Reloading search results.'));
-        }else setError({cause});
+        }else setError({cause,source:'page'});
       }
       finally { if (sequence === loadSequence.current) setLoading(false); }
     })();

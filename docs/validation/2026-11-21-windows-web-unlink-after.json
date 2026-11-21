@@ -1,0 +1,16 @@
+[
+  {
+    "id": "0e86d36d-139d-4740-bf0a-7cab21e18c10",
+    "kind": "web",
+    "name": "Windows 标题关闭手填",
+    "location": "https://example.com/worktwill-manual-off",
+    "workspace": "U2 跨目录客户验收"
+  },
+  {
+    "id": "c28ff691-e1ec-4051-8bcf-62fa3a98add9",
+    "kind": "web",
+    "name": "Windows 标题失败手填",
+    "location": "https://worktwill-acceptance.invalid/",
+    "workspace": null
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "observed_at": "2026-11-21T05:53:47.0139785Z",
+  "file": "合同验收_1.txt",
+  "baseline_sha256": "10FA776D2D235904F6E2839A6FD994E5193EA3FF55C3FD5DAD9F452EE343A690",
+  "actual_sha256": "E1CC0C4E24C947BB0E6EE53614A34088DD9BA4DB59B291C77917221372067996",
+  "actual_content": "INDOWS_NOTEPAD_SAVE_RUNNINGWORKTWILL_WINDOWS_FIXTURE_1\r\n",
+  "cause_evidence": "Contains partial WINDOWS_NOTEPAD_SAVE_RUNNING marker from earlier untargeted SendKeys; external Notepad fixture edit",
+  "scope": "synthetic test file only; keep original baseline; do not restore or overwrite evidence",
+  "other_original_files": "2..5 hash,size,mtime unchanged"
+}

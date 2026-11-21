@@ -1,4 +1,4 @@
-#![cfg(target_os = "macos")]
+#![cfg(any(target_os = "macos", windows))]
 
 use rusqlite::{params, Connection};
 use std::{
@@ -270,7 +270,11 @@ impl Fixture {
         ).unwrap().query_map([&activity.id], |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?))).unwrap().collect::<rusqlite::Result<_>>().unwrap();
         assert_eq!(
             scopes,
-            vec![(root_id.into(), Some(identity.into()), relative.into())]
+            vec![(
+                root_id.into(),
+                Some(identity.into()),
+                relative.replace('/', std::path::MAIN_SEPARATOR_STR)
+            )]
         );
     }
 
@@ -313,7 +317,12 @@ fn new_file_grant_cannot_revive_revoked_original_history_after_anonymous_relink(
     assert_ne!(anonymous.source.name, old.name);
     let target = f.outside.join("new-public-project.txt");
     f.write(&target);
-    let selection = capture_import_selections(&[target.to_string_lossy().into_owned()]).remove(0);
+    let selection = capture_import_selections(&[target
+        .canonicalize()
+        .unwrap()
+        .to_string_lossy()
+        .into_owned()])
+    .remove(0);
     let reviewed = f
         .store
         .review_relink_selection(&anonymous, &selection)
@@ -368,7 +377,7 @@ fn old_root_history_uses_its_original_anchor_after_resource_relinks_outside() {
     });
     assert_eq!(
         f.store.resolve_resource(&rid).unwrap().0,
-        target.to_string_lossy()
+        target.canonicalize().unwrap().to_string_lossy()
     );
     f.assert_opened(&[]);
     f.assert_name_hidden(&old.name);
@@ -400,6 +409,8 @@ fn old_root_history_uses_its_original_anchor_after_resource_relinks_outside() {
 }
 
 #[test]
+// 此项依赖 macOS Bookmark 自动解析整目录移动，Windows 尚无该定位实现。
+#[cfg(target_os = "macos")]
 fn moved_root_preserves_history_scope_but_current_relative_exclusions_hide_it() {
     let mut f = Fixture::new();
     let original = f.root.join("staff/private-original-personnel.txt");
@@ -415,7 +426,10 @@ fn moved_root_preserves_history_scope_but_current_relative_exclusions_hide_it() 
     let moved = f.directory.path().join("root-renamed-and-moved");
     fs::rename(&f.root, &moved).unwrap();
     f.store.scan_all().unwrap();
-    assert_eq!(f.store.roots().unwrap()[0].path, moved.to_string_lossy());
+    assert_eq!(
+        f.store.roots().unwrap()[0].path,
+        moved.canonicalize().unwrap().to_string_lossy()
+    );
     f.assert_opened(&[&old]);
     f.change(Mutation::Exclude {
         root_id: root_id.clone(),
@@ -424,7 +438,7 @@ fn moved_root_preserves_history_scope_but_current_relative_exclusions_hide_it() 
     // 当前资源已在根外，故排除判定必须使用事件原始相对路径。
     assert_eq!(
         f.store.resolve_resource(&rid).unwrap().0,
-        target.to_string_lossy()
+        target.canonicalize().unwrap().to_string_lossy()
     );
     f.assert_opened(&[]);
     f.assert_name_hidden(&old.name);
@@ -526,7 +540,12 @@ fn known_move_revocation_stays_effective_after_anonymous_relink_and_restore() {
     assert_ne!(anonymous.source.name, old.name);
     let target = f.outside.join("selected-after-known-revocation.txt");
     f.write(&target);
-    let selected = capture_import_selections(&[target.to_string_lossy().into_owned()]).remove(0);
+    let selected = capture_import_selections(&[target
+        .canonicalize()
+        .unwrap()
+        .to_string_lossy()
+        .into_owned()])
+    .remove(0);
     let review = f
         .store
         .review_relink_selection(&anonymous, &selected)
@@ -577,7 +596,7 @@ fn known_move_revocation_stays_effective_after_anonymous_relink_and_restore() {
     assert_eq!(repaired.name, "selected-after-known-revocation.txt");
     assert_eq!(
         f.store.resolve_resource(&rid).unwrap().0,
-        target.to_string_lossy()
+        target.canonicalize().unwrap().to_string_lossy()
     );
     let fresh = f.open(&rid);
     f.assert_opened(&[&fresh]);
@@ -596,7 +615,15 @@ fn known_move_revocation_stays_effective_after_anonymous_relink_and_restore() {
     f.assert_name_hidden(&old.name);
     let authorized = f
         .store
-        .import_files(&[target.to_string_lossy().into_owned()], None, true)
+        .import_files(
+            &[target
+                .canonicalize()
+                .unwrap()
+                .to_string_lossy()
+                .into_owned()],
+            None,
+            true,
+        )
         .unwrap();
     assert_eq!(
         authorized.items[0].resource_id.as_deref(),
@@ -605,7 +632,7 @@ fn known_move_revocation_stays_effective_after_anonymous_relink_and_restore() {
     assert_eq!(authorized.items[0].status, "already_present");
     assert_eq!(
         f.store.resolve_resource(&rid).unwrap().0,
-        target.to_string_lossy()
+        target.canonicalize().unwrap().to_string_lossy()
     );
     f.assert_opened(&[&fresh]);
     f.assert_name_hidden(&old.name);
@@ -662,7 +689,7 @@ fn unknown_observation_identity_cannot_borrow_current_or_retired_root_authority(
     f.store.relink_reviewed(&reviewed, false).unwrap();
     assert_eq!(
         f.store.resolve_resource(&rid).unwrap().0,
-        target.to_string_lossy()
+        target.canonicalize().unwrap().to_string_lossy()
     );
     f.assert_opened(&[]);
     let repaired = f
@@ -726,7 +753,11 @@ fn excluded_known_location_cannot_regain_public_history_after_anonymous_relink()
     // 显式选择已排除位置中的同一对象，仅授予单文件权限并更新其已知位置。
     let imported = f
         .store
-        .import_files(&[moved.to_string_lossy().into_owned()], None, true)
+        .import_files(
+            &[moved.canonicalize().unwrap().to_string_lossy().into_owned()],
+            None,
+            true,
+        )
         .unwrap();
     assert_eq!(imported.items[0].resource_id.as_deref(), Some(rid.as_str()));
     assert_eq!(imported.items[0].status, "already_present");
@@ -734,7 +765,7 @@ fn excluded_known_location_cannot_regain_public_history_after_anonymous_relink()
     assert_eq!(f.store.file_grants().unwrap()[0].id, rid);
     assert_eq!(
         f.store.resolve_resource(&rid).unwrap().0,
-        moved.to_string_lossy()
+        moved.canonicalize().unwrap().to_string_lossy()
     );
     f.assert_opened(&[&old]);
     f.change(Mutation::RevokeFile { id: rid.clone() });
@@ -748,7 +779,12 @@ fn excluded_known_location_cannot_regain_public_history_after_anonymous_relink()
         .outside
         .join("public-new-target-after-excluded-location.txt");
     f.write(&target);
-    let selection = capture_import_selections(&[target.to_string_lossy().into_owned()]).remove(0);
+    let selection = capture_import_selections(&[target
+        .canonicalize()
+        .unwrap()
+        .to_string_lossy()
+        .into_owned()])
+    .remove(0);
     let reviewed = f
         .store
         .review_relink_selection(&anonymous, &selection)
@@ -775,7 +811,7 @@ fn excluded_known_location_cannot_regain_public_history_after_anonymous_relink()
     );
     assert_eq!(
         f.store.resolve_resource(&rid).unwrap().0,
-        target.to_string_lossy()
+        target.canonicalize().unwrap().to_string_lossy()
     );
     let fresh = f.open(&rid);
     f.assert_opened(&[&fresh]);
@@ -865,7 +901,7 @@ fn independent_original_record_controls_named_history_and_empty_name_requires_ca
     assert_eq!(f.identity(&original_id), original_identity);
     assert_eq!(
         f.store.resolve_resource(&original_id).unwrap().0,
-        alias.to_string_lossy()
+        alias.canonicalize().unwrap().to_string_lossy()
     );
     f.change(Mutation::RevokeFile {
         id: original_id.clone(),

@@ -1,0 +1,235 @@
+ControlType.Pane |  | 
+ControlType.Pane | WorkTwill · 个人工作台 | 
+ControlType.Pane |  | 
+ControlType.Pane | WorkTwill · 个人工作台 - Web 内容 | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Document | WorkTwill · 个人工作台 | RootWebArea
+ControlType.Group |  | root
+ControlType.Group |  | 
+ControlType.Button | WorkTwill | 
+ControlType.Image |  | 
+ControlType.Text | 你的个人工作台 | 
+ControlType.Group | 主导航 | 
+ControlType.Button | 个人工作台 | 
+ControlType.Image |  | 
+ControlType.Button | 工作区 | 
+ControlType.Image |  | 
+ControlType.Button | 动态 | 
+ControlType.Image |  | 
+ControlType.Button | 所有文件 | 
+ControlType.Image |  | 
+ControlType.Button | 收藏 | 
+ControlType.Image |  | 
+ControlType.Text | 我的工作区 | 
+ControlType.Button | 新建工作区 | 
+ControlType.Image |  | 
+ControlType.Button | Windows V1 验收 B 2 | 
+ControlType.Button | Windows V1 验收 A 2 | 
+ControlType.Button | 管理位置与设置 | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text | 个人工作台 | 
+ControlType.Text | / | 
+ControlType.Text | 动态 | 
+ControlType.Image |  | 
+ControlType.ComboBox | 全局搜索 | 
+ControlType.Text | Ctrl | 
+ControlType.Text |  K | 
+ControlType.Button | EN | 
+ControlType.Group |  | 
+ControlType.Group | 文件活动时间线 | 
+ControlType.Button | 上个月 | 
+ControlType.Image |  | 
+ControlType.Text | 2026年11月 | 
+ControlType.Button | 下个月 | 
+ControlType.Image |  | 
+ControlType.Button | 整月 | 
+ControlType.Button | 今天 | 
+ControlType.Group | 选择日期 | 
+ControlType.Button | 2026年11月1日 | 
+ControlType.Button | 2026年11月2日 | 
+ControlType.Button | 2026年11月3日 | 
+ControlType.Button | 2026年11月4日 | 
+ControlType.Button | 2026年11月5日 | 
+ControlType.Button | 2026年11月6日 | 
+ControlType.Button | 2026年11月7日 | 
+ControlType.Button | 2026年11月8日 | 
+ControlType.Button | 2026年11月9日 | 
+ControlType.Button | 2026年11月10日 | 
+ControlType.Button | 2026年11月11日 | 
+ControlType.Button | 2026年11月12日 | 
+ControlType.Button | 2026年11月13日 | 
+ControlType.Button | 2026年11月14日 | 
+ControlType.Button | 2026年11月15日 | 
+ControlType.Button | 2026年11月16日 | 
+ControlType.Button | 2026年11月17日 | 
+ControlType.Button | 2026年11月18日 | 
+ControlType.Button | 2026年11月19日 | 
+ControlType.Button | 2026年11月20日 | 
+ControlType.Button | 2026年11月21日，7 条记录 | 
+ControlType.Button | 2026年11月22日 | 
+ControlType.Button | 2026年11月23日 | 
+ControlType.Button | 2026年11月24日 | 
+ControlType.Button | 2026年11月25日 | 
+ControlType.Button | 2026年11月26日 | 
+ControlType.Button | 2026年11月27日 | 
+ControlType.Button | 2026年11月28日 | 
+ControlType.Button | 2026年11月29日 | 
+ControlType.Button | 2026年11月30日 | 
+ControlType.Text | 本月 7 条记录 | 
+ControlType.Text | 活动筛选 | 
+ControlType.Image |  | 
+ControlType.Group | 活动类型 | 
+ControlType.Button | 全部 | 
+ControlType.Button | 文件修改 | 
+ControlType.Button | 首次发现 | 
+ControlType.Button | 应用内打开 | 
+ControlType.Button | 应用操作 | 
+ControlType.Text | 工作区 | 
+ControlType.ComboBox | 工作区 | timeline-workspace-filter
+ControlType.Text | 时间维度 | 
+ControlType.ComboBox | 时间维度 | timeline-time-basis
+ControlType.Text | 首次发现按收纳日期显示。工作区筛选按当前关联。 | 
+ControlType.Group |  | 
+ControlType.Text | 你的工作足迹 | 
+ControlType.Text | 活动时间线 | 
+ControlType.Text | 按文件最后修改时间回顾，发现与打开按应用记录时间。 | 
+ControlType.Button | 刷新时间线 | 
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.Text | 2026年11月 | 
+ControlType.Group | 今天 · 11月21日 | 
+ControlType.Text | 今天 · 11月21日 | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text |  | 
+ControlType.Text | 13:06 | 
+ControlType.Text | 应用内打开 | 
+ControlType.Text | 合同验收_1.txt | 
+ControlType.Text | 来自本应用 | 
+ControlType.Button | ·Windows V1 验收 B | 
+ControlType.Button | ·Windows V1 验收 A | 
+ControlType.Button | 打开 合同验收_1.txt | 
+ControlType.Image |  | 
+ControlType.Button | 定位 合同验收_1.txt | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text |  | 
+ControlType.Text | 13:03 | 
+ControlType.Text | 应用内打开 | 
+ControlType.Text | 合同验收_1.txt | 
+ControlType.Text | 来自本应用 | 
+ControlType.Button | ·Windows V1 验收 B | 
+ControlType.Button | ·Windows V1 验收 A | 
+ControlType.Button | 打开 合同验收_1.txt | 
+ControlType.Image |  | 
+ControlType.Button | 定位 合同验收_1.txt | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text |  | 
+ControlType.Text | 13:02 | 
+ControlType.Text | 首次发现 | 
+ControlType.Text | 合同验收_5.txt | 
+ControlType.Text | 来自文件系统 | 
+ControlType.Text | 首次发现，不代表文件创建时间 | 
+ControlType.Text | 文件最后修改： | 
+ControlType.Text | 2026年11月21日 13:01 | 
+ControlType.Button | 打开 合同验收_5.txt | 
+ControlType.Image |  | 
+ControlType.Button | 定位 合同验收_5.txt | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text |  | 
+ControlType.Text | 13:02 | 
+ControlType.Text | 首次发现 | 
+ControlType.Text | 合同验收_4.txt | 
+ControlType.Text | 来自文件系统 | 
+ControlType.Text | 首次发现，不代表文件创建时间 | 
+ControlType.Text | 文件最后修改： | 
+ControlType.Text | 2026年11月21日 13:01 | 
+ControlType.Button | 打开 合同验收_4.txt | 
+ControlType.Image |  | 
+ControlType.Button | 定位 合同验收_4.txt | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text |  | 
+ControlType.Text | 13:02 | 
+ControlType.Text | 首次发现 | 
+ControlType.Text | 合同验收_3.txt | 
+ControlType.Text | 来自文件系统 | 
+ControlType.Text | 首次发现，不代表文件创建时间 | 
+ControlType.Text | 文件最后修改： | 
+ControlType.Text | 2026年11月21日 13:01 | 
+ControlType.Button | 打开 合同验收_3.txt | 
+ControlType.Image |  | 
+ControlType.Button | 定位 合同验收_3.txt | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text |  | 
+ControlType.Text | 13:02 | 
+ControlType.Text | 首次发现 | 
+ControlType.Text | 合同验收_2.txt | 
+ControlType.Text | 来自文件系统 | 
+ControlType.Button | ·Windows V1 验收 B | 
+ControlType.Text | 首次发现，不代表文件创建时间 | 
+ControlType.Text | 文件最后修改： | 
+ControlType.Text | 2026年11月21日 13:01 | 
+ControlType.Button | 打开 合同验收_2.txt | 
+ControlType.Image |  | 
+ControlType.Button | 定位 合同验收_2.txt | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text |  | 
+ControlType.Text | 13:02 | 
+ControlType.Text | 首次发现 | 
+ControlType.Text | 合同验收_1.txt | 
+ControlType.Text | 来自文件系统 | 
+ControlType.Button | ·Windows V1 验收 B | 
+ControlType.Button | ·Windows V1 验收 A | 
+ControlType.Text | 首次发现，不代表文件创建时间 | 
+ControlType.Text | 文件最后修改： | 
+ControlType.Text | 2026年11月21日 13:01 | 
+ControlType.Button | 打开 合同验收_1.txt | 
+ControlType.Image |  | 
+ControlType.Button | 定位 合同验收_1.txt | 
+ControlType.Image |  | 
+ControlType.Text | 应用关闭期间只保留再次扫描确认的最新变化，不还原逐次编辑历史。 | 
+ControlType.Text | 快速返回 | 
+ControlType.Text | 我的工作区 | 
+ControlType.Image |  | 
+ControlType.Button | Windows V1 验收 B | 
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.Button | Windows V1 验收 A | 
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.Text | 最近活动资料 | 
+ControlType.Image |  | 
+ControlType.Button | 合同验收_1.txt | 
+ControlType.Image |  | 
+ControlType.Button | 合同验收_5.txt | 
+ControlType.Image |  | 
+ControlType.Button | 合同验收_4.txt | 
+ControlType.Image |  | 
+ControlType.Button | 合同验收_3.txt | 
+ControlType.Image |  | 
+ControlType.Button | 合同验收_2.txt | 
+ControlType.Image |  | 
+ControlType.Text | 只显示当前已授权的资料 | 
+ControlType.Group |  | 
+ControlType.Image |  | 
+ControlType.Text | 原件在原处，工作在一起。 | 
+ControlType.StatusBar |  | 
+ControlType.Text | 2 | 
+ControlType.Text |   | 
+ControlType.Text | 项成功 | 
+ControlType.Text |  ·  | 
+ControlType.Text | 0 | 
+ControlType.Text |   | 
+ControlType.Text | 项失败 | 
+ControlType.List |  | 
+ControlType.Button | 完成 | 
+ControlType.Pane |  | 

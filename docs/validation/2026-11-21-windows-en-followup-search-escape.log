@@ -1,0 +1,159 @@
+ControlType.Pane |  | 
+ControlType.Pane | WorkTwill · 个人工作台 | 
+ControlType.Pane |  | 
+ControlType.Pane | WorkTwill · 个人工作台 - Web 内容 | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Document | WorkTwill · 个人工作台 | RootWebArea
+ControlType.Group |  | root
+ControlType.Group |  | 
+ControlType.Button | WorkTwill | 
+ControlType.Image |  | 
+ControlType.Text | Your personal workbench | 
+ControlType.Group | Main navigation | 
+ControlType.Button | Personal workbench | 
+ControlType.Image |  | 
+ControlType.Button | Workspaces | 
+ControlType.Image |  | 
+ControlType.Button | Activity | 
+ControlType.Image |  | 
+ControlType.Button | All files | 
+ControlType.Image |  | 
+ControlType.Button | Favorites | 
+ControlType.Image |  | 
+ControlType.Text | MY WORKSPACES | 
+ControlType.Button | New workspace | 
+ControlType.Image |  | 
+ControlType.Button | Windows V1 验收 B 6 | 
+ControlType.Button | Windows V1 验收 A 8 | 
+ControlType.Button | Locations & settings | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text | Personal workbench | 
+ControlType.Text | / | 
+ControlType.Text | Windows V1 验收 A | 
+ControlType.Image |  | 
+ControlType.ComboBox | Global search | 
+ControlType.Text | Ctrl | 
+ControlType.Text |  K | 
+ControlType.Text | Search scope | 
+ControlType.Button | All resources | 
+ControlType.Button | This workspace | 
+ControlType.List | Search results | search-results
+ControlType.Image |  | 
+ControlType.Text | No matching resources | 
+ControlType.Text | Try a shorter name or check managed locations | 
+ControlType.Text | ↑ | 
+ControlType.Text | ↓ | 
+ControlType.Text | Select | 
+ControlType.Text | ↵ | 
+ControlType.Text | Open | 
+ControlType.Text | Esc | 
+ControlType.Text | Close | 
+ControlType.Text | Authorized scope | 
+ControlType.Button | 中文 | 
+ControlType.Group |  | 
+ControlType.Text | WORKSPACE | 
+ControlType.Text | Windows V1 验收 A | 
+ControlType.Text | Connect resources without moving the originals. | 
+ControlType.Button | Add link | 
+ControlType.Image |  | 
+ControlType.Button | New workspace | 
+ControlType.Image |  | 
+ControlType.Text | Drop to add to a workspace | 
+ControlType.Button | Windows V1 验收 B 6 | 
+ControlType.Image |  | 
+ControlType.Button | Windows V1 验收 A 8 | 
+ControlType.Image |  | 
+ControlType.Button | All | 
+ControlType.Button | Files | 
+ControlType.Button | Links | 
+ControlType.Button | Rename | 
+ControlType.Button | Delete workspace | 
+ControlType.Image |  | 
+ControlType.Button | Add files | 
+ControlType.Image |  | 
+ControlType.Button | Choose local files | 
+ControlType.Text | Resource | 
+ControlType.Text | Modified | 
+ControlType.Text | Actions | 
+ControlType.Group | Resource list | 
+ControlType.CheckBox | Select 混合未授权_9.txt | 
+ControlType.Image |  | 
+ControlType.Button | 混合未授权_9.txt \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-ee053eff96f4453dbf7ad48d1ceafbc7\普通本地资料 | 
+ControlType.Group |  | 
+ControlType.Text | TXT | 
+ControlType.Text | 11/21/2026 | 
+ControlType.Button | Favorite 混合未授权_9.txt | 
+ControlType.Image |  | 
+ControlType.Button | Open 混合未授权_9.txt | 
+ControlType.Image |  | 
+ControlType.Button | Reveal original 混合未授权_9.txt | 
+ControlType.Image |  | 
+ControlType.CheckBox | Select 混合未授权_8.txt | 
+ControlType.Image |  | 
+ControlType.Button | 混合未授权_8.txt \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-ee053eff96f4453dbf7ad48d1ceafbc7\普通本地资料 | 
+ControlType.Group |  | 
+ControlType.Text | TXT | 
+ControlType.Text | 11/21/2026 | 
+ControlType.Button | Favorite 混合未授权_8.txt | 
+ControlType.Image |  | 
+ControlType.Button | Open 混合未授权_8.txt | 
+ControlType.Image |  | 
+ControlType.Button | Reveal original 混合未授权_8.txt | 
+ControlType.Image |  | 
+ControlType.CheckBox | Select Unauthorized file | 
+ControlType.Image |  | 
+ControlType.Button | Unauthorized file Authorize the location to access Not authorized · reference retained | 
+ControlType.Text | FILE | 
+ControlType.Text | — | 
+ControlType.Button | Relink | 
+ControlType.CheckBox | Select 待授权_6.txt | 
+ControlType.Image |  | 
+ControlType.Button | 待授权_6.txt \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-ee053eff96f4453dbf7ad48d1ceafbc7\普通本地资料 | 
+ControlType.Group |  | 
+ControlType.Text | TXT | 
+ControlType.Text | 11/21/2026 | 
+ControlType.Button | Favorite 待授权_6.txt | 
+ControlType.Image |  | 
+ControlType.Button | Open 待授权_6.txt | 
+ControlType.Image |  | 
+ControlType.Button | Reveal original 待授权_6.txt | 
+ControlType.Image |  | 
+ControlType.CheckBox | Select Windows 验收网页 Example | 
+ControlType.Image |  | 
+ControlType.Button | Windows 验收网页 Example https://example.com/ | 
+ControlType.Text | URL | 
+ControlType.Text | 11/21/2026 | 
+ControlType.Button | Favorite Windows 验收网页 Example | 
+ControlType.Image |  | 
+ControlType.Button | Open Windows 验收网页 Example | 
+ControlType.Image |  | 
+ControlType.Button | Delete link Windows 验收网页 Example | 
+ControlType.Image |  | 
+ControlType.Button | Edit link Windows 验收网页 Example | 
+ControlType.Image |  | 
+ControlType.CheckBox | Select Unauthorized file | 
+ControlType.Image |  | 
+ControlType.Button | Unauthorized file Authorize the location to access Not authorized · reference retained | 
+ControlType.Text | FILE | 
+ControlType.Text | — | 
+ControlType.Button | Relink | 
+ControlType.CheckBox | Select Unauthorized file | 
+ControlType.Image |  | 
+ControlType.Button | Unauthorized file Authorize the location to access Not authorized · reference retained | 
+ControlType.Text | FILE | 
+ControlType.Text | — | 
+ControlType.Button | Relink | 
+ControlType.CheckBox | Select Unauthorized file | 
+ControlType.Image |  | 
+ControlType.Button | Unauthorized file Authorize the location to access Not authorized · reference retained | 
+ControlType.Text | FILE | 
+ControlType.Text | — | 
+ControlType.Button | Relink | 
+ControlType.Group |  | 
+ControlType.Image |  | 
+ControlType.Text | Originals in place. Your work together. | 
+ControlType.Pane |  | 

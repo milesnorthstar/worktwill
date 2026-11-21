@@ -1,0 +1,42 @@
+[
+  {
+    "id": "de4a3f5e-085f-4a89-9d43-41f4269af03c",
+    "name": "U2客户验收_1.txt",
+    "location": "\\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\u2-cross-directory-c0a30ec5d21c4d01840bd0b3fdfb0309\\目录1\\U2客户验收_1.txt",
+    "status": "available",
+    "favorite": 0,
+    "workspace": "U2 跨目录客户验收"
+  },
+  {
+    "id": "9ea9a004-ed74-4830-9235-4deab4da01fd",
+    "name": "U2客户验收_2.txt",
+    "location": "\\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\u2-cross-directory-c0a30ec5d21c4d01840bd0b3fdfb0309\\目录2\\U2客户验收_2.txt",
+    "status": "available",
+    "favorite": 0,
+    "workspace": "U2 跨目录客户验收"
+  },
+  {
+    "id": "c9d4e94c-d224-426b-b949-08477776ce12",
+    "name": "U2客户验收_3.txt",
+    "location": "\\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\u2-cross-directory-c0a30ec5d21c4d01840bd0b3fdfb0309\\目录3\\U2客户验收_3.txt",
+    "status": "available",
+    "favorite": 0,
+    "workspace": "U2 跨目录客户验收"
+  },
+  {
+    "id": "362570d9-a6e3-4201-9ea0-520b6abe7bed",
+    "name": "U2客户验收_4.txt",
+    "location": "\\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\u2-cross-directory-c0a30ec5d21c4d01840bd0b3fdfb0309\\目录4\\U2客户验收_4.txt",
+    "status": "available",
+    "favorite": 0,
+    "workspace": "U2 跨目录客户验收"
+  },
+  {
+    "id": "088d2b65-1919-48ca-bf8d-db03cde4725b",
+    "name": "U2客户验收_5.txt",
+    "location": "\\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\u2-cross-directory-c0a30ec5d21c4d01840bd0b3fdfb0309\\目录5\\U2客户验收_5.txt",
+    "status": "available",
+    "favorite": 0,
+    "workspace": "U2 跨目录客户验收"
+  }
+]

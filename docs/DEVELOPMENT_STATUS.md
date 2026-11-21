@@ -1,5 +1,7 @@
 # 原生开发状态与验收记录
 
+**2026-11-21 Windows 实测更新：** 已同步e055f72，日期错误恢复修复版Windows x64 release候选、144 UI/API与183 Rust完整检查通过；10k扫描及100k分页2240核对零错。Explorer单项/多项重复、目录授权、搜索、网页标题、撤权及原件保护取得部分原生证据。本机WPS安全保存改变物理身份后原引用需人工确认，U8明确失败，完整Windows V1未通过。三类混合授权外拖及取消/重试、内部多选、重启取回、记事本保存、110项原生分页和日期恢复已补验；SQLite实际中断、其他DPI及Office跨日等仍待验收；见[Windows独立验收](WINDOWS_V1_ACCEPTANCE.md)。下文Mac历史与旧环境缺口保留原轮次含义，不能覆盖本轮真实结果。
+
 **当前收尾入口：** [有限工程剩余清单与完成条件](CURRENT_ENGINEERING_CHECKLIST.md)。当前为[040本地候选](../deliverables/WorkTwill-v0.1.0-v1-candidate-040-macOS-arm64.zip)，不是Mac阶段验收通过。040已捕获真实Finder事件的坐标单位错误并最小修复，最终230 Rust/143 UI/API和release bundle通过；合成引用转移/移除、原件及其他关系保留已通过。修后外拖目标及混合授权矩阵仍未取得接收证据，须与修前真实缺陷区分，见[决定0036](decisions/0036-native-drop-coordinate-units.md)、[040记录](validation/2026-11-20-native-acceptance-040.json)与[交付说明](../deliverables/WorkTwill-v0.1.0-v1-candidate-040-说明.md)。先收尾Mac，再对接Windows真机；发行、完整恢复与试用观测后置。
 
 **最新执行边界：** 用户休息，不再要求当前在线点击或授权；可独立推进项已完成，受阻原生步骤明确留待后续。Pi已初始化并首次推送私有Git，当前main为`81fec63571f8b503ba2d62178a3e8dff4377e6cd`；本任务保持未提交修改，不初始化、提交、推送、公开、发布或安装升级依赖。Pi不并行修改源码。以下旧轮次保留原始结果。

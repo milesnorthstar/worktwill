@@ -1,0 +1,241 @@
+ControlType.Pane |  | 
+ControlType.Pane | WorkTwill · 个人工作台 | 
+ControlType.Pane |  | 
+ControlType.Pane | WorkTwill · 个人工作台 - Web 内容 | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Document | WorkTwill · 个人工作台 | RootWebArea
+ControlType.Group |  | root
+ControlType.Group |  | 
+ControlType.Button | WorkTwill | 
+ControlType.Image |  | 
+ControlType.Text | Your personal workbench | 
+ControlType.Group | Main navigation | 
+ControlType.Button | Personal workbench | 
+ControlType.Image |  | 
+ControlType.Button | Workspaces | 
+ControlType.Image |  | 
+ControlType.Button | Activity | 
+ControlType.Image |  | 
+ControlType.Button | All files | 
+ControlType.Image |  | 
+ControlType.Button | Favorites | 
+ControlType.Image |  | 
+ControlType.Text | MY WORKSPACES | 
+ControlType.Button | New workspace | 
+ControlType.Image |  | 
+ControlType.Button | Windows V1 验收 B 6 | 
+ControlType.Button | Windows V1 验收 A 8 | 
+ControlType.Button | Locations & settings | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text | Personal workbench | 
+ControlType.Text | / | 
+ControlType.Text | Activity | 
+ControlType.Image |  | 
+ControlType.ComboBox | Global search | 
+ControlType.Text | Ctrl | 
+ControlType.Text |  K | 
+ControlType.Button | 中文 | 
+ControlType.Group |  | 
+ControlType.Group | File activity timeline | 
+ControlType.Button | Previous month | 
+ControlType.Image |  | 
+ControlType.Text | November 2026 | 
+ControlType.Button | Next month | 
+ControlType.Image |  | 
+ControlType.Button | Whole month | 
+ControlType.Button | Today | 
+ControlType.Group | Choose date | 
+ControlType.Button | November 1, 2026 | 
+ControlType.Button | November 2, 2026 | 
+ControlType.Button | November 3, 2026 | 
+ControlType.Button | November 4, 2026 | 
+ControlType.Button | November 5, 2026 | 
+ControlType.Button | November 6, 2026 | 
+ControlType.Button | November 7, 2026 | 
+ControlType.Button | November 8, 2026 | 
+ControlType.Button | November 9, 2026 | 
+ControlType.Button | November 10, 2026 | 
+ControlType.Button | November 11, 2026 | 
+ControlType.Button | November 12, 2026 | 
+ControlType.Button | November 13, 2026 | 
+ControlType.Button | November 14, 2026 | 
+ControlType.Button | November 15, 2026 | 
+ControlType.Button | November 16, 2026 | 
+ControlType.Button | November 17, 2026 | 
+ControlType.Button | November 18, 2026 | 
+ControlType.Button | November 19, 2026 | 
+ControlType.Button | November 20, 2026 | 
+ControlType.Button | November 21, 2026, 8 activities | 
+ControlType.Button | November 22, 2026 | 
+ControlType.Button | November 23, 2026 | 
+ControlType.Button | November 24, 2026 | 
+ControlType.Button | November 25, 2026 | 
+ControlType.Button | November 26, 2026 | 
+ControlType.Button | November 27, 2026 | 
+ControlType.Button | November 28, 2026 | 
+ControlType.Button | November 29, 2026 | 
+ControlType.Button | November 30, 2026 | 
+ControlType.Text | 8 activities this month | 
+ControlType.Text | Activity filters | 
+ControlType.Image |  | 
+ControlType.Group | Activity type | 
+ControlType.Button | All | 
+ControlType.Button | Modified | 
+ControlType.Button | Discovered | 
+ControlType.Button | Opened | 
+ControlType.Button | App actions | 
+ControlType.Text | Workspace | 
+ControlType.ComboBox | Workspace | timeline-workspace-filter
+ControlType.Text | Time basis | 
+ControlType.ComboBox | Time basis | timeline-time-basis
+ControlType.Text | Discoveries use their collection date. Workspace filters use current references. | 
+ControlType.Group |  | 
+ControlType.Text | YOUR WORK, OVER TIME | 
+ControlType.Text | Activity timeline | 
+ControlType.Text | Review file modification times; discoveries and opens use app record time. | 
+ControlType.Button | Refresh timeline | 
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.Text | November 2026 | 
+ControlType.Group | Today · November 21 | 
+ControlType.Text | Today · November 21 | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text |  | 
+ControlType.Text | 01:49 PM | 
+ControlType.Text | Opened in WorkTwill | 
+ControlType.Text | Windows 验收网页 Example | 
+ControlType.Text | From WorkTwill | 
+ControlType.Button | ·Windows V1 验收 A | 
+ControlType.Button | Open Windows 验收网页 Example | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text |  | 
+ControlType.Text | 01:42 PM | 
+ControlType.Text | Opened in WorkTwill | 
+ControlType.Text | 混合未授权_9.txt | 
+ControlType.Text | From WorkTwill | 
+ControlType.Button | ·Windows V1 验收 B | 
+ControlType.Button | ·Windows V1 验收 A | 
+ControlType.Button | Open 混合未授权_9.txt | 
+ControlType.Image |  | 
+ControlType.Button | Reveal 混合未授权_9.txt | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text |  | 
+ControlType.Text | 01:41 PM | 
+ControlType.Text | File modified | 
+ControlType.Text | 混合未授权_9.txt | 
+ControlType.Text | From file system | 
+ControlType.Button | ·Windows V1 验收 B | 
+ControlType.Button | ·Windows V1 验收 A | 
+ControlType.Text | File modified:  | 
+ControlType.Text | Nov 21, 2026, 01:41 PM | 
+ControlType.Text | Observed:  | 
+ControlType.Text | Nov 21, 2026, 01:41 PM | 
+ControlType.Button | Open 混合未授权_9.txt | 
+ControlType.Image |  | 
+ControlType.Button | Reveal 混合未授权_9.txt | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text |  | 
+ControlType.Text | 01:41 PM | 
+ControlType.Text | File modified | 
+ControlType.Text | 混合未授权_9.txt | 
+ControlType.Text | From file system | 
+ControlType.Button | ·Windows V1 验收 B | 
+ControlType.Button | ·Windows V1 验收 A | 
+ControlType.Text | File modified:  | 
+ControlType.Text | Nov 21, 2026, 01:41 PM | 
+ControlType.Text | Observed:  | 
+ControlType.Text | Nov 21, 2026, 01:41 PM | 
+ControlType.Button | Open 混合未授权_9.txt | 
+ControlType.Image |  | 
+ControlType.Button | Reveal 混合未授权_9.txt | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text |  | 
+ControlType.Text | 01:37 PM | 
+ControlType.Text | Opened in WorkTwill | 
+ControlType.Text | 混合未授权_9.txt | 
+ControlType.Text | From WorkTwill | 
+ControlType.Button | ·Windows V1 验收 B | 
+ControlType.Button | ·Windows V1 验收 A | 
+ControlType.Button | Open 混合未授权_9.txt | 
+ControlType.Image |  | 
+ControlType.Button | Reveal 混合未授权_9.txt | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text |  | 
+ControlType.Text | 01:35 PM | 
+ControlType.Text | First discovered | 
+ControlType.Text | 混合未授权_9.txt | 
+ControlType.Text | From file system | 
+ControlType.Button | ·Windows V1 验收 B | 
+ControlType.Button | ·Windows V1 验收 A | 
+ControlType.Text | First discovered, not the file creation time | 
+ControlType.Text | File modified:  | 
+ControlType.Text | Nov 21, 2026, 01:33 PM | 
+ControlType.Button | Open 混合未授权_9.txt | 
+ControlType.Image |  | 
+ControlType.Button | Reveal 混合未授权_9.txt | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text |  | 
+ControlType.Text | 01:27 PM | 
+ControlType.Text | First discovered | 
+ControlType.Text | 混合未授权_8.txt | 
+ControlType.Text | From file system | 
+ControlType.Button | ·Windows V1 验收 B | 
+ControlType.Button | ·Windows V1 验收 A | 
+ControlType.Text | First discovered, not the file creation time | 
+ControlType.Text | File modified:  | 
+ControlType.Text | Nov 21, 2026, 01:27 PM | 
+ControlType.Button | Open 混合未授权_8.txt | 
+ControlType.Image |  | 
+ControlType.Button | Reveal 混合未授权_8.txt | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text |  | 
+ControlType.Text | 01:12 PM | 
+ControlType.Text | First discovered | 
+ControlType.Text | 待授权_6.txt | 
+ControlType.Text | From file system | 
+ControlType.Button | ·Windows V1 验收 B | 
+ControlType.Button | ·Windows V1 验收 A | 
+ControlType.Text | First discovered, not the file creation time | 
+ControlType.Text | File modified:  | 
+ControlType.Text | Nov 21, 2026, 01:12 PM | 
+ControlType.Button | Open 待授权_6.txt | 
+ControlType.Image |  | 
+ControlType.Button | Reveal 待授权_6.txt | 
+ControlType.Image |  | 
+ControlType.Text | Changes while the app is closed are confirmed at the next scan. Individual edits cannot be reconstructed. | 
+ControlType.Text | Quick return | 
+ControlType.Text | My workspaces | 
+ControlType.Image |  | 
+ControlType.Button | Windows V1 验收 B | 
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.Button | Windows V1 验收 A | 
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.Text | Recent activity resources | 
+ControlType.Image |  | 
+ControlType.Button | Windows 验收网页 Example | 
+ControlType.Image |  | 
+ControlType.Button | 混合未授权_9.txt | 
+ControlType.Image |  | 
+ControlType.Button | 混合未授权_8.txt | 
+ControlType.Image |  | 
+ControlType.Button | 待授权_6.txt | 
+ControlType.Image |  | 
+ControlType.Text | Only currently authorized resources | 
+ControlType.Group |  | 
+ControlType.Image |  | 
+ControlType.Text | Originals in place. Your work together. | 
+ControlType.Pane |  | 

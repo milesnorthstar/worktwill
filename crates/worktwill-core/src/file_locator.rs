@@ -1,7 +1,9 @@
 use crate::{model::*, Store};
 #[cfg(target_os = "macos")]
+use rusqlite::params;
+use rusqlite::Connection;
+#[cfg(target_os = "macos")]
 use rusqlite::OptionalExtension;
-use rusqlite::{params, Connection};
 use std::path::Path;
 
 pub(crate) fn is_locator_error(error: &AppError) -> bool {
@@ -12,6 +14,7 @@ pub(crate) fn is_locator_error(error: &AppError) -> bool {
 }
 
 // 仅域内恢复可以构造；Bookmark本身从不作为授权或资源身份。
+#[cfg(target_os = "macos")]
 pub(crate) struct FileRecovery {
     pub resource_id: String,
     pub identity: String,
@@ -24,10 +27,12 @@ pub(crate) struct FileRecovery {
 pub(crate) trait RecoveryGuard {
     fn identity(&self) -> &str;
     fn validate(&self, db: &Connection) -> Result<()>;
+    #[cfg(target_os = "macos")]
     fn updated_bookmark(&self) -> Option<&[u8]> {
         None
     }
 }
+#[cfg(target_os = "macos")]
 impl RecoveryGuard for FileRecovery {
     fn identity(&self) -> &str {
         &self.identity
@@ -35,10 +40,12 @@ impl RecoveryGuard for FileRecovery {
     fn validate(&self, db: &Connection) -> Result<()> {
         FileRecovery::validate(self, db)
     }
+    #[cfg(target_os = "macos")]
     fn updated_bookmark(&self) -> Option<&[u8]> {
         Some(&self.refreshed_bookmark)
     }
 }
+#[cfg(target_os = "macos")]
 impl FileRecovery {
     pub(crate) fn validate(&self, db: &Connection) -> Result<()> {
         let valid:bool=db.query_row("SELECT EXISTS(SELECT 1 FROM resources r JOIN file_grants g ON g.resource_id=r.id JOIN file_locators l ON l.resource_id=r.id WHERE r.id=?1 AND r.kind='file' AND r.identity=?2 AND r.location=?3 AND g.active=1 AND l.identity=?2 AND l.bookmark=?4) AND (SELECT value FROM settings WHERE key='permission_version')=?5 AND (SELECT value FROM settings WHERE key='revision')=?6",params![self.resource_id,self.identity,self.location,self.bookmark,self.permission_version,self.revision],|r|r.get(0))?;

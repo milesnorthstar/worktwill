@@ -154,6 +154,8 @@ fn disk_scan_acceptance() {
         .unwrap();
     let docs = directory.path().join("documents");
     fs::create_dir(&docs).unwrap();
+    // 与正式入库一致，Windows 使用带卷前缀的规范路径核对全部映射。
+    let docs = docs.canonicalize().unwrap();
     let seed = Instant::now();
     for folder in 0..folders {
         fs::create_dir(docs.join(format!("部门{folder:03}"))).unwrap();

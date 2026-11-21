@@ -47,7 +47,10 @@ fn main() {
     let path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../desktop/src/contracts.ts");
     if std::env::args().any(|a| a == "--check") {
         assert_eq!(
-            std::fs::read_to_string(path).expect("Run pnpm types first"),
+            // Git 在 Windows 可能检出 CRLF；仅统一换行，仍逐字检查 DTO。
+            std::fs::read_to_string(path)
+                .expect("Run pnpm types first")
+                .replace("\r\n", "\n"),
             text,
             "Generated contract drift"
         );

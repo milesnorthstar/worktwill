@@ -13,6 +13,8 @@ fn disk_search_acceptance() {
         .unwrap();
     let root = directory.path().join("documents");
     fs::create_dir(&root).unwrap();
+    // 合成路径与正式授权根一致，避免 Windows 规范卷前缀被误判为权限外。
+    let root = root.canonicalize().unwrap();
     let store = Store::open(directory.path().join("app/catalog.sqlite3")).unwrap();
     let root_id = store.grant_root(&root).unwrap();
     let patterns = [

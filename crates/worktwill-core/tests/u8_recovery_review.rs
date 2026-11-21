@@ -1,4 +1,4 @@
-#![cfg(target_os = "macos")]
+#![cfg(any(target_os = "macos", windows))]
 
 use std::{fs, path::PathBuf, time::SystemTime};
 use worktwill_core::{model::*, timeline::TimelineRequest, Store};

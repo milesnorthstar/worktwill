@@ -1,0 +1,58 @@
+
+> worktwill@0.1.0 check C:\Users\Administrator\Desktop\work\worktwill
+> node scripts/check.mjs "--fixtures" "C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121"
+
+
+cargo run -p worktwill-core --bin export-types -- --check
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.15s
+     Running `target\debug\export-types.exe --check`
+
+pnpm build
+
+> worktwill@0.1.0 build C:\Users\Administrator\Desktop\work\worktwill
+> tsc --noEmit && vite build
+
+vite v7.3.8 building client environment for production...
+transforming...
+✓ 1587 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/index.html                   0.47 kB │ gzip:  0.33 kB
+../dist/assets/index-CU85cPSC.css   42.37 kB │ gzip:  9.68 kB
+../dist/assets/index-Dunz65ZZ.js   303.83 kB │ gzip: 95.07 kB
+✓ built in 2.01s
+
+pnpm test:ui
+
+> worktwill@0.1.0 test:ui C:\Users\Administrator\Desktop\work\worktwill
+> vitest run
+
+
+ RUN  v4.1.12 C:/Users/Administrator/Desktop/work/worktwill
+
+ ❯ desktop/src/timeline/ActivityTimeline.test.tsx (20 tests | 1 failed) 13086ms
+     × 旧续页晚到后仍使用新筛选的游标继续加载 5486ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  desktop/src/timeline/ActivityTimeline.test.tsx > 时间线版本与错误保护 > 旧续页晚到后仍使用新筛选的游标继续加载
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ desktop/src/timeline/ActivityTimeline.test.tsx:225:3
+    223|   });
+    224|
+    225|   it('旧续页晚到后仍使用新筛选的游标继续加载', async () => {
+       |   ^
+    226|     const first=Array.from({length:100},(_,index)=>entry('prior-'+inde…
+    227|     const current=Array.from({length:100},(_,index)=>entry('current-'+…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  1 failed | 143 passed (144)
+   Start at  14:00:58
+   Duration  65.68s (transform 1.56s, setup 2.24s, import 2.42s, tests 78.24s, environment 5.85s)
+
+ ELIFECYCLE  Command failed with exit code 1.
+ ELIFECYCLE  Command failed with exit code 1.
