@@ -2,13 +2,14 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { JSDOM } from 'jsdom';
 import demo from '../locales/demo.mjs';
 import { origin, locales, pages, localizedRoute, bingVerification } from '../site.config.mjs';
+import {currentRelease,downloadUrl,platformNames} from '../release.mjs';
 
 const site = new URL('../', import.meta.url);
 const english = {
   ...JSON.parse(await readFile(new URL('locales/en.json', site), 'utf8')),
   ...JSON.parse(await readFile(new URL('locales/geo-en.json', site), 'utf8')),
 };
-const release = JSON.parse(await readFile(new URL('release.json', site), 'utf8'));
+const release = currentRelease(JSON.parse(await readFile(new URL('release.json', site), 'utf8')));
 const indexnow = JSON.parse(await readFile(new URL('indexnow.json', site), 'utf8'));
 if (!/^[a-zA-Z0-9-]{8,128}$/.test(indexnow.key)) throw new Error('IndexNow公开站点校验键格式无效');
 await writeFile(new URL(`public/${indexnow.key}.txt`, site), indexnow.key);
@@ -28,6 +29,13 @@ function translateData(value) {
   return value;
 }
 
+// 首页动态文案从同一英文词典生成，缺失翻译在构建时失败。
+const homeScript = await readFile(new URL('src/home.js', site), 'utf8');
+const homeMessages = Object.fromEntries([...homeScript.matchAll(/t\(("(?:[^"\\\\]|\\\\.)*")\)/g)].map((match) => {
+  const source = JSON.parse(match[1]);
+  return [source, translate(source)];
+}));
+await writeFile(new URL('src/home.generated.js', site), `// 由 scripts/pages.mjs 生成。\nexport default ${JSON.stringify(homeMessages)};\n`);
 const demos = { 'zh-CN': demo, en: translateData(demo) };
 // 客户端只加载演示所需文案，不把整篇使用/隐私词典带入脚本。
 await writeFile(new URL('src/demo.generated.js', site), `// 由 scripts/pages.mjs 生成，请修改 locales/ 中的来源。\nexport default ${JSON.stringify(demos)};\n`);
@@ -61,13 +69,13 @@ for (const [page, meta] of Object.entries(pages)) {
       link.textContent = label;
       resources.append(link);
     }
-    document.querySelector('footer')?.before(resources);
+    if (page !== 'index') document.querySelector('footer')?.before(resources);
     document.documentElement.lang = locale;
     if (locale === 'en') {
       const walker = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_TEXT);
       while (walker.nextNode()) walker.currentNode.textContent = translate(walker.currentNode.textContent);
       for (const element of document.querySelectorAll('*')) {
-        for (const attribute of ['aria-label', 'placeholder', 'alt', 'content']) {
+        for (const attribute of ['aria-label', 'placeholder', 'alt', 'content', 'value']) {
           if (element.hasAttribute(attribute)) element.setAttribute(attribute, translate(element.getAttribute(attribute)));
         }
       }
@@ -75,6 +83,7 @@ for (const [page, meta] of Object.entries(pages)) {
 
     for (const anchor of document.querySelectorAll('a[href]')) {
       const href = anchor.getAttribute('href');
+      if(locale==='en'&&href==='https://support.apple.com/zh-cn/102445')anchor.href='https://support.apple.com/en-us/102445';
       if (!href.startsWith('/') || href.startsWith('//')) continue;
       const [path, fragment] = href.split('#');
       const route = path.replace(/\.html$/, '');
@@ -99,10 +108,14 @@ for (const [page, meta] of Object.entries(pages)) {
       languages.append(link);
     }
     const header = document.querySelector('header');
-    actions.append(languages);
-    const cta = header.querySelector('.nav-download');
-    if (cta) actions.append(cta);
-    header.append(actions);
+    if (page === 'index') {
+      header.querySelector('.language-switch').replaceWith(languages);
+    } else {
+      actions.append(languages);
+      const cta = header.querySelector('.nav-download');
+      if (cta) actions.append(cta);
+      header.append(actions);
+    }
 
     for (const element of document.querySelectorAll('[data-updated]')) {
       element.setAttribute('datetime', meta.updated);
@@ -110,11 +123,38 @@ for (const [page, meta] of Object.entries(pages)) {
     }
     for (const element of document.querySelectorAll('[data-release]')) {
       const field = element.getAttribute('data-release');
-      const value = field === 'stage' && locale === 'en' ? 'V1 acceptance candidate · 026' : field === 'bytes' ? `${release.bytes.toLocaleString(locale)} bytes (6.3 MiB)` : release[field];
+      const value = field === 'stage' && locale === 'en' ? release.stage_en : field === 'bytes' ? `${release.bytes.toLocaleString(locale)} bytes (${(release.bytes/1048576).toFixed(1)} MiB)` : release[field];
       if (value === undefined) throw new Error(`未知发行字段：${field}`);
       element.textContent = value;
     }
-    for (const element of document.querySelectorAll('[data-release-download]')) element.href = `/downloads/${release.filename}`;
+    for (const element of document.querySelectorAll('[data-release-download]')) element.href = downloadUrl(release);
+    for (const container of document.querySelectorAll('[data-platform-downloads]')) {
+      for (const [target,names] of Object.entries(platformNames)) {
+        if(target===release.platform)continue;
+        const entry=release.platforms[target];
+        const row=document.createElement('div');row.className='platform-download';
+        const name=document.createElement('strong');name.textContent=locale==='en'?names.en:names.zh;row.append(name);
+        if(entry){
+          const link=document.createElement('a');link.className='button button-primary';link.href=downloadUrl(entry);link.setAttribute('download','');link.textContent=locale==='en'?`Download ${entry.version}`:`下载 ${entry.version}`;row.append(link);
+          const size=document.createElement('small');size.textContent=`${(entry.bytes/1048576).toFixed(1)} MiB · SHA-256: ${entry.sha256}`;row.append(size);
+        }else{const pending=document.createElement('span');pending.textContent=locale==='en'?'Installer not published yet':'安装包尚未发布';row.append(pending);}
+        container.append(row);
+      }
+    }
+    const intro=document.querySelector('[data-release-intro]');
+    if(intro)intro.textContent=locale==='en'?'Choose a platform below. Published installers are available directly from this website without GitHub. These are preview builds; platform acceptance is tracked separately.':'从下方选择平台，已发布的安装包可直接下载，无需访问 GitHub。当前为预览版本，各平台验收状态单独记录。';
+    if(page==='download'){
+      document.querySelector('.release-panel h2').textContent=platformNames[release.platform][locale==='en'?'en':'zh'];
+      setMeta(document,'description',locale==='en'?'Download WorkTwill installers directly from the official website. Check available Windows and Mac builds, release versions, checksums, installation steps, and app update support.':'从 WorkTwill 官网直接下载安装包，查看 Windows 和 Mac 的可用版本、校验值、安装方式与应用内更新支持范围。');
+      const matrix=document.querySelector('h2 + dl.fact-list');
+      if(matrix){
+        matrix.children[0]?.remove();matrix.children[0]?.remove();
+        for(const [target,names] of Object.entries(platformNames).reverse()){
+          const row=document.createElement('div');const title=document.createElement('dt');title.textContent=locale==='en'?names.en:names.zh;
+          const description=document.createElement('dd');description.textContent=release.platforms[target]?(locale==='en'?'A local candidate is available. Installer and update acceptance are tracked separately.':'已有本地候选包；安装与更新的实际验收单独记录。'):(locale==='en'?'Installer not published yet.':'安装包尚未发布。');row.append(title,description);matrix.prepend(row);
+        }
+      }
+    }
 
     const canonical = origin + localizedRoute(locale, meta.route);
     document.title = locale === 'en' ? meta.enTitle : meta.title;
@@ -154,9 +194,9 @@ for (const [page, meta] of Object.entries(pages)) {
       ];
       if (['index', 'about', 'download'].includes(page)) graph.push({
         '@type': 'SoftwareApplication', '@id': `${origin}/#application`, name: 'WorkTwill',
-        url: canonical, applicationCategory: 'BusinessApplication', operatingSystem: 'macOS (Apple Silicon)',
+        url: canonical, applicationCategory: 'BusinessApplication', operatingSystem: Object.keys(release.platforms).map(target=>platformNames[target].en).join(', '),
         softwareVersion: release.version, description, inLanguage: locales,
-        downloadUrl: `${origin}/downloads/${release.filename}`, releaseNotes: origin + localizedRoute(locale, '/guide'),
+        downloadUrl: new URL(downloadUrl(release),origin).href, releaseNotes: origin + localizedRoute(locale, '/guide'),
       });
       if (page !== 'index') graph.push({
         '@type': 'BreadcrumbList', itemListElement: [
@@ -174,33 +214,23 @@ for (const [page, meta] of Object.entries(pages)) {
     }
 
     if (page === 'index') {
-      document.querySelector('#release-download').href = `/downloads/${release.filename}`;
-      document.querySelector('#release-sha').textContent = release.sha256;
-      // 首屏示例也预渲染进HTML，禁用脚本时正文和下载仍完整可用。
-      const list = document.querySelector('#demo-resources');
-      for (const resource of demos[locale].resources.slice(0, 4)) {
-        const row = document.createElement('div');
-        row.className = 'resource-row';
-        const name = document.createElement('span');
-        name.className = 'resource-name';
-        const icon = document.createElement('span');
-        icon.className = `file-icon ${resource.icon}`;
-        icon.textContent = resource.letter;
-        const label = document.createElement('span');
-        label.textContent = resource.name;
-        name.append(icon, label);
-        row.append(name);
-        for (const field of ['location', 'type']) {
-          const span = document.createElement('span');
-          span.className = `resource-${field}`;
-          span.textContent = resource[field];
-          row.append(span);
+      // 原型卡片只替换发行信息，不注入旧官网的下载或演示布局。
+      for (const card of document.querySelectorAll('[data-home-download]')) {
+        const entry = release.platforms[card.dataset.homeDownload];
+        if (!entry) continue;
+        let link = card;
+        if (card.tagName !== 'A') {
+          link = document.createElement('a');
+          for (const attribute of card.attributes) if (!['type', 'style'].includes(attribute.name)) link.setAttribute(attribute.name, attribute.value);
+          link.innerHTML = card.innerHTML;
+          card.replaceWith(link);
         }
-        list.append(row);
+        link.classList.replace('coming', 'available');
+        link.href = downloadUrl(entry);
+        link.setAttribute('download', '');
+        link.querySelector('small').textContent = `${locale === 'en' ? 'Preview' : '预览版'} · v${entry.version}`;
+        link.title = `SHA-256: ${entry.sha256}`;
       }
-      const notice = document.createElement('noscript');
-      notice.textContent = locale === 'en' ? 'The interactive demo needs JavaScript. Product information and downloads are available without it.' : '交互演示需要 JavaScript；产品介绍、说明和下载无需脚本即可使用。';
-      document.querySelector('.app-window').after(notice);
     }
     const folder = new URL(locale === 'en' ? 'en/' : './', site);
     await mkdir(folder, { recursive: true });
@@ -215,6 +245,6 @@ const entries = Object.values(pages).filter((page) => page.route !== '/404').fla
   return `<url><loc>${origin}${localizedRoute(locale, route)}</loc>${updated ? `<lastmod>${updated}</lastmod>` : ''}${alternates}</url>`;
 }));
 await writeFile(new URL('public/sitemap.xml', site), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${entries.join('\n')}\n</urlset>\n`);
-const llms = `# WorkTwill\n\n> A local personal workspace for files and saved links. Resources are organized by reference; original files stay in place. File search and organization work offline without an account or AI setup.\n\nThe project is committed to becoming fully open source. The public source repository and specific license are not yet published. Current download: version ${release.version}, macOS Apple Silicon, early candidate 026; not a stable or Apple-notarized release. Windows and Intel Mac builds are not available. Search covers metadata, not document contents.\n\n## English\n${Object.values(pages).filter((page) => page.route !== '/404').map((page) => `- [${page.enTitle}](${origin}${localizedRoute('en', page.route)})`).join('\n')}\n\n## 简体中文\n${Object.values(pages).filter((page) => page.route !== '/404').map((page) => `- [${page.title}](${origin}${page.route})`).join('\n')}\n\n## Current release\n- [Download and verified support limits](${origin}/en/download)\n- SHA-256: ${release.sha256}\n\nThis file is a navigation aid, not a guarantee of AI search indexing, citations, or model training permission. Use the dated support page for release boundaries.\n`;
+const llms = `# WorkTwill\n\n> A local personal workspace for files and saved links. Resources are organized by reference; original files stay in place. File search and organization work offline without an account or AI setup.\n\nThe project is committed to becoming fully open source. The public source repository and specific license are not yet published. Current primary download: version ${release.version}, ${platformNames[release.platform].en}, ${release.stage_en}. Published platforms: ${Object.keys(release.platforms).map(target=>platformNames[target].en).join(", ")}. These are local candidates. OS code signing and notarization are deferred; update packages are independently signed. Production installation and online updates require separate acceptance. Search covers metadata, not document contents.\n\n## English\n${Object.values(pages).filter((page) => page.route !== '/404').map((page) => `- [${page.enTitle}](${origin}${localizedRoute('en', page.route)})`).join('\n')}\n\n## 简体中文\n${Object.values(pages).filter((page) => page.route !== '/404').map((page) => `- [${page.title}](${origin}${page.route})`).join('\n')}\n\n## Current release\n- [Download and verified support limits](${origin}/en/download)\n- SHA-256: ${release.sha256}\n\nThis file is a navigation aid, not a guarantee of AI search indexing, citations, or model training permission. Use the dated support page for release boundaries.\n`;
 await writeFile(new URL('public/llms.txt', site), llms);
 console.log(`已生成中英文${Object.keys(pages).length * 2}个静态页面、演示文案、多语言站点地图和llms导航。`);

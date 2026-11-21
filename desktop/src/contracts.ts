@@ -3,6 +3,12 @@ export type UiLanguage = "zh" | "en";
 
 export type SuggestedLocation = "desktop" | "downloads" | "documents";
 
+export type UpdatePhase = "unconfigured" | "idle" | "up_to_date" | "checking" | "available" | "downloading" | "ready" | "installing" | "error";
+
+export type UpdateStatus = { revision: number, phase: UpdatePhase, current_version: string, version: string | null, notes: string | null, downloaded: number, total: number | null, automatic_download: boolean, error: AppError | null, };
+
+export type UpdateResume = { view: string, workspace_id: string | null, language: UiLanguage, };
+
 export type AppError = { code: string, message: string, message_en: string, };
 
 export type WebMetadata = { title: string | null, final_url: string, };

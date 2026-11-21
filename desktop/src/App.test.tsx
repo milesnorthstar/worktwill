@@ -3,10 +3,13 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Overview, Resource, ResourcePage, SearchCursor, SearchResponse } from './contracts';
 
-const mocks = vi.hoisted(() => ({ notes:vi.fn(),writeNote:vi.fn(), documentTracking:vi.fn(), setDocumentTracking:vi.fn(), overview: vi.fn(), resources: vi.fn(), search: vi.fn(), mutate: vi.fn(), open: vi.fn(), searchPage: vi.fn(), importDrop: vi.fn(), pickFiles: vi.fn(), relink:vi.fn(), backup:vi.fn(), restore:vi.fn(), webMetadata: vi.fn(), timeline:vi.fn(), cancelDrop:vi.fn(), cancelSearch:vi.fn(), requestCounter:0, pickRoot:vi.fn(), rescan:vi.fn(), listen: vi.fn() }));
+const mocks = vi.hoisted(() => ({ updateStatus:vi.fn(),checkUpdate:vi.fn(),setUpdateAutomatic:vi.fn(),installUpdate:vi.fn(),takeUpdateResume:vi.fn(), notes:vi.fn(),writeNote:vi.fn(), documentTracking:vi.fn(), setDocumentTracking:vi.fn(), overview: vi.fn(), resources: vi.fn(), search: vi.fn(), mutate: vi.fn(), open: vi.fn(), searchPage: vi.fn(), importDrop: vi.fn(), pickFiles: vi.fn(), relink:vi.fn(), backup:vi.fn(), restore:vi.fn(), webMetadata: vi.fn(), timeline:vi.fn(), cancelDrop:vi.fn(), cancelSearch:vi.fn(), requestCounter:0, pickRoot:vi.fn(), rescan:vi.fn(), listen: vi.fn() }));
 vi.mock('./api', async importOriginal => ({ ...(await importOriginal<typeof import('./api')>()), native: true, api: mocks, nextSearchRequestId:()=>++mocks.requestCounter }));
 vi.mock('@tauri-apps/api/event', () => ({ listen: mocks.listen }));
 import App from './App';
+import type {UpdateStatus} from './contracts';
+
+const readyUpdate:UpdateStatus={revision:4,phase:'ready',current_version:'1.3.1',version:'1.3.2',notes:'修复保存',downloaded:100,total:100,automatic_download:true,error:null};
 
 const meta: Overview = { session: 's', permission_version: 1, revision: 1, sqlite_version: 'test', roots: [], file_grants: [], activities: [], workspaces: [{ id: 'workspace1', name: '客户 A', count: 0 }] };
 const page: ResourcePage = { session: 's', permission_version: 1, revision: 1, has_more: false, items: [] };
@@ -15,6 +18,7 @@ const cursor = (offset:number,query='合同'):SearchCursor => ({version:4,sessio
 
 beforeEach(() => {
   vi.resetAllMocks();mocks.notes.mockResolvedValue({scope:"s:0",items:[]});vi.spyOn(window,'scrollTo').mockImplementation(()=>{});mocks.requestCounter=0;mocks.cancelSearch.mockResolvedValue(true);
+  mocks.updateStatus.mockResolvedValue({revision:0,phase:'unconfigured',current_version:'1.3.1',version:null,notes:null,downloaded:0,total:null,automatic_download:true,error:null});mocks.takeUpdateResume.mockResolvedValue(null);
   mocks.documentTracking.mockResolvedValue({supported:false,roots:[],files:[]});mocks.setDocumentTracking.mockResolvedValue(undefined);
   mocks.pickFiles.mockResolvedValue(null);mocks.relink.mockResolvedValue(false);mocks.backup.mockResolvedValue(false);mocks.restore.mockResolvedValue(false);
   mocks.webMetadata.mockResolvedValue({title:'招聘后台',final_url:'https://example.com/jobs'}); mocks.overview.mockResolvedValue(structuredClone(meta)); mocks.resources.mockResolvedValue(page);
@@ -22,6 +26,45 @@ beforeEach(() => {
 });
 
 describe('工作台交互回归', () => {
+  it('重启更新等待便签最新内容提交，期间阻止交互并携带返回位置',async()=>{
+    mocks.updateStatus.mockResolvedValue(readyUpdate);
+    mocks.notes.mockResolvedValue({scope:'s:0',items:[{id:'note',text:'旧便签',pinned:false,version:1,updated_at:1}]});
+    let finish!:(value:unknown)=>void;
+    mocks.writeNote.mockImplementation(request=>new Promise(resolve=>{finish=resolve;}));
+    mocks.installUpdate.mockResolvedValue(undefined);
+    const user=userEvent.setup();render(<App/>);
+    const text=await screen.findByDisplayValue('旧便签');
+    fireEvent.change(text,{target:{value:'更新前最新草稿'}});
+    await user.click(await screen.findByRole('button',{name:'重启更新'}));
+    await screen.findByRole('dialog',{name:'正在更新应用'});
+    expect(document.querySelector('.app-shell')).toHaveAttribute('inert');
+    expect(mocks.installUpdate).not.toHaveBeenCalled();
+    await act(async()=>finish({id:'note',text:'更新前最新草稿',pinned:false,version:2,updated_at:2}));
+    await waitFor(()=>expect(mocks.installUpdate).toHaveBeenCalledExactlyOnceWith({view:'home',workspace_id:null,language:'zh'}));
+    expect(mocks.writeNote.mock.calls[0][0].text).toBe('更新前最新草稿');
+  });
+  it('便签保存失败时暂停更新并保留草稿，不调用原生安装',async()=>{
+    mocks.updateStatus.mockResolvedValue(readyUpdate);
+    mocks.notes.mockResolvedValue({scope:'s:0',items:[{id:'note',text:'旧便签',pinned:false,version:1,updated_at:1}]});
+    mocks.writeNote.mockRejectedValue({message:'磁盘已满'});
+    const user=userEvent.setup();render(<App/>);
+    fireEvent.change(await screen.findByDisplayValue('旧便签'),{target:{value:'必须保留的草稿'}});
+    await user.click(await screen.findByRole('button',{name:'重启更新'}));
+    await screen.findByText('便签尚未保存，更新已暂停。请返回个人工作台重试保存。');
+    expect(screen.getByDisplayValue('必须保留的草稿')).toBeInTheDocument();
+    expect(mocks.installUpdate).not.toHaveBeenCalled();
+    expect(document.querySelector('.app-shell')).not.toHaveAttribute('inert');
+  });
+  it('读取状态晚于事件返回时不能把新版已就绪覆盖为旧状态',async()=>{
+    let finish!:(value:UpdateStatus)=>void;
+    mocks.updateStatus.mockImplementation(()=>new Promise(resolve=>{finish=resolve;}));
+    render(<App/>);
+    await waitFor(()=>expect(mocks.updateStatus).toHaveBeenCalled());
+    await act(async()=>mocks.listen.mock.calls.find(([name])=>name==='update-status')![1]({payload:readyUpdate}));
+    await screen.findByRole('button',{name:'重启更新'});
+    await act(async()=>finish({...readyUpdate,revision:1,phase:'checking'}));
+    expect(screen.getByRole('button',{name:'重启更新'})).toBeInTheDocument();
+  });
   it('在工作区添加网页时将目标交给同一个后端命令', async () => {
     const user = userEvent.setup(); render(<App initialView="home" />);
     await user.click(await within(screen.getByRole('complementary',{name:/主侧栏|Main sidebar/})).findByRole('button', { name: /^客户 A/ }));

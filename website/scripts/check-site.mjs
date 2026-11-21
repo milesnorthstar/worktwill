@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import { JSDOM } from 'jsdom';
 import { origin, pages, locales, localizedRoute } from '../site.config.mjs';
+import {currentRelease,downloadUrl,platformNames} from '../release.mjs';
+const release=currentRelease(JSON.parse(await readFile(new URL('../release.json',import.meta.url),'utf8')));
 
 const dist = new URL('../dist/', import.meta.url);
 const routes = Object.values(pages).filter((page) => page.route !== '/404').flatMap((page) => locales.map((locale) => localizedRoute(locale, page.route)));
@@ -50,20 +52,31 @@ for (const route of routes) {
     if (url.hash) assert.ok(target.getElementById(decodeURIComponent(url.hash.slice(1))), `无效锚点：${url.href}`);
   }
   if (route.endsWith('/download')) {
-    assert.ok(document.querySelector('[data-release-download]').getAttribute('href').startsWith('/downloads/'));
+    assert.equal(document.querySelector('[data-release-download]').getAttribute('href'),downloadUrl(release));
+    assert.equal(document.querySelectorAll('[data-platform-downloads] .platform-download').length,Object.keys(platformNames).length-1);
+    assert.equal(document.querySelectorAll('[data-platform-downloads] a').length,Object.keys(release.platforms).length-1);
     assert.equal(document.querySelector('[data-release="sha256"]').textContent.length, 64);
     assert.ok(document.querySelectorAll('.fact-list > div').length >= 6);
   }
-  assert.ok(document.querySelector('.resource-library a[href]'), '内容导航必须出现在原始HTML中');
+  assert.ok(document.querySelector('.resource-library a[href], .footer-links a[href="/guide"], .footer-links a[href="/en/guide"]'), '内容导航必须出现在原始HTML中');
   if (english) {
     const content = document.body.cloneNode(true);
     content.querySelectorAll('.language-switch').forEach((element) => element.remove());
     assert.ok(!/\p{Script=Han}/u.test(content.textContent), `英文页面残留未翻译正文：${route}`);
   }
   if (route === '/' || route === '/en/') {
-    assert.equal(document.querySelectorAll('#demo-resources .resource-row').length, 4, '禁用JS时也应有首屏示例');
-    assert.ok(document.querySelector('#release-download').getAttribute('href').startsWith('/downloads/'), '下载不能依赖JS赋值');
-    assert.equal(document.querySelector('#release-sha').textContent.length, 64);
+    // 保留原型的窗口、三条静态示例和平台卡片，不再混入旧官网组件。
+    assert.equal(document.querySelectorAll('#appWindow .resource-row').length, 3);
+    assert.equal(document.querySelector('#macDownload').getAttribute('href'), downloadUrl(release.platforms['darwin-aarch64']));
+    assert.equal(document.querySelector('#macDownload').title.length, 73);
+    assert.ok(!document.querySelector('link[href="/src/style.css"]'));
+    // 原型占位入口不能进入正式双语页面。
+    assert.equal(document.querySelector('#githubButton').getAttribute('href'), english ? '/en/about' : '/about');
+    assert.equal(document.querySelector('#demoInput').value, english ? 'brand plan' : '品牌企划');
+    assert.equal(document.querySelectorAll('.faq-question').length, 5);
+    assert.equal(document.querySelector('#menuToggle').getAttribute('aria-controls'), 'home-navigation');
+    assert.ok(!document.querySelector('a[href="https://github.com/"]'));
+    assert.ok(!document.body.textContent.includes('v0.1.0'));
   }
   console.log(`通过：${route} 的语言、SEO、互链、分享图、结构化数据与站内链接`);
 }

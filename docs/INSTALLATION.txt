@@ -1,0 +1,43 @@
+WorkTwill · 首次安装与更新
+
+官网：https://worktwill.haoclub.com/
+安装与支持：https://worktwill.haoclub.com/guide
+版本与 SHA-256：https://worktwill.haoclub.com/download
+
+macOS
+1. 从官网下载与你的芯片匹配的 DMG，打开后将 WorkTwill 拖入“应用程序”。
+2. 推出安装磁盘，再从“应用程序”打开 WorkTwill。
+3. 当前版本未做 Apple Developer ID 签名与公证。若首次打开提示无法验证开发者或 Apple 无法检查该应用，请先核对下载来源，然后在“系统设置 → 隐私与安全性”找到 WorkTwill，选择“仍要打开”，按系统提示确认。
+4. 如果没有此按钮，先尝试打开应用，再返回设置。受管理的电脑可能需要管理员允许。
+5. 如果提示应用“已损坏”或“将损坏你的电脑”，请停止安装并重新核对下载，不将此类提示当作普通的开发者未验证提示处理。
+Apple 说明：https://support.apple.com/zh-cn/102445
+
+Windows（仅适用于官网已提供的 Windows 安装包）
+1. 下载匹配的 EXE 安装程序，退出正在运行的 WorkTwill，再运行安装程序。
+2. 当前版本未做 Windows 代码签名。如出现“Windows 已保护你的电脑”，先核对官网来源与文件校验值；确认信任后，可选择“更多信息 → 仍要运行”（若系统提供此选项）。
+3. 若没有“仍要运行”或公司策略禁止安装，请联系电脑管理员。不要关闭 Defender 或 SmartScreen。
+4. 安装程序按当前用户安装；如提示需要 WebView2，请按安装程序引导完成运行时安装。
+
+后续更新
+支持应用内更新的版本会自动检查新版；可在“设置 → 应用更新”关闭后台自动下载，也可手动检查或下载。
+下载完成后选择“重启更新”，应用先保存便签，再安装并重新打开。也可稍后更新。
+没有内置更新器的旧版本，需要先手动安装一次。请退出旧版后安装，保留应用数据目录，不需要先删除资料或卸载数据。
+更新包使用独立签名并自动校验；这与 Apple/Windows 的系统代码签名不同，也不代表经过系统厂商安全审核。
+线上更新是否可用以官网当前发布状态为准；没有新版或网络不可用时，仍可使用本地资料功能。
+
+WorkTwill 无需账号，没有预置业务资料；仅处理你明确授权的文件或目录。
+应用数据备份不包含磁盘原文件，请另行备份原文件。
+
+English
+
+Official downloads and checksums: https://worktwill.haoclub.com/en/download
+Installation and support: https://worktwill.haoclub.com/en/guide
+
+Mac: Open the matching DMG, drag WorkTwill to Applications, eject the disk image, and launch from Applications. This build has no Developer ID signing or notarization. If macOS cannot verify the developer or check the app, verify its official source, then review WorkTwill in System Settings → Privacy & Security → Open Anyway. Attempt a launch first if the option is missing. Managed computers may require administrator approval. Stop if macOS reports damage or known malware; do not treat these as an ordinary unidentified-developer prompt.
+Apple guidance: https://support.apple.com/en-us/102445
+
+Windows (when an installer is published): Exit WorkTwill and run the matching EXE. This build has no Windows code signing. If SmartScreen appears, verify the official source and checksum before choosing More info → Run anyway, if offered. If blocked by policy, contact your administrator; keep Defender and SmartScreen enabled. Installation is per user. Follow the installer if WebView2 is required.
+
+Updates: Open Settings → App updates to check or download manually, or control background downloads. Once ready, Restart to update saves your notes, installs, and reopens the app. Older versions without an updater need one manual installation. Exit the old version and retain the application data directory. Update signatures are verified independently of OS code signing and do not imply approval by Apple or Microsoft. Live update availability follows the published website status. Local file features remain usable without an update connection.
+
+No account or preset business data is required. Only explicitly authorized files or folders are processed. App data backups do not include original files; back those up separately.

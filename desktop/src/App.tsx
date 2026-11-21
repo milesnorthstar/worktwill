@@ -6,6 +6,8 @@ import type { Mutation, Overview, Resource, ResourcePage, ImportResult, SearchCu
 import HomeWidgets from './workbench/HomeWidgets';
 import ActivityTimeline from './timeline/ActivityTimeline';
 import DocumentTracking from './DocumentTracking';
+import UpdateSettings,{updateLabel} from './UpdateSettings';
+import type {UpdateStatus} from './contracts';
 import { useResourceDrag } from './workbench/useResourceDrag';
 import { EmptyState, ResourceList, SearchPanel, SearchFilters, LocationSuggestions } from './workbench/components';
 
@@ -94,6 +96,40 @@ export default function App({initialView='home'}:{initialView?:View}) {
   const [error, setError] = useState<Failure>(null);
   const [busy, setBusy] = useState(false);
   const busyRef = useRef(false);
+  const [updateStatus,setUpdateStatus]=useState<UpdateStatus|null>(null);
+  const [dismissedUpdate,setDismissedUpdate]=useState<string|null>(null);
+  const updateRevision=useRef(-1);
+  const [updatePreparing,setUpdatePreparing]=useState(false);
+  const updatePreparingRef=useRef(false);
+  const notesExitGuard=useRef<(()=>Promise<boolean>)|null>(null);
+  const acceptUpdate=useCallback((status:UpdateStatus)=>{
+    if(status.revision<updateRevision.current)return;
+    updateRevision.current=status.revision;setUpdateStatus(status);
+  },[]);
+  useEffect(()=>{
+    if(!native)return;
+    let alive=true;
+    const subscription=listen<UpdateStatus>('update-status',event=>{if(alive)acceptUpdate(event.payload);});
+    void subscription.then(()=>api.updateStatus()).then(status=>{if(alive)acceptUpdate(status);}).catch(cause=>{if(alive)setError({cause});});
+    void api.takeUpdateResume().then(resume=>{if(alive&&resume){setLang(resume.language);navigate(resume.view as View,resume.workspace_id);}}).catch(cause=>{if(alive)setError({cause});});
+    return()=>{alive=false;void subscription.then(unlisten=>unlisten());};
+  },[acceptUpdate]);
+
+  async function checkUpdate(download:boolean){
+    try{acceptUpdate(await api.checkUpdate(download));}catch(cause){setError({cause});}
+  }
+  async function setAutomaticUpdate(enabled:boolean){
+    try{acceptUpdate(await api.setUpdateAutomatic(enabled));}catch(cause){setError({cause});}
+  }
+  async function installUpdate(){
+    if(updatePreparingRef.current||busyRef.current||form||dropPreparing||updateStatus?.phase!=='ready')return;
+    updatePreparingRef.current=true;setUpdatePreparing(true);setError(null);
+    try{
+      if(!notesExitGuard.current||!await notesExitGuard.current())throw {message:'便签尚未保存，更新已暂停。请返回个人工作台重试保存。',message_en:'Update paused because a note could not be saved. Return to the workbench and retry.'};
+      await api.installUpdate({view:view==='search'?'home':view,workspace_id:workspace,language:lang});
+    }catch(cause){setError({cause});}
+    finally{updatePreparingRef.current=false;setUpdatePreparing(false);}
+  }
   const [refresh, setRefresh] = useState(0);
   const [openedRevision,setOpenedRevision]=useState(0);
   const [loading, setLoading] = useState(true);
@@ -301,7 +337,7 @@ export default function App({initialView='home'}:{initialView?:View}) {
   };
 
   async function run<T,>(task: () => Promise<T>, message?: string): Promise<T | undefined> {
-    if (busyRef.current) return;
+    if (busyRef.current||updatePreparingRef.current) return;
     busyRef.current = true;
     setBusy(true); setError(null);
     try { const value = await task(); if (message) setNotice(message); reload(); return value; }
@@ -387,7 +423,7 @@ export default function App({initialView='home'}:{initialView?:View}) {
     if(root.paused)return t('已暂停扫描，已有授权保留','Scanning paused; authorization retained');
     return (scanLabel[root.scan_state]??t('状态待核对','Status pending'))+` · ${root.scanned} `+t('个文件','files')+(root.failures?` · ${root.failures} `+t('项不可访问','unavailable'):'');
   };
-  return <div className="app-shell">
+  return <><div className="app-shell" inert={updatePreparing}>
     <aside className="sidebar" aria-label={t("主侧栏","Main sidebar")}><button className="brand" onClick={() => navigate('home')}><span><Layers3 size={23} /></span>WorkTwill</button><p className="brand-caption">{t('你的个人工作台', 'Your personal workbench')}</p>
       <nav aria-label={t('主导航','Main navigation')}>{([['home', Home, t('个人工作台', 'Personal workbench')], ['search', Search, t('搜索与筛选','Search & filters')], ['workspaces', Layers3, t('工作区', 'Workspaces')], ['favorites', Star, t('收藏', 'Favorites')], ['activity', Clock3, t('动态', 'Activity')]] as const).map(([key, Icon, name]) => {
         const current=view===key||(key==='workspaces'&&view==='workspace');
@@ -436,12 +472,13 @@ export default function App({initialView='home'}:{initialView?:View}) {
       </section>}
 
       {view==='activity'&&native&&overview&&!hasLocations&&<section className="first-location-banner"><div><strong>{t('从一个文件夹开始，找回工作的线索。','Start with a folder. Find your way back.')}</strong><p>{t('选择要管理的位置，文件原地不动。','Choose a location to manage. Your files stay in place.')}</p><LocationSuggestions t={t} disabled={busy} onSelect={suggestion=>void run(()=>api.pickRoot(lang,suggestion))}/></div><button className="button primary" disabled={busy} onClick={()=>void run(()=>api.pickRoot(lang))}><Plus size={16}/>{t('添加管理位置','Add location')}</button></section>}
-      <HomeWidgets lang={lang} visible={view==='home'} />
+      <HomeWidgets lang={lang} visible={view==='home'} exitGuard={notesExitGuard} />
       </div>
       {view === 'activity' && (native ? <ActivityTimeline lang={lang} workspacesReady={!!overview} revision={refresh+openedRevision} workspaces={overview?.workspaces??[]} onOpen={resource=>void activate(resource)} onReveal={resource=>void run(()=>api.reveal(resource.id))} onWorkspace={id=>navigate('workspace',id)} /> : <div className="empty-state"><Clock3 size={32}/><h2>{t('活动时间线','Activity timeline')}</h2><p>{t('在桌面应用中添加管理位置后，可按日历查看文件修改与首次发现记录。','Add managed locations in the desktop app to browse file changes by date.')}</p></div>)}
 
       {view === 'settings' && <section className="settings"><div className="section-heading"><h2>{t('管理位置', 'Managed locations')}</h2><button className="button primary" disabled={!native || busy} onClick={() => void run(() => api.pickRoot(lang))}><Plus size={15} />{t('添加管理位置', 'Add location')}</button></div>{overview&&!hasLocations&&<div className="suggested-location-card"><LocationSuggestions t={t} disabled={!native||busy} onSelect={suggestion=>void run(()=>api.pickRoot(lang,suggestion))}/></div>}{overview?.roots.map(root => <div className="location-card" key={root.id}><div className="location-main"><Folder size={23} /><div className="location-copy"><strong>{root.path}</strong><small>{rootStatus(root)}</small></div><div className="actions">{root.active && <><button className="button" disabled={busy} onClick={() => void mutate({ type: 'set_paused', id: root.id, value: !root.paused })}>{root.paused ? t('继续扫描', 'Resume') : t('暂停扫描', 'Pause')}</button><button className="button danger" disabled={busy} onClick={() => void mutate({ type: 'revoke_root', id: root.id })}>{t('撤销授权', 'Revoke')}</button></>}</div></div>{root.exclusions.length > 0 && <p className="exclusions">{t('已排除：', 'Excluded: ')}{root.exclusions.map(path=><button type="button" className="exclusion-chip" key={path} disabled={busy||!root.active} title={t('恢复索引此子目录','Include this subfolder')} onClick={()=>void mutate({type:'include',root_id:root.id,relative_path:path},t('已恢复此子目录的索引','Subfolder included'))}>{path}<X size={12}/></button>)}</p>}{root.active && <form className="exclude-form" onSubmit={event => { event.preventDefault(); const value=excludedFolders[root.id]??''; void mutate({ type: 'exclude', root_id: root.id, relative_path: value }).then(result=>{if(result)setExcludedFolders(current=>current[root.id]===value?{...current,[root.id]:''}:current);}); }}><input name="relative" disabled={busy} aria-label={t('排除子目录：','Exclude subfolder in ')+root.path} value={excludedFolders[root.id]??''} onChange={event=>setExcludedFolders(current=>({...current,[root.id]:event.target.value}))} placeholder={t('排除相对子目录，例如 archive/private', 'Exclude subfolder, e.g. archive/private')} required /><button className="button" disabled={busy}>{t('排除子目录', 'Exclude folder')}</button></form>}</div>)}
-        {native&&overview&&<DocumentTracking roots={overview.roots} revision={overview.revision} language={lang} busy={busy} run={run}/>} {!!overview?.file_grants.length&&<><div className="settings-divider"/><h2>{t('单独授权的文件','Individually authorized files')}</h2><p className="muted">{t('仅访问选中的文件，不扫描所在文件夹。','Only the selected files are managed; their folders are not scanned.')}</p>{overview.file_grants.map(file=><div className="location-card" key={file.id}><div className="location-main"><div className="location-copy"><strong>{file.name}</strong><small>{file.location}</small>{file.status!=='available'&&<small>{file.status==='identity_unconfirmed'?t('身份待确认','Identity unconfirmed'):t('原件暂不可用','Original unavailable')}</small>}</div><button className="button danger" disabled={busy} onClick={()=>void mutate({type:'revoke_file',id:file.id})}>{t('撤销授权','Revoke')}</button></div></div>)}</>}<div className="settings-divider"/><h2>{t('工作区顺序','Workspace order')}</h2><div className="workspace-order">{overview?.workspaces.map((item,index)=><div key={item.id}><Folder size={17}/><span>{item.name}</span>{[-1,1].map(direction=><button key={direction} className="button" disabled={busy||index+direction<0||index+direction>=overview.workspaces.length} aria-label={(direction<0?t('上移 ','Move up '):t('下移 ','Move down '))+item.name} onClick={()=>{const ids=overview.workspaces.map(w=>w.id);[ids[index],ids[index+direction]]=[ids[index+direction],ids[index]];void mutate({type:'reorder_workspaces',ids});}}>{direction<0?'↑':'↓'}</button>)}</div>)}</div><div className="settings-divider" /><h2>{t('本地数据', 'Local data')}</h2><p className="muted">{t('备份保存工作区、关联与 URL，不包含原文件；可能含敏感名称和路径。', 'Backups contain workspaces, references and URLs, not original files. Names and paths may be sensitive.')}</p><div className="actions"><button className="button" disabled={!native || busy} onClick={() => void run(() => api.backup(lang)).then(done => { if (done) setNotice(t('备份已保存', 'Backup saved')); })}>{t('备份数据', 'Back up')}</button><button className="button" disabled={!native || busy} onClick={() => void run(() => api.restore(lang)).then(done => { if (done) setNotice(t('已恢复，请重新选择管理位置', 'Restored. Please reauthorize locations.')); })}>{t('恢复备份', 'Restore backup')}</button><button className="button" disabled={!native || busy} onClick={() => void mutate({ type: 'rebuild_search' }, t('搜索索引已重建', 'Search index rebuilt'))}>{t('重建搜索索引', 'Rebuild search index')}</button><button className="button" disabled={!native || busy} onClick={() => void run(() => api.rescan())}>{t('重新扫描', 'Rescan')}</button></div><p className="technical-note">WorkTwill 1.3.1 · SQLite {overview?.sqlite_version ?? '—'} · {t('原生开发版本，保存追踪范围待验证', 'Native development build. Save-tracking support under validation.')}</p>
+        {native&&overview&&<DocumentTracking roots={overview.roots} revision={overview.revision} language={lang} busy={busy} run={run}/>} {!!overview?.file_grants.length&&<><div className="settings-divider"/><h2>{t('单独授权的文件','Individually authorized files')}</h2><p className="muted">{t('仅访问选中的文件，不扫描所在文件夹。','Only the selected files are managed; their folders are not scanned.')}</p>{overview.file_grants.map(file=><div className="location-card" key={file.id}><div className="location-main"><div className="location-copy"><strong>{file.name}</strong><small>{file.location}</small>{file.status!=='available'&&<small>{file.status==='identity_unconfirmed'?t('身份待确认','Identity unconfirmed'):t('原件暂不可用','Original unavailable')}</small>}</div><button className="button danger" disabled={busy} onClick={()=>void mutate({type:'revoke_file',id:file.id})}>{t('撤销授权','Revoke')}</button></div></div>)}</>}<div className="settings-divider"/><h2>{t('工作区顺序','Workspace order')}</h2><div className="workspace-order">{overview?.workspaces.map((item,index)=><div key={item.id}><Folder size={17}/><span>{item.name}</span>{[-1,1].map(direction=><button key={direction} className="button" disabled={busy||index+direction<0||index+direction>=overview.workspaces.length} aria-label={(direction<0?t('上移 ','Move up '):t('下移 ','Move down '))+item.name} onClick={()=>{const ids=overview.workspaces.map(w=>w.id);[ids[index],ids[index+direction]]=[ids[index+direction],ids[index]];void mutate({type:'reorder_workspaces',ids});}}>{direction<0?'↑':'↓'}</button>)}</div>)}</div><div className="settings-divider" /><h2>{t('本地数据', 'Local data')}</h2><p className="muted">{t('备份保存工作区、关联与 URL，不包含原文件；可能含敏感名称和路径。', 'Backups contain workspaces, references and URLs, not original files. Names and paths may be sensitive.')}</p><div className="actions"><button className="button" disabled={!native || busy} onClick={() => void run(() => api.backup(lang)).then(done => { if (done) setNotice(t('备份已保存', 'Backup saved')); })}>{t('备份数据', 'Back up')}</button><button className="button" disabled={!native || busy} onClick={() => void run(() => api.restore(lang)).then(done => { if (done) setNotice(t('已恢复，请重新选择管理位置', 'Restored. Please reauthorize locations.')); })}>{t('恢复备份', 'Restore backup')}</button><button className="button" disabled={!native || busy} onClick={() => void mutate({ type: 'rebuild_search' }, t('搜索索引已重建', 'Search index rebuilt'))}>{t('重建搜索索引', 'Rebuild search index')}</button><button className="button" disabled={!native || busy} onClick={() => void run(() => api.rescan())}>{t('重新扫描', 'Rescan')}</button></div><p className="technical-note">WorkTwill {updateStatus?.current_version??'—'} · SQLite {overview?.sqlite_version ?? '—'} · {t('原生开发版本，保存追踪范围待验证', 'Native development build. Save-tracking support under validation.')}</p>
+        <UpdateSettings status={updateStatus} language={lang} busy={busy||!!form||dropPreparing} onCheck={value=>void checkUpdate(value)} onAutomatic={value=>void setAutomaticUpdate(value)} onInstall={()=>void installUpdate()}/>
       </section>}
       <footer><ShieldCheck size={13} />{t('原件在原处，工作在一起。', 'Originals in place. Your work together.')}</footer>
       </main></div>
@@ -453,7 +490,8 @@ export default function App({initialView='home'}:{initialView?:View}) {
     {drag && <div className="drag-preview" style={{left:drag.x+14,top:drag.y+14}}>{drag.count} {t('份资料 · 拖到工作区加入','resources · drop on a workspace')}</div>}
     {dropResult && <div className="import-summary" role="status"><div><strong>{t('文件添加结果','File import results')}</strong><p>{dropResult.result.items.filter(i=>i.status==='added').length} {t('项已加入','added')} · {dropResult.result.items.filter(i=>i.status==='already_present').length} {t('项已存在','already present')} · {dropResult.result.items.filter(i=>i.status==='not_authorized').length} {t('项未授权','need authorization')} · {dropResult.result.items.filter(i=>i.status==='failed').length} {t('项失败','failed')}</p>{dropResult.result.items.filter(i=>i.status==='failed').slice(0,3).map(i=><small key={i.path}>{i.path.split(/[\\/]/).pop()} · {errorMessage(i,lang)}</small>)}</div><div className="actions">{dropResult.token&&dropResult.result.items.some(i=>i.status==='not_authorized')&&<button className="button primary" disabled={busy} onClick={()=>void run(()=>api.importDrop(dropResult.token,dropResult.workspace,true,lang)).then(result=>{if(result)setDropResult(current=>current?.token===dropResult.token?{...current,result:{items:[...current.result.items.filter(i=>i.status!=='not_authorized'),...result.items]}}:current);})}>{t('仅授权未加入的文件','Authorize remaining files')}</button>}<button className="button" onClick={()=>{const token=dropResult.token;setDropResult(null);if(token)void api.cancelDrop(token).catch(cause=>setError({cause}));}}>{t('完成','Done')}</button></div></div>}
     {notice && <div className="toast" role="status"><Check size={17} />{notice}</div>}
-  </div>;
+    {updateStatus?.phase==='ready'&&view!=='settings'&&dismissedUpdate!==updateStatus.version&&<div className="update-ready" role="status"><span>{updateLabel(updateStatus,lang)}</span><button className="button primary" disabled={busy||!!form||dropPreparing} onClick={()=>void installUpdate()}>{t('重启更新','Restart to update')}</button><button className="text-button" onClick={()=>navigate('settings')}>{t('更新说明','Release notes')}</button><button className="text-button" onClick={()=>setDismissedUpdate(updateStatus.version)}>{t('稍后','Later')}</button></div>}
+  </div>{updatePreparing&&<div className="update-overlay" role="dialog" aria-modal="true" aria-label={t('正在更新应用','Updating the app')}><div><LoaderCircle className="spin" size={24}/><p>{t('正在保存并准备重启…','Saving your work and preparing to restart…')}</p></div></div>}</>;
 }
 
 function FormDialog({ form, lang, busy, error, workspaces, source, onClose, onSave }: { form: FormState; lang: Lang; busy: boolean; error: Failure; workspaces: Overview['workspaces']; source: string | null; onClose: () => void; onSave: (mutation: Mutation) => Promise<void> }) {

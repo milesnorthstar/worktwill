@@ -1,6 +1,11 @@
 fn main() {
     tauri_build::try_build(tauri_build::Attributes::new().app_manifest(
         tauri_build::AppManifest::new().commands(&[
+            "update_status",
+            "check_update",
+            "set_update_automatic",
+            "install_update",
+            "take_update_resume",
             "overview",
             "document_tracking",
             "set_document_tracking",

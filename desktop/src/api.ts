@@ -1,4 +1,5 @@
 import { invoke, isTauri } from '@tauri-apps/api/core';
+import type {UpdateStatus,UpdateResume} from './contracts';
 import type { DocumentTrackingStatus, Mutation, MutationResponse, Overview, ResourcePage, ResourceQuery, SearchRequest, SearchResponse, ImportResult, TimelineRequest, TimelinePage, SearchPageRequest, WebMetadata, UiLanguage, SuggestedLocation, NotesState, NoteWrite, ScratchNote } from './contracts';
 
 export const native = isTauri();
@@ -17,6 +18,11 @@ function currentSearchSession():Promise<string> {
   return searchSession;
 }
 export const api = {
+  updateStatus: () => invoke<UpdateStatus>('update_status'),
+  checkUpdate: (download=false) => invoke<UpdateStatus>('check_update',{download}),
+  setUpdateAutomatic: (enabled:boolean) => invoke<UpdateStatus>('set_update_automatic',{enabled}),
+  installUpdate: (resume:UpdateResume) => invoke<void>('install_update',{resume}),
+  takeUpdateResume: () => invoke<UpdateResume|null>('take_update_resume'),
   notes: () => invoke<NotesState>("notes"),
   writeNote: (request:NoteWrite) => invoke<ScratchNote>("write_note",{request}),
   searchPage: async(request:SearchPageRequest) => invoke<SearchResponse>('search_page',{request,session:await currentSearchSession()}),

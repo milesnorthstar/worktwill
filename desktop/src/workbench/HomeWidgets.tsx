@@ -8,7 +8,8 @@ import type {ScratchNote,UiLanguage} from '../contracts';
 import companion from '../assets/space-companion.svg';
 
 type Draft={scope:string;note:ScratchNote;text:string;pinned:boolean;deleted:boolean;saving:boolean;error:unknown|null;confirmed:boolean};
-export default function HomeWidgets({lang,visible}:{lang:UiLanguage;visible:boolean}){
+export type NotesExitGuard={current:(()=>Promise<boolean>)|null};
+export default function HomeWidgets({lang,visible,exitGuard}:{lang:UiLanguage;visible:boolean;exitGuard?:NotesExitGuard}){
   const t=(zh:string,en:string)=>lang==='zh'?zh:en;
   const [drafts,setDrafts]=useState<Draft[]>([]);
   const current=useRef(drafts);current.current=drafts;
@@ -61,6 +62,13 @@ export default function HomeWidgets({lang,visible}:{lang:UiLanguage;visible:bool
     writes.current.set(id,pending);
     return pending;
   },[update]);
+  const flush=useCallback(async()=>{
+    const pending=current.current.filter(d=>dirty(d)||d.saving);
+    const results=await Promise.all(pending.map(d=>save(d.note.id)));
+    return results.every(Boolean)&&!current.current.some(d=>dirty(d)||d.saving);
+  },[save]);
+  // 更新与关闭复用同一个保存守卫，草稿仍归小组件持有。
+  useEffect(()=>{if(!exitGuard)return;exitGuard.current=flush;return()=>{exitGuard.current=null;};},[exitGuard,flush]);
   useEffect(()=>{if(!native)return;void read();let alive=true;const subscription=listen('notes-changed',()=>{if(alive)void read();});const restore=listen('data-restored',()=>{if(alive)void read();});return()=>{alive=false;void subscription.then(fn=>fn());void restore.then(fn=>fn());};},[read]);
   useEffect(()=>{
     const timer=window.setTimeout(()=>{for(const d of current.current)if(dirty(d)&&!d.saving&&!d.error)void save(d.note.id);},500);
@@ -74,12 +82,10 @@ export default function HomeWidgets({lang,visible}:{lang:UiLanguage;visible:bool
     const subscription=getCurrentWindow().onCloseRequested(async event=>{
       if(allowingClose.current||!current.current.some(d=>dirty(d)||d.saving))return;
       event.preventDefault();
-      const pending=current.current.filter(d=>dirty(d)||d.saving);
-      const results=await Promise.all(pending.map(d=>save(d.note.id)));
-      if(alive&&results.every(Boolean)&&!current.current.some(d=>dirty(d)||d.saving)){allowingClose.current=true;await getCurrentWindow().close();}
+      if(await flush()&&alive){allowingClose.current=true;await getCurrentWindow().close();}
     });
     return()=>{alive=false;window.removeEventListener('beforeunload',before);void subscription.then(fn=>fn());};
-  },[save]);
+  },[flush]);
   const sorted=[...drafts].sort((a,b)=>Number(b.pinned)-Number(a.pinned)||b.note.updated_at-a.note.updated_at);
   return <>{!visible&&drafts.some(d=>d.error!==null)&&<div className="note-exit-error" role="alert">{t('便签保存失败，草稿仍在。请返回个人工作台重试，应用尚未退出。','A note could not be saved. Return to the workbench to retry. The app remains open.')}</div>}<aside className="home-widgets" hidden={!visible} aria-label={t('个人小组件','Personal widgets')}>
     <section className="companion-card"><div className="section-heading"><h2>🌱 {t('空间伙伴','Space companion')}</h2><button className="text-button" onClick={()=>setShowBuddy(value=>!value)}>{showBuddy?t('收起','Hide'):t('展开','Show')}</button></div>{showBuddy&&<><img src={companion} alt={t('盆栽空间伙伴','A friendly potted plant')}/><p>{t('留一个安静的角落，继续手头的工作。','A quiet corner for the work at hand.')}</p></>}</section>

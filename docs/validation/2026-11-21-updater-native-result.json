@@ -1,0 +1,33 @@
+{
+  "status": "passed_isolated_mac_cached_update_install",
+  "from": "1.3.1",
+  "to": "1.3.2",
+  "initial_pid": 52948,
+  "restarted_pid": 54688,
+  "restored_view": "settings",
+  "language": "zh",
+  "data_unchanged": true,
+  "records": {
+    "workspaces": [
+      [
+        "123b6c96-7557-48a1-a726-f7eb5af4b34c",
+        "更新验收工作区"
+      ]
+    ],
+    "notes": [
+      [
+        "7aaf5c3d-00b7-4124-9f8c-05f041e54d86",
+        "UPDATER_NATIVE_PRESERVE_20261121",
+        2
+      ]
+    ]
+  },
+  "screenshot": "2026-11-21-updater-native-after-settings.png",
+  "limitations": [
+    "Update package was pre-seeded into isolated cache; no live update download was exercised.",
+    "The unchanged public website has no updater endpoint yet; network check failed while verified cached update remained installable.",
+    "Post-restart AX content unavailable; actual screenshot confirmed 1.3.2 and restored settings/workspace; note preservation verified through read-only SQLite.",
+    "Windows native install/update and OS signing not exercised."
+  ],
+  "cleanup": "Only the restarted isolated fixture process was terminated; original business app untouched."
+}

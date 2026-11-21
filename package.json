@@ -5,6 +5,9 @@
   "type": "module",
   "packageManager": "pnpm@10.33.2",
   "scripts": {
+    "release:keygen": "node scripts/release.mjs keygen",
+    "release:build": "node scripts/release.mjs build",
+    "release:record": "node scripts/release.mjs record",
     "website:pages": "node website/scripts/pages.mjs",
     "website:check": "pnpm website:build && node website/scripts/check-site.mjs",
     "website:indexnow": "node website/scripts/indexnow.mjs",

@@ -7,6 +7,7 @@ mod known_changes;
 mod picked_files;
 mod priority_scans;
 mod search_requests;
+mod updates;
 mod validation_profile;
 mod web_metadata;
 
@@ -43,6 +44,37 @@ fn internal_error() -> AppError {
         "后台任务未能完成",
         "The background task could not be completed.",
     )
+}
+
+#[tauri::command]
+fn update_status(state: State<'_, Arc<updates::Updates>>) -> UpdateStatus {
+    state.status()
+}
+
+#[tauri::command]
+async fn check_update(app: tauri::AppHandle, download: bool) -> UpdateStatus {
+    let service = app.state::<Arc<updates::Updates>>().inner().clone();
+    service.run(&app, download).await
+}
+
+#[tauri::command]
+fn set_update_automatic(
+    app: tauri::AppHandle,
+    state: State<'_, Arc<updates::Updates>>,
+    enabled: bool,
+) -> Result<UpdateStatus> {
+    state.set_automatic(&app, enabled)
+}
+
+#[tauri::command]
+async fn install_update(app: tauri::AppHandle, resume: UpdateResume) -> Result<()> {
+    let service = app.state::<Arc<updates::Updates>>().inner().clone();
+    service.install(&app, resume).await
+}
+
+#[tauri::command]
+fn take_update_resume(state: State<'_, Arc<updates::Updates>>) -> Result<Option<UpdateResume>> {
+    state.take_resume()
 }
 
 fn notify_scan_completion(app: &tauri::AppHandle, store: &Store, before: Result<u32>) {
@@ -931,6 +963,7 @@ fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .on_window_event(|window,event| {
             let WindowEvent::DragDrop(event)=event else {return;};
             let state=window.state::<Arc<Runtime>>();
@@ -1008,6 +1041,9 @@ fn main() {
                 directory.join("worktwill.sqlite3")
             } else {path};
             let store = Store::open(path).map_err(|error| std::io::Error::other(error.message))?;
+            let configured = app.config().plugins.0.get("updater").and_then(|config| config.get("pubkey")).and_then(|key| key.as_str()).is_some_and(|key| !key.trim().is_empty());
+            app.manage(Arc::new(updates::Updates::new(store.data_directory().join("updates"), app.package_info().version.to_string(), configured)));
+            updates::Updates::start(app.handle().clone());
             app.manage(Arc::new(Runtime {
                 store: Arc::new(store),
                 scanning: AtomicBool::new(false),
@@ -1031,6 +1067,11 @@ fn main() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            update_status,
+            check_update,
+            set_update_automatic,
+            install_update,
+            take_update_resume,
             begin_search_session,
             cancel_search,
             search_page,

@@ -10,3 +10,8 @@ deliverables/
 
 # 本机构建工具安装器，不作为产品源码提交。
 .tools/
+
+# 更新签名私钥仅留在本机或CI密钥库。
+.release-keys/
+website/public/downloads/
+website/public/updates/

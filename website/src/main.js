@@ -5,7 +5,9 @@ import {
   LayoutDashboard, Link, Monitor, MousePointer2, PanelsTopLeft, Plus, Search,
   ShieldCheck, Sprout, Star, UserRoundCheck,
 } from 'lucide';
-import release from '../release.json';
+import registry from '../release.json';
+import {currentRelease,downloadUrl} from '../release.mjs';
+const release=currentRelease(registry);
 import demo from './demo.generated.js';
 
 const icons = { Activity, ArrowDown, ArrowDownRight, ArrowRight, ArrowUpRight,
@@ -16,7 +18,7 @@ const icons = { Activity, ArrowDown, ArrowDownRight, ArrowRight, ArrowUpRight,
 createIcons({ icons, nameAttr: 'data-icon', attrs: { 'stroke-width': 1.65, 'aria-hidden': 'true' } });
 
 const download = document.querySelector('#release-download');
-if (download) download.href = `/downloads/${release.filename}`;
+if (download) download.href = downloadUrl(release);
 const checksum = document.querySelector('#release-sha');
 if (checksum) checksum.textContent = release.sha256;
 

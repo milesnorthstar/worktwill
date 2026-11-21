@@ -22,6 +22,8 @@
 
 ## 直接使用与开发入口
 
+**2026-11-21 当前安装更新候选：** [Mac Apple 芯片 DMG](deliverables/WorkTwill-1.3.1-darwin-aarch64-944289286057-WorkTwill_1.3.1_aarch64.dmg)。应用设置已补安装更新帮助；[双语离线安装说明](docs/INSTALLATION.txt)说明首次系统确认和后续更新。按用户决定暂缓付费系统签名，保留更新包验签。官网源码已更新，本轮未部署；下面旧候选与验收描述保留为历史。构建与实际验收边界见[安装更新](docs/INSTALL_AND_UPDATES.md)。
+
 macOS arm64 应用位于 `target/release/bundle/macos/WorkTwill.app`，可通过 Finder 打开。应用本身不需要安装 Node.js、pnpm 或 Rust。当前包没有 Developer ID 签名和公证。最新压缩包为 [迭代038候选](deliverables/WorkTwill-v0.1.0-v1-candidate-038-macOS-arm64.zip)。实际原生已验证首页/数据迁移、内部单项与多项拖动、WPS原位保存及关闭应用后保存再取回、中文搜索与部分日历流程；032补修确认框的窗口归属。033已补已知文件快速刷新并取得三次WPS保存证据；完整原生矩阵、启动补扫/更多刷新负载、Windows与发行仍未通过，见[验收记录](docs/ACCEPTANCE.md)和[使用说明](docs/USER_GUIDE.md)。
 
 当前源码采用左侧导航、右侧内容结构：默认进入左侧首项「个人工作台」，其下是工作区、动态和收藏；全局搜索位于右侧内容顶部。首页复用资料列表并展示前3个真实工作区，日历时间线只在动态内部。窄窗口保留主导航图标栏，侧栏高度不足时可纵向滚动，空库主要入口为明确授权管理位置。2026-11-21按用户决定删除「所有文件」独立入口与页面，收藏固定展示收藏资料；首页资料和完整搜索结果保留，见[决定0037](docs/decisions/0037-remove-all-files-page.md)。旧候选包及[布局决定0025](docs/decisions/0025-personal-workbench-sidebar.md)保留历史版本，不代表本次源码变更已经打包或原生验收。

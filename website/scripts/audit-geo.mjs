@@ -16,7 +16,7 @@ async function request(path, agent) {
   const file = join(temp, String(sequence++));
   const args = ['-sS', '-L', '--max-time', '40', '-D', `${file}.headers`, '-o', `${file}.body`, '-w', '%{json}'];
   if (agent) args.push('-A', agent);
-  const { stdout } = await exec('curl', [...args, origin + path]);
+  const { stdout } = await exec('curl', [...args, new URL(path,origin).href]);
   const transport = JSON.parse(stdout);
   return { path, status: transport.http_code, url: transport.url_effective, body: await readFile(`${file}.body`), headers: await readFile(`${file}.headers`, 'utf8'), contentType: transport.content_type };
 }
@@ -58,8 +58,9 @@ for (const [name, agent] of [
   const response = await request('/about', agent);
   syntheticAgentProbes.push({ name, status: response.status, meaning: 'Synthetic user-agent probe from current network; not a verified crawler visit' });
 }
-const release = JSON.parse(await readFile(new URL('../release.json', import.meta.url), 'utf8'));
-const download = await request(`/downloads/${release.filename}`);
+const {currentRelease,downloadUrl}=await import('../release.mjs');
+const release = currentRelease(JSON.parse(await readFile(new URL('../release.json', import.meta.url), 'utf8')));
+const download = await request(downloadUrl(release));
 assert.equal(download.status, 200);
 assert.equal(download.body.length, release.bytes);
 assert.equal(createHash('sha256').update(download.body).digest('hex'), release.sha256);

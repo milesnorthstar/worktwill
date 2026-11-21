@@ -2491,3 +2491,5 @@ mark {
   }
 }
 
+.platform-download { display:grid; gap:12px; padding:20px 0; border-bottom:1px solid #ddd; }
+.platform-download small { overflow-wrap:anywhere; }

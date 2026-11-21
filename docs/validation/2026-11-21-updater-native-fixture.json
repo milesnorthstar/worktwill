@@ -1,0 +1,7 @@
+{
+  "fixture": "/private/tmp/worktwill-spikes-20261119/updater-native-gm5chja6",
+  "app": "/private/tmp/worktwill-spikes-20261119/updater-native-gm5chja6/WorkTwillUpdateValidation.app",
+  "data": "/private/tmp/worktwill-spikes-20261119/updater-native-gm5chja6/data",
+  "scope": "isolated update install; not production release",
+  "initial_pid": 52948
+}

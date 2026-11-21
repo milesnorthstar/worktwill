@@ -16,6 +16,40 @@ pub enum SuggestedLocation {
     Documents,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, TS)]
+#[serde(rename_all = "snake_case")]
+pub enum UpdatePhase {
+    Unconfigured,
+    Idle,
+    UpToDate,
+    Checking,
+    Available,
+    Downloading,
+    Ready,
+    Installing,
+    Error,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+pub struct UpdateStatus {
+    pub revision: u32,
+    pub phase: UpdatePhase,
+    pub current_version: String,
+    pub version: Option<String>,
+    pub notes: Option<String>,
+    pub downloaded: f64,
+    pub total: Option<f64>,
+    pub automatic_download: bool,
+    pub error: Option<AppError>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+pub struct UpdateResume {
+    pub view: String,
+    pub workspace_id: Option<String>,
+    pub language: UiLanguage,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
 pub struct AppError {
     pub code: String,

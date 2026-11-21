@@ -6,6 +6,9 @@ fn main() {
     let declarations = [
         UiLanguage::decl(),
         SuggestedLocation::decl(),
+        UpdatePhase::decl(),
+        UpdateStatus::decl(),
+        UpdateResume::decl(),
         AppError::decl(),
         WebMetadata::decl(),
         TimelineCriteria::decl(),
