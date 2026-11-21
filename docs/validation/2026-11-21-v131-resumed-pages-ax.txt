@@ -1,0 +1,164 @@
+Window: "WorkTwill", App: WorkTwill.
+0 standard window WorkTwill, Secondary Actions: Raise
+	1 scroll area
+		2 HTML content Description: WorkTwill · 个人工作台, URL: tauri://localhost
+			3 container 主侧栏
+				4 button WorkTwill
+				5 text 你的个人工作台
+				6 container 主导航
+					7 button 个人工作台
+					8 button 搜索与筛选
+					9 button 工作区
+					10 button 收藏
+					11 button 动态
+				12 text 我的工作区
+				13 button 新建工作区
+				14 button 资料归档工作区 1
+				15 button 合同项目工作区 2
+				16 button 管理位置与设置
+			17 container
+				18 combo box (collapsed, settable) 全局搜索, Placeholder: 搜索文件、网页或工作区, Secondary Actions: Expand
+					19 text 搜索文件、网页或工作区
+				20 text ⌘  K
+				21 button EN
+			22 container
+				23 text WORKTWILL
+				24 heading 搜索结果：分页验收, Value: 1
+					25 text 搜索结果：分页验收
+				26 button 添加网页
+				27 button 新建工作区
+				28 container 筛选条件
+					29 heading 筛选条件, Value: 2
+						30 text 筛选条件
+					31 container
+						32 text 搜索名称或路径
+						33 text field (settable) 完整搜索词, Value: 分页验收
+					34 button 全部
+					35 button 文件
+					36 button 网页
+					37 button 工作区
+					38 container
+						39 text 搜索排序
+						40 pop up button 搜索排序, Value: 相关性
+					41 container
+						42 text 工作区范围
+						43 pop up button 工作区范围, Value: 全部资料
+					44 container
+						45 text 修改日期，从
+						46 date time area 修改日期，从, Value: 2026/11/21
+							47 container
+								48 stepper (settable, float) year, Value: 0
+								49 text /
+								50 stepper (settable, float) month, Value: 0
+								51 text /
+								52 stepper (settable, float) day, Value: 0
+					53 container
+						54 text 至
+						55 date time area 至, Value: 2026/11/21
+							56 container
+								57 stepper (settable, float) year, Value: 0
+								58 text /
+								59 stepper (settable, float) month, Value: 0
+								60 text /
+								61 stepper (settable, float) day, Value: 0
+					62 container
+						63 text 路径或网址前缀
+						64 text field (settable) 路径或网址前缀, Placeholder: 例如 /资料/ 或 https://example.com/
+					65 button (disabled) 清除筛选
+				66 text 资料名称 最近修改 操作
+				67 container 资料列表
+					68 checkbox 选择 分页验收_000.txt, Value: 0
+					69 button 分页验收_000.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-5GeYwy/documents/分页, Help: 打开原件
+					70 text 2026/11/21
+					71 button 收藏 分页验收_000.txt, Help: 收藏
+					72 button 显示原始位置 分页验收_000.txt, Help: 显示原始位置
+					73 checkbox 选择 分页验收_001.txt, Value: 0
+					74 button 分页验收_001.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-5GeYwy/documents/分页, Help: 打开原件
+					75 text 2026/11/21
+					76 button 收藏 分页验收_001.txt, Help: 收藏
+					77 button 显示原始位置 分页验收_001.txt, Help: 显示原始位置
+					78 checkbox 选择 分页验收_002.txt, Value: 0
+					79 button 分页验收_002.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-5GeYwy/documents/分页, Help: 打开原件
+					80 text 2026/11/21
+					81 button 收藏 分页验收_002.txt, Help: 收藏
+					82 button 显示原始位置 分页验收_002.txt, Help: 显示原始位置
+					83 checkbox 选择 分页验收_003.txt, Value: 0
+					84 button 分页验收_003.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-5GeYwy/documents/分页, Help: 打开原件
+					85 text 2026/11/21
+					86 button 收藏 分页验收_003.txt, Help: 收藏
+					87 button 显示原始位置 分页验收_003.txt, Help: 显示原始位置
+					88 checkbox 选择 分页验收_004.txt, Value: 0
+					89 button 分页验收_004.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-5GeYwy/documents/分页, Help: 打开原件
+					90 text 2026/11/21
+					91 button 收藏 分页验收_004.txt, Help: 收藏
+					92 button 显示原始位置 分页验收_004.txt, Help: 显示原始位置
+					93 checkbox 选择 分页验收_005.txt, Value: 0
+					94 button 分页验收_005.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-5GeYwy/documents/分页, Help: 打开原件
+					95 text 2026/11/21
+					96 button 收藏 分页验收_005.txt, Help: 收藏
+					97 button 显示原始位置 分页验收_005.txt, Help: 显示原始位置
+					98 checkbox 选择 分页验收_006.txt, Value: 0
+					99 button 分页验收_006.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-5GeYwy/documents/分页, Help: 打开原件
+					100 text 2026/11/21
+					101 button 收藏 分页验收_006.txt, Help: 收藏
+					102 button 显示原始位置 分页验收_006.txt, Help: 显示原始位置
+					103 checkbox 选择 分页验收_007.txt, Value: 0
+					104 button 分页验收_007.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-5GeYwy/documents/分页, Help: 打开原件
+					105 text 2026/11/21
+					106 button 收藏 分页验收_007.txt, Help: 收藏
+					107 button 显示原始位置 分页验收_007.txt, Help: 显示原始位置
+					108 checkbox 选择 分页验收_008.txt, Value: 0
+					109 button 分页验收_008.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-5GeYwy/documents/分页, Help: 打开原件
+					110 text 2026/11/21
+					111 button 收藏 分页验收_008.txt, Help: 收藏
+					112 button 显示原始位置 分页验收_008.txt, Help: 显示原始位置
+					113 checkbox 选择 分页验收_009.txt, Value: 0
+					114 button 分页验收_009.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-5GeYwy/documents/分页, Help: 打开原件
+					115 text 2026/11/21
+					116 button 收藏 分页验收_009.txt, Help: 收藏
+					117 button 显示原始位置 分页验收_009.txt, Help: 显示原始位置
+					118 checkbox 选择 分页验收_010.txt, Value: 0
+					119 button 分页验收_010.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-5GeYwy/documents/分页, Help: 打开原件
+					120 text 2026/11/21
+					121 button 收藏 分页验收_010.txt, Help: 收藏
+					122 button 显示原始位置 分页验收_010.txt, Help: 显示原始位置
+					123 checkbox 选择 分页验收_011.txt, Value: 0
+					124 button 分页验收_011.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-5GeYwy/documents/分页, Help: 打开原件
+					125 text 2026/11/21
+					126 button 收藏 分页验收_011.txt, Help: 收藏
+					127 button 显示原始位置 分页验收_011.txt, Help: 显示原始位置
+					128 checkbox 选择 分页验收_012.txt, Value: 0
+					129 button 分页验收_012.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-5GeYwy/documents/分页, Help: 打开原件
+					130 text 2026/11/21
+					131 button 收藏 分页验收_012.txt, Help: 收藏
+					132 button 显示原始位置 分页验收_012.txt, Help: 显示原始位置
+					133 checkbox 选择 分页验收_013.txt, Value: 0
+					134 button 分页验收_013.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-5GeYwy/documents/分页, Help: 打开原件
+					135 text 2026/11/21
+					136 button 收藏 分页验收_013.txt, Help: 收藏
+					137 button 显示原始位置 分页验收_013.txt, Help: 显示原始位置
+					138 checkbox 选择 分页验收_014.txt, Value: 0
+					139 button 分页验收_014.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-5GeYwy/documents/分页, Help: 打开原件
+					140 text 2026/11/21
+					141 button 收藏 分页验收_014.txt, Help: 收藏
+					142 button 显示原始位置 分页验收_014.txt, Help: 显示原始位置
+					143 checkbox 选择 分页验收_015.txt, Value: 0
+					144 button 分页验收_015.txt /private/tmp/worktwill-spikes-20261119/v131-isolated-native-5GeYwy/documents/分页, Help: 打开原件
+					145 text 2026/11/21
+					146 button 收藏 分页验收_015.txt, Help: 收藏
+					147 button 显示原始位置 分页验收_015.txt, Help: 显示原始位置
+				148 text 原件在原处，工作在一起。
+		149 scroll bar (settable, float) 1
+	150 close button
+	151 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	152 minimize button
+	153 text WorkTwill
+154 menu bar
+	155 WorkTwill
+	156 File
+	157 Edit
+	158 View
+	159 Window
+	160 Help
+
+The focused UI element is 2 HTML content Description: WorkTwill · 个人工作台, URL: tauri://localhost

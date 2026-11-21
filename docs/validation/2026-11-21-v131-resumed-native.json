@@ -1,0 +1,51 @@
+{
+  "status": "core_native_flows_passed_full_mac_acceptance_incomplete",
+  "platform": "macOS 15.3.1 arm64 / Apple M4 / 16 GiB",
+  "native_isolated_debug": [
+    "105 search results loaded through cursor; virtual viewport scrolled to 095-104",
+    "select and double click page item104; one opened row in SQLite; selection and later-page scroll retained",
+    "four notes: three preview, expand all four, pin A, delete D, Cmd+Q and restart; A/B/C confirmed, D tombstone retained",
+    "fresh empty SQLite; choose two-file synthetic managed folder through native Open panel; zero workspaces; homepage lists resources",
+    "open DOCX by name; WPS screenshot confirms V131_OFFICE_SYNTHETIC_SAVE; paste and Cmd+S; saved marker found in OOXML; same resource UUID and inode; file_modified activity automatically recorded"
+  ],
+  "release": [
+    "new copied release bundle launched from resumed-local path",
+    "native settings shows 1.3.1 and SQLite3.50.2",
+    "10 workspaces,31 links,3 favorites remain after launch"
+  ],
+  "finder": "one real drag attempt produced no WorkTwill receipt; not passed; no repeated gesture loop",
+  "performance": {
+    "scope": "diagnostic; full 500-sample gate not completed; no passing P95 claim",
+    "confirmed_initial_page_ms": [
+      157,
+      135,
+      122,
+      121,
+      139,
+      123,
+      122,
+      123,
+      122,
+      123,
+      122
+    ],
+    "input": "trusted AX input; includes 80ms debounce and rendered result plus two animation frames",
+    "foreground": "all initial 11 samples hiddenStart/End=false and focusStart/End=true",
+    "subsequent_batches": "attempted but interrupted by user activity; not promoted to verified sample count; Web Inspector extraction later lacked accessible content"
+  },
+  "remaining": [
+    "Finder actual receive/authorization matrix",
+    "native IME candidate behavior",
+    "500-sample performance, focus P95 and extended bilingual/200% matrix",
+    "SQLite native interruption and identity replacement branches",
+    "continuous-frame visual flash evidence",
+    "Windows V1.3.1 independent stage"
+  ],
+  "user_scope_note": "User requested stopping extreme test expansion and focusing on everyday usability. Baseline safety checks remain; unexecuted checks are not passed.",
+  "finder_followup": {
+    "method": "native Window > Move & Resize: Finder Left, WorkTwill Right; source is synthetic TXT; one drag attempt",
+    "result": "no native import receipt; target workspace remains 0",
+    "status": "not passed; no repeat loop",
+    "evidence": "docs/validation/2026-11-21-v131-finder-side-by-side-ax.txt"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "source_fingerprint_matches": true,
+  "current_bundle_matches": true,
+  "archive_matches": true,
+  "finder_target": [
+    [
+      "cc9ef5fa-1fab-4c77-a9c3-5bcfb39b1698",
+      "日常拖入验收",
+      0
+    ]
+  ],
+  "finder_status": "still no receive evidence; native paired-window follow-up and earlier attempts remain unconfirmed; no gesture retries this turn",
+  "completion": "not achieved; usable candidate delivered; full Mac goal still has unresolved native receive gate",
+  "scope": "User requested daily-use focus and no further extreme test expansion. Remaining performance/IME/layout/interruption branches stay unexecuted, not passed.",
+  "git": "No new commit/push/merge/deployment; existing staged and unstaged drafts preserved",
+  "next_external_evidence": "A real Finder drop visibly received by WorkTwill, with receipt and target UUID, or a computer-control environment which can deliver that gesture."
+}
