@@ -1,0 +1,12 @@
+
+> worktwill@1.3.1 test:ui /Users/lch/Desktop/project/my/test
+> vitest run
+
+
+ RUN  v4.1.12 /Users/lch/Desktop/project/my/test
+
+
+ Test Files  8 passed (8)
+      Tests  158 passed (158)
+   Start at  20:32:15
+   Duration  17.27s (transform 983ms, setup 1.17s, import 1.66s, tests 21.99s, environment 3.16s)

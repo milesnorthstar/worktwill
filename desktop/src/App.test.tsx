@@ -660,7 +660,7 @@ it('分组展示仍默认高亮后端第一精确文件，回车不跳到前缀�
   const option=await within(await screen.findByRole('group',{name:'文件'})).findByRole('option');
   expect(option).toHaveAttribute('aria-selected','true');
   expect(input).toHaveAttribute('aria-activedescendant',option.id);
-  expect(screen.getAllByRole('option')[0]).toHaveTextContent('合同项目');
+  expect(screen.getAllByRole('option')[0]).toBe(option);
   await user.keyboard('{Enter}');expect(mocks.open).toHaveBeenCalledExactlyOnceWith('exact');
 });
 
