@@ -3,6 +3,8 @@ mod activity_origin;
 mod activity_origin_tests;
 mod cancellation;
 mod catalog;
+#[cfg(windows)]
+mod document_continuity;
 mod file_locator;
 #[cfg(all(test, target_os = "macos"))]
 mod file_locator_tests;
@@ -22,6 +24,8 @@ mod root_locator;
 mod root_locator_tests;
 mod search;
 mod store;
+#[cfg(windows)]
+mod windows_snapshot;
 pub use cancellation::SearchCancellation;
 pub use ingest::{capture_import_selections, ImportItem, ImportResult, ImportSelection};
 pub use open_target::ResolvedOpen;

@@ -1,0 +1,18 @@
+{
+  "created_at": "2026-11-21T19:41:05.7758989+08:00",
+  "base_commit": "9124cc6b7381f65b45d4f6d2b2724f6da1e18697",
+  "working_tree_changes": true,
+  "exe": "deliverables/WorkTwill-v0.1.0-windows-x64-candidate-narrow-search.exe",
+  "exe_sha256": "96D39A256F3F1EBA09870A266DECAAF672750DC5613042FD949778A5FC6B95E1",
+  "zip": "deliverables/WorkTwill-v0.1.0-windows-x64-candidate-narrow-search.zip",
+  "zip_sha256": "14ACBF96A90EC610E21FCDCA8CB5ECB884ED1FAD0C1373BD4870EA76974CB739",
+  "change_from_b4": "CSS only: narrow search panel follows input width",
+  "validation": {
+    "full_save_sequence_this_exact_build": "passed same-day running/offline GUI save, restart, close/reopen from A B favorites; cross-day unverified",
+    "native_900x640_125dpi_english_long_filename_search": "passed with screenshot",
+    "prior_full_check": "B4:146 UI/API and 201 Rust, runtime Rust unchanged",
+    "release_build": "passed"
+  },
+  "overall": "engineering candidate; incomplete full V1 acceptance",
+  "user_priority": "2026-11-21 focus normal daily flow, defer excessive edge cases"
+}

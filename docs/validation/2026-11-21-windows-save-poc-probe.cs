@@ -1,0 +1,7 @@
+using System;using System.IO;using System.Diagnostics;using System.Text.Json;
+public sealed class SaveProbe:IDisposable {
+readonly FileSystemWatcher watcher;readonly StreamWriter log;readonly object gate=new object();readonly Stopwatch clock=Stopwatch.StartNew();long seq;
+public SaveProbe(string root,string output){log=new StreamWriter(new FileStream(output,FileMode.CreateNew,FileAccess.Write,FileShare.Read));log.AutoFlush=true;watcher=new FileSystemWatcher(root);watcher.NotifyFilter=NotifyFilters.FileName|NotifyFilters.LastWrite|NotifyFilters.Size|NotifyFilters.CreationTime;watcher.InternalBufferSize=65536;watcher.Created+=(s,e)=>Write(e.ChangeType.ToString(),e.FullPath,null,null);watcher.Deleted+=(s,e)=>Write(e.ChangeType.ToString(),e.FullPath,null,null);watcher.Changed+=(s,e)=>Write(e.ChangeType.ToString(),e.FullPath,null,null);watcher.Renamed+=(s,e)=>Write("Renamed",e.FullPath,e.OldFullPath,null);watcher.Error+=(s,e)=>Write("GAP",null,null,e.GetException().ToString());watcher.EnableRaisingEvents=true;Write("START",root,null,null);}
+void Write(string kind,string path,string old,string error){lock(gate){log.WriteLine(JsonSerializer.Serialize(new {seq=++seq,utc=DateTime.UtcNow,elapsed_ms=clock.Elapsed.TotalMilliseconds,kind,path,old_path=old,error}));}}
+public void Mark(string text){Write("MARK",text,null,null);}public void Dispose(){watcher.EnableRaisingEvents=false;watcher.Dispose();Write("STOP",null,null,null);log.Dispose();}
+}

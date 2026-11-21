@@ -1,0 +1,22 @@
+{
+  "base_commit": "9124cc6b7381f65b45d4f6d2b2724f6da1e18697",
+  "working_tree_changes": true,
+  "exe": "deliverables/WorkTwill-v0.1.0-windows-x64-candidate-offline-status.exe",
+  "exe_sha256": "58BF5B34A9405913ED7C391B6D2FC11EEF13ABF846CB9D107B5EB1821BB6904B",
+  "zip": "deliverables/WorkTwill-v0.1.0-windows-x64-candidate-offline-status.zip",
+  "zip_sha256": "C2F2BE944586FFEC16941BD7F7A9A9BEE4EE44CAF7902A4746C03D94C5C068BD",
+  "zip_embedded_exe_verified": true,
+  "rust_workspace": "197 passed;5 explicit scale tests ignored;exit0",
+  "ui": "146 passed in preceding full-check retry;UI source unchanged by final Rust fix",
+  "continuity_tests": "12 passed;included in197",
+  "strict_clippy": "passed after final Rust fix",
+  "native_build": "passed",
+  "native_pid": 39464,
+  "native_smoke": "delivered EXE started; current policy and established marker displayed; existing state inspected read-only",
+  "native_u8_rerun": "same-day running GUI Ctrl+S twice and app-closed save, restart, A/B/favorites opened correct body; A initial close failed then retried, B/favorites/second A closure confirmed by other contract.docx title",
+  "native_binding": "original UUID79c9737a;favorite1;links2;binding7to10;one original-name resource",
+  "native_save_as": "WPS GUI F12 Save As path read back before Enter; independent UUIDd9597cfe,favorite0,links0,noObjectID;original unchanged",
+  "native_revoke": "favorites/workspace name leak0, search open result leak0, anonymous placeholders retained, original ObjectID retained;fixture has no old single-file grant",
+  "native_offline_case": "core regression only;native unavailable-folder test pending",
+  "v1_acceptance": "incomplete"
+}

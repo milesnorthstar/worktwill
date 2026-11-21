@@ -1,0 +1,8 @@
+{
+  "samples": 30,
+  "all_found": true,
+  "p50_ms": 100.4482,
+  "p95_ms": 116.4213,
+  "p99_ms": 119.694,
+  "evidence": "UIA SetValue through first named result accessibility visible;small existing catalog;not100kSLA"
+}

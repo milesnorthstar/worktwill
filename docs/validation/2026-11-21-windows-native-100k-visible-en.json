@@ -1,0 +1,361 @@
+{
+  "p99_ms": 216.0153,
+  "all_found": true,
+  "samples": [
+    {
+      "n": 1,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 157.2386,
+      "query": "张"
+    },
+    {
+      "n": 2,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 178.8149,
+      "query": "张三"
+    },
+    {
+      "n": 3,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 139.5249,
+      "query": "合作合同"
+    },
+    {
+      "n": 4,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 165.3851,
+      "query": "合同"
+    },
+    {
+      "n": 5,
+      "result": "招聘计划_李四_000001.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门1\\招聘计划_李四_000001.docx Open",
+      "found": true,
+      "elapsed_ms": 152.347,
+      "query": "招聘"
+    },
+    {
+      "n": 6,
+      "result": "archive_alpha_020262.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门23\\archive_alpha_020262.docx Open",
+      "found": true,
+      "elapsed_ms": 179.7977,
+      "query": "2026"
+    },
+    {
+      "n": 7,
+      "result": "项目 Report_000003.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门3\\项目 Report_000003.docx Open",
+      "found": true,
+      "elapsed_ms": 173.6448,
+      "query": "report"
+    },
+    {
+      "n": 8,
+      "result": "项目 Report_000003.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门3\\项目 Report_000003.docx Open",
+      "found": true,
+      "elapsed_ms": 154.4669,
+      "query": "项目 r"
+    },
+    {
+      "n": 9,
+      "result": "notes_100%_done_000004.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门4\\notes_100%_done_000004.docx Open",
+      "found": true,
+      "elapsed_ms": 187.5799,
+      "query": "100%"
+    },
+    {
+      "n": 10,
+      "result": "archive_alpha_000006.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门6\\archive_alpha_000006.docx Open",
+      "found": true,
+      "elapsed_ms": 175.8067,
+      "query": "archive"
+    },
+    {
+      "n": 11,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 216.0153,
+      "query": "张"
+    },
+    {
+      "n": 12,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 175.3009,
+      "query": "张三"
+    },
+    {
+      "n": 13,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 178.2521,
+      "query": "合作合同"
+    },
+    {
+      "n": 14,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 170.2755,
+      "query": "合同"
+    },
+    {
+      "n": 15,
+      "result": "招聘计划_李四_000001.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门1\\招聘计划_李四_000001.docx Open",
+      "found": true,
+      "elapsed_ms": 128.5223,
+      "query": "招聘"
+    },
+    {
+      "n": 16,
+      "result": "archive_alpha_020262.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门23\\archive_alpha_020262.docx Open",
+      "found": true,
+      "elapsed_ms": 151.6214,
+      "query": "2026"
+    },
+    {
+      "n": 17,
+      "result": "项目 Report_000003.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门3\\项目 Report_000003.docx Open",
+      "found": true,
+      "elapsed_ms": 175.5263,
+      "query": "report"
+    },
+    {
+      "n": 18,
+      "result": "项目 Report_000003.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门3\\项目 Report_000003.docx Open",
+      "found": true,
+      "elapsed_ms": 124.1555,
+      "query": "项目 r"
+    },
+    {
+      "n": 19,
+      "result": "notes_100%_done_000004.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门4\\notes_100%_done_000004.docx Open",
+      "found": true,
+      "elapsed_ms": 134.2373,
+      "query": "100%"
+    },
+    {
+      "n": 20,
+      "result": "archive_alpha_000006.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门6\\archive_alpha_000006.docx Open",
+      "found": true,
+      "elapsed_ms": 101.8608,
+      "query": "archive"
+    },
+    {
+      "n": 21,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 146.9894,
+      "query": "张"
+    },
+    {
+      "n": 22,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 126.8661,
+      "query": "张三"
+    },
+    {
+      "n": 23,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 155.1131,
+      "query": "合作合同"
+    },
+    {
+      "n": 24,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 109.8026,
+      "query": "合同"
+    },
+    {
+      "n": 25,
+      "result": "招聘计划_李四_000001.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门1\\招聘计划_李四_000001.docx Open",
+      "found": true,
+      "elapsed_ms": 132.3855,
+      "query": "招聘"
+    },
+    {
+      "n": 26,
+      "result": "archive_alpha_020262.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门23\\archive_alpha_020262.docx Open",
+      "found": true,
+      "elapsed_ms": 146.3915,
+      "query": "2026"
+    },
+    {
+      "n": 27,
+      "result": "项目 Report_000003.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门3\\项目 Report_000003.docx Open",
+      "found": true,
+      "elapsed_ms": 124.5033,
+      "query": "report"
+    },
+    {
+      "n": 28,
+      "result": "项目 Report_000003.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门3\\项目 Report_000003.docx Open",
+      "found": true,
+      "elapsed_ms": 115.2972,
+      "query": "项目 r"
+    },
+    {
+      "n": 29,
+      "result": "notes_100%_done_000004.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门4\\notes_100%_done_000004.docx Open",
+      "found": true,
+      "elapsed_ms": 113.5391,
+      "query": "100%"
+    },
+    {
+      "n": 30,
+      "result": "archive_alpha_000006.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门6\\archive_alpha_000006.docx Open",
+      "found": true,
+      "elapsed_ms": 149.7011,
+      "query": "archive"
+    },
+    {
+      "n": 31,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 143.3162,
+      "query": "张"
+    },
+    {
+      "n": 32,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 141.0607,
+      "query": "张三"
+    },
+    {
+      "n": 33,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 105.0382,
+      "query": "合作合同"
+    },
+    {
+      "n": 34,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 128.947,
+      "query": "合同"
+    },
+    {
+      "n": 35,
+      "result": "招聘计划_李四_000001.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门1\\招聘计划_李四_000001.docx Open",
+      "found": true,
+      "elapsed_ms": 114.2931,
+      "query": "招聘"
+    },
+    {
+      "n": 36,
+      "result": "archive_alpha_020262.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门23\\archive_alpha_020262.docx Open",
+      "found": true,
+      "elapsed_ms": 161.5255,
+      "query": "2026"
+    },
+    {
+      "n": 37,
+      "result": "项目 Report_000003.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门3\\项目 Report_000003.docx Open",
+      "found": true,
+      "elapsed_ms": 146.2827,
+      "query": "report"
+    },
+    {
+      "n": 38,
+      "result": "项目 Report_000003.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门3\\项目 Report_000003.docx Open",
+      "found": true,
+      "elapsed_ms": 133.339,
+      "query": "项目 r"
+    },
+    {
+      "n": 39,
+      "result": "notes_100%_done_000004.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门4\\notes_100%_done_000004.docx Open",
+      "found": true,
+      "elapsed_ms": 117.1739,
+      "query": "100%"
+    },
+    {
+      "n": 40,
+      "result": "archive_alpha_000006.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门6\\archive_alpha_000006.docx Open",
+      "found": true,
+      "elapsed_ms": 145.6633,
+      "query": "archive"
+    },
+    {
+      "n": 41,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 118.9299,
+      "query": "张"
+    },
+    {
+      "n": 42,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 127.1136,
+      "query": "张三"
+    },
+    {
+      "n": 43,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 123.3162,
+      "query": "合作合同"
+    },
+    {
+      "n": 44,
+      "result": "合作合同_张三_000000.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门0\\合作合同_张三_000000.docx Open",
+      "found": true,
+      "elapsed_ms": 105.2393,
+      "query": "合同"
+    },
+    {
+      "n": 45,
+      "result": "招聘计划_李四_000001.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门1\\招聘计划_李四_000001.docx Open",
+      "found": true,
+      "elapsed_ms": 88.7972,
+      "query": "招聘"
+    },
+    {
+      "n": 46,
+      "result": "archive_alpha_020262.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门23\\archive_alpha_020262.docx Open",
+      "found": true,
+      "elapsed_ms": 102.0333,
+      "query": "2026"
+    },
+    {
+      "n": 47,
+      "result": "项目 Report_000003.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门3\\项目 Report_000003.docx Open",
+      "found": true,
+      "elapsed_ms": 160.3626,
+      "query": "report"
+    },
+    {
+      "n": 48,
+      "result": "项目 Report_000003.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门3\\项目 Report_000003.docx Open",
+      "found": true,
+      "elapsed_ms": 131.2983,
+      "query": "项目 r"
+    },
+    {
+      "n": 49,
+      "result": "notes_100%_done_000004.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门4\\notes_100%_done_000004.docx Open",
+      "found": true,
+      "elapsed_ms": 138.1663,
+      "query": "100%"
+    },
+    {
+      "n": 50,
+      "result": "archive_alpha_000006.docx \\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\\documents\\部门6\\archive_alpha_000006.docx Open",
+      "found": true,
+      "elapsed_ms": 159.1823,
+      "query": "archive"
+    }
+  ],
+  "p50_ms": 141.0607,
+  "resources": 100000,
+  "p95_ms": 179.7977,
+  "budget_p95_ms": 150,
+  "evidence": "native_UIA_ValuePattern_input_to_first_accessible_onscreen_result_not_pixel_timestamp"
+}

@@ -7,6 +7,7 @@ mod known_changes;
 mod picked_files;
 mod priority_scans;
 mod search_requests;
+mod validation_profile;
 mod web_metadata;
 
 use notify::{RecursiveMode, Watcher};
@@ -168,6 +169,15 @@ fn kick_known_refresh(app: tauri::AppHandle) {
     });
 }
 
+// 关系提交后的追踪失败单独报告，不撤回已经保存的关系。
+fn maintain_tracking(store: &Store, app: &tauri::AppHandle) {
+    #[cfg(windows)]
+    if let Err(error) = store.maintain_document_anchors() {
+        let _ = app.emit("operation-error", error);
+    }
+    #[cfg(not(windows))]
+    let _ = (store, app);
+}
 #[tauri::command]
 async fn overview(state: State<'_, Arc<Runtime>>) -> Result<Overview> {
     let store = state.store.clone();
@@ -198,6 +208,58 @@ async fn write_note(
     result
 }
 
+#[tauri::command]
+async fn document_tracking(state: State<'_, Arc<Runtime>>) -> Result<DocumentTrackingStatus> {
+    #[cfg(windows)]
+    {
+        let store = state.store.clone();
+        tauri::async_runtime::spawn_blocking(move || store.document_tracking_status())
+            .await
+            .map_err(|_| internal_error())?
+    }
+    #[cfg(not(windows))]
+    {
+        let _ = state;
+        Ok(DocumentTrackingStatus {
+            supported: false,
+            roots: vec![],
+            files: vec![],
+        })
+    }
+}
+#[tauri::command]
+async fn set_document_tracking(
+    app: tauri::AppHandle,
+    state: State<'_, Arc<Runtime>>,
+    root_id: String,
+    enabled: bool,
+) -> Result<()> {
+    #[cfg(windows)]
+    {
+        let store = state.store.clone();
+        let worker_app = app.clone();
+        tauri::async_runtime::spawn_blocking(move || {
+            store.set_document_tracking(&root_id, enabled)?;
+            if enabled {
+                maintain_tracking(&store, &worker_app);
+            }
+            Ok::<_, AppError>(())
+        })
+        .await
+        .map_err(|_| internal_error())??;
+        let _ = app.emit("catalog-changed", ());
+        Ok(())
+    }
+    #[cfg(not(windows))]
+    {
+        let _ = (app, state, root_id, enabled);
+        Err(AppError::new(
+            "tracking_unsupported",
+            "此平台暂未支持文档追踪",
+            "Document tracking is not supported on this platform yet.",
+        ))
+    }
+}
 #[tauri::command]
 async fn resources(state: State<'_, Arc<Runtime>>, query: ResourceQuery) -> Result<ResourcePage> {
     let store = state.store.clone();
@@ -244,11 +306,19 @@ async fn search(
         )?;
     let store = state.store.clone();
     let worker = cancellation.clone();
+    let request_id = request.request_id;
+    let started = std::time::Instant::now();
     let response = tauri::async_runtime::spawn_blocking(move || {
         store.search_with_cancellation(request, &worker)
     })
     .await
-    .map_err(|_| internal_error())??;
+    .map_err(|_| internal_error())?;
+    validation_profile::search_execution(
+        request_id,
+        started.elapsed().as_secs_f64() * 1000.,
+        cancellation.execution_counts(),
+    );
+    let response = response?;
     cancellation.check()?;
     Ok(response)
 }
@@ -266,9 +336,14 @@ async fn mutate(
         }
         _ => None,
     };
-    let output = tauri::async_runtime::spawn_blocking(move || store.mutate(request))
-        .await
-        .map_err(|_| internal_error())??;
+    let worker_app = app.clone();
+    let output = tauri::async_runtime::spawn_blocking(move || {
+        let result = store.mutate(request)?;
+        maintain_tracking(&store, &worker_app);
+        Ok::<_, AppError>(result)
+    })
+    .await
+    .map_err(|_| internal_error())??;
     let _ = app.emit("catalog-changed", ());
     if let Some(root) = rescan {
         state.retry_watches.store(true, Ordering::SeqCst);
@@ -307,7 +382,7 @@ async fn pick_root(
     }
     let result = tauri::async_runtime::spawn_blocking(move || {
         let Some(selected) = dialog.blocking_pick_folder() else {
-            return Ok(None);
+            return Ok::<_, AppError>(None);
         };
         let path = selected.into_path().map_err(|_| {
             AppError::new("invalid_input", "请选择本地目录", "Select a local folder.")
@@ -774,6 +849,7 @@ async fn import_drop(
         .begin(&token, workspace_id.as_deref(), Instant::now())?;
     let store = state.store.clone();
     let dialog = app.dialog().clone();
+    let worker_app = app.clone();
     let copy = dialog_copy::confirmation(dialog_copy::Confirmation::GrantFiles, language);
     let result = tauri::async_runtime::spawn_blocking(move || {
         let approved = authorize
@@ -783,7 +859,9 @@ async fn import_drop(
                 .title(copy.title)
                 .buttons(copy.buttons())
                 .blocking_show();
-        store.import_files_checked(&paths, workspace_id.as_deref(), approved)
+        let output = store.import_files_checked(&paths, workspace_id.as_deref(), approved)?;
+        maintain_tracking(&store, &worker_app);
+        Ok(output)
     })
     .await
     .map_err(|_| internal_error())
@@ -821,9 +899,10 @@ async fn pick_files(
         "选择本地文件",
         "Choose local files",
     ));
+    let worker_app = app.clone();
     let result = tauri::async_runtime::spawn_blocking(move || {
         let Some(files) = dialog.blocking_pick_files() else {
-            return Ok(None);
+            return Ok::<_, AppError>(None);
         };
         let paths = files
             .into_iter()
@@ -836,7 +915,9 @@ async fn pick_files(
             })
             .collect::<Result<Vec<_>>>()?;
         let selected = picked_files::PickedFiles::capture(paths);
-        selected.submit(&store, workspace_id.as_deref()).map(Some)
+        let output = selected.submit(&store, workspace_id.as_deref())?;
+        maintain_tracking(&store, &worker_app);
+        Ok(Some(output))
     })
     .await
     .map_err(|_| internal_error())??;
@@ -917,7 +998,7 @@ fn main() {
                 app.set_menu(menu)?;
             }
 
-            let path = app.path().app_data_dir()?.join("worktwill.sqlite3");
+            let path = validation_profile::database(|| app.path().app_data_dir().map_err(std::io::Error::other))?;
             #[cfg(debug_assertions)]
             let path = if let Some(directory)=std::env::var_os("WORKTWILL_NATIVE_DATA_DIR") {
                 // 调试原生验收仅允许显式测试根内的现存独立目录，正式包不读取此配置。
@@ -959,6 +1040,8 @@ fn main() {
             cancel_drop,
             pick_files,
             overview,
+            document_tracking,
+            set_document_tracking,
             resources,
             notes,
             write_note,

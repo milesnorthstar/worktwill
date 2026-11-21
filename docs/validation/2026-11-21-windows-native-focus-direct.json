@@ -1,0 +1,249 @@
+{
+  "p99_ms": 1000.9901,
+  "evidence": "native_keybd_event_CtrlK_to_UIA_focus",
+  "budget_p95_ms": 50,
+  "p50_ms": 22.4384,
+  "p95_ms": 1000.2877,
+  "samples": [
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 50.0203,
+      "n": 1,
+      "focused": true
+    },
+    {
+      "before": "个人工作台",
+      "elapsed_ms": 1000.9901,
+      "n": 2,
+      "focused": false
+    },
+    {
+      "before": "个人工作台",
+      "elapsed_ms": 29.8949,
+      "n": 3,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 18.5072,
+      "n": 4,
+      "focused": true
+    },
+    {
+      "before": "",
+      "elapsed_ms": 26.7632,
+      "n": 5,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 29.1601,
+      "n": 6,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 7.1402,
+      "n": 7,
+      "focused": true
+    },
+    {
+      "before": "个人工作台",
+      "elapsed_ms": 27.353,
+      "n": 8,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 8.3012,
+      "n": 9,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 17.188,
+      "n": 10,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 11.1242,
+      "n": 11,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 17.6344,
+      "n": 12,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 25.3692,
+      "n": 13,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 23.8466,
+      "n": 14,
+      "focused": true
+    },
+    {
+      "before": "",
+      "elapsed_ms": 22.3863,
+      "n": 15,
+      "focused": true
+    },
+    {
+      "before": "个人工作台",
+      "elapsed_ms": 1000.9873,
+      "n": 16,
+      "focused": false
+    },
+    {
+      "before": "个人工作台",
+      "elapsed_ms": 45.328,
+      "n": 17,
+      "focused": true
+    },
+    {
+      "before": "个人工作台",
+      "elapsed_ms": 1000.1766,
+      "n": 18,
+      "focused": false
+    },
+    {
+      "before": "个人工作台",
+      "elapsed_ms": 27.3369,
+      "n": 19,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 3.0788,
+      "n": 20,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 4.5762,
+      "n": 21,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 8.9816,
+      "n": 22,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 18.9816,
+      "n": 23,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 35.2582,
+      "n": 24,
+      "focused": true
+    },
+    {
+      "before": "个人工作台",
+      "elapsed_ms": 24.1822,
+      "n": 25,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 5.4044,
+      "n": 26,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 22.5246,
+      "n": 27,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 31.8623,
+      "n": 28,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 3.9132,
+      "n": 29,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 3.354,
+      "n": 30,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 12.9244,
+      "n": 31,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 3.662,
+      "n": 32,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 28.2286,
+      "n": 33,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 15.8708,
+      "n": 34,
+      "focused": true
+    },
+    {
+      "before": "个人工作台",
+      "elapsed_ms": 1000.2877,
+      "n": 35,
+      "focused": false
+    },
+    {
+      "before": "个人工作台",
+      "elapsed_ms": 28.5913,
+      "n": 36,
+      "focused": true
+    },
+    {
+      "before": "个人工作台",
+      "elapsed_ms": 23.2224,
+      "n": 37,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 10.2709,
+      "n": 38,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 11.0253,
+      "n": 39,
+      "focused": true
+    },
+    {
+      "before": "全局搜索",
+      "elapsed_ms": 22.4384,
+      "n": 40,
+      "focused": true
+    }
+  ]
+}

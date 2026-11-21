@@ -91,6 +91,11 @@ impl Store {
                     .map(|_| ())
             });
             if let Err(error) = refreshed {
+                // 文档冲突只阻止该对象续接；仍须复验其他授权文件并在最后报告冲突。
+                if error.code == "continuity_conflict" {
+                    locator_error.get_or_insert(error);
+                    continue;
+                }
                 if let Some(error) = self.apply_file_refresh_failure(&file, error)? {
                     locator_error.get_or_insert(error);
                 }
@@ -302,6 +307,8 @@ impl Store {
         recovery: Option<&dyn crate::file_locator::RecoveryGuard>,
     ) -> Result<(String, bool)> {
         let path = path.canonicalize()?;
+        #[cfg(windows)]
+        self.reconcile_document(&path)?;
         let meta = path.metadata()?;
         if !meta.is_file() {
             return Err(AppError::new(

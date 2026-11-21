@@ -1,0 +1,18 @@
+   Compiling worktwill-core v0.1.0 (C:\Users\Administrator\Desktop\work\worktwill\crates\worktwill-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.07s
+     Running tests\document_continuity.rs (target\debug\deps\document_continuity-1f0e2a8551c6dd86.exe)
+
+running 10 tests
+test competing_scan_record_rejected_for_both_creation_time_cases ... ok
+test concurrent_candidates_commit_one_binding_and_preserve_original_observation ... ok
+test copies_stay_independent_and_move_within_tracked_root_keeps_binding ... ok
+test current_access_cannot_revive_excluded_historical_observation ... ok
+test disabled_tracking_does_not_reconcile_and_restore_does_not_reactivate_consent ... ok
+test durable_anchor_recovers_save_while_app_is_closed ... ok
+test failed_commit_rolls_back_binding_grant_and_history_then_retries ... ok
+test maintenance_reports_failure_without_losing_favorite_and_retries_after_reopen ... ok
+test removed_object_id_must_not_report_established_for_same_physical_file ... ok
+test service_continuation_keeps_recent_and_retires_mixed_grant ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.96s
+

@@ -145,6 +145,29 @@ fn old_grant_is_deactivated_when_relinking_to_different_directory_authorized_obj
 }
 
 #[test]
+fn same_path_replacement_retires_old_single_grant_even_with_later_directory_grant() {
+    let f = Fixture::new();
+    let target = f.root.join("contract.txt");
+    // 先选单文件再授权目录，覆盖本轮发现的混合授权顺序。
+    let rid = f.file(&target);
+    let root_id = f.store.grant_root(&f.root).unwrap();
+    assert_eq!(f.store.file_grants().unwrap().len(), 1);
+    let retired = f.outside.join("retired.txt");
+    fs::rename(&target, &retired).unwrap();
+    fs::write(&target, b"replacement content").unwrap();
+    f.store.relink(&rid, &target).unwrap();
+    assert!(f.store.file_grants().unwrap().is_empty());
+    assert!(f.store.resolve_resource(&rid).is_ok());
+    f.change(Mutation::RevokeRoot { id: root_id });
+    assert_eq!(
+        f.store.resolve_resource(&rid).unwrap_err().code,
+        "not_authorized"
+    );
+    assert_eq!(fs::read(&target).unwrap(), b"replacement content");
+    assert_eq!(fs::read(&retired).unwrap(), b"fixture original");
+}
+
+#[test]
 fn merge_unions_active_target_grant_over_inactive_original_grant() {
     let f = Fixture::new();
     let rid = f.file(&f.outside.join("original.txt"));

@@ -9,12 +9,17 @@ use std::sync::{
 #[derive(Clone, Default)]
 pub struct SearchCancellation {
     cancelled: Arc<AtomicBool>,
-    #[cfg(test)]
     progress_ticks: Arc<std::sync::atomic::AtomicUsize>,
-    #[cfg(test)]
     interrupted: Arc<std::sync::atomic::AtomicUsize>,
 }
 impl SearchCancellation {
+    /// 仅包含 VM 计数，不包含查询或资料信息；用于核验真实执行中的取消。
+    pub fn execution_counts(&self) -> (usize, usize) {
+        (
+            self.progress_ticks.load(Ordering::SeqCst),
+            self.interrupted.load(Ordering::SeqCst),
+        )
+    }
     pub fn cancel(&self) {
         self.cancelled.store(true, Ordering::SeqCst);
     }
@@ -43,10 +48,8 @@ impl SearchCancellation {
         db.progress_handler(
             1000,
             Some(move || {
-                #[cfg(test)]
                 cancellation.progress_ticks.fetch_add(1, Ordering::SeqCst);
                 let cancelled = cancellation.is_cancelled();
-                #[cfg(test)]
                 if cancelled {
                     cancellation.interrupted.fetch_add(1, Ordering::SeqCst);
                 }

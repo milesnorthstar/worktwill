@@ -3,6 +3,12 @@ use crate::{model::*, store::VISIBLE, Store};
 use rusqlite::{params, Connection};
 use std::path::Path;
 
+pub(crate) fn recent_opened() -> String {
+    let visible = activity_visible();
+    // 链必须终止于当前绑定，人工重新指向没有链；旧活动另受历史授权约束。
+    format!("a.resource_id=r.id AND a.kind='opened' AND (r.kind='web' OR EXISTS(SELECT 1 FROM activity_origins o WHERE o.activity_id=a.id AND (o.identity=r.identity OR (EXISTS(WITH RECURSIVE lineage(identity) AS (SELECT r.identity UNION SELECT h.previous_identity FROM resource_binding_history h JOIN lineage l ON h.current_identity=l.identity WHERE h.resource_id=r.id) SELECT 1 FROM lineage WHERE identity=o.identity) AND ({visible})))))")
+}
+
 pub(crate) fn activity_visible() -> String {
     let separator = std::path::MAIN_SEPARATOR;
     let historical_scope = format!("EXISTS(SELECT 1 FROM activity_root_scopes hs JOIN scan_roots sr ON sr.id=hs.root_id LEFT JOIN root_locators rl ON rl.root_id=sr.id WHERE hs.activity_id=a.id AND hs.retired_location_valid=1 AND sr.active=1 AND (rl.root_id IS NULL OR rl.valid=1) AND ((hs.root_identity IS NULL AND rl.root_id IS NULL) OR hs.root_identity=rl.identity) AND NOT EXISTS(SELECT 1 FROM scan_exclusions ex WHERE ex.root_id=sr.id AND (hs.relative_path=ex.relative_path OR instr(hs.relative_path,ex.relative_path||'{separator}')=1)))");

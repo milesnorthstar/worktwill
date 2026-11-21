@@ -1,6 +1,4 @@
 // 打开记录只属于当时的物理对象；质量豁免不能继承重新指向前的历史。
-pub(crate) const RECENT_OPENED: &str = "a.resource_id=r.id AND a.kind='opened' AND (r.kind='web' OR EXISTS(SELECT 1 FROM activity_origins o WHERE o.activity_id=a.id AND o.identity=r.identity))";
-pub(crate) const OPENED_BY_ID: &str = "a.resource_id=?1 AND a.kind='opened' AND EXISTS(SELECT 1 FROM resources r WHERE r.id=?1 AND (r.kind='web' OR EXISTS(SELECT 1 FROM activity_origins o WHERE o.activity_id=a.id AND o.identity=r.identity)))";
 
 fn artifact(name: &str) -> String {
     // 只识别已确认的系统元数据与 Office 锁文件，不概括隐藏文件或媒体。
@@ -28,7 +26,8 @@ fn artifact_path(path: &str) -> String {
     )
 }
 pub(crate) fn explicit() -> String {
-    format!("(r.favorite=1 OR EXISTS(SELECT 1 FROM workspace_resources wr WHERE wr.resource_id=r.id) OR EXISTS(SELECT 1 FROM activities a WHERE {RECENT_OPENED}))")
+    let recent_opened = crate::activity_origin::recent_opened();
+    format!("(r.favorite=1 OR EXISTS(SELECT 1 FROM workspace_resources wr WHERE wr.resource_id=r.id) OR EXISTS(SELECT 1 FROM activities a WHERE {recent_opened}))")
 }
 pub(crate) fn recommended() -> String {
     format!(

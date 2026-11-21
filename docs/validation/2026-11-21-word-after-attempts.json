@@ -1,0 +1,35 @@
+{
+  "resources": [
+    {
+      "id": "b8fba2e9-929c-4346-afe5-23eca02d5510",
+      "kind": "file",
+      "name": "Word日常保存验收.docx",
+      "location": "\\\\?\\C:\\Users\\Administrator\\AppData\\Local\\Temp\\worktwill-windows-v1-20261121\\native-word-b587eaab7d4a4b738ec7bda718b60388\\Word日常保存验收.docx",
+      "identity": "win:4091540820536225406:[6b, 10, 8, 0, 0, 0, 81, 0, 0, 0, 0, 0, 0, 0, 0, 0]:134397352450574080",
+      "modified_at": 1795261421944,
+      "size": 10874,
+      "status": "available",
+      "favorite": 1,
+      "created_at": 1795261671066
+    }
+  ],
+  "links": [
+    {
+      "workspace_id": "1a6e68f6-7aa3-45bd-b29b-6cb8aaac6146",
+      "resource_id": "b8fba2e9-929c-4346-afe5-23eca02d5510",
+      "added_at": 1795261747714
+    },
+    {
+      "workspace_id": "6f91927d-b0e2-4bea-a911-c65723b39bf8",
+      "resource_id": "b8fba2e9-929c-4346-afe5-23eca02d5510",
+      "added_at": 1795261733489
+    }
+  ],
+  "anchors": [
+    {
+      "resource_id": "b8fba2e9-929c-4346-afe5-23eca02d5510",
+      "bound_identity": "win:4091540820536225406:[6b, 10, 8, 0, 0, 0, 81, 0, 0, 0, 0, 0, 0, 0, 0, 0]:134397352450574080",
+      "binding_version": 0
+    }
+  ]
+}

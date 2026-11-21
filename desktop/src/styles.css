@@ -340,7 +340,8 @@ main { max-width: 1550px; padding: 32px 36px 36px; }
   .sidebar nav { margin-top: 30px; }
   .nav-item { justify-content: center; padding: 12px; }
   .sidebar-bottom .nav-item { padding: 12px; }
-  .search-panel { max-width: calc(100vw - 108px); }
+  /* 窄窗面板跟随输入框宽度，避免右对齐后越过内容区左缘被裁切。 */
+  .search-panel { width: 100%; max-width: 100%; }
   .filter-tabs { flex-wrap: wrap; gap: 10px 14px; }
   .workspace-drop-tray { flex-wrap: wrap; }
 }

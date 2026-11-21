@@ -1,0 +1,39 @@
+{
+  "bounds": {
+    "IsEmpty": false,
+    "Location": {
+      "X": 50.0,
+      "Y": 50.0
+    },
+    "Size": {
+      "IsEmpty": false,
+      "Width": 900.0,
+      "Height": 640.0
+    },
+    "X": 50.0,
+    "Y": 50.0,
+    "Width": 900.0,
+    "Height": 640.0,
+    "Left": 50.0,
+    "Top": 50.0,
+    "Right": 950.0,
+    "Bottom": 690.0,
+    "TopLeft": {
+      "X": 50.0,
+      "Y": 50.0
+    },
+    "TopRight": {
+      "X": 950.0,
+      "Y": 50.0
+    },
+    "BottomLeft": {
+      "X": 50.0,
+      "Y": 690.0
+    },
+    "BottomRight": {
+      "X": 950.0,
+      "Y": 690.0
+    }
+  },
+  "dpi": 120
+}

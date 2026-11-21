@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-document-tracking"
+description = "Enables the document_tracking command without any pre-configured scope."
+commands.allow = ["document_tracking"]
+
+[[permission]]
+identifier = "deny-document-tracking"
+description = "Denies the document_tracking command without any pre-configured scope."
+commands.deny = ["document_tracking"]

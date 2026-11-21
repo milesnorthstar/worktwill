@@ -1,0 +1,12 @@
+   Compiling worktwill-core v1.3.1 (C:\Users\Administrator\Desktop\work\worktwill\crates\worktwill-core)
+   Compiling worktwill-desktop v1.3.1 (C:\Users\Administrator\Desktop\work\worktwill\src-tauri)
+error[E0425]: cannot find value `OPENED_BY_ID` in module `crate::quality`
+   --> crates\worktwill-core\src\store.rs:282:33
+    |
+282 |                 crate::quality::OPENED_BY_ID
+    |                                 ^^^^^^^^^^^^ not found in `crate::quality`
+
+For more information about this error, try `rustc --explain E0425`.
+error: could not compile `worktwill-core` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `worktwill-core` (lib test) due to 1 previous error

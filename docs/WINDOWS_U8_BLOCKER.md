@@ -1,4 +1,6 @@
-# Windows U8 保存连续性阻塞（待产品决策）
+# Windows U8 保存连续性阻塞记录（历史及当前剩余项）
+
+当前更新：用户已批准显式NTFS目录追踪和明确替换语义，PRD/ARCHITECTURE已同步。正式服务与continuity原生候选已完成目标WPS运行中及退出期间Ctrl+S恢复、双区/收藏/recent验证；不再等待相同产品决策。临时替换源先收录的UUID冲突继续保守拒绝，真实精确时序、跨日/Word及其他验收矩阵仍未关闭。新证据与制品见[验收记录](WINDOWS_V1_ACCEPTANCE.md)末尾。以下内容是策略批准之前的失败与选择记录，不能当作当前禁止规则。
 
 2026-11-21，本机 WPS 12.1.0.29690 的实际 Ctrl+S 保存已复现：正文标记落盘，物理 File ID 改变，原资源变为 identity_unconfirmed，新对象取得另一 UUID；原收藏和 A/B 工作区关系没有自动延续。独立 COM 夹具也复现，注册表确认该 COM 是 WPS，不能当作 Microsoft Word 结果。
 

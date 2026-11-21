@@ -1,0 +1,169 @@
+ControlType.Pane |  | 
+ControlType.Pane | WorkTwill · 个人工作台 | 
+ControlType.Pane |  | 
+ControlType.Pane | WorkTwill · 个人工作台 - Web 内容 | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Document | WorkTwill · 个人工作台 | RootWebArea
+ControlType.Group |  | root
+ControlType.Group |  | 
+ControlType.Button | WorkTwill | 
+ControlType.Image |  | 
+ControlType.Group | Main navigation | 
+ControlType.Button | Personal workbench | 
+ControlType.Image |  | 
+ControlType.Button | Workspaces | 
+ControlType.Image |  | 
+ControlType.Button | Activity | 
+ControlType.Image |  | 
+ControlType.Button | All files | 
+ControlType.Image |  | 
+ControlType.Button | Favorites | 
+ControlType.Image |  | 
+ControlType.Button | Locations & settings | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Image |  | 
+ControlType.ComboBox | Global search | 
+ControlType.Text | Ctrl | 
+ControlType.Text |  K | 
+ControlType.Text | Search scope | 
+ControlType.Button | All resources | 
+ControlType.List | Search results | search-results
+ControlType.Group | Files | search-group-file
+ControlType.Text | Files | 
+ControlType.Text | 30 | 
+ControlType.ListItem | 合作合同_张三_000000.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门0\合作合同_张三_000000.docx Open | search-result-0
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000008.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门8\合作合同_张三_000008.docx Open | search-result-1
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000016.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门16\合作合同_张三_000016.docx Open | search-result-2
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000024.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门24\合作合同_张三_000024.docx Open | search-result-3
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000032.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门32\合作合同_张三_000032.docx Open | search-result-4
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000040.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门3\合作合同_张三_000040.docx Open | search-result-5
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000048.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门11\合作合同_张三_000048.docx Open | search-result-6
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000056.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门19\合作合同_张三_000056.docx Open | search-result-7
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000064.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门27\合作合同_张三_000064.docx Open | search-result-8
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000072.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门35\合作合同_张三_000072.docx Open | search-result-9
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000080.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门6\合作合同_张三_000080.docx Open | search-result-10
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000088.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门14\合作合同_张三_000088.docx Open | search-result-11
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000096.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门22\合作合同_张三_000096.docx Open | search-result-12
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000104.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门30\合作合同_张三_000104.docx Open | search-result-13
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000112.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门1\合作合同_张三_000112.docx Open | search-result-14
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000120.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门9\合作合同_张三_000120.docx Open | search-result-15
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000128.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门17\合作合同_张三_000128.docx Open | search-result-16
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000136.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门25\合作合同_张三_000136.docx Open | search-result-17
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000144.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门33\合作合同_张三_000144.docx Open | search-result-18
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000152.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门4\合作合同_张三_000152.docx Open | search-result-19
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000160.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门12\合作合同_张三_000160.docx Open | search-result-20
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000168.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门20\合作合同_张三_000168.docx Open | search-result-21
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000176.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门28\合作合同_张三_000176.docx Open | search-result-22
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000184.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门36\合作合同_张三_000184.docx Open | search-result-23
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000192.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门7\合作合同_张三_000192.docx Open | search-result-24
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000200.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门15\合作合同_张三_000200.docx Open | search-result-25
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000208.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门23\合作合同_张三_000208.docx Open | search-result-26
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000216.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门31\合作合同_张三_000216.docx Open | search-result-27
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000224.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门2\合作合同_张三_000224.docx Open | search-result-28
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.ListItem | 合作合同_张三_000232.docx \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-search-100k-6c119300-b4b4-42d8-afc6-3b72dd756669\documents\部门10\合作合同_张三_000232.docx Open | search-result-29
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.Button | View all results | 
+ControlType.Image |  | 
+ControlType.Text | ↑ | 
+ControlType.Text | ↓ | 
+ControlType.Text | Select | 
+ControlType.Text | ↵ | 
+ControlType.Text | Open | 
+ControlType.Text | Esc | 
+ControlType.Text | Close | 
+ControlType.Text | Authorized scope | 
+ControlType.Button | 中文 | 
+ControlType.Group |  | 
+ControlType.Text | WORKTWILL | 
+ControlType.Text | All files | 
+ControlType.Button | Add link | 
+ControlType.Image |  | 
+ControlType.Button | New workspace | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text | Managing 1 folder | 
+ControlType.Button | Manage locations | 
+ControlType.Image |  | 
+ControlType.Button | Recently modified | 
+ControlType.Button | Recently opened | 
+ControlType.Button | Favorites | 
+ControlType.Button | All resources | 
+ControlType.Button | Rescan | 
+ControlType.Image |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ControlType.Group |  | 
+ControlType.Image |  | 
+ControlType.Text | Originals in place. Your work together. | 
+ControlType.Pane |  | 
+ControlType.TitleBar | WorkTwill | TitleBar
+ControlType.MenuBar | 系统菜单栏 | SystemMenuBar
+ControlType.MenuItem | 系统 | Item 1
+ControlType.Button | 最小化 | Minimize
+ControlType.Button | 最大化 | Maximize
+ControlType.Button | 关闭 | Close

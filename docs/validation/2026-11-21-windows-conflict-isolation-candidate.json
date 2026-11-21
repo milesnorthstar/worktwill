@@ -1,0 +1,21 @@
+{
+  "base_commit": "9124cc6b7381f65b45d4f6d2b2724f6da1e18697",
+  "working_tree_changes": true,
+  "exe": "deliverables/WorkTwill-v0.1.0-windows-x64-candidate-conflict-isolation.exe",
+  "exe_sha256": "31611986780DE45863C453C7F2F1083746D5AA3F8917D425D6BFA2E5550AC9FF",
+  "zip": "deliverables/WorkTwill-v0.1.0-windows-x64-candidate-conflict-isolation.zip",
+  "zip_sha256": "2D1CE7BE3BE78C151D3A488411F468CAEEC18F937A85423C2378535F12A6E74F",
+  "change": "Report conflicting single-file continuity after refreshing other grants and scanning unrelated roots; no UUID merge/retirement semantics added",
+  "rust_workspace": "200 passed;5 scale tests ignored;exit0",
+  "continuity_tests": "15 passed;included in200",
+  "ui": "146 passed previously;UI unchanged",
+  "strict_clippy": "passed",
+  "native_release": "passed",
+  "native_pid": 40620,
+  "native_smoke": "delivered EXE started;settings revoked scopes and references retained",
+  "prior_u8_build": "58BF5B34A9405913ED7C391B6D2FC11EEF13ABF846CB9D107B5EB1821BB6904B",
+  "native_u8_on_this_build": "not rerun",
+  "native_offline": "independentTXT folder moved within approved test root while app closed;restart displays unavailable;Disable tracking succeeds;favorite,anchor,ObjectID retained;folder restored",
+  "native_same_name_recreation": "oldUUID7105e464 favorite1 identity_unconfirmed,noOpenButton;newUUID61489f96 favorite0 available;bindingHistory0;old and new contents retained independently",
+  "v1_acceptance": "incomplete"
+}

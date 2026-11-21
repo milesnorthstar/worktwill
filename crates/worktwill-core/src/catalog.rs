@@ -81,7 +81,7 @@ impl Store {
         // 单项原生定位失败仍明确返回，但先完成无关目录的扫描；数据库/锁错误立即停止。
         let file_result = self.refresh_file_grants();
         if let Err(error) = &file_result {
-            if !crate::root_locator::is_root_error(error) {
+            if !crate::root_locator::is_root_error(error) && error.code != "continuity_conflict" {
                 return Err(error.clone());
             }
         }
@@ -181,6 +181,8 @@ impl Store {
                     let observed = (|| -> Result<Discovered> {
                         let metadata = std::fs::symlink_metadata(entry.path())?;
                         let path = entry.path().canonicalize()?;
+                        #[cfg(windows)]
+                        self.reconcile_document(&path)?;
                         if !path.starts_with(root_path) || metadata.file_type().is_symlink() {
                             return Err(AppError::new(
                                 "not_authorized",

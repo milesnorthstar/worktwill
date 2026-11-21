@@ -189,8 +189,10 @@ search_tri / search_short                         FTS5 派生投影
 - 支持时验证 `OpenFileById` + `GetFinalPathNameByHandle` 能否找到同卷改名/移动后的路径。
 - **不能**假设跨卷移动、所有磁盘格式或 Word/WPS 安全保存后 ID 不变。
 - 区分 File ID 与可选的 NTFS Object ID。Microsoft `ReplaceFile` 保留原 Object ID，但结果采用替换文件的 File ID；实际编辑器是否采用相应保存流程由 S01 验证。
-- 候选方案仅用 `FSCTL_GET_OBJECT_ID` 查询已有 Object ID，作为额外身份证据；不存在不能视为异常。禁止默认调用 `FSCTL_CREATE_OR_GET_OBJECT_ID` 创建元数据，也不写 ADS、标签或隐藏文件。
+- 默认仅用 `FSCTL_GET_OBJECT_ID` 查询已有Object ID，不存在不视为异常。2026-11-21用户批准的例外：有效内置NTFS目录显式启用追踪后，对收藏/加入工作区的文件按需调用 `FSCTL_CREATE_OR_GET_OBJECT_ID`；读取与创建分离，逐文件记录成功/失败及授权代次。不得默认给所有扫描文件创建，不写ADS、标签或隐藏文件；停止追踪/撤权不删除已有标记。
 - 物理 File ID 变化后先评估已验证的文档延续证据，不仅凭同路径/同名换绑。证据不足或冲突时转入 `identity_unconfirmed` 与人工修复流程；Distributed Link Tracking 的启发式结果不能自动充当确定身份。
+
+正式实现遵循[连续性分层方案](docs/WINDOWS_DOCUMENT_CONTINUITY_ARCHITECTURE.md)，并以本段修正早期实验建议：持久锚点足够且通过授权/版本/冲突复核时，缺在线事件不单独否决退出期间恢复。事件是候选发现机制，不以进程名或时间窗替代锚点。Resource UUID、物理identity、文档锚点保持独立；当前访问、历史展示与逻辑连续性分别验证。连续性提交统一更新绑定、旧单文件授权失效、历史依据、搜索投影和版本，失败整体回滚；打开前继续物理复验。历史观察identity不可改写，recent必须在全部查询/排序入口统一解析连续性链。目标identity已有资源时拒绝静默合并；先强制验证WPS临时源提前入库时序，再决定是否需要显式的纯扫描记录规则。目录同意与逐文件锚点结果、迁移/备份恢复/多次保存重启均为正式验收项，不能只更新Windows技术说明而忽略PRD规则。
 
 官方：https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_id_info
 官方：[ReplaceFile](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-replacefilew)、[查询 Object ID](https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ni-winioctl-fsctl_get_object_id)
@@ -510,3 +512,6 @@ v0.6记录用户本轮批准的交互变更；021将schema升级为v4，022增�
 036原生Runtime新增至多16个root UUID的FIFO去重队列和固定一个指定目录任务，与原单个全量任务并行；通知元数据刷新仍单个有界任务。新授权、恢复扫描、包含/排除及位置恢复后的idle目录复用入口，溢出仍排全量dirty。Core在位置准备完成、取得roots后且无锁时通知Runtime调度有效未暂停idle目录；已有scan_all默认入口保留。paused位置恢复仍走原已知映射核对，不以扫描新增替代。目录枚举继续使用scan_root，复用授权、身份、generation、恢复epoch和批次写锁；同根偶遇由代次取消过期批次，最多两路枚举，更多资源预算仍需实测。见[决定0033](docs/decisions/0033-bounded-priority-root-scans.md)。
 
 037把暂停根已知映射核对提为与全量流程复用的单根方法，并以refresh_root作为指定维护入口；Runtime继续使用同一队列，暂停位置恢复不再交回全量枚举。只读file_roots的稳定UUID批次100，每批复查状态/身份，不读新增目录项。文件RootRecovery不再用无关全局revision阻止位置回写，仍核目录UUID/path/active/generation/identity/Bookmark/valid、permission_version和原资源UUID/identity/location/归属，并在原checked导入事务复核物理身份与授权。目录位置解析的Anchor.current继续核完整revision。未改变查询、游标或恢复的版本检查，详见[决定0034](docs/decisions/0034-paused-root-maintenance.md)。
+
+
+2026-11-21 双端合并补充：Mac V1.3.1候选曾用schema9保存便签，Windows候选schema9/10保存连续性；合并版统一schema11。迁移按已知两端结构补齐便签与连续性表，在同一事务校验列并推进版本，保留已有记录和关闭状态；Store沿用升级前在线快照。此前v8→v9描述为各端历史，不代表统一版可以复用版本号。

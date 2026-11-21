@@ -278,8 +278,8 @@ impl Store {
         })?;
         item.opened_at = db.query_row(
             &format!(
-                "SELECT MAX(a.at) FROM activities a WHERE {}",
-                crate::quality::OPENED_BY_ID
+                "SELECT MAX(a.at) FROM activities a JOIN resources r ON r.id=?1 WHERE {}",
+                crate::activity_origin::recent_opened()
             ),
             [rid],
             |r| r.get(0),
@@ -320,7 +320,7 @@ impl Store {
         let in_workspace = query.workspace_id.is_some();
         let filter = if in_workspace { "1" } else { VISIBLE };
         // 文件打开还须属于当前物理对象；网页没有文件origin，保留其记录语义。筛选和排序共用条件。
-        let recent_opened = crate::quality::RECENT_OPENED;
+        let recent_opened = crate::activity_origin::recent_opened();
         let recommended = crate::quality::recommended();
         let sql=format!("SELECT r.id FROM resources r WHERE {filter} AND (?3<>'modified' OR ?1 IS NOT NULL OR {recommended}) AND (?1 IS NULL OR EXISTS(SELECT 1 FROM workspace_resources wr WHERE wr.workspace_id=?1 AND wr.resource_id=r.id)) AND (?2='all' OR r.kind=?2) AND (?3<>'favorites' OR r.favorite=1) AND (?3<>'recent' OR EXISTS(SELECT 1 FROM activities a WHERE {recent_opened})) ORDER BY CASE WHEN ?3='recent' THEN (SELECT MAX(a.at) FROM activities a WHERE {recent_opened}) ELSE r.modified_at END DESC,r.id LIMIT 101 OFFSET ?4");
         let ids = db
@@ -1034,6 +1034,28 @@ impl Store {
 
     pub fn resolve_resource(&self, rid: &str) -> Result<(String, bool)> {
         let result = self.resolve_resource_current(rid);
+        #[cfg(windows)]
+        if result.as_ref().err().is_some_and(|e| {
+            matches!(
+                e.code.as_str(),
+                "resource_unavailable" | "identity_unconfirmed"
+            )
+        }) {
+            let location: Option<String> = {
+                let db = self.connection()?;
+                db.query_row(
+                    "SELECT location FROM resources WHERE id=? AND kind='file'",
+                    [rid],
+                    |r| r.get(0),
+                )
+                .optional()?
+            };
+            if let Some(location) = location {
+                if Path::new(&location).exists() && self.reconcile_document(Path::new(&location))? {
+                    return self.resolve_resource_current(rid);
+                }
+            }
+        }
         if result.as_ref().err().is_some_and(|e| {
             matches!(
                 e.code.as_str(),
@@ -1444,6 +1466,8 @@ impl Store {
             [],
         )?;
         staging.execute("UPDATE file_grants SET active=0", [])?;
+        // 恢复不复活历史追踪同意；锚点与绑定历史保留，重新启用仍须当前授权。
+        staging.execute("UPDATE document_tracking_policies SET enabled=0", [])?;
         staging.execute("DELETE FROM operations", [])?;
         let current = self.connection()?;
         let current_snapshot = current.unchecked_transaction()?;

@@ -1,0 +1,27 @@
+{
+  "created_at": "2026-11-21T09:36:56.589Z",
+  "base_commit": "9124cc6b7381f65b45d4f6d2b2724f6da1e18697",
+  "working_tree_changes": true,
+  "exe": "deliverables/WorkTwill-v0.1.0-windows-x64-candidate-continuity.exe",
+  "exe_sha256": "D9E4E7B00D4E93149D4945A64DEAF0234714BF78C16CB87A45985D3B82ED48FA",
+  "zip": "deliverables/WorkTwill-v0.1.0-windows-x64-candidate-continuity.zip",
+  "zip_sha256": "9CDC8B86DD945D6D06524776EA29F676AC6D26841AD8D823904B242059CCDE24",
+  "schema": 10,
+  "ui_tests": 145,
+  "rust_suite_passed": 190,
+  "additional_regression": {
+    "continuity_tests": 7,
+    "includes_one_added_after_suite": true
+  },
+  "clippy": "passed",
+  "v1_acceptance": "incomplete",
+  "wps_version": "12.1.0.29690",
+  "native_resource_uuid": "79c9737a-570c-4301-8e37-56961f3c1fb5",
+  "limitations": [
+    "unsigned portable candidate",
+    "WPS temp-source pre-catalog conflict remains conservative rejection",
+    "cross-day/Word/native interruption/full native timing and DPI matrix incomplete"
+  ],
+  "prior_native_evidence_exe_sha256": "8EDDA27D1AEDE0F5FF765CEB1A71F77EF6925C5F14BAE56844079607667CE9C0",
+  "final_change": "Tracking status revalidates current physical identity; save/reconcile behavior unchanged. Seven targeted tests and strict clippy passed; final native settings smoke recorded."
+}

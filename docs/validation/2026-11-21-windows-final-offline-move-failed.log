@@ -1,0 +1,6 @@
+Move-Item: 
+Line |
+   2 |  … 界校验失败'};try{Move-Item -LiteralPath $source -Destination $dest -ErrorA …
+     |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | The process cannot access the file because it is being used by another process.
+

@@ -1,0 +1,61 @@
+ControlType.Pane |  | 
+ControlType.Pane | WorkTwill · 个人工作台 | 
+ControlType.Pane |  | 
+ControlType.Pane | WorkTwill · 个人工作台 - Web 内容 | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Document | WorkTwill · 个人工作台 | RootWebArea
+ControlType.Group |  | root
+ControlType.Group |  | 
+ControlType.Button | WorkTwill | 
+ControlType.Image |  | 
+ControlType.Text | 你的个人工作台 | 
+ControlType.Group | 主导航 | 
+ControlType.Button | 个人工作台 | 
+ControlType.Image |  | 
+ControlType.Button | 工作区 | 
+ControlType.Image |  | 
+ControlType.Button | 动态 | 
+ControlType.Image |  | 
+ControlType.Button | 所有文件 | 
+ControlType.Image |  | 
+ControlType.Button | 收藏 | 
+ControlType.Image |  | 
+ControlType.Text | 我的工作区 | 
+ControlType.Button | 新建工作区 | 
+ControlType.Image |  | 
+ControlType.Button | 管理位置与设置 | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text | 个人工作台 | 
+ControlType.Text | / | 
+ControlType.Text | 设置 | 
+ControlType.Image |  | 
+ControlType.ComboBox | 全局搜索 | 
+ControlType.Text | Ctrl | 
+ControlType.Text |  K | 
+ControlType.Button | EN | 
+ControlType.Group |  | 
+ControlType.Text | WORKTWILL | 
+ControlType.Text | 由你决定管理范围。 | 
+ControlType.Text | 仅索引明确选择的位置；保存追踪需另外同意写入系统标记。 | 
+ControlType.Text | 管理位置 | 
+ControlType.Button | 添加管理位置 | 
+ControlType.Image |  | 
+ControlType.Text | 工作区顺序 | 
+ControlType.Text | 本地数据 | 
+ControlType.Text | 备份保存工作区、关联与 URL，不包含原文件；可能含敏感名称和路径。 | 
+ControlType.Button | 备份数据 | 
+ControlType.Button | 恢复备份 | 
+ControlType.Button | 重建搜索索引 | 
+ControlType.Button | 重新扫描 | 
+ControlType.Text | WorkTwill 0.1.0 · SQLite  | 
+ControlType.Text | — | 
+ControlType.Text |  ·  | 
+ControlType.Text | 原生开发版本，保存追踪范围待验证 | 
+ControlType.Group |  | 
+ControlType.Image |  | 
+ControlType.Text | 原件在原处，工作在一起。 | 
+ControlType.Pane |  | 

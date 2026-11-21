@@ -1,0 +1,13 @@
+   Compiling windows-sys v0.61.2
+   Compiling winapi-util v0.1.11
+   Compiling tempfile v3.27.0
+   Compiling same-file v1.0.6
+   Compiling walkdir v2.5.0
+   Compiling worktwill-core v0.1.0 (C:\Users\Administrator\Desktop\work\worktwill\crates\worktwill-core)
+    Finished `release` profile [optimized] target(s) in 12.91s
+     Running `target\release\examples\native_search_fixture.exe`
+
+thread 'main' (45484) panicked at crates\worktwill-core\examples\native_search_fixture.rs:49:10:
+called `Result::unwrap()` on an `Err` value: SqliteFailure(Error { code: Unknown, extended_code: 1 }, Some("no such table: roots"))
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: process didn't exit successfully: `target\release\examples\native_search_fixture.exe` (exit code: 101)

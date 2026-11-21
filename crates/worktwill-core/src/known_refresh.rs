@@ -89,6 +89,13 @@ impl Store {
     }
 
     fn refresh_notified_file(&self, path: &Path, discover: bool) -> Result<bool> {
+        #[cfg(windows)]
+        match self.reconcile_document(path) {
+            Ok(true) => return Ok(true),
+            Err(error) if error.code == "io_error" || !path.exists() => return Ok(false),
+            Err(error) => return Err(error),
+            Ok(false) => {}
+        }
         let refresh = {
             let _guard = self.gate.read().map_err(|_| {
                 AppError::new(

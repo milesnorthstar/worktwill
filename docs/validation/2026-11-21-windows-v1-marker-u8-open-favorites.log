@@ -1,0 +1,101 @@
+ControlType.Pane |  | 
+ControlType.Pane | WorkTwill · 个人工作台 | 
+ControlType.Pane |  | 
+ControlType.Pane | WorkTwill · 个人工作台 - Web 内容 | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Document | WorkTwill · 个人工作台 | RootWebArea
+ControlType.Group |  | root
+ControlType.Group |  | 
+ControlType.Button | WorkTwill | 
+ControlType.Image |  | 
+ControlType.Text | 你的个人工作台 | 
+ControlType.Group | 主导航 | 
+ControlType.Button | 个人工作台 | 
+ControlType.Image |  | 
+ControlType.Button | 工作区 | 
+ControlType.Image |  | 
+ControlType.Button | 动态 | 
+ControlType.Image |  | 
+ControlType.Button | 所有文件 | 
+ControlType.Image |  | 
+ControlType.Button | 收藏 | 
+ControlType.Image |  | 
+ControlType.Text | 我的工作区 | 
+ControlType.Button | 新建工作区 | 
+ControlType.Image |  | 
+ControlType.Button | U2 搜索多选客户 5 | 
+ControlType.Button | U2 跨目录客户验收 6 | 
+ControlType.Button | Windows V1 验收 B 7 | 
+ControlType.Button | Windows V1 验收 A 8 | 
+ControlType.Button | 管理位置与设置 | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text | 个人工作台 | 
+ControlType.Text | / | 
+ControlType.Text | 收藏 | 
+ControlType.Image |  | 
+ControlType.ComboBox | 全局搜索 | 
+ControlType.Text | Ctrl | 
+ControlType.Text |  K | 
+ControlType.Button | EN | 
+ControlType.Group |  | 
+ControlType.Text | WORKTWILL | 
+ControlType.Text | 收藏 | 
+ControlType.Button | 添加网页 | 
+ControlType.Image |  | 
+ControlType.Button | 新建工作区 | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Text | 已管理 1 个目录 · 8 个单独授权文件 | 
+ControlType.Button | 管理范围 | 
+ControlType.Image |  | 
+ControlType.Text | 拖放加入工作区 | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ControlType.Button | 最近修改 | 
+ControlType.Button | 最近使用 | 
+ControlType.Button | 收藏 | 
+ControlType.Button | 全部资料 | 
+ControlType.Button | 重新扫描 | 
+ControlType.Image |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ |  | 
+ControlType.Group |  | 
+ControlType.Image |  | 
+ControlType.Text | 原件在原处，工作在一起。 | 
+ControlType.Pane |  | 

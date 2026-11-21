@@ -41,6 +41,12 @@ export type Activity = { id: string, kind: string, name: string, resource_id: st
 
 export type Overview = { session: string, permission_version: number, revision: number, sqlite_version: string, roots: Array<Root>, file_grants: Array<Resource>, workspaces: Array<Workspace>, activities: Array<Activity>, };
 
+export type DocumentTrackingStatus = { supported: boolean, roots: Array<DocumentTrackingRoot>, files: Array<DocumentTrackingFile>, };
+
+export type DocumentTrackingRoot = { root_id: string, enabled: boolean, };
+
+export type DocumentTrackingFile = { resource_id: string, name: string, established: boolean, error: AppError | null, };
+
 export type ResourceQuery = { workspace_id: string | null, kind: string, mode: string, offset: number, };
 
 export type ResourcePage = { session: string, permission_version: number, revision: number, items: Array<Resource>, has_more: boolean, };

@@ -1,7 +1,7 @@
 use crate::model::{AppError, Result};
 use rusqlite::{Connection, TransactionBehavior};
 
-pub(crate) const VERSION: u32 = 9;
+pub(crate) const VERSION: u32 = 11;
 pub(crate) fn migrate(db: &mut Connection) -> Result<()> {
     let version: u32 = db.pragma_query_value(None, "user_version", |r| r.get(0))?;
     if version > VERSION {
@@ -89,10 +89,23 @@ pub(crate) fn migrate(db: &mut Connection) -> Result<()> {
         tx.commit()?;
     }
     let version: u32 = db.pragma_query_value(None, "user_version", |r| r.get(0))?;
-    if version == 8 {
-        // 正式库此前没有便签；保留墓碑阻止删除后的迟到保存重新创建。
+    if (8..11).contains(&version) {
+        // 两端独立候选曾共用v9：Mac只有便签，Windows有连续性表；补齐后统一到v11。
+        // 同一事务建表并推进版本，已有对象结构仍由后续校验拒绝，不覆盖旧数据。
         let tx = db.transaction_with_behavior(TransactionBehavior::Immediate)?;
-        tx.execute_batch("CREATE TABLE scratch_notes(id TEXT PRIMARY KEY,text TEXT NOT NULL,pinned INTEGER NOT NULL CHECK(pinned IN(0,1)),version INTEGER NOT NULL,updated_at REAL NOT NULL,deleted INTEGER NOT NULL DEFAULT 0 CHECK(deleted IN(0,1))); PRAGMA user_version=9;")?;
+        tx.execute_batch("CREATE TABLE IF NOT EXISTS scratch_notes(id TEXT PRIMARY KEY,text TEXT NOT NULL,pinned INTEGER NOT NULL CHECK(pinned IN(0,1)),version INTEGER NOT NULL,updated_at REAL NOT NULL,deleted INTEGER NOT NULL DEFAULT 0 CHECK(deleted IN(0,1)));
+            CREATE TABLE IF NOT EXISTS document_tracking_policies(root_id TEXT PRIMARY KEY REFERENCES scan_roots(id),root_identity TEXT NOT NULL,enabled INTEGER NOT NULL CHECK(enabled IN(0,1)));
+            CREATE TABLE IF NOT EXISTS document_anchors(resource_id TEXT PRIMARY KEY REFERENCES resources(id) ON DELETE CASCADE,root_id TEXT NOT NULL REFERENCES scan_roots(id),volume TEXT NOT NULL,anchor BLOB NOT NULL,bound_identity TEXT NOT NULL,binding_version INTEGER NOT NULL DEFAULT 0);
+            CREATE INDEX IF NOT EXISTS document_anchor_lookup ON document_anchors(volume,anchor);
+            CREATE TABLE IF NOT EXISTS resource_binding_history(id TEXT PRIMARY KEY,resource_id TEXT NOT NULL REFERENCES resources(id) ON DELETE CASCADE,previous_identity TEXT NOT NULL,current_identity TEXT NOT NULL,root_id TEXT NOT NULL,anchor BLOB NOT NULL,accepted_at REAL NOT NULL,policy_version INTEGER NOT NULL);
+            CREATE INDEX IF NOT EXISTS binding_history_resource ON resource_binding_history(resource_id,current_identity,previous_identity);
+            CREATE TABLE IF NOT EXISTS document_tracking_failures(resource_id TEXT PRIMARY KEY REFERENCES resources(id) ON DELETE CASCADE,error_json TEXT NOT NULL);")?;
+        tx.prepare("SELECT id,text,pinned,version,updated_at,deleted FROM scratch_notes LIMIT 0")?;
+        tx.prepare("SELECT root_id,root_identity,enabled FROM document_tracking_policies LIMIT 0")?;
+        tx.prepare("SELECT resource_id,root_id,volume,anchor,bound_identity,binding_version FROM document_anchors LIMIT 0")?;
+        tx.prepare("SELECT id,resource_id,previous_identity,current_identity,root_id,anchor,accepted_at,policy_version FROM resource_binding_history LIMIT 0")?;
+        tx.prepare("SELECT resource_id,error_json FROM document_tracking_failures LIMIT 0")?;
+        tx.execute_batch("PRAGMA user_version=11;")?;
         tx.commit()?;
     }
     db.execute("CREATE INDEX IF NOT EXISTS activities_resource_kind_time ON activities(resource_id,kind,at DESC,id DESC)",[])?;
@@ -121,4 +134,61 @@ pub(crate) fn migrate(db: &mut Connection) -> Result<()> {
         [],
     )?;
     Ok(())
+}
+
+#[cfg(test)]
+mod merge_tests {
+    use super::*;
+
+    #[test]
+    fn independent_mac9_and_windows9_10_keep_their_data_when_unified() {
+        for variant in ["mac9", "windows9", "windows10"] {
+            let mut db = Connection::open_in_memory().unwrap();
+            migrate(&mut db).unwrap();
+            db.execute("INSERT INTO workspaces(id,name,created_at,sort_order) VALUES('kept','原工作区',0,0)", []).unwrap();
+            if variant == "mac9" {
+                db.execute_batch("INSERT INTO scratch_notes VALUES('note','保留便签',1,3,0,0); DROP TABLE document_tracking_failures; DROP TABLE resource_binding_history; DROP TABLE document_anchors; DROP TABLE document_tracking_policies; PRAGMA user_version=9;").unwrap();
+            } else {
+                db.execute_batch("INSERT INTO scan_roots(id,path,active) VALUES('root','synthetic-root',0); INSERT INTO document_tracking_policies VALUES('root','original-identity',0); DROP TABLE scratch_notes;").unwrap();
+                db.execute_batch(if variant == "windows9" {
+                    "DROP TABLE document_tracking_failures; PRAGMA user_version=9;"
+                } else {
+                    "PRAGMA user_version=10;"
+                })
+                .unwrap();
+            }
+            migrate(&mut db).unwrap();
+            assert_eq!(
+                db.pragma_query_value::<u32, _>(None, "user_version", |r| r.get(0))
+                    .unwrap(),
+                VERSION
+            );
+            assert_eq!(
+                db.query_row("SELECT name FROM workspaces WHERE id='kept'", [], |r| {
+                    r.get::<_, String>(0)
+                })
+                .unwrap(),
+                "原工作区"
+            );
+            if variant == "mac9" {
+                assert_eq!(
+                    db.query_row("SELECT text FROM scratch_notes WHERE id='note'", [], |r| {
+                        r.get::<_, String>(0)
+                    })
+                    .unwrap(),
+                    "保留便签"
+                );
+            } else {
+                assert_eq!(
+                    db.query_row(
+                        "SELECT root_identity FROM document_tracking_policies WHERE root_id='root'",
+                        [],
+                        |r| r.get::<_, String>(0)
+                    )
+                    .unwrap(),
+                    "original-identity"
+                );
+            }
+        }
+    }
 }

@@ -1,0 +1,117 @@
+ControlType.Pane |  | 
+ControlType.Pane | WorkTwill · 个人工作台 | 
+ControlType.Pane |  | 
+ControlType.Pane | WorkTwill · 个人工作台 - Web 内容 | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Pane |  | 
+ControlType.Document | WorkTwill · 个人工作台 | RootWebArea
+ControlType.Group |  | root
+ControlType.Group |  | 
+ControlType.Button | WorkTwill | 
+ControlType.Image |  | 
+ControlType.Group | Main navigation | 
+ControlType.Button | Personal workbench | 
+ControlType.Image |  | 
+ControlType.Button | Workspaces | 
+ControlType.Image |  | 
+ControlType.Button | Activity | 
+ControlType.Image |  | 
+ControlType.Button | All files | 
+ControlType.Image |  | 
+ControlType.Button | Favorites | 
+ControlType.Image |  | 
+ControlType.Button | Locations & settings | 
+ControlType.Image |  | 
+ControlType.Group |  | 
+ControlType.Image |  | 
+ControlType.ComboBox | Global search | 
+ControlType.Text | Ctrl | 
+ControlType.Text |  K | 
+ControlType.Button | 中文 | 
+ControlType.Group |  | 
+ControlType.Text | WORKTWILL | 
+ControlType.Text | You choose what belongs here. | 
+ControlType.Text | Only selected locations are indexed. Save tracking requires separate consent to system markers. | 
+ControlType.Text | Managed locations | 
+ControlType.Button | Add location | 
+ControlType.Image |  | 
+ControlType.Image |  | 
+ControlType.Text | \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-continuity-84c3a9e1434c4443b2d725e19ff596a5 | 
+ControlType.Text | Scan complete · 3 files | 
+ControlType.Button | Pause | 
+ControlType.Button | Revoke | 
+ControlType.Edit | Exclude subfolder in \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-continuity-84c3a9e1434c4443b2d725e19ff596a5 | 
+ControlType.Button | Exclude folder | 
+ControlType.Image |  | 
+ControlType.Text | \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-ee053eff96f4453dbf7ad48d1ceafbc7\普通本地资料 | 
+ControlType.Text | Authorization revoked; references retained | 
+ControlType.Image |  | 
+ControlType.Text | \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-pagination-5b6200887a2948b2905937b28c80461f | 
+ControlType.Text | Authorization revoked; references retained | 
+ControlType.Text | Document save tracking | 
+ControlType.Text | For explicitly enabled NTFS folders, system tracking markers are added to favorites and workspace files without editing content. Copies remain separate; system replacement can retain references. | 
+ControlType.Text | \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-continuity-84c3a9e1434c4443b2d725e19ff596a5 | 
+ControlType.Text | Tracking allowed; see individual results below | 
+ControlType.Button | Disable tracking | 
+ControlType.Text | V1保存连续性验收.docx | 
+ControlType.Text |  ·  | 
+ControlType.Text | Tracking marker established | 
+ControlType.Text | Individually authorized files | 
+ControlType.Text | Only the selected files are managed; their folders are not scanned. | 
+ControlType.Text | U2客户验收_5.txt | 
+ControlType.Text | \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\u2-cross-directory-c0a30ec5d21c4d01840bd0b3fdfb0309\目录5\U2客户验收_5.txt | 
+ControlType.Button | Revoke | 
+ControlType.Text | 混合未授权_8.txt | 
+ControlType.Text | \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-ee053eff96f4453dbf7ad48d1ceafbc7\普通本地资料\混合未授权_8.txt | 
+ControlType.Button | Revoke | 
+ControlType.Text | U2客户验收_4.txt | 
+ControlType.Text | \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\u2-cross-directory-c0a30ec5d21c4d01840bd0b3fdfb0309\目录4\U2客户验收_4.txt | 
+ControlType.Button | Revoke | 
+ControlType.Text | 待授权_6.txt | 
+ControlType.Text | \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-ee053eff96f4453dbf7ad48d1ceafbc7\普通本地资料\待授权_6.txt | 
+ControlType.Button | Revoke | 
+ControlType.Text | U2客户验收_2.txt | 
+ControlType.Text | \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\u2-cross-directory-c0a30ec5d21c4d01840bd0b3fdfb0309\目录2\U2客户验收_2.txt | 
+ControlType.Button | Revoke | 
+ControlType.Text | U2客户验收_3.txt | 
+ControlType.Text | \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\u2-cross-directory-c0a30ec5d21c4d01840bd0b3fdfb0309\目录3\U2客户验收_3.txt | 
+ControlType.Button | Revoke | 
+ControlType.Text | U2客户验收_1.txt | 
+ControlType.Text | \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\u2-cross-directory-c0a30ec5d21c4d01840bd0b3fdfb0309\目录1\U2客户验收_1.txt | 
+ControlType.Button | Revoke | 
+ControlType.Text | 混合未授权_9.txt | 
+ControlType.Text | \\?\C:\Users\Administrator\AppData\Local\Temp\worktwill-windows-v1-20261121\native-ee053eff96f4453dbf7ad48d1ceafbc7\普通本地资料\混合未授权_9.txt | 
+ControlType.Button | Revoke | 
+ControlType.Text | Workspace order | 
+ControlType.Image |  | 
+ControlType.Text | U2 搜索多选客户 | 
+ControlType.Button | Move up U2 搜索多选客户 | 
+ControlType.Button | Move down U2 搜索多选客户 | 
+ControlType.Image |  | 
+ControlType.Text | U2 跨目录客户验收 | 
+ControlType.Button | Move up U2 跨目录客户验收 | 
+ControlType.Button | Move down U2 跨目录客户验收 | 
+ControlType.Image |  | 
+ControlType.Text | Windows V1 验收 B | 
+ControlType.Button | Move up Windows V1 验收 B | 
+ControlType.Button | Move down Windows V1 验收 B | 
+ControlType.Image |  | 
+ControlType.Text | Windows V1 验收 A | 
+ControlType.Button | Move up Windows V1 验收 A | 
+ControlType.Button | Move down Windows V1 验收 A | 
+ControlType.Text | Local data | 
+ControlType.Text | Backups contain workspaces, references and URLs, not original files. Names and paths may be sensitive. | 
+ControlType.Button | Back up | 
+ControlType.Button | Restore backup | 
+ControlType.Button | Rebuild search index | 
+ControlType.Button | Rescan | 
+ControlType.Text | WorkTwill 0.1.0 · SQLite  | 
+ControlType.Text | 3.50.2 | 
+ControlType.Text |  ·  | 
+ControlType.Text | Native development build. Save-tracking support under validation. | 
+ControlType.Group |  | 
+ControlType.Image |  | 
+ControlType.Text | Originals in place. Your work together. | 
+ControlType.Pane |  | 

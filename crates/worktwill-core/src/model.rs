@@ -126,6 +126,25 @@ pub struct Overview {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, TS)]
+pub struct DocumentTrackingStatus {
+    pub supported: bool,
+    pub roots: Vec<DocumentTrackingRoot>,
+    pub files: Vec<DocumentTrackingFile>,
+}
+#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+pub struct DocumentTrackingRoot {
+    pub root_id: String,
+    pub enabled: bool,
+}
+#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+pub struct DocumentTrackingFile {
+    pub resource_id: String,
+    pub name: String,
+    pub established: bool,
+    pub error: Option<AppError>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, TS)]
 pub struct ResourceQuery {
     pub workspace_id: Option<String>,
     pub kind: String,

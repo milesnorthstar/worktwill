@@ -22,8 +22,8 @@ pub fn identity(_path: &Path, metadata: &Metadata) -> Result<String> {
 }
 
 #[cfg(windows)]
-pub fn identity(path: &Path, metadata: &Metadata) -> Result<String> {
-    use std::os::windows::{ffi::OsStrExt, fs::MetadataExt};
+pub fn identity(path: &Path, _metadata: &Metadata) -> Result<String> {
+    use std::os::windows::ffi::OsStrExt;
     use windows_sys::Win32::{
         Foundation::{CloseHandle, INVALID_HANDLE_VALUE},
         Storage::FileSystem::*,
@@ -47,14 +47,22 @@ pub fn identity(path: &Path, metadata: &Metadata) -> Result<String> {
             ));
         }
         let mut info: FILE_ID_INFO = std::mem::zeroed();
+        let mut basic: FILE_BASIC_INFO = std::mem::zeroed();
         let ok = GetFileInformationByHandleEx(
             handle,
             FileIdInfo,
             &mut info as *mut _ as *mut _,
             std::mem::size_of::<FILE_ID_INFO>() as u32,
         );
+        // File ID与创建时间必须来自同一句柄，不能拼接保存前路径采样的旧metadata。
+        let basic_ok = GetFileInformationByHandleEx(
+            handle,
+            FileBasicInfo,
+            &mut basic as *mut _ as *mut _,
+            std::mem::size_of::<FILE_BASIC_INFO>() as u32,
+        );
         CloseHandle(handle);
-        if ok == 0 {
+        if ok == 0 || basic_ok == 0 {
             return Err(AppError::new(
                 "identity_unconfirmed",
                 "当前文件系统身份尚不可用",
@@ -63,10 +71,52 @@ pub fn identity(path: &Path, metadata: &Metadata) -> Result<String> {
         }
         Ok(format!(
             "win:{}:{:x?}:{}",
-            info.VolumeSerialNumber,
-            info.FileId.Identifier,
-            metadata.creation_time()
+            info.VolumeSerialNumber, info.FileId.Identifier, basic.CreationTime
         ))
+    }
+}
+
+#[cfg(all(test, windows))]
+mod windows_tests {
+    use super::*;
+
+    #[test]
+    fn identity_does_not_combine_current_file_id_with_stale_creation_time() {
+        let dir = tempfile::Builder::new()
+            .prefix("identity-same-handle-")
+            .tempdir_in(std::env::var_os("WORKTWILL_TEST_ROOT").unwrap())
+            .unwrap();
+        let path = dir.path().join("original.txt");
+        std::fs::write(&path, b"original").unwrap();
+        let stale = path.metadata().unwrap();
+        let original = identity(&path, &stale).unwrap();
+        std::fs::rename(&path, dir.path().join("retained.txt")).unwrap();
+        std::fs::write(&path, b"replacement").unwrap();
+        use std::os::windows::{fs::MetadataExt, io::AsRawHandle};
+        let file = std::fs::OpenOptions::new().write(true).open(&path).unwrap();
+        let creation = stale.creation_time() + 10_000_000;
+        let time = windows_sys::Win32::Foundation::FILETIME {
+            dwLowDateTime: creation as u32,
+            dwHighDateTime: (creation >> 32) as u32,
+        };
+        unsafe {
+            assert_ne!(
+                windows_sys::Win32::Storage::FileSystem::SetFileTime(
+                    file.as_raw_handle(),
+                    &time,
+                    std::ptr::null(),
+                    std::ptr::null()
+                ),
+                0
+            );
+        }
+        drop(file);
+        let current = path.metadata().unwrap();
+        assert_ne!(identity(&path, &current).unwrap(), original);
+        assert_eq!(
+            identity(&path, &stale).unwrap(),
+            identity(&path, &current).unwrap()
+        );
     }
 }
 

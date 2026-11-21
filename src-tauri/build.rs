@@ -2,6 +2,8 @@ fn main() {
     tauri_build::try_build(tauri_build::Attributes::new().app_manifest(
         tauri_build::AppManifest::new().commands(&[
             "overview",
+            "document_tracking",
+            "set_document_tracking",
             "begin_search_session",
             "cancel_search",
             "search_page",

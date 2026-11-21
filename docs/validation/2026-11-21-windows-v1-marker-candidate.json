@@ -1,0 +1,22 @@
+{
+  "base_commit": "9124cc6b7381f65b45d4f6d2b2724f6da1e18697",
+  "working_tree_changes": true,
+  "exe": "deliverables/WorkTwill-v0.1.0-windows-x64-candidate-marker-check.exe",
+  "exe_sha256": "C6D3F90574ACB7646BD48C25B26A8C94DE942037DDDCB8DA80C08055FA523D6B",
+  "zip": "deliverables/WorkTwill-v0.1.0-windows-x64-candidate-marker-check.zip",
+  "zip_sha256": "0E1C5A4B6FE77118F2498879C20C80684DCEC4DBFE36CE7A04F75308E955D0C9",
+  "ui_tests": 145,
+  "rust_tests_including_shell": 192,
+  "ignored_explicit_scale_tests": 5,
+  "full_check_exit": 0,
+  "native_build": "passed",
+  "native_start_pid": 40828,
+  "native_restart_pid": 33872,
+  "resource_id": "79c9737a-570c-4301-8e37-56961f3c1fb5",
+  "binding_before": 3,
+  "binding_after": 7,
+  "native_same_day_save": "WPS GUI Ctrl+S running save1/save2 plus repeated save1, app-closed offline3; all markers independently verified in DOCX XML",
+  "native_entry_open": "A/B/favorites each closed first (WPS Office title) then reopened from formal UI with offline3 visible in screenshots; A confirmed later after attaching foreground thread input",
+  "v1_acceptance": "incomplete",
+  "remaining": ["WPS source pre-catalog race", "cross-day", "copy/save-as and revoke on this build", "native SQLite interruption", "full visible timing", "remaining DPI/window flows"]
+}

@@ -1,5 +1,5 @@
 import { invoke, isTauri } from '@tauri-apps/api/core';
-import type { Mutation, MutationResponse, Overview, ResourcePage, ResourceQuery, SearchRequest, SearchResponse, ImportResult, TimelineRequest, TimelinePage, SearchPageRequest, WebMetadata, UiLanguage, SuggestedLocation, NotesState, NoteWrite, ScratchNote } from './contracts';
+import type { DocumentTrackingStatus, Mutation, MutationResponse, Overview, ResourcePage, ResourceQuery, SearchRequest, SearchResponse, ImportResult, TimelineRequest, TimelinePage, SearchPageRequest, WebMetadata, UiLanguage, SuggestedLocation, NotesState, NoteWrite, ScratchNote } from './contracts';
 
 export const native = isTauri();
 let searchSession:Promise<string>|null=null;
@@ -31,6 +31,8 @@ export const api = {
   cancelDrop: (token:string) => invoke<void>('cancel_drop',{token}),
   pickFiles: (workspace_id:string|null,language:UiLanguage) => invoke<ImportResult|null>('pick_files',{workspaceId:workspace_id,language}),
   overview: () => invoke<Overview>('overview'),
+  documentTracking: () => invoke<DocumentTrackingStatus>('document_tracking'),
+  setDocumentTracking: (rootId:string,enabled:boolean) => invoke<void>('set_document_tracking',{rootId,enabled}),
   resources: (query: ResourceQuery) => invoke<ResourcePage>('resources', { query }),
   search: async(request: SearchRequest) => invoke<SearchResponse>('search', { request,session:await currentSearchSession() }),
   mutate: (mutation: Mutation) => invoke<MutationResponse>('mutate', {
