@@ -50,6 +50,7 @@ impl Fixture {
         }
     }
     fn replace(&self, scan: bool, same_birth: bool) {
+        let before = self.store.document_tracking_status().unwrap();
         let temp = self.path.with_file_name("save.tmp");
         fs::write(&temp, b"new version").unwrap();
         if same_birth {
@@ -94,6 +95,9 @@ impl Fixture {
                 0
             );
         }
+        // 替换后先确认真实NTFS锚点状态，避免把环境能力差异误报为业务绑定失败。
+        let after = self.store.document_tracking_status().unwrap();
+        eprintln!("REPLACE_TRACKING before={before:?} after={after:?}");
     }
     fn list(&self, mode: &str) -> ResourcePage {
         self.store
