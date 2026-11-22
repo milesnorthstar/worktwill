@@ -1,0 +1,113 @@
+name: Windows installer
+
+# 仅手动构建候选，不在推送或 PR 中使用发行密钥，也不自动发布。
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-installer-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Check and package Windows x64
+    runs-on: windows-2022
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm from package.json
+        uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa # v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: pnpm
+
+      - name: Set up pinned Rust toolchain
+        run: |
+          # rustup 读取仓库的 rust-toolchain.toml，不另设一份版本。
+          rustup show active-toolchain
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          rustc --version
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          if ((rustc -vV | Select-String '^host:').ToString().Trim() -ne 'host: x86_64-pc-windows-msvc') {
+            throw 'Expected the Windows x64 MSVC toolchain.'
+          }
+
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run project checks
+        run: |
+          # 样本仅放在当前运行的独立临时目录，不接触用户资料。
+          $fixtures = Join-Path $env:RUNNER_TEMP 'worktwill-fixtures'
+          New-Item -ItemType Directory -Path $fixtures -ErrorAction Stop | Out-Null
+          pnpm check --fixtures $fixtures
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Build installer and signed update
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:TAURI_SIGNING_PRIVATE_KEY)) {
+            throw 'Configure the existing updater key in the TAURI_SIGNING_PRIVATE_KEY repository secret. Do not generate a new key.'
+          }
+          pnpm release:build
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Check artifacts and write checksums
+        id: artifacts
+        run: |
+          $bundle = 'target/release/bundle/nsis'
+          $installers = @(Get-ChildItem -Path $bundle -Filter '*.exe' -File)
+          if ($installers.Count -ne 1) { throw 'Expected exactly one NSIS installer.' }
+          $installer = $installers[0]
+          $signature = "$($installer.FullName).sig"
+          if (!(Test-Path -LiteralPath $signature)) { throw 'Missing updater signature.' }
+          $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          $decoded = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String((Get-Content -LiteralPath $signature -Raw).Trim()))
+          $trustedComment = @($decoded -split '\r?\n' | Where-Object { $_.StartsWith('trusted comment:') })
+          if ($trustedComment.Count -ne 1 -or (($trustedComment[0] -split "`t") -notcontains "version:$version")) {
+            throw 'Updater signature does not bind the package version.'
+          }
+          $files = @($installer.FullName, $signature, (Join-Path $bundle 'WorkTwill-INSTALL.txt'))
+          $checksums = foreach ($file in $files) {
+            $hash = (Get-FileHash -LiteralPath $file -Algorithm SHA256 -ErrorAction Stop).Hash.ToLowerInvariant()
+            "$hash  $([IO.Path]::GetFileName($file))"
+          }
+          $checksums | Set-Content -Path (Join-Path $bundle 'SHA256SUMS.txt') -Encoding utf8
+          "name=WorkTwill-$version-windows-x64-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT" >> $env:GITHUB_OUTPUT
+          @(
+            '# Windows x64 candidate',
+            "Version: $version",
+            "Source commit: $env:GITHUB_SHA",
+            '',
+            'Project checks passed. The artifact contains the NSIS installer, updater signature, installation guide, and SHA-256 checksums.',
+            '',
+            'This is not Windows OS code signing. Native installation, launch, editor save behavior, and updates still require Windows acceptance. Nothing has been published to the website.'
+          ) | Add-Content -Path $env:GITHUB_STEP_SUMMARY
+
+      - name: Upload candidate artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ steps.artifacts.outputs.name }}
+          # 显式列举制品，不上传私钥目录、缓存或完整工作区。
+          path: |
+            target/release/bundle/nsis/*.exe
+            target/release/bundle/nsis/*.exe.sig
+            target/release/bundle/nsis/WorkTwill-INSTALL.txt
+            target/release/bundle/nsis/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 14

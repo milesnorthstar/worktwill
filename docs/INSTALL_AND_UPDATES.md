@@ -68,6 +68,28 @@ website/release.json是逐平台发布记录的唯一来源。脚本复制到带
 
 先上传并核对全部制品，最后发布官网和更新清单。清单强制重新验证缓存，版本文件可长期缓存。本轮不修改DNS、创建R2或部署网站。
 
+## GitHub Actions Windows 构建
+
+工作流为 [Windows installer](../.github/workflows/windows-build.yml)，使用 `windows-2022` 的 x64 MSVC 环境。仅支持 `workflow_dispatch` 手动触发，不因 push/PR 自动运行，不创建 GitHub Release、不修改官网发布记录，也不部署官网。工作流须先合入默认分支，才能从仓库 Actions 页面手动选择分支运行；仅运行受信任的项目代码，不能用携带发行密钥的任务构建外部 PR。
+
+首次运行前，在仓库 **Settings → Secrets and variables → Actions** 配置：
+
+- `TAURI_SIGNING_PRIVATE_KEY`：已有 `.release-keys/updater.key` 的完整文件内容，不是本机路径。必须使用与 `src-tauri/tauri.conf.json` 内公钥对应的密钥；不要重新生成或轮换，不在 Issue、日志或源码中粘贴。
+- `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`：该密钥的密码。当前无密码密钥可不配置此项，现有发行脚本按空密码处理。
+
+上传私钥到 GitHub Secrets 属于密钥托管操作，需单独确认；工作流文件本身不执行密钥上传。签名值仅在打包步骤注入，不交给依赖安装和测试步骤，也不作为制品上传。更新签名不是 Windows 系统代码签名。
+
+在 **Actions → Windows installer → Run workflow** 中选择经确认的分支运行。流程复用锁定依赖、仓库 Rust 工具链、`pnpm check` 和 `pnpm release:build`；测试样本放在 runner 独立临时目录。检查失败不继续打包，打包后核对安装程序、签名的版本声明和附带安装说明。
+
+成功后，从该次运行的 **Artifacts** 下载 `WorkTwill-<版本>-windows-x64-<运行ID>-<重试次数>`，保留14天，包含：
+
+- NSIS 安装程序 `.exe`；
+- 对应 `.exe.sig` 更新签名；
+- `WorkTwill-INSTALL.txt` 双语安装说明；
+- `SHA256SUMS.txt`，记录上述三个文件的 SHA-256。
+
+运行摘要记录版本与源码提交。流水线通过只说明检查和打包通过，不代表真实 Windows 安装、启动、保存或更新验收通过。必须在 Windows 电脑验收后，再使用现有 `release:record --target windows-x86_64` 登记同一个 EXE 和签名，按前述流程发布官网。配置工作流不表示已执行云端构建或已上线。
+
 ## 必需的原生验收
 
 组件/API、Rust网络与签名回归、应用构建和官网检查分别记录。最终仍需两端分别执行：安装A→下载B→保存并重启→确认B版本以及资料、便签保持。系统签名、公证、SmartScreen、WebView2、受限安装目录和线上网络不能由本地测试代替。
