@@ -42,6 +42,8 @@ pnpm release:build
 
 ## 登记与发布
 
+**当前操作边界：** `release:record` 会立即改写 `website/release.json`；`stage` 中的“本地候选”只是文案，官网生成器仍会据此生成 `stable` 更新清单。目前没有候选登记与正式提升的隔离命令。按[发布模型与实现状态](RELEASING.md#publication-model-and-current-implementation)，只在已授权发布的隔离准备环境中登记，部署前核对差异；不得把普通候选登记混入随后用于官网内容部署的工作树。
+
 对已有用户发布新功能/修复前，先按版本迭代流程同步更新版本及锁文件，再构建、验证并登记同一份制品。`website/release.json` 是逐平台发布记录的唯一来源，不手改生成的更新 JSON 或下载页面。以下版本仅作命令示例：
 
 ```sh
@@ -53,9 +55,13 @@ Windows 用 `windows-x86_64`，两个文件参数都传 NSIS EXE；Intel Mac 用
 
 脚本复制固定版本/平台/内容摘要的制品名，记录大小、SHA-256 和更新签名，拒绝覆盖内容不同的同名制品。官网构建从记录生成下载按钮和 `updates/stable/<target>.json`，平台版本可分别推进。
 
+`release:record` 当前检查签名中的版本声明，官网准备脚本检查制品大小/摘要和签名存在；它们不构成发布前的完整密码学验签或远端制品核验。正式发布流程要求的公钥验签、上传及线上字节检查见[候选验证](RELEASING.md#3-validate-the-candidate)与[制品存储和提升](RELEASING.md#artifact-storage-and-promotion)，相应自动化仍待实现。
+
 默认随静态官网分发小包；独立存储登记使用 `--base-url https://下载域名/固定版本目录/`，构建仍核对本地制品。超过 25 MiB 的制品必须使用独立下载存储；R2 正式分发使用自定义域名。引入存储或变更域名另需明确任务授权。
 
 发布顺序：通过检查 → 原生构建与必要验证 → 登记 → 上传并核对全部制品 → 最后发布官网和更新清单 → 核对线上下载与更新。制品长期缓存，更新清单重新验证缓存；旧制品不能因同版本重建被替换。
+
+上述上传前后顺序按存储方式执行：外部托管先核对远端制品再公开入口；随官网打包的资源先核对构建内容，再与页面及更新清单一起部署，最后检查实际线上字节。已验证的包直接提升，不为正式发布重新打包。候选归档、正式版本留存及撤回要求统一见[版本迭代流程](RELEASING.md)。
 
 本地构建/登记不等于上线。推送仓库、创建 GitHub Release、上传制品、部署官网和更新清单均按当前任务明确授权执行；既有明确授权不重复确认。官网命令与构建来源见 [website/README.md](../website/README.md)。
 
@@ -66,6 +72,8 @@ Windows 用 `windows-x86_64`，两个文件参数都传 NSIS EXE；Intel Mac 用
 维护者将现有密钥内容配置为仓库 Actions Secret `TAURI_SIGNING_PRIVATE_KEY`；有密码时配置 `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`。Secrets 托管变更需要明确授权，不使用外部 PR 或不可信代码运行持有签名密钥的构建。密钥仅注入打包步骤。
 
 工作流从锁文件安装，运行 `pnpm check`，再构建并检查安装包、签名的版本声明和离线说明。Artifacts 保留 14 天，包含 EXE、`.exe.sig`、`WorkTwill-INSTALL.txt` 和 `SHA256SUMS.txt`；摘要标明版本与源码提交。下载候选后仍需 Windows 真机验证，之后才可登记并公开分发。
+
+14 天的 Actions 制品是候选中转，不作为长期发行档案。已确定的目标流程使用 GitHub Releases 留存正式版本，补齐所需 macOS 构建及统一上传/发布核验；当前此 Windows 工作流尚未实现这些步骤，不因文档约定而视为已开通。
 
 ## 验证与记录
 
