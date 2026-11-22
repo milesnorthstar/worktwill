@@ -4,6 +4,11 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 
 ## Unreleased
 
+### Fixed
+
+- Fail snapshot copying promptly on database lock contention instead of waiting in SQLite's busy handler while holding the application data gate; preserve the existing explicit-retry and data-preservation behavior.
+- Handle both LF and CRLF source files in isolated website audit tests.
+
 ### Maintenance
 
 - Add secret-free macOS and Windows checks for pull requests and main-branch pushes, including isolated website HTTP audit tests.

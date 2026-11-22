@@ -32,9 +32,9 @@ pub(crate) fn id() -> String {
     Uuid::new_v4().to_string()
 }
 
-// 调用者固定源读快照，More才代表有限库的正常分页；忙锁不能在持有Store写锁时无限重试。
+// 调用者固定源读快照，More才代表有限库的正常分页；复制遇锁立即交还调用者，不能让busy handler持有Store写锁等待。
 fn copy_snapshot(source: &Connection, target: &mut Connection) -> Result<()> {
-    target.busy_timeout(Duration::from_millis(1500))?;
+    target.busy_timeout(Duration::ZERO)?;
     let backup = Backup::new(source, target)?;
     loop {
         match backup.step(100)? {

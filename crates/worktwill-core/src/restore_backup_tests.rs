@@ -117,6 +117,13 @@ fn copy_busy_finishes_backup_handle_and_preserves_target() {
     let elapsed = started.elapsed();
     locker.execute_batch("ROLLBACK").unwrap();
     assert_eq!(result.unwrap_err().code, "database_busy");
+    // 复制明确禁用内部忙等，不能仅靠runner足够快满足时间断言。
+    assert_eq!(
+        target
+            .pragma_query_value(None, "busy_timeout", |row| row.get::<_, u32>(0))
+            .unwrap(),
+        0
+    );
     assert!(elapsed < Duration::from_secs(3));
     assert_eq!(marker(&target), "target");
     integrity(&target);
