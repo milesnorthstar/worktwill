@@ -1,9 +1,0 @@
-{
-  "iteration": "024",
-  "observation": "First root domain test run: 8 of 9 passed; replacement_at_old_directory_path_is_not_authorized_or_given_old_references failed on refresh_roots().unwrap() with root_unavailable",
-  "original_assumption": "Ordinary directory Bookmark would always find the moved original even while a new directory occupies its former path",
-  "actual_api_boundary": "Foundation can resolve the replacement path. Physical identity check rejected the candidate before any scope or resource path recovery",
-  "correction": "Kept fail-closed production check. Domain regression now separately verifies refusal, no implicit grants or wrong reference inheritance, then explicit selection of the original directory reuses its physical root identity and UUID",
-  "not_claimed": ["Guaranteed automatic recovery when the old path is occupied", "Document ID or physical-identity-changing safe save", "Native WorkTwill UI acceptance"],
-  "raw_output_location": "Observed in tool output; not saved as a shell log during that first run. This is an observation record, not a reconstructed raw log"
-}

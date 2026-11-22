@@ -6,7 +6,24 @@ src-tauri/gen/
 *.log
 
 deliverables/
-!docs/validation/*.log
+
+# 内部产品规划、验收记录、截图和运行证据；公开维护不依赖此目录。
+/.internal/
+/PRD.md
+/ADVERSARIAL_REVIEW.md
+/FILE_TRACKING_RESEARCH.md
+/worktwill_review/
+/docs/validation/
+/docs/research/
+/docs/ACCEPTANCE.md
+/docs/CURRENT_ENGINEERING_CHECKLIST.md
+/docs/DEVELOPMENT_STATUS.md
+/docs/V1_3_1_*.md
+/docs/WINDOWS_*.md
+/spikes/RESULTS.md
+/spikes/results/
+/website/VALIDATION.md
+/website/geo/baseline-*.json
 
 # 本机构建工具安装器，不作为产品源码提交。
 .tools/

@@ -15,8 +15,8 @@
 
 <p align="center">
   <a href="https://worktwill.haoclub.com/">官网</a> ·
-  <a href="https://worktwill.haoclub.com/download">下载</a> ·
-  <a href="https://worktwill.haoclub.com/guide">使用指南</a> ·
+  <a href="https://worktwill.haoclub.com/zh/download">下载</a> ·
+  <a href="https://worktwill.haoclub.com/zh/guide">使用指南</a> ·
   <a href="https://github.com/milesnorthstar/worktwill/issues">问题反馈</a>
 </p>
 
@@ -26,7 +26,7 @@ WorkTwill 将散落的文件和收藏的网页组织到一个个人工作台中�
 
 一份合同可以同时属于「客户 A」和「续约跟进」，而原文件始终只有一份。
 
-> **当前为预览版。** WorkTwill 正在面向 macOS 和 Windows 持续开发。实际可用的安装包及各平台限制以[下载页](https://worktwill.haoclub.com/download)为准。项目以 [MIT 许可证](LICENSE)开源。
+> **当前为预览版。** WorkTwill 正在面向 macOS 和 Windows 持续开发。实际可用的安装包及各平台限制以[下载页](https://worktwill.haoclub.com/zh/download)为准。项目以 [MIT 许可证](LICENSE)开源。
 
 ## 为什么选择 WorkTwill？
 
@@ -39,14 +39,14 @@ WorkTwill 将散落的文件和收藏的网页组织到一个个人工作台中�
 
 ## 开始使用
 
-从[官网下载页](https://worktwill.haoclub.com/download)获取可用的预览版。使用安装包不需要安装 Node.js、pnpm 或 Rust。
+从[官网下载页](https://worktwill.haoclub.com/zh/download)获取可用的预览版。使用安装包不需要安装 Node.js、pnpm 或 Rust。
 
 1. 打开 WorkTwill，选择一个管理目录，或只授权单个文件。确认授权前不会启动扫描。
 2. 从首页找到资料，或在应用内按 macOS **⌘K** / Windows **Ctrl+K** 搜索。
 3. 为项目、客户或工作事项创建工作区，添加文件和网页链接。
 4. 使用系统默认软件打开资料。从工作区移除文件引用不会删除原件。
 
-当前预览版没有系统代码签名或 macOS 公证。请按[安装指南](https://worktwill.haoclub.com/guide)核对下载来源及校验值，并遵守设备的安全策略。更新包验签不等于系统代码签名。
+当前预览版没有系统代码签名或 macOS 公证。请按[安装指南](https://worktwill.haoclub.com/zh/guide)核对下载来源及校验值，并遵守设备的安全策略。更新包验签不等于系统代码签名。
 
 ## 文件与隐私
 
@@ -58,7 +58,7 @@ WorkTwill 将索引、工作区关系、收藏和便签保存在本地 SQLite �
 - **联网更新：** 支持更新的版本会检查新版，并可后台下载安装包。可关闭自动下载，安装前需要确认。
 - **应用数据备份：** 备份保存应用数据，不包含原文件；恢复后需要重新授权文件访问。
 
-更多信息见[隐私说明](https://worktwill.haoclub.com/privacy)。
+更多信息见[隐私说明](https://worktwill.haoclub.com/zh/privacy)。
 
 ## 当前支持范围
 
@@ -66,7 +66,7 @@ WorkTwill 将索引、工作区关系、收藏和便签保存在本地 SQLite �
 
 文件身份与路径并不等价：同一路径上的新文件不会自动被当作原件。改名、移动及编辑器保存后的引用连续性取决于平台和可核实的文件身份。一些编辑器保存时会替换底层文件，**目前不保证所有此类保存都能连续取回**；无法确认身份时可能需要手动重新指向。
 
-macOS 与 Windows 分别验证。构建成功或单元测试通过不代表完整原生兼容性通过。具体结果与待完成事项见 [macOS V1.3.1 记录](docs/V1_3_1_MACOS.md)、[Windows 验收记录](docs/WINDOWS_V1_ACCEPTANCE.md)和[安装与更新说明](docs/INSTALL_AND_UPDATES.md)。工程文档目前以中文为主。
+macOS 与 Windows 分别验证。构建成功或单元测试通过不代表完整原生兼容性通过。使用及分发边界见[使用说明](docs/USER_GUIDE.md)和[安装与更新说明](docs/INSTALL_AND_UPDATES.md)。内部验收报告不随公开源码提供。
 
 ## 本地开发
 
@@ -115,7 +115,7 @@ macOS 产物位于 `target/debug/bundle/macos/WorkTwill.app`。发行打包与�
 | [`src-tauri/`](src-tauri/) | Tauri 原生入口、系统集成、权限及更新 |
 | [`crates/worktwill-core/`](crates/worktwill-core/) | Rust 领域逻辑、SQLite、索引与搜索 |
 | [`website/`](website/README.md) | 双语官网与下载页面 |
-| [`docs/`](docs/) | 使用文档、设计决定与验证记录 |
+| [`docs/`](docs/README.md) | 使用文档、维护指南与文档公开约定 |
 
 Rust 管理授权、资源身份、工作区关系与持久数据；React 管理交互状态。正式运行时使用 Tauri 2、React、TypeScript、Rust 和 SQLite。
 
@@ -125,7 +125,7 @@ Rust 管理授权、资源身份、工作区关系与持久数据；React 管理
 
 欢迎通过 [GitHub Issues](https://github.com/milesnorthstar/worktwill/issues)反馈问题、使用体验或文档建议。请提供系统、应用版本、复现步骤、预期与实际行为，并移除截图和日志中的私人文件名、路径及文档内容。
 
-如希望修改代码，请先通过 Issue 讨论范围，并在修改行为前阅读[产品需求](PRD.md)、[技术架构](ARCHITECTURE.md)与[开发约定](AGENTS.md)。这些文档目前以中文为主。除非另有明确约定，贡献采用本项目的 MIT 许可证。
+如希望新增功能或改变产品行为，请先通过 Issue 讨论范围，并阅读[贡献指南](CONTRIBUTING.md)、[技术架构](ARCHITECTURE.md)与[开发约定](AGENTS.md)。新 commit 的标题和正文、PR 标题和描述使用英文。公开贡献与维护不要求取得内部 PRD 或验收报告。除非另有明确约定，贡献采用本项目的 MIT 许可证。
 
 ## 许可证
 

@@ -1,13 +1,13 @@
 # WorkTwill 技术实验
 
-这些是与产品工程隔离的 Spike，不是正式 Rust Core 或 Tauri 应用。目前没有引入第三方依赖、扫描用户目录或修改浏览器原型。实验结果见 [RESULTS.md](RESULTS.md)。
+这些是与产品工程隔离的 Spike，不是正式 Rust Core 或 Tauri 应用。脚本和复现方法公开；原始实验报告、机器路径和截图保存在忽略目录，不代表产品已完成相应验证。
 
 ## S03：内存中的 SQLite 查询内核
 
 运行环境要求 Python 3.10+，其 SQLite 必须支持 FTS5 与 trigram。只生成内存中的合成记录；`--output` 写实验报告，不创建真实文件样本或读取办公文档。
 
 ```sh
-python3 spikes/search_kernel.py --output spikes/results/search-kernel-20261119.json
+python3 spikes/search_kernel.py --output spikes/results/search-kernel-NEW-RUN.json
 ```
 
 默认规模 10k/50k/100k/500k，每种策略、每个规模采样 570 次。复查时使用新的输出文件名，保留已有原始证据。
@@ -26,10 +26,10 @@ python3 spikes/search_kernel.py --output spikes/results/search-kernel-20261119.j
 在下述 S02 脚本已创建、且用户确认过的样本根目录内运行：
 
 ```sh
-python3 spikes/search_disk.py --fixture-root /private/tmp/worktwill-spikes-20261119 --output spikes/results/search-disk-20261119.json
+python3 spikes/search_disk.py --fixture-root /absolute/path/to/approved-fixture-root --output spikes/results/search-disk-NEW-RUN.json
 ```
 
-此路径已获本次用户确认。程序要求存在样本标记，并新建 `search-disk` 子目录；子目录已存在时拒绝覆盖。默认 10 万合成资源，先构建和核对索引，再备份至磁盘，使用 WAL 测量无写入与并发小事务写入的查询。停止写入后按当前业务行重新核对结果，不用最初静态数据冒充写入后的参照。
+路径必须已获当前环境的明确授权。程序要求存在样本标记，并新建 `search-disk` 子目录；子目录已存在时拒绝覆盖。默认 10 万合成资源，先构建和核对索引，再备份至磁盘，使用 WAL 测量无写入与并发小事务写入的查询。停止写入后按当前业务行重新核对结果，不用最初静态数据冒充写入后的参照。
 
 该程序不控制 WPS、不修改真实文件，不是 Rust 后端，也没有清空 OS 缓存；结果不能标为冷查询或完整 S03 通过。
 
@@ -47,7 +47,7 @@ spikes/.build/macos-identity --inspect ARCHITECTURE.md
 
 ### 文件变更实验
 
-遵守 [技术架构第 8 节](../ARCHITECTURE.md#8-必做技术-spike批准全量开发前)：先确认一个专用、尚不存在的临时子目录，才执行 `--fixture-root`。本次 `/private/tmp/worktwill-spikes-20261119` 已获确认并完成运行。脚本拒绝普通工作目录、临时目录本身和已存在目录；不会清空目录来满足条件。
+遵守 [开发约定](../AGENTS.md#验证与完成条件)：先确认一个专用、尚不存在的临时子目录，才执行 `--fixture-root`。脚本拒绝普通工作目录、临时目录本身和已存在目录；不会清空目录来满足条件。
 
 人工确认路径后，将下面的 `NEW_TEMP_PATH` 替换为该路径：
 
@@ -60,8 +60,8 @@ spikes/.build/macos-identity --resume NEW_TEMP_PATH/manifest.json
 
 第一条命令记录变更前后标识、Bookmark 解析、内容摘要和错误，并保存重启解析用 manifest；第二条命令从新进程读取 manifest，检查 Bookmark 路径与内容。案例有错误也会记录结果，因此退出码不能代替逐项判定。nil Document ID 不算身份保持成功，Bookmark 返回路径也不自动证明指向正确业务文档。
 
-以上仅是原生 API 操作，不能代替 Word/WPS 的实际保存行为、系统重启、授权撤销、跨卷或正式签名包测试。当前未实现资源 UUID 与工作区关系，此层也不能记作已通过。
+以上仅是原生 API 操作，不能代替 Word/WPS 的实际保存行为、系统重启、授权撤销、跨卷或正式签名包测试。实验脚本不实现正式资源 UUID 与工作区关系，此层也不能记作产品已通过。
 
-## S01 与剩余范围
+## 结果与验证边界
 
-当前主机是 macOS，Windows NTFS、File ID、已有 Object ID 和 Explorer 场景未执行。WPS 已检测到安装；UI 尝试没有进入新文档，未操作已有文档或执行保存。后续实验结果必须按系统、目录、编辑器版本及证据层级分别记录，不能由本机 SQLite 或 Swift 结果代替。
+`spikes/results/` 被 Git 忽略，输出使用每轮独立文件名，不覆盖旧报告；需要共享结果时先脱敏并提炼结论。macOS Foundation、Windows NTFS、真实 WPS/Word、应用重启和正式安装包需要各自环境观察，不能用 SQLite 或 Swift 实验替代。

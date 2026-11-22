@@ -14,9 +14,9 @@
 </p>
 
 <p align="center">
-  <a href="https://worktwill.haoclub.com/en/">Website</a> ·
-  <a href="https://worktwill.haoclub.com/en/download">Download</a> ·
-  <a href="https://worktwill.haoclub.com/en/guide">User guide</a> ·
+  <a href="https://worktwill.haoclub.com/">Website</a> ·
+  <a href="https://worktwill.haoclub.com/download">Download</a> ·
+  <a href="https://worktwill.haoclub.com/guide">User guide</a> ·
   <a href="https://github.com/milesnorthstar/worktwill/issues">Report an issue</a>
 </p>
 
@@ -26,7 +26,7 @@ WorkTwill brings scattered documents and saved web links into one personal works
 
 A contract can belong to both “Client A” and “Renewals.” There is still only one original file.
 
-> **Preview software.** WorkTwill is under active development for macOS and Windows. Available builds and platform-specific limitations are listed on the [download page](https://worktwill.haoclub.com/en/download). WorkTwill is open source under the [MIT License](LICENSE).
+> **Preview software.** WorkTwill is under active development for macOS and Windows. Available builds and platform-specific limitations are listed on the [download page](https://worktwill.haoclub.com/download). WorkTwill is open source under the [MIT License](LICENSE).
 
 ## Why WorkTwill?
 
@@ -39,14 +39,14 @@ A contract can belong to both “Client A” and “Renewals.” There is still 
 
 ## Get started
 
-Download an available preview from the [official website](https://worktwill.haoclub.com/en/download). You do not need Node.js, pnpm, or Rust to use the packaged app.
+Download an available preview from the [official website](https://worktwill.haoclub.com/download). You do not need Node.js, pnpm, or Rust to use the packaged app.
 
 1. Open WorkTwill and choose a folder to manage, or authorize individual files. Nothing is scanned before you confirm access.
 2. Find a resource from the home screen or press **⌘K** on macOS / **Ctrl+K** on Windows to search within the app.
 3. Create a workspace for a project, client, or task, and add files or saved links.
 4. Open resources in their default applications. Removing a file reference from a workspace does not delete the original.
 
-Current previews do not have OS code signing or macOS notarization. Follow the [installation guide](https://worktwill.haoclub.com/en/guide), verify the download source and checksum, and respect your device’s security policies. Update-package signatures are separate from OS code signing.
+Current previews do not have OS code signing or macOS notarization. Follow the [installation guide](https://worktwill.haoclub.com/guide), verify the download source and checksum, and respect your device’s security policies. Update-package signatures are separate from OS code signing.
 
 ## Your files and privacy
 
@@ -58,7 +58,7 @@ WorkTwill stores its index, workspace relationships, favorites, and notes in a l
 - **Networked updates:** update-enabled builds check for new versions and may download them in the background. Automatic downloads can be disabled; installation requires confirmation.
 - **App-data backups:** backups preserve application data, not original files. Restoring a backup requires renewed file access authorization.
 
-Read the [privacy notice](https://worktwill.haoclub.com/en/privacy) for details.
+Read the [privacy notice](https://worktwill.haoclub.com/privacy) for details.
 
 ## Current scope
 
@@ -66,7 +66,7 @@ WorkTwill currently focuses on ordinary local folders on internal disks. Network
 
 File identity matters: a new file at the same path is not automatically treated as the original. Renames, moves, and application save behavior depend on the platform and verified file identity. Some editors replace the underlying file when saving; uninterrupted references across every such save operation are **not guaranteed**. If identity cannot be confirmed, explicit relinking may be necessary.
 
-macOS and Windows are validated separately. A successful build or unit test is not proof of full native compatibility. For detailed results and remaining work, see the [macOS V1.3.1 notes](docs/V1_3_1_MACOS.md), [Windows acceptance record](docs/WINDOWS_V1_ACCEPTANCE.md), and [installation and update notes](docs/INSTALL_AND_UPDATES.md). These engineering documents are currently primarily in Chinese.
+macOS and Windows are validated separately. A successful build or unit test is not proof of full native compatibility. See the [user guide](docs/USER_GUIDE.md) and [installation and update notes](docs/INSTALL_AND_UPDATES.md) for usage and distribution boundaries. Internal acceptance reports are kept outside the public source tree.
 
 ## Development
 
@@ -115,7 +115,7 @@ The macOS output is `target/debug/bundle/macos/WorkTwill.app`. Distribution pack
 | [`src-tauri/`](src-tauri/) | Tauri shell, native integration, permissions, and updates |
 | [`crates/worktwill-core/`](crates/worktwill-core/) | Rust domain logic, SQLite storage, indexing, and search |
 | [`website/`](website/README.md) | Bilingual website and download pages |
-| [`docs/`](docs/) | User documentation, design decisions, and validation records |
+| [`docs/`](docs/README.md) | User documentation, maintenance guides, and documentation policy |
 
 Rust owns authorization, resource identity, workspace relationships, and persisted data. React owns interaction state. The runtime uses Tauri 2, React, TypeScript, Rust, and SQLite.
 
@@ -125,7 +125,7 @@ The root-level `index.html`, `app.js`, `styles.css`, and `prototype-b/` are reta
 
 Bug reports, usability feedback, and documentation suggestions are welcome through [GitHub Issues](https://github.com/milesnorthstar/worktwill/issues). Please include your OS, app version, steps to reproduce, and expected versus actual behavior. Remove private filenames, paths, and document contents from screenshots and logs.
 
-For proposed code changes, open an issue to discuss the scope first. Read the [product specification](PRD.md), [architecture](ARCHITECTURE.md), and [development guidelines](AGENTS.md) before changing behavior. These documents are currently primarily in Chinese. Contributions are provided under the project’s MIT License unless explicitly agreed otherwise.
+For proposed features or behavior changes, open an issue to discuss the scope first. Read the [contribution guide](CONTRIBUTING.md), [architecture](ARCHITECTURE.md), and [development guidelines](AGENTS.md) before making changes. Use English for commit subjects and bodies, PR titles, and PR descriptions. Public contribution and maintenance do not require internal product plans or acceptance reports. Contributions are provided under the project’s MIT License unless explicitly agreed otherwise.
 
 ## License
 

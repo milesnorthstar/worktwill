@@ -1,4 +1,0 @@
-{"elapsed_ms":3388,"result":{"Err":{"code":"web_metadata_unavailable","message":"网页没有返回可用内容，可手动填写标题"}},"url":"https://httpbingo.org/redirect-to?url=http://127.0.0.1:9/"}
-{"elapsed_ms":1841,"result":{"Err":{"code":"web_metadata_unavailable","message":"该网址不是 HTML 网页，可手动填写标题"}},"url":"https://httpbingo.org/json"}
-{"elapsed_ms":5002,"result":{"Err":{"code":"web_metadata_unavailable","message":"获取标题超时，可手动填写"}},"url":"https://httpbingo.org/redirect/4"}
-{"elapsed_ms":0,"result":{"Err":{"code":"web_metadata_unavailable","message":"仅自动获取公网网页标题，其他网址可手动填写"}},"url":"http://metadata.google.internal/"}

@@ -1,7 +1,0 @@
-{
-  "recorded_at": "2026-11-20T20:04:57.308056+08:00",
-  "command": "codesign --verify --deep --strict target/release/bundle/macos/WorkTwill.app",
-  "exit_code": 1,
-  "output": "target/release/bundle/macos/WorkTwill.app: code has no resources but signature indicates they must be present",
-  "interpretation": "Bundle signature verification failed. Current locally built candidate was launched and tested on this Mac; this is not a signed/notarized or installation-validated distribution. Signature preparation remains deferred under user PRD9.0 decision; no signing change was made."
-}

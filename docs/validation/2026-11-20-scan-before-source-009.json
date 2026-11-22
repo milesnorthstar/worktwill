@@ -1,6 +1,0 @@
-{
-  "crates/worktwill-core/src/acceptance_scan.rs": "399a0a01d947ff987bd971d54086e1dbf79064cd70475b8cf8ffeb732c083974",
-  "crates/worktwill-core/src/catalog.rs": "6ad76bfc83e2ca3dc2ff8dc468abb0df501b97f98417338110c107ed9df833ab",
-  "crates/worktwill-core/src/store.rs": "4d916727389a37c1b1ac16dfe59cda6fe874764c2e2125f0ebc1d4075f932004",
-  "crates/worktwill-core/src/ingest.rs": "07cf0e4a580e5eb6ed454807805aab3abf1f2b7c5751a8f6c475166d7e27cea2"
-}

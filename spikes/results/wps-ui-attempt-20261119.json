@@ -1,8 +1,0 @@
-{
-  "observed_at": "2026-11-19T10:34:03.550560+00:00",
-  "app": "com.kingsoft.wpsoffice.mac",
-  "version": "12.1.26046",
-  "status": "not_executed",
-  "observation": "WPS home was visible. New-document AX clicks, a coordinate click and Cmd+N did not yield an observable blank document. Native menu controls were observable; menus were dismissed and home was restored. No existing document was opened, edited or saved.",
-  "acceptance": "No WPS save or file identity result is claimed."
-}
