@@ -98,6 +98,8 @@ pnpm check --fixtures /absolute/path/to/fixture-root
 
 Rust DTO 是前端契约的事实源。修改 `model.rs` 后运行 `pnpm types`，不要手动编辑 `desktop/src/contracts.ts`。
 
+持续维护按[文档索引](docs/README.md)、[业务约定](docs/PRODUCT.md)和[版本迭代流程](docs/RELEASING.md)执行，用户可见变更记录在[变更日志](CHANGELOG.md)。
+
 ### 本地构建
 
 ```sh

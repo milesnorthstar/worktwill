@@ -1,6 +1,6 @@
 # WorkTwill architecture
 
-This document describes the current maintenance boundaries and source entry points. It is not a record of completed platform acceptance. User-visible behavior and limits are described in the [README](README.md) and [user guide](docs/USER_GUIDE.md); development rules are in [AGENTS.md](AGENTS.md).
+This document describes technical ownership, data flow, and source entry points. Expected product behavior is owned by the [product contract](docs/PRODUCT.md); user operations by the [user guide](docs/USER_GUIDE.md); versioned delivery by the [release workflow](docs/RELEASING.md). It is not a record of completed platform acceptance. Agent task routing is in [AGENTS.md](AGENTS.md).
 
 ## Runtime and ownership
 
@@ -17,15 +17,14 @@ The desktop runtime is Tauri 2, React, TypeScript, Rust, and SQLite. The website
 
 The native `Runtime` holds a shared `Store` and coordination state. These are existing ownership boundaries, not a requirement to introduce a service, hook, crate, or process for each feature. Root-level `app.js`, `styles.css`, `index.html`, and `prototype-b/` are retained prototypes and are not the desktop runtime. `spikes/` contains independent experiments.
 
-## Product and data invariants
+## Data ownership
 
 - A resource has a stable application UUID. Paths, URLs, physical file identity, access credentials, and document continuity evidence have distinct roles. Relationships use UUIDs.
-- One resource can belong to multiple workspaces. Removing or transferring a reference changes application relationships, not the original file. Use existing backend transactions for compound changes and operation replay.
+- Use existing backend transactions for relationship changes, compound operations, and operation replay.
 - Rust owns authorization and persisted business data. React owns interaction state and confirmed snapshots received from Rust. Do not create a second business database in localStorage.
 - Indexes and search projections are derived data. Rebuilding them must preserve workspaces, references, favorites, saved links, notes, and authorization rules.
-- Core search and organization work offline without an account or AI service. File search covers names and locations, not document contents. Saved links are URL references.
-- Source document contents remain untouched. The existing Windows metadata exception is limited to explicitly enabled document tracking, described below.
-- The default UI is the personal workbench with workspaces, activity, and favorites. Quick search and the full search page reuse the same domain queries; there is no separate “all files” navigation page.
+
+Business semantics for workspaces, navigation, search scope, original-file protection, and user consent live in the [product contract](docs/PRODUCT.md). The sections below describe how technical changes must preserve them.
 
 ## Authorization, identity, and file continuity
 

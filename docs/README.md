@@ -5,9 +5,12 @@
 | 文档 | 用途 |
 | --- | --- |
 | [English README](../README.md) / [中文 README](../README.zh-CN.md) | 产品定位、使用入口、当前支持范围、开发命令 |
-| [AGENTS.md](../AGENTS.md) | Codex 与其他开发代理的工作规则、状态归属、验证及交付要求 |
+| [AGENTS.md](../AGENTS.md) | 简短英文代理入口：通用工作规则与按任务阅读的文档 |
 | [CONTRIBUTING.md](../CONTRIBUTING.md) | 开源贡献流程、英文 commit/PR 规范与验证要求 |
-| [ARCHITECTURE.md](../ARCHITECTURE.md) | 当前实现的职责、关键行为约束与源码入口 |
+| [PRODUCT.md](PRODUCT.md) | 当前公开产品行为、业务语义和支持范围；不包含内部路线图 |
+| [ARCHITECTURE.md](../ARCHITECTURE.md) | 技术职责、事实源、数据流、并发与恢复边界及源码入口 |
+| [RELEASING.md](RELEASING.md) | 从修复/功能到版本交付、兼容性、分平台发布和后续反馈的流程 |
+| [CHANGELOG.md](../CHANGELOG.md) | 用户可见的未发布变更与已发布版本历史 |
 | [USER_GUIDE.md](USER_GUIDE.md) | 桌面端主要操作与用户可见限制 |
 | [INSTALL_AND_UPDATES.md](INSTALL_AND_UPDATES.md) | 安装、更新信任、发行构建及发布顺序 |
 | [INSTALLATION.txt](INSTALLATION.txt) | 随安装包与官网分发的双语离线安装说明来源 |
@@ -17,6 +20,7 @@
 
 ## 文档维护
 
+- AGENTS.md 只放跨任务通用规则与入口。产品行为归 PRODUCT.md，技术实现归 ARCHITECTURE.md，迭代流程归 RELEASING.md，打包操作归 INSTALL_AND_UPDATES.md，官网工程和 SEO/GEO 分别归对应指南；修改所属文件，避免复制多份规则。
 - 用户当前明确要求决定任务范围；公开文档规定应保持的行为和维护约束，源码及测试用于核实现状。发现冲突先说明并查证，不自动用某份旧文档或现有缺陷覆盖需求。
 - 行为、状态归属、接口、命令或支持范围变化时，在同一变更中更新对应文档。文档描述实现时给出源码入口，不堆叠候选编号、历史测试数量或机器路径。
 - 长期架构取舍可在 `docs/decisions/` 新增简短 ADR，记录问题、决定、理由、代价和状态；真实用户信息与原始验收日志留在内部。无需为普通实现细节新增 ADR。

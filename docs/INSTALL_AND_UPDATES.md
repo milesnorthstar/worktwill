@@ -2,6 +2,8 @@
 
 本文件描述维护流程和信任边界，不代表所有平台的安装、真实编辑器保存或线上升级均已验收。可用平台与安装包以[官网下载页](https://worktwill.haoclub.com/zh/download)为准。
 
+迭代范围、版本选择、变更日志、分平台发布状态和发布后跟进统一见[版本迭代流程](RELEASING.md)；本文件维护安装、打包、签名及更新的具体操作。
+
 ## 安装与信任
 
 用户无需 Node.js、pnpm 或 Rust。双语离线说明的唯一来源是 [INSTALLATION.txt](INSTALLATION.txt)：发行脚本在安装包旁生成 `WorkTwill-INSTALL.txt`，官网构建复制同一文件供下载。在线说明由 `website/templates/guide.html` 和英文词典生成；步骤变更时同步维护。
@@ -36,11 +38,11 @@ pnpm tauri build --debug --bundles app
 pnpm release:build
 ```
 
-`package.json` 和 `src-tauri/tauri.conf.json` 版本必须一致。macOS 输出 `target/release/bundle/dmg/` 中的 DMG 和 `macos/` 中的 `.app.tar.gz` 及 `.sig`；Windows 输出 `nsis/` 中的 EXE 及 `.sig`。离线安装说明随包附带。默认 CI 模式避免 Finder 排版自动化依赖；构建成功仍需要实际安装和更新验证。
+按[版本迭代流程](RELEASING.md)核对应用配置和两份 Rust crate 清单中的版本；当前发行脚本自动检查 `package.json` 和 `src-tauri/tauri.conf.json` 一致，其余仍需人工核对。macOS 输出 `target/release/bundle/dmg/` 中的 DMG 和 `macos/` 中的 `.app.tar.gz` 及 `.sig`；Windows 输出 `nsis/` 中的 EXE 及 `.sig`。离线安装说明随包附带。默认 CI 模式避免 Finder 排版自动化依赖；构建成功仍需要实际安装和更新验证。
 
 ## 登记与发布
 
-对已有用户发布新功能/修复前，先同步递增两处版本，再构建、验证并登记同一份制品。`website/release.json` 是逐平台发布记录的唯一来源，不手改生成的更新 JSON 或下载页面。以下版本仅作命令示例：
+对已有用户发布新功能/修复前，先按版本迭代流程同步更新版本及锁文件，再构建、验证并登记同一份制品。`website/release.json` 是逐平台发布记录的唯一来源，不手改生成的更新 JSON 或下载页面。以下版本仅作命令示例：
 
 ```sh
 pnpm release:record --target darwin-aarch64 --version 1.3.1 --installer target/release/bundle/dmg/WorkTwill_1.3.1_aarch64.dmg --update target/release/bundle/macos/WorkTwill.app.tar.gz

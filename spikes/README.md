@@ -47,7 +47,7 @@ spikes/.build/macos-identity --inspect ARCHITECTURE.md
 
 ### 文件变更实验
 
-遵守 [开发约定](../AGENTS.md#验证与完成条件)：先确认一个专用、尚不存在的临时子目录，才执行 `--fixture-root`。脚本拒绝普通工作目录、临时目录本身和已存在目录；不会清空目录来满足条件。
+遵守[贡献指南中的验证约定](../CONTRIBUTING.md#make-and-verify-a-change)：先确认一个专用、尚不存在的临时子目录，才执行 `--fixture-root`。脚本拒绝普通工作目录、临时目录本身和已存在目录；不会清空目录来满足条件。
 
 人工确认路径后，将下面的 `NEW_TEMP_PATH` 替换为该路径：
 

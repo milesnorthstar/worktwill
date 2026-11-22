@@ -98,6 +98,8 @@ This runs DTO drift checks, TypeScript and frontend build checks, UI tests, Rust
 
 Rust DTOs are the source of truth for frontend contracts. After changing `model.rs`, run `pnpm types`; do not edit `desktop/src/contracts.ts` by hand.
 
+For ongoing maintenance, use the [documentation index](docs/README.md), [product contract](docs/PRODUCT.md), and [version/release workflow](docs/RELEASING.md). User-facing changes are recorded in the [changelog](CHANGELOG.md).
+
 ### Build locally
 
 ```sh

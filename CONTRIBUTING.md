@@ -4,7 +4,7 @@ Bug reports, usability feedback, and focused fixes are welcome. For a new featur
 
 ## Start here
 
-Read [AGENTS.md](AGENTS.md) for development rules, [ARCHITECTURE.md](ARCHITECTURE.md) for ownership and invariants, and the [documentation index](docs/README.md) for task-specific guides. Public documentation, source, tests, and the current issue must be sufficient to work on the project. Internal planning and historical acceptance reports are not contribution prerequisites.
+Read [AGENTS.md](AGENTS.md) for the short agent entry point and task routing, the [product contract](docs/PRODUCT.md) for expected behavior, and [ARCHITECTURE.md](ARCHITECTURE.md) for technical ownership. The [documentation index](docs/README.md) lists other task-specific guides. Public documentation, source, tests, and the current issue must be sufficient to work on the project. Internal planning and historical acceptance reports are not contribution prerequisites.
 
 Use Node.js 22 LTS, the pnpm version in `package.json`, the pinned Rust toolchain, and the [Tauri platform prerequisites](https://v2.tauri.app/start/prerequisites/). Install dependencies in this workspace only:
 
@@ -18,6 +18,10 @@ pnpm desktop
 ## Make and verify a change
 
 Trace the existing data flow and consumers before editing. Keep changes focused and preserve Rust ownership of authorization, identity, relationships, and persisted data. After changing Rust DTOs in `model.rs`, run `pnpm types` and include the generated contract changes.
+
+Follow existing code style and implementations. Keep independent configuration sections as page-private controlled components when useful; retain page ownership of requests and submission rather than adding a hook/store just for extraction. Reuse validation appropriate to the input's meaning and brief existing feedback patterns. Maintain both UI languages and supplied wording; avoid extra error state, explanatory copy, or interactions unless the task or existing form requires them.
+
+Add brief Chinese comments for non-obvious new logic. Avoid unrelated refactors, formatting, renames, dependency upgrades, broad fallbacks, and silent error handling. Install dependencies only in this workspace; preserve toolchain/dependency locks and update the relevant lockfile when an intentional change requires it.
 
 Use only an explicitly approved temporary directory for generated test fixtures. Tests create their own subdirectories; never use real documents or a production database.
 
@@ -41,9 +45,11 @@ ci: check Windows installer artifacts
 
 A PR should explain the problem and resulting behavior, relevant validation, and any remaining limitations. Keep unrelated edits out of the diff. Changes to authorization, identity, migrations, recovery, or verification requirements need an explicit explanation of their effect. Existing commit history does not need to be rewritten.
 
+Commit and push only when requested, staging the intended files after review. Report the exact validation and Git/publication state when handing off. On interruption, record the source/build, completed work, failures or unrun checks, blockers, and next action; keep raw/private evidence internal rather than in public PR text.
+
 ## Documentation and private data
 
-Update public documentation when behavior, commands, ownership, or supported scope changes. Publish concise, sanitized design decisions when they help future maintenance. Keep private product plans, raw acceptance evidence, screenshots, personal paths, databases, backups, credentials, and generated artifacts out of commits.
+Update the owning public document when behavior, commands, ownership, or supported scope changes. Record user-visible changes in [CHANGELOG.md](CHANGELOG.md); follow the [release workflow](docs/RELEASING.md) for versioned delivery. Publish concise, sanitized design decisions when they help future maintenance. Keep private product plans, raw acceptance evidence, screenshots, personal paths, databases, backups, credentials, and generated artifacts out of commits.
 
 Maintainers may keep local internal material under the ignored `.internal/` directory. It is optional and requires a separate private backup. Ignoring or deleting a file does not remove it from Git history; review history separately before making a repository public.
 

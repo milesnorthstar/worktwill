@@ -2,6 +2,8 @@
 
 官网独立于桌面运行时，使用现有 Vite 构建静态 HTML/CSS/JS，并由 Cloudflare Workers Static Assets 托管。正式 origin 与路由来自 `site.config.mjs`；下载及更新记录来自 `release.json`。
 
+本文件维护页面来源、构建和部署；产品事实见[业务约定](../docs/PRODUCT.md)，随版本同步的步骤见[迭代流程](../docs/RELEASING.md)，持续内容核查与效果观测见[SEO/GEO 维护](geo/README.md)。
+
 ## 内容和生成来源
 
 - `templates/`：共享结构及中文文案；`locales/en.json`：英文词典；`locales/demo.mjs`：演示资料和动态状态文案。
