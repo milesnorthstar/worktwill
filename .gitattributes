@@ -1,0 +1,2 @@
+# 签名样本必须逐字节保持一致，禁止检出时转换换行。
+/src-tauri/tests/fixtures/updates/payload -text
