@@ -9,7 +9,7 @@ export default defineConfig({
   build: {
     outDir: 'dist', emptyOutDir: true, target: 'es2022',
     rollupOptions: {
-      input: Object.fromEntries(['', 'en/'].flatMap((locale) => Object.keys(pages).map((page) => [
+      input: Object.fromEntries(['', 'zh/'].flatMap((locale) => Object.keys(pages).map((page) => [
         `${locale}${page}`, fileURLToPath(new URL(`./${locale}${page}.html`, import.meta.url)),
       ]))),
     },

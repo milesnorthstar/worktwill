@@ -1,7 +1,7 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { JSDOM } from 'jsdom';
 import demo from '../locales/demo.mjs';
-import { origin, locales, pages, localizedRoute, bingVerification } from '../site.config.mjs';
+import { origin, locales, pages, localizedRoute, bingVerification, repository } from '../site.config.mjs';
 import {currentRelease,downloadUrl,platformNames} from '../release.mjs';
 
 const site = new URL('../', import.meta.url);
@@ -51,11 +51,32 @@ function setMeta(document, name, content, property = false) {
   element.content = content;
 }
 
+const homeTemplate = new JSDOM(await readFile(new URL('templates/index.html', site), 'utf8')).window.document;
+
 for (const [page, meta] of Object.entries(pages)) {
   const source = await readFile(new URL(`templates/${page}.html`, site), 'utf8');
   for (const locale of locales) {
     const dom = new JSDOM(source);
     const { document, NodeFilter } = dom.window;
+    if (page !== 'index') {
+      // 构建期复用首页品牌和页脚，内页无需加载搜索演示的运行脚本。
+      document.body.classList.add('document-site');
+      const header = homeTemplate.querySelector('header').cloneNode(true);
+      header.querySelector('.menu-toggle').remove();
+      header.querySelector('.brand').setAttribute('href', '/');
+      for (const link of header.querySelectorAll('a[href^="#"]')) link.setAttribute('href', '/' + link.getAttribute('href'));
+      document.querySelector('header').replaceWith(header);
+      const footer = homeTemplate.querySelector('footer').cloneNode(true);
+      for (const link of footer.querySelectorAll('a[href^="#"]')) link.setAttribute('href', '/' + link.getAttribute('href'));
+      if (document.querySelector('footer')) document.querySelector('footer').replaceWith(footer);
+      else document.body.append(footer);
+      const main = document.querySelector('main');
+      const hero = document.createElement('div');
+      hero.className = 'document-hero';
+      while (main.firstElementChild && !main.firstElementChild.matches('h2, section, .document-note, .document-toc, .button')) hero.append(main.firstElementChild);
+      main.prepend(hero);
+      main.classList.remove('section-wrap');
+    }
     // 内容导航进入静态HTML，保证新页面能从首页和说明页被发现。
     const resources = document.createElement('nav');
     resources.className = 'resource-library section-wrap';
@@ -63,7 +84,7 @@ for (const [page, meta] of Object.entries(pages)) {
     const resourceHeading = document.createElement('h2');
     resourceHeading.textContent = '了解更多，让资料有处可寻。';
     resources.append(resourceHeading);
-    for (const [path, label] of [['/about', '产品事实与开源计划'], ['/contract-workspace', '客户合同整理步骤'], ['/download', '下载、版本与支持'], ['/guide', '安装与使用说明'], ['/privacy', '隐私说明']]) {
+    for (const [path, label] of [['/about', '了解 WorkTwill'], ['/contract-workspace', '客户合同整理步骤'], ['/download', '下载、版本与支持'], ['/guide', '安装与使用说明'], ['/privacy', '隐私说明']]) {
       const link = document.createElement('a');
       link.href = path;
       link.textContent = label;
@@ -92,8 +113,6 @@ for (const [page, meta] of Object.entries(pages)) {
       }
     }
 
-    const actions = document.createElement('div');
-    actions.className = 'header-actions';
     const languages = document.createElement('nav');
     languages.className = 'language-switch';
     languages.setAttribute('aria-label', locale === 'en' ? 'Language' : '语言');
@@ -108,14 +127,9 @@ for (const [page, meta] of Object.entries(pages)) {
       languages.append(link);
     }
     const header = document.querySelector('header');
-    if (page === 'index') {
-      header.querySelector('.language-switch').replaceWith(languages);
-    } else {
-      actions.append(languages);
-      const cta = header.querySelector('.nav-download');
-      if (cta) actions.append(cta);
-      header.append(actions);
-    }
+    // 所有页面共享语言入口位置，手机端不藏入菜单。
+    header.querySelector('.language-switch').remove();
+    header.querySelector('.nav-actions').before(languages);
 
     for (const element of document.querySelectorAll('[data-updated]')) {
       element.setAttribute('datetime', meta.updated);
@@ -169,7 +183,7 @@ for (const [page, meta] of Object.entries(pages)) {
         const alternate = document.createElement('link');
         alternate.rel = 'alternate';
         alternate.hreflang = language;
-        alternate.href = origin + localizedRoute(language === 'x-default' ? 'zh-CN' : language, meta.route);
+        alternate.href = origin + localizedRoute(language === 'x-default' ? 'en' : language, meta.route);
         document.head.append(alternate);
       }
       const description = document.querySelector('meta[name="description"]').content;
@@ -196,6 +210,7 @@ for (const [page, meta] of Object.entries(pages)) {
         '@type': 'SoftwareApplication', '@id': `${origin}/#application`, name: 'WorkTwill',
         url: canonical, applicationCategory: 'BusinessApplication', operatingSystem: Object.keys(release.platforms).map(target=>platformNames[target].en).join(', '),
         softwareVersion: release.version, description, inLanguage: locales,
+        sameAs: repository,
         downloadUrl: new URL(downloadUrl(release),origin).href, releaseNotes: origin + localizedRoute(locale, '/guide'),
       });
       if (page !== 'index') graph.push({
@@ -232,7 +247,7 @@ for (const [page, meta] of Object.entries(pages)) {
         link.title = `SHA-256: ${entry.sha256}`;
       }
     }
-    const folder = new URL(locale === 'en' ? 'en/' : './', site);
+    const folder = new URL(`.${localizedRoute(locale, '/')}`, site);
     await mkdir(folder, { recursive: true });
     await writeFile(new URL(`${page}.html`, folder), dom.serialize());
     dom.window.close();
@@ -240,11 +255,14 @@ for (const [page, meta] of Object.entries(pages)) {
 }
 
 const entries = Object.values(pages).filter((page) => page.route !== '/404').flatMap(({ route }) => locales.map((locale) => {
-  const alternates = [...locales, 'x-default'].map((language) => `<xhtml:link rel="alternate" hreflang="${language}" href="${origin}${localizedRoute(language === 'x-default' ? 'zh-CN' : language, route)}"/>`).join('');
+  const alternates = [...locales, 'x-default'].map((language) => `<xhtml:link rel="alternate" hreflang="${language}" href="${origin}${localizedRoute(language === 'x-default' ? 'en' : language, route)}"/>`).join('');
   const updated = Object.values(pages).find((page) => page.route === route).updated;
   return `<url><loc>${origin}${localizedRoute(locale, route)}</loc>${updated ? `<lastmod>${updated}</lastmod>` : ''}${alternates}</url>`;
 }));
+// 旧英文地址已公开，迁移后保留永久跳转，避免形成重复页面和失效链接。
+const redirects = Object.values(pages).filter((page) => page.route !== '/404').map(({ route }) => `/en${route} ${localizedRoute('en', route)} 301`);
+await writeFile(new URL('public/_redirects', site), redirects.join('\n') + '\n');
 await writeFile(new URL('public/sitemap.xml', site), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${entries.join('\n')}\n</urlset>\n`);
-const llms = `# WorkTwill\n\n> A local personal workspace for files and saved links. Resources are organized by reference; original files stay in place. File search and organization work offline without an account or AI setup.\n\nThe project is committed to becoming fully open source. The public source repository and specific license are not yet published. Current primary download: version ${release.version}, ${platformNames[release.platform].en}, ${release.stage_en}. Published platforms: ${Object.keys(release.platforms).map(target=>platformNames[target].en).join(", ")}. These are local candidates. OS code signing and notarization are deferred; update packages are independently signed. Production installation and online updates require separate acceptance. Search covers metadata, not document contents.\n\n## English\n${Object.values(pages).filter((page) => page.route !== '/404').map((page) => `- [${page.enTitle}](${origin}${localizedRoute('en', page.route)})`).join('\n')}\n\n## 简体中文\n${Object.values(pages).filter((page) => page.route !== '/404').map((page) => `- [${page.title}](${origin}${page.route})`).join('\n')}\n\n## Current release\n- [Download and verified support limits](${origin}/en/download)\n- SHA-256: ${release.sha256}\n\nThis file is a navigation aid, not a guarantee of AI search indexing, citations, or model training permission. Use the dated support page for release boundaries.\n`;
+const llms = `# WorkTwill\n\n> A local personal workspace for files and saved links. Resources are organized by reference; original files stay in place. File search and organization work offline without an account or AI setup.\n\nThe open-source repository is ${repository}. Consult the repository for source code, licensing, and contribution information. Current primary download: version ${release.version}, ${platformNames[release.platform].en}, ${release.stage_en}. Published platforms: ${Object.keys(release.platforms).map(target=>platformNames[target].en).join(", ")}. These are local candidates. OS code signing and notarization are deferred; update packages are independently signed. Production installation and online updates require separate acceptance. Search covers metadata, not document contents.\n\n## English\n${Object.values(pages).filter((page) => page.route !== '/404').map((page) => `- [${page.enTitle}](${origin}${localizedRoute('en', page.route)})`).join('\n')}\n\n## 简体中文\n${Object.values(pages).filter((page) => page.route !== '/404').map((page) => `- [${page.title}](${origin}${localizedRoute('zh-CN', page.route)})`).join('\n')}\n\n## Current release\n- [Download and verified support limits](${origin}${localizedRoute('en', '/download')})\n- SHA-256: ${release.sha256}\n\nThis file is a navigation aid, not a guarantee of AI search indexing, citations, or model training permission. Use the dated support page for release boundaries.\n`;
 await writeFile(new URL('public/llms.txt', site), llms);
 console.log(`已生成中英文${Object.keys(pages).length * 2}个静态页面、演示文案、多语言站点地图和llms导航。`);

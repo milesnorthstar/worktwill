@@ -1,4 +1,9 @@
 {
+  "开源进展": "Open-source plans",
+  "搜索演示结果": "Sample search results",
+  "↑↓ 选择　Enter 试开　Esc 清空": "↑↓ Select · Enter Try opening · Esc Clear",
+  "示例资料，不访问本机文件": "Sample data only. No access to your files.",
+  "预览版未做系统代码签名，首次打开请查看安装说明 ↗": "This preview is not OS-code-signed. Read the first-launch instructions ↗",
   "WorkTwill · 让资料就位，让工作继续": "WorkTwill · Your local workspace for files and links",
   "跳转到主要内容": "Skip to main content",
   "产品特点": "Features",
@@ -219,7 +224,7 @@
   "收藏的资料": "Favorite resources",
   "没有匹配的示例资料，试试「企划」「入职」或「参考」。": "No matching sample resources. Try ‘plan’, ‘onboarding’, or ‘references’.",
   "WorkTwill 将完整开源，当前预览版可直接下载试用。公开源码仓库、具体许可证和贡献规则尚待发布；官方发行与支持服务等商业安排尚未确定。": "WorkTwill will be fully open source. You can try the current preview now. The public repository, license, and contribution rules are still to be published. Commercial arrangements for official builds and support have not been decided.",
-  "WorkTwill 将完整开源。公开源码仓库、具体许可证、贡献规则及正式发行时间尚待发布。": "WorkTwill will be fully open source. The public repository, license, contribution rules, and stable release date are still to be published.",
+  "WorkTwill 的开源仓库已公开。源码、许可证与贡献说明请查看 GitHub；正式发行时间尚未确定。": "The WorkTwill open-source repository is public. See GitHub for source code, licensing, and contribution information. A stable release date has not been set.",
   "对应版本：": "Version:",
   "下载对应平台的安装包。Mac 打开 DMG 并移入“应用程序”；Windows 运行安装程序。": "download the installer for your platform. On Mac, open the DMG and move WorkTwill to Applications; on Windows, run the installer.",
   "支持更新的版本可后台下载新版，在设置中选择“重启更新”；旧版需先手动安装一次。": "Update-enabled builds can download new versions in the background. Choose Restart to update in Settings. Older builds need one manual installation first.",

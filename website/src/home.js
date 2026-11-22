@@ -1,137 +1,181 @@
 import messages from './home.generated.js';
-document.documentElement.classList.add('home-js');
+
 const t = (text) => document.documentElement.lang === 'en' ? messages[text] : text;
-    const toast = document.getElementById("toast");
-    let toastTimer;
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add("show");
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+const toast = document.getElementById('toast');
+let toastTimer;
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
+}
+
+const header = document.getElementById('siteHeader');
+const menuToggle = document.getElementById('menuToggle');
+function closeMenu() {
+  header.classList.remove('menu-open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+  menuToggle.textContent = '☰';
+}
+menuToggle.addEventListener('click', () => {
+  const open = header.classList.toggle('menu-open');
+  menuToggle.setAttribute('aria-expanded', String(open));
+  menuToggle.textContent = open ? '×' : '☰';
+});
+header.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+header.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && header.classList.contains('menu-open')) {
+    closeMenu();
+    menuToggle.focus();
+  }
+});
+
+// 原生滚动不接管滚轮，进度只在下一帧更新合成属性。
+const scrollLine = document.getElementById('scrollLine');
+let scrollFrame = 0;
+function updateScroll() {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  scrollLine.style.transform = `scaleX(${max > 0 ? window.scrollY / max : 0})`;
+  scrollFrame = 0;
+}
+function scheduleScroll() {
+  if (!scrollFrame) scrollFrame = requestAnimationFrame(updateScroll);
+}
+window.addEventListener('scroll', scheduleScroll, { passive: true });
+window.addEventListener('resize', scheduleScroll);
+updateScroll();
+
+// 脚本就绪后才准备渐入；提前少量触发，文字与示意卡错峰呈现，退出不重播。
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const revealObserver = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      entry.target.classList.remove('reveal-pending');
+      entry.target.classList.add('is-revealed');
+      revealObserver.unobserve(entry.target);
     }
+  }, { threshold: 0.08, rootMargin: '0px 0px -48px 0px' });
+  document.querySelectorAll('.reveal').forEach((element) => {
+    element.classList.add('reveal-pending');
+    revealObserver.observe(element);
+  });
+}
 
-    // Mobile navigation
-    const header = document.getElementById("siteHeader");
-    const menuToggle = document.getElementById("menuToggle");
-    menuToggle.addEventListener("click", () => {
-      const open = header.classList.toggle("menu-open");
-      menuToggle.setAttribute("aria-expanded", String(open));
-      menuToggle.textContent = open ? "×" : "☰";
-    });
-    document.querySelectorAll(".nav-links a").forEach(link => link.addEventListener("click", () => {
-      header.classList.remove("menu-open");
-      menuToggle.setAttribute("aria-expanded", "false");
-      menuToggle.textContent = "☰";
-    }));
-
-    // Scroll reveal and progress
-    const revealObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: .13 });
-    document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
-
-    const scrollLine = document.getElementById("scrollLine");
-    function updateScroll() {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      scrollLine.style.width = (max > 0 ? window.scrollY / max * 100 : 0) + "%";
-    }
-    window.addEventListener("scroll", updateScroll, { passive: true });
-    updateScroll();
-
-    // Cursor light
-    const cursorGlow = document.getElementById("cursorGlow");
-    let glowFrame = 0;
-    window.addEventListener("pointermove", event => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      if (glowFrame) cancelAnimationFrame(glowFrame);
-      glowFrame = requestAnimationFrame(() => {
-        cursorGlow.style.left = event.clientX + "px";
-        cursorGlow.style.top = event.clientY + "px";
-      });
-    }, { passive: true });
-
-    // Hero perspective follows pointer, with restrained movement.
-    const heroVisual = document.getElementById("heroVisual");
-    const appWindow = document.getElementById("appWindow");
-    heroVisual.addEventListener("pointermove", event => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || window.innerWidth < 900) return;
-      const rect = heroVisual.getBoundingClientRect();
-      const x = (event.clientX - rect.left) / rect.width - .5;
-      const y = (event.clientY - rect.top) / rect.height - .5;
-      appWindow.style.transform = `rotateY(${-7 + x * 5}deg) rotateX(${2 - y * 4}deg) rotateZ(${-1 + x * .7}deg) translateY(-2px)`;
-    });
-    heroVisual.addEventListener("pointerleave", () => appWindow.style.removeProperty("transform"));
-
-    // Search interaction: the hero search opens the inline result state.
-    const heroSearch = document.getElementById("heroSearch");
-    const heroSearchText = document.getElementById("heroSearchText");
-    let searchOpen = false;
-    function toggleHeroSearch() {
-      searchOpen = !searchOpen;
-      heroSearchText.textContent = searchOpen ? t("品牌企划") : t("搜索文件、网页和工作区…");
-      heroSearch.style.borderColor = searchOpen ? "rgba(173,164,255,.7)" : "rgba(203,213,255,.13)";
-      heroSearch.style.background = searchOpen ? "rgba(105,95,210,.2)" : "rgba(3,8,23,.3)";
-      showToast(searchOpen ? t("搜索面板已展开 · 全部资源") : t("搜索面板已关闭"));
-    }
-    heroSearch.addEventListener("click", toggleHeroSearch);
-    heroSearch.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleHeroSearch(); } });
-
-    // Live search demo changes the matching result list.
-    const demoInput = document.getElementById("demoInput");
-    const demoResults = document.getElementById("demoResults");
-    const demoData = [
-      { name:t("品牌企划"), desc:t("工作区 · 12 份资料"), type:t("工作区"), symbol:"▰", keys:[t("品牌"),t("企划")] },
-      { name:t("品牌企划预算.xlsx"), desc:t("文档 / 项目 / 预算"), type:t("文件"), symbol:"X", keys:[t("品牌"),t("企划"),t("预算")] },
-      { name:t("品牌视觉参考"), desc:"https://are.na/…", type:t("网页"), symbol:"↗", keys:[t("品牌"),t("视觉"),t("参考")] },
-      { name:t("季度运营复盘.docx"), desc:t("文档 / 运营 / 复盘"), type:t("文件"), symbol:"W", keys:[t("运营"),t("复盘")] },
-      { name:t("产品需求与路线图.pdf"), desc:t("文档 / 产品 / 规划"), type:t("文件"), symbol:"P", keys:[t("产品"),t("需求"),t("路线图")] }
-    ];
-    function renderDemoResults(query) {
-      const q = query.trim().toLowerCase();
-      const matches = demoData.filter(item => !q || item.name.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q) || item.keys.some(k => k.includes(q) || q.includes(k)));
-      demoResults.innerHTML = "";
-      if (!matches.length) {
-        const empty = document.createElement('div');
-        empty.style.cssText = 'padding:24px 10px;text-align:center;color:#8c93a9;font-size:12px';
-        empty.textContent = t("没有匹配的演示结果");
-        demoResults.append(empty);
-        return;
+const demoInput = document.getElementById('demoInput');
+const demoResults = document.getElementById('demoResults');
+const demoData = [
+  { name: t("品牌企划"), desc: t("工作区 · 12 份资料"), type: t("工作区"), symbol: '▰', keys: [t("品牌"), t("企划")] },
+  { name: t("品牌企划预算.xlsx"), desc: t("文档 / 项目 / 预算"), type: t("文件"), symbol: 'X', keys: [t("品牌"), t("企划"), t("预算")] },
+  { name: t("品牌视觉参考"), desc: 'https://are.na/…', type: t("网页"), symbol: '↗', keys: [t("品牌"), t("视觉"), t("参考")] },
+  { name: t("季度运营复盘.docx"), desc: t("文档 / 运营 / 复盘"), type: t("文件"), symbol: 'W', keys: [t("运营"), t("复盘")] },
+  { name: t("产品需求与路线图.pdf"), desc: t("文档 / 产品 / 规划"), type: t("文件"), symbol: 'P', keys: [t("产品"), t("需求"), t("路线图")] },
+];
+let matches = [];
+let selected = -1;
+function selectResult(index) {
+  selected = index;
+  [...demoResults.children].forEach((row, position) => {
+    row.classList.toggle('selected', position === selected);
+    row.setAttribute('aria-selected', String(position === selected));
+  });
+  if (selected >= 0) demoInput.setAttribute('aria-activedescendant', `demo-result-${selected}`);
+  else demoInput.removeAttribute('aria-activedescendant');
+}
+function openResult(index) {
+  const item = matches[index];
+  if (!item) return;
+  selectResult(index);
+  // 官网只反馈所选示例，不打开本地文件或外部网页。
+  showToast(t("演示：打开「") + item.name + (document.documentElement.lang === 'en' ? '”' : '」'));
+}
+function renderDemoResults() {
+  const query = demoInput.value.trim().toLocaleLowerCase();
+  matches = demoData.filter((item) => !query || `${item.name} ${item.desc}`.toLocaleLowerCase().includes(query) || item.keys.some((key) => key.toLocaleLowerCase().includes(query) || query.includes(key.toLocaleLowerCase()))).slice(0, 4);
+  demoResults.replaceChildren();
+  for (const [index, item] of matches.entries()) {
+    const row = document.createElement('div');
+    row.className = 'demo-result';
+    row.id = `demo-result-${index}`;
+    row.setAttribute('role', 'option');
+    row.tabIndex = 0;
+    const symbol = document.createElement('span');
+    symbol.className = 'result-symbol';
+    symbol.textContent = item.symbol;
+    const description = document.createElement('span');
+    const name = document.createElement('strong');
+    name.textContent = item.name;
+    const location = document.createElement('small');
+    location.textContent = item.desc;
+    description.append(name, location);
+    const kind = document.createElement('span');
+    kind.className = 'kind';
+    kind.textContent = item.type;
+    row.append(symbol, description, kind);
+    row.addEventListener('click', () => openResult(index));
+    row.addEventListener('focus', () => selectResult(index));
+    row.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openResult(index);
       }
-      matches.slice(0,4).forEach((item,index) => {
-        const row = document.createElement("div");
-        row.className = "demo-result" + (index === 0 ? " selected" : "");
-        row.innerHTML = `<span class="result-symbol">${item.symbol}</span><span><strong>${item.name}</strong><small>${item.desc}</small></span><span class="kind">${item.type}</span>`;
-        row.addEventListener("click", () => showToast(t("演示：打开「") + item.name + (document.documentElement.lang === 'en' ? '”' : '」')));
-        demoResults.appendChild(row);
-      });
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        const next = (index + (event.key === 'ArrowDown' ? 1 : -1) + matches.length) % matches.length;
+        demoResults.children[next].focus();
+      }
+      if (event.key === 'Escape') demoInput.focus();
+    });
+    demoResults.append(row);
+  }
+  selectResult(matches.length ? 0 : -1);
+  if (!matches.length) {
+    const empty = document.createElement('p');
+    empty.className = 'demo-empty';
+    empty.setAttribute('role', 'status');
+    empty.textContent = t("没有匹配的演示结果");
+    demoResults.append(empty);
+  }
+  scheduleScroll();
+}
+demoInput.addEventListener('input', renderDemoResults);
+demoInput.addEventListener('keydown', (event) => {
+  if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+    event.preventDefault();
+    if (matches.length) selectResult((selected + (event.key === 'ArrowDown' ? 1 : -1) + matches.length) % matches.length);
+  }
+  if (event.key === 'Enter') { event.preventDefault(); openResult(selected); }
+  if (event.key === 'Escape') { demoInput.value = ''; renderDemoResults(); }
+});
+renderDemoResults();
+
+// 首屏入口复用正文真实演示，不再反馈不存在的搜索面板。
+const heroSearch = document.getElementById('heroSearch');
+function focusSearch() {
+  demoInput.focus({ preventScroll: true });
+  document.getElementById('searchDemo').scrollIntoView({ block: 'center' });
+}
+heroSearch.addEventListener('click', focusSearch);
+heroSearch.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); focusSearch(); }
+});
+document.querySelectorAll('#appWindow, #searchDemo').forEach((area) => area.addEventListener('keydown', (event) => {
+  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); focusSearch(); }
+}));
+
+// 使用原生 hidden 控制完整内容，不以固定高度截断英文或放大文字。
+for (const button of document.querySelectorAll('.faq-question')) {
+  button.nextElementSibling.hidden = true;
+  button.setAttribute('aria-expanded', 'false');
+  button.addEventListener('click', () => {
+    const open = button.getAttribute('aria-expanded') !== 'true';
+    for (const other of document.querySelectorAll('.faq-question')) {
+      const active = other === button && open;
+      other.setAttribute('aria-expanded', String(active));
+      other.closest('.faq-item').classList.toggle('open', active);
+      other.nextElementSibling.hidden = !active;
     }
-    demoInput.addEventListener("input", () => renderDemoResults(demoInput.value));
-    demoInput.addEventListener("keydown", e => {
-      if (e.key === "Enter") showToast(t("演示：已选择搜索结果"));
-      if (e.key === "Escape") { demoInput.value = ""; renderDemoResults(""); demoInput.blur(); }
-    });
-
-    // FAQ accordion
-    document.querySelectorAll(".faq-question").forEach(button => {
-      button.addEventListener("click", () => {
-        const item = button.closest(".faq-item");
-        const willOpen = !item.classList.contains("open");
-        document.querySelectorAll(".faq-item").forEach(other => {
-          other.classList.remove("open");
-          other.querySelector(".faq-question").setAttribute("aria-expanded", "false");
-        });
-        if (willOpen) {
-          item.classList.add("open");
-          button.setAttribute("aria-expanded", "true");
-        }
-      });
-    });
-
-
-// 平台不可用时保留原型提示；公开源码入口使用真实产品说明页。
-document.querySelector("#windowsDownload")?.addEventListener("click", () => { if (document.querySelector("#windowsDownload").tagName === "BUTTON") showToast(t("Windows 安装包尚未发布。")); });
+    scheduleScroll();
+  });
+}
+const windowsDownload = document.getElementById('windowsDownload');
+if (windowsDownload.tagName === 'BUTTON') windowsDownload.addEventListener('click', () => showToast(t("Windows 安装包尚未发布。")));
