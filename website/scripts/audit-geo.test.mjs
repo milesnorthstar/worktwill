@@ -6,13 +6,14 @@ import { JSDOM } from 'jsdom';
 import { origin, pages, locales, localizedRoute } from '../site.config.mjs';
 
 // 执行真实审计流程，隔离 HTTP 和文件写入；覆盖首页导航与挑战页，不能替代线上验收。
-const source = (await readFile(new URL('audit-geo.mjs', import.meta.url), 'utf8'))
-  .replace(/^import .*;\n/gm, '')
-  .replace("const {currentRelease,downloadUrl}=await import('../release.mjs');", '')
-  .replaceAll('import.meta.url', JSON.stringify(new URL('audit-geo.mjs', import.meta.url).href));
+const source = await readFile(new URL('audit-geo.mjs', import.meta.url), 'utf8');
 const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
 
-async function runAudit(failure) {
+async function runAudit(failure, script = source) {
+  // Windows 检出可能使用 CRLF，移除 import 时需同时消费行尾回车。
+  const isolated = script.replace(/^import .*;\r?\n/gm, '')
+    .replace("const {currentRelease,downloadUrl}=await import('../release.mjs');", '')
+    .replaceAll('import.meta.url', JSON.stringify(new URL('audit-geo.mjs', import.meta.url).href));
   const files = new Map();
   const reports = [];
   let cleaned = false;
@@ -47,7 +48,7 @@ async function runAudit(failure) {
     currentRelease: (value) => value, downloadUrl: () => '/test-download', console: { log() {} },
   };
   try {
-    await new AsyncFunction(...Object.keys(dependencies), source)(...Object.values(dependencies));
+    await new AsyncFunction(...Object.keys(dependencies), isolated)(...Object.values(dependencies));
     return reports;
   } finally {
     assert.ok(cleaned, '失败与成功都必须清理临时响应');
@@ -55,14 +56,16 @@ async function runAudit(failure) {
   }
 }
 
-test('首页仅有页脚导航也能完成审计，报告不覆盖历史', async () => {
-  const reports = await runAudit();
-  assert.equal(reports.length, 1);
-  assert.equal(reports[0].body.pages.length, 12);
-  assert.equal(reports[0].body.syntheticAgentProbes.length, 3);
-  assert.match(reports[0].path, /\.cloudflare\/reports\/geo-http-.*\.json$/);
-  assert.equal(reports[0].options.flag, 'wx');
-});
+for (const newline of ['\n', '\r\n']) {
+  test(`${JSON.stringify(newline)} 源码：首页仅有页脚导航也能完成审计，报告不覆盖历史`, async () => {
+    const reports = await runAudit(undefined, source.replace(/\r?\n/g, newline));
+    assert.equal(reports.length, 1);
+    assert.equal(reports[0].body.pages.length, 12);
+    assert.equal(reports[0].body.syntheticAgentProbes.length, 3);
+    assert.match(reports[0].path, /\.cloudflare\/reports\/geo-http-.*\.json$/);
+    assert.equal(reports[0].options.flag, 'wx');
+  });
+}
 for (const failure of ['status', 'challenge']) {
   test(`模拟爬虫返回 ${failure} 时失败且不写成功报告`, async () => {
     await assert.rejects(runAudit(failure), /无法抓取|非目标页面/);
