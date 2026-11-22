@@ -26,7 +26,7 @@ WorkTwill 将散落的文件和收藏的网页组织到一个个人工作台中�
 
 一份合同可以同时属于「客户 A」和「续约跟进」，而原文件始终只有一份。
 
-> **当前为预览版。** WorkTwill 正在面向 macOS 和 Windows 持续开发。实际可用的安装包及各平台限制以[下载页](https://worktwill.haoclub.com/download)为准。项目已决定完整开源，但尚未添加许可证，详见[许可证](#许可证)。
+> **当前为预览版。** WorkTwill 正在面向 macOS 和 Windows 持续开发。实际可用的安装包及各平台限制以[下载页](https://worktwill.haoclub.com/download)为准。项目以 [MIT 许可证](LICENSE)开源。
 
 ## 为什么选择 WorkTwill？
 
@@ -125,8 +125,10 @@ Rust 管理授权、资源身份、工作区关系与持久数据；React 管理
 
 欢迎通过 [GitHub Issues](https://github.com/milesnorthstar/worktwill/issues)反馈问题、使用体验或文档建议。请提供系统、应用版本、复现步骤、预期与实际行为，并移除截图和日志中的私人文件名、路径及文档内容。
 
-如希望修改代码，请先通过 Issue 讨论范围，并在修改行为前阅读[产品需求](PRD.md)、[技术架构](ARCHITECTURE.md)与[开发约定](AGENTS.md)。这些文档目前以中文为主。接收外部代码贡献前仍需明确许可证与贡献条款。
+如希望修改代码，请先通过 Issue 讨论范围，并在修改行为前阅读[产品需求](PRD.md)、[技术架构](ARCHITECTURE.md)与[开发约定](AGENTS.md)。这些文档目前以中文为主。除非另有明确约定，贡献采用本项目的 MIT 许可证。
 
 ## 许可证
 
-WorkTwill 已决定完整开源，但仓库尚未包含 `LICENSE` 文件。正式发布许可证前，除适用法律或代码托管平台条款另有授予的权利外，请勿假定已获得使用、修改或再分发代码的许可。
+WorkTwill 采用 [MIT 许可证](LICENSE)，版权署名为 Copyright (c) 2026 milesnorthstar。
+
+第三方依赖保留各自的许可证；当前核查范围及发行要求见[第三方许可说明](THIRD_PARTY_NOTICES.md)。

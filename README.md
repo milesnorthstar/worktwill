@@ -26,7 +26,7 @@ WorkTwill brings scattered documents and saved web links into one personal works
 
 A contract can belong to both “Client A” and “Renewals.” There is still only one original file.
 
-> **Preview software.** WorkTwill is under active development for macOS and Windows. Available builds and platform-specific limitations are listed on the [download page](https://worktwill.haoclub.com/en/download). The project is intended to be fully open source; a license has not yet been added. See [License](#license).
+> **Preview software.** WorkTwill is under active development for macOS and Windows. Available builds and platform-specific limitations are listed on the [download page](https://worktwill.haoclub.com/en/download). WorkTwill is open source under the [MIT License](LICENSE).
 
 ## Why WorkTwill?
 
@@ -125,8 +125,10 @@ The root-level `index.html`, `app.js`, `styles.css`, and `prototype-b/` are reta
 
 Bug reports, usability feedback, and documentation suggestions are welcome through [GitHub Issues](https://github.com/milesnorthstar/worktwill/issues). Please include your OS, app version, steps to reproduce, and expected versus actual behavior. Remove private filenames, paths, and document contents from screenshots and logs.
 
-For proposed code changes, open an issue to discuss the scope first. Read the [product specification](PRD.md), [architecture](ARCHITECTURE.md), and [development guidelines](AGENTS.md) before changing behavior. These documents are currently primarily in Chinese. Licensing and contribution terms still need to be established before external code contributions are accepted.
+For proposed code changes, open an issue to discuss the scope first. Read the [product specification](PRD.md), [architecture](ARCHITECTURE.md), and [development guidelines](AGENTS.md) before changing behavior. These documents are currently primarily in Chinese. Contributions are provided under the project’s MIT License unless explicitly agreed otherwise.
 
 ## License
 
-WorkTwill is intended to be fully open source, but this repository does not yet include a `LICENSE` file. Until a license is published, do not assume permission to use, modify, or redistribute the code beyond rights otherwise granted by applicable law or the hosting platform’s terms.
+WorkTwill is licensed under the [MIT License](LICENSE). Copyright (c) 2026 milesnorthstar.
+
+Third-party dependencies retain their own licenses. See [Third-party notices](THIRD_PARTY_NOTICES.md) for the current review scope and distribution requirements.
