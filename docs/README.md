@@ -6,7 +6,8 @@
 | --- | --- |
 | [English README](../README.md) / [中文 README](../README.zh-CN.md) | 产品定位、使用入口、当前支持范围、开发命令 |
 | [AGENTS.md](../AGENTS.md) | 简短英文代理入口：通用工作规则与按任务阅读的文档 |
-| [CONTRIBUTING.md](../CONTRIBUTING.md) | 开源贡献流程、英文 commit/PR 规范与验证要求 |
+| [CONTRIBUTING.md](../CONTRIBUTING.md) | 开源贡献流程、自动检查、依赖维护、英文 commit/PR 规范与验证要求 |
+| [SECURITY.md](../SECURITY.md) | 私密漏洞报告、证据脱敏及安全维护范围 |
 | [PRODUCT.md](PRODUCT.md) | 当前公开产品行为、业务语义和支持范围；不包含内部路线图 |
 | [ARCHITECTURE.md](../ARCHITECTURE.md) | 技术职责、事实源、数据流、并发与恢复边界及源码入口 |
 | [RELEASING.md](RELEASING.md) | 候选验证、制品上传、正式发布、线上核验、官网独立部署与撤回；区分现有能力和待实现自动化 |

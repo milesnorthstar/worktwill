@@ -1,0 +1,56 @@
+name: Project checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Check (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14, windows-2022]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm from package.json
+        uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa # v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: pnpm
+
+      - name: Set up pinned Rust toolchain
+        run: rustup show active-toolchain
+
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run project checks
+        shell: pwsh
+        run: |
+          # 仅在当前 runner 的独立目录创建样本；PR 检查不读取发行密钥。
+          $fixtures = Join-Path $env:RUNNER_TEMP 'worktwill-fixtures'
+          New-Item -ItemType Directory -Path $fixtures -ErrorAction Stop | Out-Null
+          pnpm check --fixtures $fixtures
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Test website HTTP audit in isolation
+        run: node --test website/scripts/audit-geo.test.mjs

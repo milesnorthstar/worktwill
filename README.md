@@ -127,6 +127,8 @@ The root-level `index.html`, `app.js`, `styles.css`, and `prototype-b/` are reta
 
 Bug reports, usability feedback, and documentation suggestions are welcome through [GitHub Issues](https://github.com/milesnorthstar/worktwill/issues). Please include your OS, app version, steps to reproduce, and expected versus actual behavior. Remove private filenames, paths, and document contents from screenshots and logs.
 
+For security vulnerabilities, use the private reporting channel in [SECURITY.md](SECURITY.md), not a public issue.
+
 For proposed features or behavior changes, open an issue to discuss the scope first. Read the [contribution guide](CONTRIBUTING.md), [architecture](ARCHITECTURE.md), and [development guidelines](AGENTS.md) before making changes. Use English for commit subjects and bodies, PR titles, and PR descriptions. Public contribution and maintenance do not require internal product plans or acceptance reports. Contributions are provided under the project’s MIT License unless explicitly agreed otherwise.
 
 ## License

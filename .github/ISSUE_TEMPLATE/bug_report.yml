@@ -1,0 +1,46 @@
+name: Bug report / 问题反馈
+description: Report unexpected behavior with reproducible steps / 提供可复现的问题
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not report security vulnerabilities here. Use [private reporting](https://github.com/milesnorthstar/worktwill/security/advisories/new).
+        请勿公开提交安全漏洞。截图和日志需移除私人文件名、路径、URL、文档内容和凭据。
+  - type: input
+    id: version
+    attributes:
+      label: App version / 应用版本
+      placeholder: "Version shown in Settings, or source commit / 设置中的版本或源码提交"
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: OS and architecture / 系统与架构
+      placeholder: "macOS 15 ARM64 / Windows 11 x64"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce / 复现步骤
+      description: Use disposable example files; do not upload real documents or databases. / 使用临时示例，不上传真实文档或数据库。
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior / 预期行为
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior / 实际行为
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized screenshots or logs / 脱敏截图或日志
+      description: For editor save issues, include the editor name and version. / 编辑器保存问题请附编辑器名称与版本。

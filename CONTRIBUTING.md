@@ -33,6 +33,14 @@ This checks generated DTOs, TypeScript and Vite, UI tests, Rust formatting, Rust
 
 Add a regression test when it can detect the reported behavior failure. Do not remove failing checks or weaken permission, recovery, or performance requirements to make a change pass. Native interactions, editor saves, installation, and updates require observations on the relevant platform and build. Report unavailable checks as not run, with the reason.
 
+## Automated checks and dependency maintenance
+
+The [Project checks workflow](.github/workflows/check.yml) runs `pnpm check` on pull requests and pushes to `main`, using the pinned toolchain on macOS and Windows without release secrets. It also runs the isolated website HTTP audit tests. These checks do not package, publish, or establish native installation/editor/update acceptance. Full website checks still require the exact registered artifacts described in [website engineering](website/README.md).
+
+Dependabot checks npm, Cargo, and GitHub Actions weekly with bounded open PRs. Minor/patch updates are grouped; updates are reviewed and checked rather than automatically merged. Toolchain and application versions still follow their owning configuration and release process.
+
+After this workflow has run successfully on GitHub, maintainers should require its macOS and Windows checks on `main` and block force pushes/deletion. Do not require a status that has not been registered by a real run, or require a second reviewer in a single-maintainer project. Local workflow validation is not proof that remote protection is enabled.
+
 ## Commits and pull requests
 
 Use English for commit subjects and bodies, PR titles, and PR descriptions. Use Conventional Commits for new commits, for example:
@@ -52,6 +60,10 @@ Commit and push only when requested, staging the intended files after review. Re
 Update the owning public document when behavior, commands, ownership, or supported scope changes. Record user-visible changes in [CHANGELOG.md](CHANGELOG.md); follow the [release workflow](docs/RELEASING.md) for versioned delivery. Publish concise, sanitized design decisions when they help future maintenance. Keep private product plans, raw acceptance evidence, screenshots, personal paths, databases, backups, credentials, and generated artifacts out of commits.
 
 Maintainers may keep local internal material under the ignored `.internal/` directory. It is optional and requires a separate private backup. Ignoring or deleting a file does not remove it from Git history; review history separately before making a repository public.
+
+## Security reports
+
+Report vulnerabilities through the private channel in [SECURITY.md](SECURITY.md), not public issues. Ordinary bugs and feature proposals use the issue forms. Do not include private documents, databases, paths, or credentials in either issues or pull requests.
 
 ## Distribution and licensing
 

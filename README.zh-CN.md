@@ -127,6 +127,8 @@ Rust 管理授权、资源身份、工作区关系与持久数据；React 管理
 
 欢迎通过 [GitHub Issues](https://github.com/milesnorthstar/worktwill/issues)反馈问题、使用体验或文档建议。请提供系统、应用版本、复现步骤、预期与实际行为，并移除截图和日志中的私人文件名、路径及文档内容。
 
+安全漏洞请按 [SECURITY.md](SECURITY.md) 使用私密渠道报告，不要通过公开 Issue 披露。
+
 如希望新增功能或改变产品行为，请先通过 Issue 讨论范围，并阅读[贡献指南](CONTRIBUTING.md)、[技术架构](ARCHITECTURE.md)与[开发约定](AGENTS.md)。新 commit 的标题和正文、PR 标题和描述使用英文。公开贡献与维护不要求取得内部 PRD 或验收报告。除非另有明确约定，贡献采用本项目的 MIT 许可证。
 
 ## 许可证

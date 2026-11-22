@@ -4,6 +4,11 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 
 ## Unreleased
 
+### Maintenance
+
+- Add secret-free macOS and Windows checks for pull requests and main-branch pushes, including isolated website HTTP audit tests.
+- Add bilingual bug/feature forms, a pull request checklist, private security reporting guidance, and weekly grouped dependency update configuration.
+
 ### Documentation
 
 - Organize agent guidance, product behavior, architecture, website SEO/GEO maintenance, and version iteration into focused maintenance documents.
