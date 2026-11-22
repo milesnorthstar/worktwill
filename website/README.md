@@ -1,5 +1,7 @@
 # WorkTwill 官网
 
+2026-11-22 已部署本轮双语UI与SEO/GEO优化，代码提交 `9c909bd`，Cloudflare版本 `d95a6d16-6cf5-4d94-bfac-24c06be8b72d`。线上12页、新语言路径、旧英文路径301、GitHub与结构化关联、robots/llms/地图/分享图、双语404、当前Mac安装包大小和SHA-256及签名更新清单均已HTTP核对。未执行IndexNow提交；UA模拟不代表真实爬虫，安装重启更新、搜索收录与AI引用效果仍需独立验证。报告存于已忽略的 `.cloudflare/reports/geo-http-2026-11-22T00-06-42.261Z.json`。下文有日期的未部署说明为历史记录。
+
 2026-11-21 安装更新增量：源码的release.json已改为逐平台发布记录，下载页和更新JSON由同一记录生成；本地已登记含更新器的1.3.1 Mac DMG及签名更新包。此轮没有部署，不能将本地新版本写成线上已更新。构建、密钥、R2分发与验收边界见[安装更新](../docs/INSTALL_AND_UPDATES.md)。
 
 当前按用户确认暂不购买系统代码签名。首次打开步骤维护在 `templates/guide.html`，首页下载区和下载支持页提供入口；中英双语离线说明统一来源为 `../docs/INSTALLATION.txt`，构建时复制到 `/downloads/WorkTwill-INSTALL.txt`。应用更新包仍独立签名并强制验签。请勿将“说明已提供”写成“系统提示或线上安装已验收”。
