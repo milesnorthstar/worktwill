@@ -1,9 +1,8 @@
 import {spawnSync} from 'node:child_process';
-import {readFile,writeFile,mkdir,chmod,copyFile,access} from 'node:fs/promises';
-import {resolve,basename} from 'node:path';
+import {readFile,writeFile,mkdir,chmod,copyFile,access,readdir} from 'node:fs/promises';
+import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {createHash} from 'node:crypto';
-import {platformNames} from '../website/release.mjs';
+import {digest,buildProvenance,recordCandidate} from './release-candidate.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const key=resolve(root,'.release-keys/updater.key');
@@ -29,6 +28,7 @@ if(command==='keygen'){
   await writeFile(configPath,JSON.stringify(config,null,2)+'\n');
   console.log('更新密钥已生成，公钥已写入应用配置。请将 .release-keys/updater.key 离线备份；不要提交私钥。');
 }else if(command==='build'){
+  const provenance=await buildProvenance();
   const config=await json(configPath);
   if(!config.plugins.updater.pubkey)throw new Error('应用缺少更新公钥');
   const privateKey=process.env.TAURI_SIGNING_PRIVATE_KEY??key;
@@ -46,40 +46,23 @@ if(command==='keygen'){
   await writeFile(configFile,JSON.stringify(overlay));
   // CI模式跳过Finder排版自动化，安装内容、签名及应用程序快捷入口保持。
   run(['tauri','build','--config',configFile],{...process.env,CI:process.env.CI??'true',TAURI_SIGNING_PRIVATE_KEY:privateKey,TAURI_SIGNING_PRIVATE_KEY_PASSWORD:process.env.TAURI_SIGNING_PRIVATE_KEY_PASSWORD??''});
+  // 构建结束重新检查源码，防止并行会话修改源码后错误沿用构建来源。
+  const after=await buildProvenance();
+  if(JSON.stringify(after)!==JSON.stringify(provenance))throw new Error('构建期间源码或环境发生变化');
+  const bundle=resolve(root,`target/release/bundle/${platform==='darwin'?'dmg':'nsis'}`);
+  const installers=(await readdir(bundle)).filter(name=>name.endsWith(platform==='darwin'?'.dmg':'.exe'));
+  if(installers.length!==1)throw new Error('安装包数量不为一，请使用独立干净构建输出');
+  const installer=resolve(bundle,installers[0]);
+  const update=platform==='darwin'?resolve(root,'target/release/bundle/macos/WorkTwill.app.tar.gz'):installer;
+  provenance.artifacts={};
+  for(const path of new Set([installer,update,update+'.sig']))provenance.artifacts[path.split(/[\\/]/).pop()]=digest(await readFile(path));
+  await writeFile(resolve(bundle,'build-provenance.json'),JSON.stringify(provenance,null,2)+'\n');
   // 在安装包旁附带双语说明，离线分发也能找到首次打开与更新步骤。
-  await copyFile(resolve(root,'docs/INSTALLATION.txt'),resolve(root,`target/release/bundle/${platform==='darwin'?'dmg':'nsis'}/WorkTwill-INSTALL.txt`));
+  await copyFile(resolve(root,'docs/INSTALLATION.txt'),resolve(bundle,'WorkTwill-INSTALL.txt'));
 }else if(command==='record'){
-  const target=option('--target');
-  if(!platformNames[target])throw new Error('不支持的目标平台');
-  const version=option('--version');
-  if(!/^\d+\.\d+\.\d+(?:-[\w.-]+)?$/.test(version))throw new Error('版本必须为SemVer');
-  const installer=resolve(option('--installer'));
-  const update=resolve(option('--update'));
-  if(target.startsWith('darwin')&&(!installer.endsWith('.dmg')||!update.endsWith('.app.tar.gz')))throw new Error('Mac安装需要DMG，更新需要app.tar.gz');
-  if(target.startsWith('windows')&&(!installer.endsWith('.exe')||!update.endsWith('.exe')))throw new Error('Windows需要NSIS安装EXE');
-  const signature=(await readFile(update+'.sig','utf8')).trim();
-  const decoded=Buffer.from(signature,'base64').toString('utf8');
-  if(!decoded.split(/\r?\n/).find(line=>line.startsWith('trusted comment:'))?.split('\t').includes(`version:${version}`))throw new Error('更新签名未绑定所登记版本');
-  const base=option('--base-url',false);
-  if(base&&new URL(base).protocol!=='https:')throw new Error('分发域名必须使用HTTPS');
-  await mkdir(resolve(root,'deliverables'),{recursive:true});
-  async function artifact(path){
-    const bytes=await readFile(path);
-    const sha256=createHash('sha256').update(bytes).digest('hex');
-    const filename=`WorkTwill-${version}-${target}-${sha256.slice(0,12)}-${basename(path)}`;
-    const destination=resolve(root,'deliverables',filename);
-    if(await exists(destination)){
-      const previous=await readFile(destination);
-      if(createHash('sha256').update(previous).digest('hex')!==sha256)throw new Error('已登记同名制品内容不同，拒绝覆盖');
-    }else await copyFile(path,destination);
-    return {filename,bytes:bytes.length,sha256,...(base?{url:new URL(filename,base.endsWith('/')?base:base+'/').href}:{})};
-  }
-  const record={version,stage:'本地安装与更新候选',stage_en:'Local installation and update candidate',published_at:new Date().toISOString(),notes:option('--notes-file',false)?await readFile(resolve(option('--notes-file')),'utf8'):'',...await artifact(installer),update:{...await artifact(update),signature}};
-  const registryPath=resolve(root,'website/release.json');
-  const registry=await json(registryPath);
-  registry.platforms[target]=record;
-  await writeFile(registryPath,JSON.stringify(registry,null,2)+'\n');
-  console.log(`已登记 ${target} ${version}。先上传并核验制品，再发布官网及更新清单。`);
+  const result=await recordCandidate({target:option('--target'),version:option('--version'),installer:resolve(option('--installer')),update:resolve(option('--update')),provenance:resolve(option('--provenance')),notes:resolve(option('--notes-file')),output:resolve(option('--output'))});
+  console.log(JSON.stringify(result,null,2));
+
 }else{
-  throw new Error('用法：pnpm release:keygen | release:build | release:record --target darwin-aarch64 --version 1.3.1 --installer file.dmg --update file.app.tar.gz [--base-url https://downloads.example.com/版本/] [--notes-file notes.md]');
+  throw new Error('用法：pnpm release:keygen | release:build | release:record --target darwin-aarch64 --version 1.3.1 --installer file.dmg --update file.app.tar.gz --provenance build-provenance.json --notes-file notes.md --output candidate-directory');
 }

@@ -29,7 +29,7 @@ Use only an explicitly approved temporary directory for generated test fixtures.
 pnpm check --fixtures /absolute/path/to/approved-fixture-root
 ```
 
-This checks generated DTOs, TypeScript and Vite, UI tests, Rust formatting, Rust workspace tests, and Clippy. Rust, native-shell, DTO, and cross-layer behavior changes require this full check. Website changes use `pnpm website:check`; changes to its HTTP audit also use `node --test website/scripts/audit-geo.test.mjs`. Documentation-only changes require checking links, commands, and public/private boundaries. Run explicit benchmarks only when relevant; see [architecture](ARCHITECTURE.md#verification-and-performance).
+This checks generated DTOs, TypeScript and Vite, UI tests, Rust formatting, Rust workspace tests, and Clippy. Rust, native-shell, DTO, and cross-layer behavior changes require this full check. Website changes use `pnpm website:check`; changes to its HTTP audit also use `node --test website/scripts/audit-geo.test.mjs`. Release tooling changes also run `pnpm test:release` and `cargo test --locked -p worktwill-desktop --features release-tools --bin verify-release`; Rust release verifier changes require the full project check. Documentation-only changes require checking links, commands, and public/private boundaries. Run explicit benchmarks only when relevant; see [architecture](ARCHITECTURE.md#verification-and-performance).
 
 Add a regression test when it can detect the reported behavior failure. Do not remove failing checks or weaken permission, recovery, or performance requirements to make a change pass. Native interactions, editor saves, installation, and updates require observations on the relevant platform and build. Report unavailable checks as not run, with the reason.
 

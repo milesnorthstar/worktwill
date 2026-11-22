@@ -38,26 +38,24 @@ pnpm tauri build --debug --bundles app
 pnpm release:build
 ```
 
-按[版本迭代流程](RELEASING.md)核对应用配置和两份 Rust crate 清单中的版本；当前发行脚本自动检查 `package.json` 和 `src-tauri/tauri.conf.json` 一致，其余仍需人工核对。macOS 输出 `target/release/bundle/dmg/` 中的 DMG 和 `macos/` 中的 `.app.tar.gz` 及 `.sig`；Windows 输出 `nsis/` 中的 EXE 及 `.sig`。离线安装说明随包附带。默认 CI 模式避免 Finder 排版自动化依赖；构建成功仍需要实际安装和更新验证。
+按[版本迭代流程](RELEASING.md)核对应用配置和两份 Rust crate 清单中的版本；发行脚本通过配置与locked Cargo metadata检查应用及两份crate版本一致，要求构建前后源码干净。macOS 输出 `target/release/bundle/dmg/` 中的 DMG 和 `macos/` 中的 `.app.tar.gz` 及 `.sig`；Windows 输出 `nsis/` 中的 EXE 及 `.sig`。离线安装说明随包附带。默认 CI 模式避免 Finder 排版自动化依赖；构建成功仍需要实际安装和更新验证。
 
 ## 登记与发布
 
-**当前操作边界：** `release:record` 会立即改写 `website/release.json`；`stage` 中的“本地候选”只是文案，官网生成器仍会据此生成 `stable` 更新清单。目前没有候选登记与正式提升的隔离命令。按[发布模型与实现状态](RELEASING.md#publication-model-and-current-implementation)，只在已授权发布的隔离准备环境中登记，部署前核对差异；不得把普通候选登记混入随后用于官网内容部署的工作树。
+**候选与公开记录隔离：** `release:record` 只生成独立候选目录，不修改 `website/release.json`；正式提升使用 `release:promote`，且要求同一份包的真实平台验收报告、递增版本和未变化的平台基线。提升只准备本地记录，不自动上线。
 
-对已有用户发布新功能/修复前，先按版本迭代流程同步更新版本及锁文件，再构建、验证并登记同一份制品。`website/release.json` 是逐平台发布记录的唯一来源，不手改生成的更新 JSON 或下载页面。以下版本仅作命令示例：
+在干净源码提交上运行 `release:build`；脚本核对四处版本和Cargo锁文件，构建前后核对源码状态，并在安装包目录写入 `build-provenance.json`。不要将旧包与当前提交临时拼成来源记录。以下路径与版本仅作示例：
 
 ```sh
-pnpm release:record --target darwin-aarch64 --version 1.3.1 --installer target/release/bundle/dmg/WorkTwill_1.3.1_aarch64.dmg --update target/release/bundle/macos/WorkTwill.app.tar.gz
-pnpm website:check
+pnpm release:record --target darwin-aarch64 --version 1.3.2 --installer target/release/bundle/dmg/WorkTwill_1.3.2_aarch64.dmg --update target/release/bundle/macos/WorkTwill.app.tar.gz --provenance target/release/bundle/dmg/build-provenance.json --notes-file /path/to/release-notes.md --output /path/to/new-candidate-directory
+pnpm release:verify --candidate /path/to/new-candidate-directory/candidate.json
 ```
 
-Windows 用 `windows-x86_64`，两个文件参数都传 NSIS EXE；Intel Mac 用 `darwin-x86_64`。必须在对应平台构建和验证后登记，不借另一平台或旧包宣称新版支持。
+候选目录包含精确制品、签名、SHA-256、安装说明、来源清单和未通过的验收模板。Windows目标为 `windows-x86_64`，安装和更新参数必须指向同一NSIS EXE；Intel Mac仅支持本地对应平台构建，没有云端工作流。验签复用客户端的minisign库，同时验证内容、全局签名和声明版本；不只检查注释。
 
-脚本复制固定版本/平台/内容摘要的制品名，记录大小、SHA-256 和更新签名，拒绝覆盖内容不同的同名制品。官网构建从记录生成下载按钮和 `updates/stable/<target>.json`，平台版本可分别推进。
+跨机验收、验收后草稿归档与正式提升命令见[Agent验收交接](RELEASING.md#cross-machine-agent-acceptance)。没有对应平台桌面能力时，由维护者在Windows机器运行Agent接手，不得用CI打包替代。当前尚无用户，先使用真实官网更新地址跑通流程：发布前验证安装、启动、相关功能与许可；获准发布后再由旧版实际升级，确认数据保持。`release:accept --phase prepublish` 检查发布前条件，默认 `--phase complete` 要求升级和数据保持也通过。首次基线可先发布，但不能称升级已验收；升级演练需更高版本。未完成时保留“已发布、升级待验收”，不额外引入测试通道。
 
-`release:record` 当前检查签名中的版本声明，官网准备脚本检查制品大小/摘要和签名存在；它们不构成发布前的完整密码学验签或远端制品核验。正式发布流程要求的公钥验签、上传及线上字节检查见[候选验证](RELEASING.md#3-validate-the-candidate)与[制品存储和提升](RELEASING.md#artifact-storage-and-promotion)，相应自动化仍待实现。
-
-默认随静态官网分发小包；独立存储登记使用 `--base-url https://下载域名/固定版本目录/`，构建仍核对本地制品。超过 25 MiB 的制品必须使用独立下载存储；R2 正式分发使用自定义域名。引入存储或变更域名另需明确任务授权。
+默认随静态官网分发小包；现有发行记录支持独立HTTPS地址，候选命令当前不自动接入外部存储；确需外部托管时先明确存储与上传方案。超过 25 MiB 的制品必须使用独立下载存储；R2 正式分发使用自定义域名。引入存储或变更域名另需明确任务授权。
 
 发布顺序：通过检查 → 原生构建与必要验证 → 登记 → 上传并核对全部制品 → 最后发布官网和更新清单 → 核对线上下载与更新。制品长期缓存，更新清单重新验证缓存；旧制品不能因同版本重建被替换。
 
@@ -67,13 +65,13 @@ Windows 用 `windows-x86_64`，两个文件参数都传 NSIS EXE；Intel Mac 用
 
 ## GitHub Actions Windows 候选
 
-工作流 [windows-build.yml](../.github/workflows/windows-build.yml) 仅通过 `workflow_dispatch` 手动运行，使用 `windows-2022` x64 MSVC。不因 push/PR 自动运行，不创建 GitHub Release、不登记发行记录、不部署官网。工作流须已在默认分支，才能从 Actions 页面选择分支运行。
+工作流 [windows-build.yml](../.github/workflows/windows-build.yml) 仅通过 `workflow_dispatch` 手动运行，使用 `windows-2022` x64 MSVC。不因 push/PR 自动运行，生成隔离候选，不创建 GitHub Release、不提升公开记录、不部署官网。工作流须已在默认分支，才能从 Actions 页面选择分支运行。
 
 维护者将现有密钥内容配置为仓库 Actions Secret `TAURI_SIGNING_PRIVATE_KEY`；有密码时配置 `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`。Secrets 托管变更需要明确授权，不使用外部 PR 或不可信代码运行持有签名密钥的构建。密钥仅注入打包步骤。
 
-工作流从锁文件安装，运行 `pnpm check`，再构建并检查安装包、签名的版本声明和离线说明。Artifacts 保留 14 天，包含 EXE、`.exe.sig`、`WorkTwill-INSTALL.txt` 和 `SHA256SUMS.txt`；摘要标明版本与源码提交。下载候选后仍需 Windows 真机验证，之后才可登记并公开分发。
+工作流从锁文件安装，运行 `pnpm check`，再构建、密码学验签并登记隔离候选。Artifacts 保留 14 天，包含 EXE、`.exe.sig`、`WorkTwill-INSTALL.txt` 和 `SHA256SUMS.txt`；摘要标明版本与源码提交。下载候选后仍需 Windows 真机验证，之后才可登记并公开分发。
 
-14 天的 Actions 制品是候选中转，不作为长期发行档案。已确定的目标流程使用 GitHub Releases 留存正式版本，补齐所需 macOS 构建及统一上传/发布核验；当前此 Windows 工作流尚未实现这些步骤，不因文档约定而视为已开通。
+14 天的 Actions 制品是候选中转，不作为长期发行档案。另有手动 `macos-build.yml` 构建 Apple Silicon 候选。验收后 `release:archive` 可上传并回读核对GitHub草稿归档；公开Release与官网部署仍是独立授权操作，未实现统一自动发布。
 
 ## 验证与记录
 

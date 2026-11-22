@@ -52,5 +52,11 @@ jobs:
           pnpm check --fixtures $fixtures
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+      - name: Test release safety gates
+        run: pnpm test:release
+
+      - name: Test release signature verifier
+        run: cargo test --locked -p worktwill-desktop --features release-tools --bin verify-release
+
       - name: Test website HTTP audit in isolation
         run: node --test website/scripts/audit-geo.test.mjs

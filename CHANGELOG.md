@@ -11,6 +11,11 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 
 ### Maintenance
 
+- Separate prepublication checks from post-publication in-app upgrade acceptance, avoiding a circular requirement on an update feed that is not published yet while retaining observed-failure blocking.
+
+- Isolate release candidates from public download/update records, bind build provenance and native Agent acceptance to exact artifacts, verify updater signatures before promotion, and add checked draft archiving and all-platform online byte verification commands.
+- Add a manual macOS ARM64 candidate workflow and extend Windows candidate artifacts with provenance and an unpassed acceptance template. Publication and native upgrade acceptance remain separate operations.
+
 - Add secret-free macOS and Windows checks for pull requests and main-branch pushes, including isolated website HTTP audit tests.
 - Add bilingual bug/feature forms, a pull request checklist, private security reporting guidance, and weekly grouped dependency update configuration.
 

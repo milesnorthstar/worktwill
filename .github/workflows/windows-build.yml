@@ -67,47 +67,23 @@ jobs:
           pnpm release:build
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-      - name: Check artifacts and write checksums
+      - name: Register isolated candidate
         id: artifacts
         run: |
           $bundle = 'target/release/bundle/nsis'
           $installers = @(Get-ChildItem -Path $bundle -Filter '*.exe' -File)
           if ($installers.Count -ne 1) { throw 'Expected exactly one NSIS installer.' }
-          $installer = $installers[0]
-          $signature = "$($installer.FullName).sig"
-          if (!(Test-Path -LiteralPath $signature)) { throw 'Missing updater signature.' }
           $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
-          $decoded = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String((Get-Content -LiteralPath $signature -Raw).Trim()))
-          $trustedComment = @($decoded -split '\r?\n' | Where-Object { $_.StartsWith('trusted comment:') })
-          if ($trustedComment.Count -ne 1 -or (($trustedComment[0] -split "`t") -notcontains "version:$version")) {
-            throw 'Updater signature does not bind the package version.'
-          }
-          $files = @($installer.FullName, $signature, (Join-Path $bundle 'WorkTwill-INSTALL.txt'))
-          $checksums = foreach ($file in $files) {
-            $hash = (Get-FileHash -LiteralPath $file -Algorithm SHA256 -ErrorAction Stop).Hash.ToLowerInvariant()
-            "$hash  $([IO.Path]::GetFileName($file))"
-          }
-          $checksums | Set-Content -Path (Join-Path $bundle 'SHA256SUMS.txt') -Encoding utf8
+          pnpm release:record --target windows-x86_64 --version $version --installer $installers[0].FullName --update $installers[0].FullName --provenance "$bundle/build-provenance.json" --notes-file CHANGELOG.md --output target/release/candidate
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           "name=WorkTwill-$version-windows-x64-$env:GITHUB_RUN_ID-$env:GITHUB_RUN_ATTEMPT" >> $env:GITHUB_OUTPUT
-          @(
-            '# Windows x64 candidate',
-            "Version: $version",
-            "Source commit: $env:GITHUB_SHA",
-            '',
-            'Project checks passed. The artifact contains the NSIS installer, updater signature, installation guide, and SHA-256 checksums.',
-            '',
-            'This is not Windows OS code signing. Native installation, launch, editor save behavior, and updates still require Windows acceptance. Nothing has been published to the website.'
-          ) | Add-Content -Path $env:GITHUB_STEP_SUMMARY
+          "Candidate prepared, not published. Download the complete artifact and follow docs/RELEASING.md for Windows Agent acceptance." >> $env:GITHUB_STEP_SUMMARY
 
       - name: Upload candidate artifacts
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: ${{ steps.artifacts.outputs.name }}
           # 显式列举制品，不上传私钥目录、缓存或完整工作区。
-          path: |
-            target/release/bundle/nsis/*.exe
-            target/release/bundle/nsis/*.exe.sig
-            target/release/bundle/nsis/WorkTwill-INSTALL.txt
-            target/release/bundle/nsis/SHA256SUMS.txt
+          path: target/release/candidate/
           if-no-files-found: error
           retention-days: 14
