@@ -365,7 +365,7 @@
   "选择与你的芯片匹配的 DMG。打开后将 WorkTwill 拖入“应用程序”，推出安装磁盘，再从“应用程序”打开。": "choose the DMG matching your chip. Drag WorkTwill to Applications, eject the disk image, and launch from Applications.",
   "如果提示无法验证开发者或 Apple 无法检查该应用，先核对下载来源，再进入“系统设置 → 隐私与安全性”，找到 WorkTwill 并选择“仍要打开”，按系统提示确认。": "If macOS cannot verify the developer or check the app, verify the download source, then find WorkTwill in System Settings → Privacy & Security, select Open Anyway, and follow the confirmation prompts.",
   "没有“仍要打开”时，先尝试打开一次应用，再返回设置。受管理的电脑可能需要管理员允许。": "If Open Anyway is missing, attempt to launch the app first, then return to settings. Managed computers may require administrator approval.",
-  "若提示应用“已损坏”或“将损坏你的电脑”，请停止安装并重新核对下载，不将此类提示作为普通的开发者未验证提示处理。": "If macOS reports that the app is damaged or will damage your computer, stop installation and check the download again. These are different from an unidentified-developer prompt.",
+  "若提示应用“已损坏”或“将损坏你的电脑”，系统可能不提供“仍要打开”。请停止安装并核对官网下载页的 SHA-256；一致时仍报错，请反馈应用版本与 macOS 版本，等待修复包。": "If macOS reports that the app is damaged or will damage your computer, Open Anyway may be unavailable. Stop installation and compare the SHA-256 with the official download page. If it matches and the error persists, report the app and macOS versions and wait for a fixed package.",
   "查看 Apple 的首次打开说明 ↗": "Read Apple’s first-launch guidance ↗",
   "Windows 安装提示": "Windows installation prompts",
   "以下步骤适用于官网下载页已提供的 Windows 安装包；当前可用版本与平台状态以下载页为准。": "These steps apply when a Windows installer is available on the official download page. Check that page for available builds and platform status.",

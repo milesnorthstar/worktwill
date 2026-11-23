@@ -6,7 +6,6 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 
 ### Fixed
 
-- Fail snapshot copying promptly on database lock contention instead of waiting in SQLite's busy handler while holding the application data gate; preserve the existing explicit-retry and data-preservation behavior.
 - Handle both LF and CRLF source files in isolated website audit tests.
 
 ### Maintenance
@@ -23,3 +22,16 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 
 - Organize agent guidance, product behavior, architecture, website SEO/GEO maintenance, and version iteration into focused maintenance documents.
 - Define candidate promotion, artifact provenance and archiving, upload/publication verification, website-only deployment, and release withdrawal workflows, with current automation gaps stated explicitly.
+
+## 1.3.2 — 2026-11-23
+
+Available for macOS Apple Silicon. Windows is not updated by this release. Apple Developer ID signing and notarization are not included; first launch can still require **Open Anyway** in Privacy & Security. Live in-app upgrade acceptance is tracked separately from installation and online artifact checks.
+
+### Fixed
+
+- Fix incomplete macOS application signatures that could cause a downloaded app to be reported as damaged. Sign the complete bundle before packaging and reject invalid application and update-archive signatures during release builds.
+- Fail snapshot copying promptly on database lock contention instead of waiting in SQLite's busy handler while holding the application data gate; preserve the existing explicit-retry and data-preservation behavior.
+
+### Distribution
+
+- Include target-platform third-party license texts, component versions, MPL source-download links, and Rust standard-library notices inside the application bundle.

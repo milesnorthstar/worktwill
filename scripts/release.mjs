@@ -2,7 +2,8 @@ import {spawnSync} from 'node:child_process';
 import {readFile,writeFile,mkdir,chmod,copyFile,access,readdir} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {digest,buildProvenance,recordCandidate} from './release-candidate.mjs';
+import {digest,buildProvenance,recordCandidate,verifyMacBundle,verifyMacUpdate} from './release-candidate.mjs';
+import {distributionNotices} from './distribution-notices.mjs';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 const key=resolve(root,'.release-keys/updater.key');
@@ -40,12 +41,19 @@ if(command==='keygen'){
   if(config.version!==version)throw new Error('package.json与Tauri版本不一致');
   const platform=process.platform==='darwin'?'darwin':process.platform==='win32'?'windows':null;
   if(!platform)throw new Error('请在macOS或Windows原生环境构建安装包');
-  const overlay={bundle:{active:true,targets:platform==='darwin'?['app','dmg']:['nsis'],createUpdaterArtifacts:true}};
+  const notices=resolve(root,'target/distribution-notices');
+  await distributionNotices(notices);
+  const overlay={bundle:{active:true,targets:platform==='darwin'?['app','dmg']:['nsis'],createUpdaterArtifacts:true,resources:{[notices]:'notices/'}}};
   await mkdir(resolve(root,'.release-keys'),{recursive:true,mode:0o700});
   const configFile=resolve(root,'.release-keys/build-config.json');
   await writeFile(configFile,JSON.stringify(overlay));
   // CI模式跳过Finder排版自动化，安装内容、签名及应用程序快捷入口保持。
   run(['tauri','build','--config',configFile],{...process.env,CI:process.env.CI??'true',TAURI_SIGNING_PRIVATE_KEY:privateKey,TAURI_SIGNING_PRIVATE_KEY_PASSWORD:process.env.TAURI_SIGNING_PRIVATE_KEY_PASSWORD??''});
+  // 在登记制品前拒绝签名结构异常的Mac包；ad-hoc只保证完整性，不提供Apple信任。
+  if(platform==='darwin'){
+    verifyMacBundle(resolve(root,'target/release/bundle/macos/WorkTwill.app'));
+    await verifyMacUpdate(resolve(root,'target/release/bundle/macos/WorkTwill.app.tar.gz'));
+  }
   // 构建结束重新检查源码，防止并行会话修改源码后错误沿用构建来源。
   const after=await buildProvenance();
   if(JSON.stringify(after)!==JSON.stringify(provenance))throw new Error('构建期间源码或环境发生变化');

@@ -15,9 +15,22 @@ const serialize = value => JSON.stringify(value, null, 2) + '\n';
 const prepublishChecks = ['installation', 'launch', 'changed-behavior', 'distribution-licenses'];
 const requiredChecks = [...prepublishChecks, 'upgrade', 'data-preservation'];
 export function run(command, args, cwd = root) {
-  const result = spawnSync(command, args, { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+  const result = spawnSync(command, args, { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 32 * 1024 * 1024 });
   if (result.error || result.status !== 0) throw new Error(`${command} failed: ${result.error?.message ?? result.stderr}`);
   return result.stdout.trim();
+}
+export function verifyMacBundle(path) {
+  run('codesign', ['--verify', '--deep', '--strict', '--verbose=2', path]);
+}
+export async function verifyMacUpdate(path) {
+  const directory = await mkdtemp(join(tmpdir(), 'worktwill-macos-signature-'));
+  try {
+    // 更新归档也必须包含完整签名，不能只检查打包前的应用目录。
+    run('tar', ['-xzf', resolve(path), '-C', directory]);
+    verifyMacBundle(join(directory, 'WorkTwill.app'));
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
 }
 const git = (...args) => run('git', args);
 export function newer(version, previous) {

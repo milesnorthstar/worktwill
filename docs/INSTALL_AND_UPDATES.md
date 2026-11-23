@@ -8,7 +8,11 @@
 
 用户无需 Node.js、pnpm 或 Rust。双语离线说明的唯一来源是 [INSTALLATION.txt](INSTALLATION.txt)：发行脚本在安装包旁生成 `WorkTwill-INSTALL.txt`，官网构建复制同一文件供下载。在线说明由 `website/templates/guide.html` 和英文词典生成；步骤变更时同步维护。
 
-当前分发方式为 macOS DMG 和 Windows 当前用户 NSIS 安装，不提供系统代码签名或 macOS 公证。核对官方来源、版本和 SHA-256，并遵循设备安全策略。开发者未验证提示与“损坏/将损坏电脑”分开处理，后者应停止并核对下载。不提供全局关闭 Gatekeeper/SmartScreen 的脚本，受管理设备由管理员处理。macOS 指引依据 [Apple 官方说明](https://support.apple.com/zh-cn/102445)。
+当前分发方式为 macOS DMG 和 Windows 当前用户 NSIS 安装，不提供 Apple Developer ID 签名、macOS 公证或 Windows 代码签名。核对官方来源、版本和 SHA-256，并遵循设备安全策略。开发者未验证提示与“损坏/将损坏电脑”分开处理，后者应停止并核对下载。不提供全局关闭 Gatekeeper/SmartScreen 的脚本，受管理设备由管理员处理。macOS 指引依据 [Apple 官方说明](https://support.apple.com/zh-cn/102445)。
+
+macOS 打包通过 Tauri 的 `bundle.macOS.signingIdentity: "-"` 对完整应用执行免费 ad-hoc 签名，避免仅保留链接器临时签名导致资源封印缺失。Tauri 在生成 DMG 和更新归档前完成签名，发行脚本在记录构建来源前对应用目录及解压后的更新归档执行 `codesign --verify --deep --strict`；校验失败即停止。不得在生成更新签名后修改应用或归档。ad-hoc 签名不认证开发者，不提供 Apple 公证，也不保证 Gatekeeper 放行或一定显示“仍要打开”；首次下载与安装仍需原生验证。
+
+正式构建先由 `scripts/distribution-notices.mjs` 生成目标平台的第三方许可与源码获取声明，作为 `notices/` 资源嵌入应用后再签名。许可原文缺失时停止构建；实际随包核查要求见[第三方声明](../THIRD_PARTY_NOTICES.md)。
 
 应用内更新包独立签名并强制验签；它不等于 Apple Developer ID、Windows 代码签名或 SmartScreen 信任。
 

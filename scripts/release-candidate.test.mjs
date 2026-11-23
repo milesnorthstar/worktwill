@@ -1,9 +1,42 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { digest, newer, validateReport, verifyOnline, handoff } from './release-candidate.mjs';
-import { mkdtemp, readFile, writeFile, rm } from 'node:fs/promises';
+import { digest, newer, validateReport, verifyOnline, handoff, run, verifyMacBundle, verifyMacUpdate } from './release-candidate.mjs';
+import { mkdtemp, readFile, writeFile, rm, mkdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+
+test('macOS bundles explicitly request complete ad-hoc signing without a paid identity', async () => {
+  const config = JSON.parse(await readFile(new URL('../src-tauri/tauri.conf.json', import.meta.url), 'utf8'));
+  assert.equal(config.bundle.macOS.signingIdentity, '-');
+});
+
+test('macOS verification rejects executable-only signatures and damaged packaged resources', { skip: process.platform !== 'darwin' }, async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'worktwill-codesign-test-'));
+  try {
+    const app = join(directory, 'WorkTwill.app');
+    const executable = join(app, 'Contents/MacOS/fixture');
+    const resource = join(app, 'Contents/Resources/fixture.txt');
+    const archive = join(directory, 'WorkTwill.app.tar.gz');
+    await mkdir(join(app, 'Contents/MacOS'), { recursive: true });
+    await mkdir(join(app, 'Contents/Resources'));
+    const source = join(directory, 'fixture.c');
+    await writeFile(source, 'int main(void) { return 0; }');
+    run('cc', [source, '-Wl,-adhoc_codesign', '-o', executable]);
+    await writeFile(join(app, 'Contents/Info.plist'), '<?xml version="1.0"?><plist version="1.0"><dict><key>CFBundleIdentifier</key><string>app.worktwill.signature-fixture</string><key>CFBundleExecutable</key><string>fixture</string><key>CFBundlePackageType</key><string>APPL</string></dict></plist>');
+    await writeFile(resource, 'original');
+    // 重现旧包只签可执行文件、未封印整个应用资源的故障。
+    assert.throws(() => verifyMacBundle(app), /code has no resources/);
+    run('codesign', ['--force', '--sign', '-', app]);
+    verifyMacBundle(app);
+    run('tar', ['-czf', archive, '-C', directory, 'WorkTwill.app']);
+    await verifyMacUpdate(archive);
+    await writeFile(resource, 'changed after signing');
+    run('tar', ['-czf', archive, '-C', directory, 'WorkTwill.app']);
+    await assert.rejects(verifyMacUpdate(archive), /codesign failed/);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
 
 const manifest = { target: 'windows-x86_64', source: { commit: 'a'.repeat(40) }, record: { version: '1.4.0' } };
 function report() {
