@@ -9,7 +9,7 @@ macOS
 2. 推出安装磁盘，再从“应用程序”打开 WorkTwill。
 3. 当前版本未做 Apple Developer ID 签名与公证。若首次打开提示无法验证开发者或 Apple 无法检查该应用，请先核对下载来源，然后在“系统设置 → 隐私与安全性”找到 WorkTwill，选择“仍要打开”，按系统提示确认。
 4. 如果没有此按钮，先尝试打开应用，再返回设置。受管理的电脑可能需要管理员允许。
-5. 如果提示应用“已损坏”或“将损坏你的电脑”，请停止安装并重新核对下载，不将此类提示当作普通的开发者未验证提示处理。
+5. 如果提示应用“已损坏”或“将损坏你的电脑”，系统可能不提供“仍要打开”。请停止安装并核对官网下载页的 SHA-256；一致时仍报错，请反馈应用版本与 macOS 版本，等待修复包。
 Apple 说明：https://support.apple.com/zh-cn/102445
 
 Windows（仅适用于官网已提供的 Windows 安装包）
@@ -33,7 +33,7 @@ English
 Official downloads and checksums: https://worktwill.haoclub.com/en/download
 Installation and support: https://worktwill.haoclub.com/en/guide
 
-Mac: Open the matching DMG, drag WorkTwill to Applications, eject the disk image, and launch from Applications. This build has no Developer ID signing or notarization. If macOS cannot verify the developer or check the app, verify its official source, then review WorkTwill in System Settings → Privacy & Security → Open Anyway. Attempt a launch first if the option is missing. Managed computers may require administrator approval. Stop if macOS reports damage or known malware; do not treat these as an ordinary unidentified-developer prompt.
+Mac: Open the matching DMG, drag WorkTwill to Applications, eject the disk image, and launch from Applications. This build has no Developer ID signing or notarization. If macOS cannot verify the developer or check the app, verify its official source, then review WorkTwill in System Settings → Privacy & Security → Open Anyway. Attempt a launch first if the option is missing. Managed computers may require administrator approval. If macOS reports damage or known malware, Open Anyway may be unavailable. Stop and compare the SHA-256 with the official download page. If it matches and the error persists, report the app and macOS versions and wait for a fixed package.
 Apple guidance: https://support.apple.com/en-us/102445
 
 Windows (when an installer is published): Exit WorkTwill and run the matching EXE. This build has no Windows code signing. If SmartScreen appears, verify the official source and checksum before choosing More info → Run anyway, if offered. If blocked by policy, contact your administrator; keep Defender and SmartScreen enabled. Installation is per user. Follow the installer if WebView2 is required.

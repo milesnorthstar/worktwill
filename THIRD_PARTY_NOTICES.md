@@ -26,6 +26,10 @@ Node 与 Rust 锁文件用于定位实际版本；应保留依赖随附的许可
 
 ## Before distributing installers / 安装包发行要求
 
+The 1.3.2 macOS release build uses `scripts/distribution-notices.mjs` to collect actual target-platform Rust dependencies, frontend runtime packages, and Rust standard-library notices. The application bundle includes `Contents/Resources/notices/THIRD-PARTY.txt`, `components.json`, the WorkTwill license, and Rust library notices. This is a conservative dependency closure that also includes supporting macros; it is not a claim that every listed package contributes machine code. Unmodified MPL-covered crate sources are linked by exact version. Missing upstream license files are supplemented by the versioned sources and explanations in `scripts/license-sources/sources.json`; missing texts fail the release build.
+
+1.3.2 的 macOS 发行包在完整应用签名前生成并嵌入上述声明。构建后需检查实际 DMG 与更新归档中的许可文件及签名，不能只检查源码列表。其他平台和旧版本仍需独立核查，不能沿用本次 Mac 结论。
+
 For each platform and version, identify the third-party components actually shipped, include their required copyright notices and license texts, and satisfy any applicable source-availability or other obligations. Preserve required upstream notices when modifying third-party code. Keep build-only tools separate from distributed runtime components.
 
 各平台安装包需携带实际分发组件要求的版权及完整许可文本，并按相应条款处理源码获取等义务。构建工具不能未经区分直接等同于应用运行时依赖。本次添加 MIT 许可证没有重新构建安装包，也没有将本说明自动嵌入既有安装包。

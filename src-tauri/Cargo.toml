@@ -1,14 +1,27 @@
 [package]
 name = "worktwill-desktop"
-version = "1.3.1"
+version = "1.3.2"
 edition = "2021"
 publish = false
+default-run = "worktwill-desktop"
 license = "MIT"
+
+[features]
+release-tools = []
+
+# 校验命令仅在发行工具调用时编译，不进入普通应用打包。
+[[bin]]
+name = "verify-release"
+path = "src/bin/verify-release.rs"
+required-features = ["release-tools"]
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
 
 [dependencies]
+# 发行前复用更新器相同的验签实现，版本沿用现有锁文件。
+base64 = "0.22"
+minisign-verify = "=0.3.0"
 tauri = { version = "2", features = [] }
 tauri-plugin-dialog = "2"
 tauri-plugin-opener = "2"

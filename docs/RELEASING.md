@@ -6,18 +6,20 @@ Use this document to carry a scoped fix or feature through maintenance and relea
 
 The adopted workflow is: **prepare candidates → validate the exact artifacts → stage uploads → explicitly publish → verify online → follow up**. Build a candidate once and promote those same bytes. Website content can be deployed independently, using the currently published application records.
 
-This is the operating contract for future automation, not a claim that a unified release pipeline already exists:
+The candidate/acceptance commands below are implemented. Publication is still an explicitly authorized operation, not a side effect of building:
 
-| Capability | Current implementation | Required control |
-| --- | --- | --- |
-| Native packages and update signatures | `pnpm release:build` builds on the native platform with the existing signing key | Preserve artifact identity from build through validation and publication |
-| CI candidates | The manual Windows workflow runs checks and packaging; Actions artifacts expire after 14 days | Add the required macOS job and coordinate the requested platform candidates; no cloud run is established by this document |
-| Candidate registration | `release:record` immediately edits `website/release.json`; its candidate `stage` is display text | Separate candidate metadata from promotion into the active release registry |
-| Website and update manifests | Website preparation checks local artifact size/hash and generates manifests from the registry | Protect website-only deployments from accidentally promoting a candidate; restore exact published artifacts on clean runners |
-| Upload, release archive, and online checks | No unified GitHub Release upload/promotion/verification command exists | Automate exact-artifact upload, permanent version archive, remote checks, and serialized promotion |
-| Withdrawal | No dedicated safe withdrawal command exists | Verify removal of affected generated download/update entries without recalling cached packages or downgrading user data |
+| Capability | Implementation |
+| --- | --- |
+| Native candidates | Manual Windows x64 and macOS ARM64 workflows build with the existing key and attach source/environment provenance |
+| Isolated registration | `release:record` creates a separate candidate directory, checksums, signature, manifest and acceptance template; never edits the active registry |
+| Signature preflight | The Rust `verify-release` binary uses the same minisign verification library as the client and requires the signed version |
+| Native handoff | `release:handoff` creates an unpassed template; `release:accept` checks the exact candidate and explicit native acceptance results |
+| Draft archive | `release:archive` uploads only to a same-source draft GitHub Release, refuses overwrite, and downloads assets again to compare bytes |
+| Registry promotion | `release:promote` verifies acceptance, increasing version and unchanged target baseline; modifies only that target and does not deploy |
+| Online bytes | `release:online` checks all registered platform installers, update bytes and manifest version/URL/signature |
+| Not yet automated | Cross-machine dispatch/notification, public Release/website coordination, clean-runner artifact restoration, safe withdrawal and full shipped-license inventory |
 
-Until candidate isolation is implemented, do not use `release:record` as an ordinary candidate inventory command in a checkout used for website deployment. Stage a registry change only as part of the authorized release; review it before deployment. The `stage` text, a local registry timestamp, and a successful build are not release gates.
+Actions artifacts expire after 14 days. A prepared or accepted candidate is not publicly released. The active registry remains `website/release.json`; do not edit it to bypass acceptance or mix an unrelated local candidate into a website deployment.
 
 ## Authorization and release handoff
 
@@ -45,20 +47,20 @@ Prepare the version once the intended release scope is clear. Keep these current
 - `crates/worktwill-core/Cargo.toml` → package version;
 - corresponding local-package entries in `Cargo.lock`, refreshed by Cargo without unrelated dependency upgrades.
 
-The release script currently checks the first two values; the four-way check is a maintainer responsibility, not an existing automated guarantee. Application identity/data paths and the existing update-signing public key must remain stable across ordinary upgrades. Use a higher version for a new public update; rebuilding the same version will not update installed clients.
+The release build checks package/Tauri versions and both workspace crate versions through locked Cargo metadata, and requires a clean source checkout before and after building. Application identity/data paths and the existing update-signing public key must remain stable across ordinary upgrades. Use a higher version for a new public update; rebuilding the same version will not update installed clients.
 
 | Value or record | Authority | Meaning |
 | --- | --- | --- |
 | Application version | Files listed above | Version being built; not evidence it is published |
 | Database schema | `crates/worktwill-core/src/migrations.rs` | Storage compatibility; version independently of the application |
-| Per-platform release | `website/release.json`, written by `release:record` | Exact installer/update artifacts, version, size, hash, signature, and stage; platforms may advance separately |
+| Per-platform release | `website/release.json`, prepared by `release:promote` | Exact installer/update artifacts, version, size, hash, signature, and stage; platforms may advance separately |
 | User-facing history | `CHANGELOG.md` | Reviewed changes and limitations, not build or acceptance logs |
 
 Do not set a platform's record to a new version until that platform has the corresponding verified artifacts. A local registry entry or its timestamp does not establish online availability.
 
 ## 3. Validate the candidate
 
-Keep a candidate manifest with the build artifacts, separate from the active `website/release.json`. This manifest is required metadata for the proposed pipeline, not an existing generated file format. It contains:
+Keep a candidate manifest with the build artifacts, separate from the active `website/release.json`. The implemented `candidate.json` format is emitted by `release:record` alongside the exact artifacts. It contains:
 
 - exact source commit and clean/dirty state, application version, platform/architecture, build environment, and CI run or local build identifier;
 - each artifact's role, filename, byte count, SHA-256, and update-signature information;
@@ -68,9 +70,39 @@ Publish only traceable source commits; do not tag or promote an artifact built f
 
 Run the checks required by [CONTRIBUTING.md](../CONTRIBUTING.md) and native checks relevant to this change on each affected platform. For migrations, test existing-data upgrades, failure preservation, and restore permissions. For updater changes, test pending saves, version/signature handling, upgrade, restart, and retained data.
 
-Before promotion, verify update signatures against the configured public key and the announced version, not just the existence of a `.sig` file or its decoded version comment. This cryptographic preflight is a requirement to implement; the current record script only checks the version declaration, and client-side verification does not prove the publication preflight exists.
+Before promotion, verify update signatures against the configured public key and the announced version, not just the existence of a `.sig` file or its decoded version comment. Candidate registration, verification, acceptance and promotion run the Rust cryptographic preflight; reading an unverified signature comment is insufficient.
 
 Mark each check passed, failed, blocked, or not run; distinguish local fixtures, CI packaging, native behavior, and online download/update. An unavailable environment is a gap to report, not permission to claim support or rerun unrelated checks indefinitely.
+
+## Cross-machine Agent acceptance
+
+The coordinating Agent gives the Windows Agent the candidate source commit, Actions run/artifact name, candidate SHA-256, intended lower-version installer, change scope, and an approved disposable test account/data location. Dispatch and notification are currently a human handoff, not an unattended remote Agent service. Download the entire candidate artifact; do not rebuild it locally. Use the candidate source checkout so its updater public key and verification command agree.
+
+```sh
+# Extract the complete Actions artifact into an independent directory first.
+pnpm release:verify --candidate /path/to/candidate/candidate.json
+# The artifact already contains acceptance.template.json. If a new copy is needed:
+pnpm release:handoff --candidate /path/to/candidate/candidate.json --output /path/to/report.json
+```
+
+The Windows Agent performs actual installation and launch on Windows, then validates an upgrade from a lower version with synthetic workspaces, favorites, links and notes. Confirm data retention and relevant changed behavior. Record OS/build/architecture, Agent or operator identity, actual observed results and sanitized evidence references. Inspect actual shipped third-party license obligations; a source metadata list alone is insufficient. Fill the report's checks without changing its candidate/source/target/version identity. Statuses must remain truthful. Prepublication requires installation, launch, changed behavior and distribution-license checks. Upgrade and data-preservation may remain `not-run` or `blocked` before publication, but an observed failure still blocks publication. Complete acceptance requires all checks passed. The report is an explicit trusted operator/Agent declaration, not cryptographically proven execution.
+
+Current bootstrap decision: there are no users yet; use the existing real HTTPS update endpoint rather than add a second test channel or client override. Install a lower-version baseline A with synthetic data. After B passes prepublication checks and the task authorizes publication, expose B through the real website/feed, verify online bytes, and let A actually discover/download/install B. Then verify version and data retention. Do not disable TLS/signature checks or count manual installer overwrite as an in-app update pass. First-baseline publication can be valid without an upgrade report, but must not be described as an upgrade-verified release. A higher version B is required to complete the upgrade rehearsal. Reassess channel isolation before real users are onboarded.
+
+```sh
+# Before publication: validate only the prepublication checks.
+pnpm release:accept --candidate /path/to/candidate/candidate.json --report /path/to/report.json --phase prepublish
+# After the real in-app upgrade: require all checks (the default phase).
+pnpm release:accept --candidate /path/to/candidate/candidate.json --report /path/to/report.json --phase complete
+# With authorization to upload a draft archive:
+pnpm release:archive --candidate /path/to/candidate/candidate.json --report /path/to/report.json
+# With release authorization; prepares registry only, never deploys:
+pnpm release:promote --candidate /path/to/candidate/candidate.json --report /path/to/report.json
+```
+
+Return the same report and sanitized evidence through the agreed private channel or issue; do not commit private desktop evidence. A failed candidate is repaired through a new source/build and receives a new report. `release:promote` rejects an unchanged/lower version or a target registry changed since candidate registration. Other platform records remain intact. Local exclusive locking prevents simultaneous promotion in one checkout; cross-machine promotion is serialized through one coordinator and the protected PR workflow, not a distributed lock.
+
+A success from `release:promote` means **registry prepared, not published**. Review the registry/changelog diff, run website checks with the exact registered packages, and use the existing authorized deployment procedure. Publish the same-source GitHub draft only under release authorization. After deployment run `pnpm release:online` plus the website content audit. HTTP byte verification is not proof that installed clients upgraded. Keep the state “published, upgrade verification pending” until the complete native report passes; `release:accept --phase complete` alone does not replace online checks. Archive, deployment and public/native checks remain separately reported; automatic recovery and withdrawal are not implemented.
 
 ## 4. Package and publish
 
@@ -89,7 +121,7 @@ With release authorization, follow the existing [packaging and registration proc
 - Use Actions artifacts for transfer, not permanent version history. The target archive is a versioned GitHub Release containing installers, update packages/signatures, checksums, installation help, and sanitized provenance. In the proposed automation, uploads can be staged on a draft release before publication; do not publish a draft as a side effect of building.
 - Keep the existing website distribution for packages within its current file-size limit. Use the same bytes as the version archive. Introduce external download storage only when needed; its URL mode already exists, but automatic provisioning/upload is not implemented.
 - For externally hosted packages, verify remote size and SHA-256 before exposing their active download/update links. For website-bundled packages, check the bundle locally, deploy it together with its pages/manifests, then verify the live bytes. Do not claim remote availability before deployment.
-- Before promotion, recheck the active platform version and candidate provenance. Serialize publication for the same channel, prevent an older/stale release task from replacing a newer record, and retain the previous published records for recovery. These are required automation controls, not current script guarantees.
+- Before promotion, recheck the active platform version and candidate provenance. The promotion command checks the target baseline and increasing version and serializes one local checkout. Cross-machine promotion and deployment still require one coordinator and a reviewed protected PR; distributed publication locking and automatic recovery are not implemented.
 - Change only the approved target entries in `website/release.json`. Keep other platforms' published records and artifacts intact. Publish that reviewed registry snapshot, not an unrelated checkout's latest state.
 - Use isolated deployment output and inspect it for stale or unintended download/update entries. The current generator writes entries but does not implement safe withdrawal cleanup. Never replace an existing artifact's bytes under the same URL, reuse a published tag for different source, or rotate keys to fix packaging.
 
@@ -119,4 +151,4 @@ Withdrawal cannot guarantee recall of already downloaded or cached packages, und
 
 ## Automation follow-up
 
-Implementation order: isolate candidate registration from stable promotion → coordinate required native build jobs and provenance → implement archive/upload/signature and remote-byte verification → guard website-only deployments and serialized publication → implement and test withdrawal cleanup. Reuse existing scripts and registry ownership. Do not invent executable commands or claim these controls are active before implementation and acceptance.
+Implemented foundations: isolated candidate registration, native build provenance, minisign preflight, hash-bound native acceptance, draft archive byte comparison, target baseline promotion guards and all-platform online byte checks. Remaining implementation: clean-runner artifact recovery, coordinated publication and safe withdrawal. Bootstrap upgrade verification uses the real feed after authorized publication; no isolated channel is currently required. Reuse existing scripts and registry ownership; do not claim the remaining controls are active before implementation and end-to-end acceptance.

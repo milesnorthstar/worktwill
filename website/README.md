@@ -32,7 +32,7 @@ node --test website/scripts/audit-geo.test.mjs
 
 预览为 `http://127.0.0.1:4321/`，输出仅在 `website/dist/`，不覆盖桌面 `dist/`。构建核对 `deliverables/` 中已登记安装包的大小和 SHA-256；缺失或不符直接失败。该目录被 Git 忽略，干净克隆需要另行提供发行记录对应的经核验制品，不自动下载，也不通过删除发行记录绕过核验。
 
-纯页面、SEO/GEO 和说明更新使用当前已发布的逐平台记录及同一份包，不提升桌面版本。部署前核对登记与线上发行状态；目前 `release:record` 会直接修改生成正式更新清单的来源，“本地候选”文案不会阻止发布。未来干净 runner 将按摘要恢复已发布制品，候选隔离、恢复和正式提升自动化仍待实现，详见[发布模型](../docs/RELEASING.md#publication-model-and-current-implementation)。
+纯页面、SEO/GEO 和说明更新使用当前已发布的逐平台记录及同一份包，不提升桌面版本。部署前核对登记与线上发行状态；`release:record` 现在只生成隔离候选；`release:promote` 校验验收报告后才准备公开记录，仍不执行部署。干净 runner 恢复已发布制品、跨服务统一发布和撤回仍待实现，详见[发布模型](../docs/RELEASING.md#publication-model-and-current-implementation)。
 
 `website:check` 验证页面正文、语言、SEO 元数据互链、JSON-LD、地图、分享图、站内链接、版本与阶段一致性；HTTP 审计回归隔离网络及写入。网站检查不替代桌面原生、Office 保存、安装或更新验证。
 
