@@ -7,9 +7,13 @@ WorkTwill · 首次安装与更新
 macOS
 1. 从官网下载与你的芯片匹配的 DMG，打开后将 WorkTwill 拖入“应用程序”。
 2. 推出安装磁盘，再从“应用程序”打开 WorkTwill。
-3. 当前版本未做 Apple Developer ID 签名与公证。若首次打开提示无法验证开发者或 Apple 无法检查该应用，请先核对下载来源，然后在“系统设置 → 隐私与安全性”找到 WorkTwill，选择“仍要打开”，按系统提示确认。
-4. 如果没有此按钮，先尝试打开应用，再返回设置。受管理的电脑可能需要管理员允许。
-5. 如果提示应用“已损坏”或“将损坏你的电脑”，系统可能不提供“仍要打开”。请停止安装并核对官网下载页的 SHA-256；一致时仍报错，请反馈应用版本与 macOS 版本，等待修复包。
+3. 当前预览版尚未经过 Apple 开发者认证与公证。首次打开若提示“Apple 无法验证 WorkTwill”，确认来自官网下载后，先点击“完成”。
+4. 打开“系统设置 → 隐私与安全性”，向下找到“安全性”，在 WorkTwill 的拦截记录旁点击“仍要打开”。
+5. 在随后出现的确认框中点击“打开”，按系统要求确认身份。
+没有按钮：先从“应用程序”尝试打开一次，再返回设置。公司或学校管理的电脑可能需要管理员处理。仍没有按钮时，请反馈弹窗截图、应用版本与 macOS 版本。
+提示“已损坏”：暂停安装，检查官网是否有更新版本；新版仍报错时请反馈。旧版 1.3.1 请换用 1.3.2 或更新版本，无需删除应用数据。
+提示“将损坏你的电脑”或明确的恶意软件提示：停止打开并反馈截图，不按普通“无法验证”提示处理。
+反馈：https://github.com/milesnorthstar/worktwill/issues/new?template=bug_report.yml
 Apple 说明：https://support.apple.com/zh-cn/102445
 
 Windows（仅适用于官网已提供的 Windows 安装包）
@@ -33,7 +37,10 @@ English
 Official downloads and checksums: https://worktwill.haoclub.com/en/download
 Installation and support: https://worktwill.haoclub.com/en/guide
 
-Mac: Open the matching DMG, drag WorkTwill to Applications, eject the disk image, and launch from Applications. This build has no Developer ID signing or notarization. If macOS cannot verify the developer or check the app, verify its official source, then review WorkTwill in System Settings → Privacy & Security → Open Anyway. Attempt a launch first if the option is missing. Managed computers may require administrator approval. If macOS reports damage or known malware, Open Anyway may be unavailable. Stop and compare the SHA-256 with the official download page. If it matches and the error persists, report the app and macOS versions and wait for a fixed package.
+Mac: Open the matching DMG, drag WorkTwill to Applications, eject the disk image, and launch from Applications. This preview has no Apple Developer ID signing or notarization. If macOS says Apple cannot verify WorkTwill, confirm it came from the official website and click Done. Open System Settings → Privacy & Security, scroll to Security, and select Open Anyway next to WorkTwill. Click Open in the confirmation dialog and confirm your identity if requested.
+If Open Anyway is missing, attempt a launch from Applications first, then return to Security. Managed computers may need administrator assistance. If it is still missing, report the dialog screenshot, app version and macOS version.
+If the app is reported as damaged, stop installation and check for a newer official version. Replace 1.3.1 with 1.3.2 or newer without deleting application data. Report the issue if the latest build is still affected. Stop if macOS says the app will damage your computer or identifies malware; do not follow the unidentified-developer steps.
+Report: https://github.com/milesnorthstar/worktwill/issues/new?template=bug_report.yml
 Apple guidance: https://support.apple.com/en-us/102445
 
 Windows (when an installer is published): Exit WorkTwill and run the matching EXE. This build has no Windows code signing. If SmartScreen appears, verify the official source and checksum before choosing More info → Run anyway, if offered. If blocked by policy, contact your administrator; keep Defender and SmartScreen enabled. Installation is per user. Follow the installer if WebView2 is required.
