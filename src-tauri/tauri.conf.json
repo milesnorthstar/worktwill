@@ -16,6 +16,11 @@
         "title": "WorkTwill",
         "width": 1280,
         "height": 840,
+        "center": true,
+        "preventOverflow": {
+          "width": 48,
+          "height": 48
+        },
         "minWidth": 900,
         "minHeight": 640
       }

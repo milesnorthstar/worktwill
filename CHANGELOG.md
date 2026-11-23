@@ -6,6 +6,7 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 
 ### Fixed
 
+- Fit the initial desktop window to the monitor work area with a margin and center it, keeping the title bar and bottom content clear of the Windows taskbar.
 - Handle both LF and CRLF source files in isolated website audit tests.
 
 ### Maintenance
