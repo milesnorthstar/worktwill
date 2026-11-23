@@ -20,6 +20,7 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 
 ### Documentation
 
+- Explain Mac first-launch approval beside website downloads and in a bilingual step-by-step guide, with separate help for missing approval buttons, damaged apps, and malware warnings.
 - Organize agent guidance, product behavior, architecture, website SEO/GEO maintenance, and version iteration into focused maintenance documents.
 - Define candidate promotion, artifact provenance and archiving, upload/publication verification, website-only deployment, and release withdrawal workflows, with current automation gaps stated explicitly.
 
