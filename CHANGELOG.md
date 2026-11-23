@@ -23,6 +23,15 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 - Organize agent guidance, product behavior, architecture, website SEO/GEO maintenance, and version iteration into focused maintenance documents.
 - Define candidate promotion, artifact provenance and archiving, upload/publication verification, website-only deployment, and release withdrawal workflows, with current automation gaps stated explicitly.
 
+## 1.3.3 — 2026-11-23
+
+Windows x64 preview release preparation. Publication and native acceptance are pending; macOS remains on 1.3.2. Online upgrade from a lower Windows version has not been verified.
+
+### Distribution
+
+- Restore Windows distribution-notice generation by supplying the exact upstream WebView2 binding license texts omitted from the published crates.
+- Include target-platform third-party license texts, component versions, MPL source-download links, and Rust standard-library notices with the Windows installation.
+
 ## 1.3.2 — 2026-11-23
 
 Available for macOS Apple Silicon. Windows is not updated by this release. Apple Developer ID signing and notarization are not included; first launch can still require **Open Anyway** in Privacy & Security. Live in-app upgrade acceptance is tracked separately from installation and online artifact checks.
