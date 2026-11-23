@@ -3,20 +3,22 @@
   "primary": "darwin-aarch64",
   "platforms": {
     "darwin-aarch64": {
-      "version": "1.3.1",
-      "stage": "本地安装与更新候选",
-      "stage_en": "Local installation and update candidate",
-      "published_at": "2026-11-21T14:09:31.435Z",
-      "notes": "",
-      "filename": "WorkTwill-1.3.1-darwin-aarch64-944289286057-WorkTwill_1.3.1_aarch64.dmg",
-      "bytes": 7671350,
-      "sha256": "944289286057791f671122e9e37ead4221ef0a35adc4db5c11bff66027030e25",
+      "version": "1.3.2",
+      "stage": "预览版",
+      "stage_en": "Preview",
+      "notes": "WorkTwill 1.3.2 for macOS Apple Silicon\n\nFixes incomplete application signatures that could make a downloaded Mac app appear damaged. The complete app and packaged update now pass strict signature checks, and third-party license texts are included in the bundle. This release also includes the snapshot lock-contention fix.\n\nApple Developer ID signing and notarization are not included. On first launch, macOS may require System Settings → Privacy & Security → Open Anyway. Installation and live in-app upgrade are verified separately. Windows is not updated by this release.\n\n修复 Mac 下载后可能提示“已损坏”的应用签名问题，完整应用与更新归档均检查签名，并随包提供第三方许可。包含快照锁竞争修复。\n\n仅发布 macOS Apple 芯片版，Windows 版本不变。未做 Apple Developer ID 签名与公证；首次打开可能需要在“系统设置 → 隐私与安全性”选择“仍要打开”。安装与线上应用内升级分别验收。\n",
+      "filename": "WorkTwill-1.3.2-darwin-aarch64-f676e500d91e-WorkTwill_1.3.2_aarch64.dmg",
+      "bytes": 7864960,
+      "sha256": "f676e500d91e367bdee171d25e04de6a4f83965cd7d1583738cd526e893ba9d6",
       "update": {
-        "filename": "WorkTwill-1.3.1-darwin-aarch64-debf2bfb79a5-WorkTwill.app.tar.gz",
-        "bytes": 7783988,
-        "sha256": "debf2bfb79a5356c4694fb31ee01d63c6f6b9fd026f243a32ed95319c8371257",
-        "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTQ2dHUFRKZFZCQTZPMXpLVk81SzBKYTh6YUdtQUFBQzFsSmpjOHAzczB1SEpWZWF4WlVPNEFSMmNFK2J1VmNaL0EvYnd1eWxDdk5ZZHZBdmJLS3FsZlNmSFVHSWhwSHdJPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1MjcwMTU0CWZpbGU6V29ya1R3aWxsLmFwcC50YXIuZ3oJdmVyc2lvbjoxLjMuMQpFZG5CcTM1MnZ3RjdxZ0tlVXl2RDd6RW1NVS9qeGRYSkhwejNNdVV0WXdWcUs0MmgydTNUcmM1c0M4U3J1dFhyMjFIMkhmaSttMVFETHR1bUZkaWdBUT09Cg=="
-      }
+        "filename": "WorkTwill-1.3.2-darwin-aarch64-af77496f81f5-WorkTwill.app.tar.gz",
+        "bytes": 7959230,
+        "sha256": "af77496f81f5a9261a5efd7dfb0e73d6f70764d31e43c3ba9292a7f7ebb07e60",
+        "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTQ2dHUFRKZFZCQTFpS2NGZ3JEVFNiNWhROSsvZTJQVmR2ZHhGSDZkcWJtNEgyb3NnZlBjRHVtUlRhcXFicXhxYldRY1ljeEYrUEZXSkJtZU1oQk83YUt1OXhvdEp5bGdBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1NDAxNzA3CWZpbGU6V29ya1R3aWxsLmFwcC50YXIuZ3oJdmVyc2lvbjoxLjMuMgpwdXpjd1djSytLYWRYb2J1WkNjUUMvRndMUS9mTzFDTVVORWhEOGN3L2hUTm5XMnNLL0k3RG1zU0xwOGF1eHF6dG9OZk1GUE9wTUxVK0lOU09YWVREdz09Cg=="
+      },
+      "published_at": "2026-11-23T02:52:21.435Z",
+      "source": "35cdf932e2abd43ee0e5c6f770d0979568dab4aa",
+      "candidate": "680db538008f2186391f9c86ca44082afcb34ade573a1628adf7717fff7eea6f"
     }
   }
 }
