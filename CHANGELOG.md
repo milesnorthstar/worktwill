@@ -25,7 +25,7 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 
 ## 1.3.3 — 2026-11-23
 
-Windows x64 preview release preparation. Publication and native acceptance are pending; macOS remains on 1.3.2. Online upgrade from a lower Windows version has not been verified.
+Available for Windows x64 as a GitHub prerelease. Native installation, launch, snapshot backup/restore and packaged license notices were verified on the exact installer. Official website deployment is pending; macOS remains on 1.3.2. Online upgrade from a lower Windows version has not been verified.
 
 ### Distribution
 
