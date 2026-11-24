@@ -102,7 +102,7 @@ impl Fixture {
         eprintln!("REPLACE_TRACKING before={before:?} after={after:?}");
         let current = tracking_identity(&self.path);
         eprintln!(
-            "REPLACE_IDENTITIES same_volume={} same_file_id={} same_creation={} anchor_transferred={} temp_had_anchor={} current_has_anchor={}",
+            "::warning title=ReplaceFileW identity::same_volume={} same_file_id={} same_creation={} anchor_transferred={} temp_had_anchor={} current_has_anchor={}",
             original_identity.0 == current.0,
             original_identity.1 == current.1,
             original_identity.3 == current.3,
