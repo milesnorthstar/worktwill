@@ -26,7 +26,7 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 
 ## 1.3.4 — 2026-11-24
 
-Release candidates for macOS Apple Silicon and Windows x64. Native acceptance and publication are pending. OS trust signing and notarization are not included; update packages use the existing signature verification.
+Available for macOS Apple Silicon. The exact installer passed native installation, launch, changed-interaction and shipped-license checks. Windows remains on 1.3.3; its 1.3.4 candidate awaits native acceptance and is not published. Live in-app upgrade to 1.3.4 remains pending. OS trust signing and notarization are not included; update packages use the existing signature verification.
 
 ### Fixed
 
