@@ -10,6 +10,7 @@ fn main() {
         UpdateStatus::decl(),
         UpdateResume::decl(),
         AppError::decl(),
+        CatalogVersion::decl(),
         WebMetadata::decl(),
         TimelineCriteria::decl(),
         TimelinePosition::decl(),

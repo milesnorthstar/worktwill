@@ -6,6 +6,9 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 
 ### Fixed
 
+- Preserve workspace counts, resource rows, selection and scroll during ordinary refreshes; coalesce operation notifications and refresh the loaded range without clearing the interface.
+- Keep selection actions outside list layout and retain search results after adding files to a workspace, marking existing references as added.
+- Offer per-row removal from a workspace without selecting first, while preserving original files, favorites and references in other workspaces.
 - Handle both LF and CRLF source files in isolated website audit tests.
 
 ### Maintenance

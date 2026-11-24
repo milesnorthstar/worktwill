@@ -17,14 +17,14 @@ export function SearchFilters({t,value,onChange,onCompositionStart,onComposition
 type SearchProps = {
   lang?:'zh'|'en';
   kind?:string;onKind?:(kind:string)=>void;onClose?:()=>void;
-  t: Translator; query: string; searching: boolean; results: Resource[]; active: number;
+  t: Translator; query: string; searching: boolean; busy?:boolean; results: Resource[]; active: number;
   scope: 'all' | 'current'; workspace: string | null; workspaceName?: string;
   addIntent: boolean; scanning: boolean; hasLocations: boolean;
   onScope: (scope: 'all' | 'current') => void; onActive: (index: number) => void;
   onActivate: (resource: Resource) => void; onAllResults?:()=>void;
 };
 
-export function SearchPanel({ lang='zh',kind:quickKind='all',onKind,onClose,t, query, searching, results, active, scope, workspace, workspaceName, addIntent, scanning, hasLocations, onScope, onActive, onActivate, onAllResults }: SearchProps) {
+export function SearchPanel({ lang='zh',kind:quickKind='all',onKind,onClose,t, query, searching, busy=false, results, active, scope, workspace, workspaceName, addIntent, scanning, hasLocations, onScope, onActive, onActivate, onAllResults }: SearchProps) {
   useEffect(() => {
     document.getElementById(`search-result-${active}`)?.scrollIntoView?.({ block: 'nearest' });
   }, [active]);
@@ -44,11 +44,12 @@ export function SearchPanel({ lang='zh',kind:quickKind='all',onKind,onClose,t, q
               return items.length ? <div id={`search-group-${kind}`} role="group" aria-label={label} key={kind} className="search-group"><div className="search-group-heading"><span>{label}</span><small>{items.length}</small></div>
                 {items.map(item => {
                   const index = results.indexOf(item);
-                  return <button key={item.id} id={`search-result-${index}`} role="option" disabled={searching} aria-selected={active === index} className={`search-result ${active === index ? 'highlighted' : ''}`} onMouseEnter={() => onActive(index)} onClick={() => onActivate(item)}>
+                  const added=addIntent&&!!workspace&&item.workspace_ids.includes(workspace);
+                  return <button key={item.id} id={`search-result-${index}`} role="option" disabled={searching||busy||added} aria-selected={active === index} className={`search-result ${active === index ? 'highlighted' : ''}`} onMouseEnter={() => onActive(index)} onClick={() => onActivate(item)}>
                     <ResourceIcon item={item}/>
                     <span className="search-result-copy"><strong><MatchText text={item.name} query={query} enabled={item.match_field==='name'}/></strong><small title={item.location}>{item.kind==='file'&&<Folder size={12}/>}<span><MatchText text={item.location || t('工作区', 'Workspace')} query={query} enabled={item.match_field==='path'||item.match_field==='url'}/></span></small></span>
                     {item.kind!=='workspace'&&<span className="quick-result-meta"><time>{resourceTime(item.modified_at,lang)}</time><small>{resourceSize(item)}</small></span>}
-                    <span className="search-result-action">{addIntent ? t('加入', 'Add') : t('打开', 'Open')}<ArrowDownLeft size={14} /></span>
+                    <span className="search-result-action">{added?t('已加入','Added'):addIntent ? t('加入', 'Add') : t('打开', 'Open')}<ArrowDownLeft size={14} /></span>
                   </button>;
                 })}</div> : null;
             })}
@@ -65,17 +66,20 @@ type ResourceListProps = {
   t: Translator; lang: 'zh' | 'en'; items: Resource[]; selected: Set<string>; busy: boolean;
   onToggle: (id: string) => void; onOpen: (item: Resource) => void;
   onFavorite: (item: Resource) => void; onReveal: (item: Resource) => void;
-  onDeleteWeb?: (item:Resource)=>void; onRelink: (item: Resource) => void; onEdit: (item: Resource) => void; onDragStart?: (event:React.PointerEvent,ids:string[])=>void;
+  onRemove?: (item:Resource)=>void; onDeleteWeb?: (item:Resource)=>void; onRelink: (item: Resource) => void; onEdit: (item: Resource) => void; onDragStart?: (event:React.PointerEvent,ids:string[])=>void;
 };
 
-export function ResourceList({ query='',workspaces=[],resetKey,timeMode='modified',t, lang, items, selected, busy, onToggle, onOpen, onFavorite, onReveal, onRelink, onEdit, onDeleteWeb, onDragStart }: ResourceListProps) {
+export function ResourceList({ query='',workspaces=[],resetKey,timeMode='modified',t, lang, items, selected, busy, onToggle, onOpen, onFavorite, onReveal, onRelink, onEdit, onDeleteWeb, onRemove, onDragStart }: ResourceListProps) {
   const viewport = useRef<HTMLDivElement>(null);
   const [scrollTop, setScrollTop] = useState(0);
   // 完整首页已达100项时就使用同一滚动区，续页不能因切换布局把末尾位置挤回开头。
-  const virtual = items.length >= 100;
+  const hasWindowed=useRef(false);
+  if(items.length>=100)hasWindowed.current=true;
+  // 刷新/移除使数量跌破100时仍沿用滚动容器，避免突然展开整张列表。
+  const virtual = hasWindowed.current;
   // 固定行高与少量预渲染保持滚动稳定，不让持续加载把所有文件节点堆入 DOM。
   const rowHeight = 84;
-  const first = virtual ? Math.max(0, Math.floor(scrollTop / rowHeight) - 4) : 0;
+  const first = virtual ? Math.min(Math.max(0,items.length-16),Math.max(0, Math.floor(scrollTop / rowHeight) - 4)) : 0;
   const last = virtual ? Math.min(items.length, first + 16) : items.length;
   useEffect(() => { setScrollTop(0); if (viewport.current) viewport.current.scrollTop = 0; }, [resetKey??items[0]?.id]);
   return <div className="resource-table">
@@ -102,6 +106,7 @@ export function ResourceList({ query='',workspaces=[],resetKey,timeMode='modifie
           {available && item.kind==='workspace' && <button className="icon-button" disabled={busy} title={t('打开', 'Open')} aria-label={t('打开 ', 'Open ') + name} onClick={() => onOpen(item)}><ChevronRight size={18} /></button>}
           {item.kind === 'file' && available && <button className="icon-button" disabled={busy} title={t('显示原始位置', 'Reveal original')} aria-label={t('显示原始位置 ', 'Reveal original ') + name} onClick={() => onReveal(item)}><FolderOpen size={17} /></button>}
           {item.kind === 'file' && !available && <button className="text-button" disabled={busy} onClick={() => onRelink(item)}>{t('重新指向', 'Relink')}</button>}
+          {item.kind!=='workspace'&&onRemove&&<button className="icon-button" disabled={busy} title={t('从本工作区移除','Remove from this workspace')} aria-label={t('从本工作区移除 ','Remove from this workspace ')+name} onClick={()=>onRemove(item)}><X size={16}/></button>}
           {item.kind === 'web' && onDeleteWeb && <button className="icon-button" disabled={busy} title={t('删除网页','Delete link')} aria-label={t('删除网页 ','Delete link ')+item.name} onClick={()=>onDeleteWeb(item)}><Trash2 size={15}/></button>}
           {item.kind === 'web' && <button className="icon-button" disabled={busy} title={t('编辑网页', 'Edit link')} aria-label={t('编辑网页 ', 'Edit link ') + name} onClick={() => onEdit(item)}><MoreHorizontal size={18} /></button>}
         </div>

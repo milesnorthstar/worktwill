@@ -62,6 +62,10 @@ Quick search groups bounded results; the full page uses backend pagination. Sear
 
 Filesystem events are observations that trigger checked refresh or reconciliation. Unchanged scans must not invalidate paginated results through needless query revision increments. Authorization, identity, and restore changes still invalidate stale data. Background work must remain bounded and must not expand authorized scope to recover a missing file.
 
+`catalog-changed` carries a `CatalogVersion` read from one database snapshot. The UI immediately invalidates old content on a changed session/permission version or an unknown version; an ordinary revision change reuses the background refresh path used for opens. That path reads overview and the currently loaded list range concurrently, validates all page versions, then replaces confirmed snapshots without unmounting rows or clearing selection. Concurrent snapshot/cursor changes allow one retry and otherwise report an error. Operation completion handles notifications received during that operation once; other bursts are coalesced. Initial loading establishes the authorization snapshot before querying rows. Views without a resource-list consumer do not request unused resource pages.
+
+`ActivityTimeline` receives separate strong-invalidation and ordinary-refresh tokens. Ordinary refresh and manual retry keep the confirmed event cards/calendar and loaded range; changed criteria or strong invalidation hide the previous snapshot immediately. This keeps timeline visibility tied to authorization without using every catalog write as a reset.
+
 Activity distinguishes observation time, file modification time, and in-app opens. It is not a complete editing audit or version history. Historical visibility must preserve observation identity and authorization provenance. Calendar queries use explicit local-day boundaries rather than assuming every day lasts 24 hours.
 
 ## Network and distribution
