@@ -283,6 +283,17 @@ fn set_fixture_anchor(path: &std::path::Path, anchor: [u8; 16]) {
 }
 
 #[test]
+fn explicit_fixture_anchor_can_be_written_and_removed() {
+    let f = Fixture::new();
+    let path = f.path.with_file_name("explicit-anchor.txt");
+    fs::write(&path, b"synthetic anchor fixture").unwrap();
+    assert_eq!(tracking_identity(&path).2, None);
+    // 始终执行显式设置，避免系统自然转移锚点时漏测句柄写权限。
+    set_fixture_anchor(&path, *uuid::Uuid::new_v4().as_bytes());
+    remove_fixture_anchor(&path);
+}
+
+#[test]
 fn replacement_without_transferred_anchor_cannot_inherit_binding() {
     let f = Fixture::new();
     let before = tracking_identity(&f.path);
