@@ -7,7 +7,7 @@ export const pages = {
   index: { route: '/', title: 'WorkTwill · 本地文件与网页整理工作台', enTitle: 'WorkTwill · Local workspace for files and links', updated: '2026-11-23' },
   guide: { route: '/guide', title: '安装与使用 · WorkTwill', enTitle: 'Setup and usage guide · WorkTwill', updated: '2026-11-23' },
   privacy: { route: '/privacy', title: '隐私说明 · WorkTwill', enTitle: 'Privacy · WorkTwill' },
-  about: { route: '/about', title: 'WorkTwill 是什么？本地文件与网页工作台', enTitle: 'What is WorkTwill? A local workspace for files and links', updated: '2026-11-22' },
+  about: { route: '/about', title: 'WorkTwill 是什么？本地文件与网页工作台', enTitle: 'What is WorkTwill? A local workspace for files and links', updated: '2026-11-23' },
   'contract-workspace': { route: '/contract-workspace', title: '不移动原文件，如何整理客户合同资料 · WorkTwill', enTitle: 'Organize contract files without moving originals · WorkTwill', updated: '2026-11-20' },
   download: { route: '/download', title: '下载、版本与支持范围 · WorkTwill', enTitle: 'Download, release status, and platform support · WorkTwill', updated: '2026-11-23' },
   '404': { route: '/404', title: '页面未找到 · WorkTwill', enTitle: 'Page not found · WorkTwill' },

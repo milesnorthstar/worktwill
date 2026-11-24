@@ -17,6 +17,8 @@ The desktop runtime is Tauri 2, React, TypeScript, Rust, and SQLite. The website
 
 The native `Runtime` holds a shared `Store` and coordination state. These are existing ownership boundaries, not a requirement to introduce a service, hook, crate, or process for each feature. Root-level `app.js`, `styles.css`, `index.html`, and `prototype-b/` are retained prototypes and are not the desktop runtime. `spikes/` contains independent experiments.
 
+`src-tauri/tauri.conf.json` owns the initial desktop window geometry. Tauri centers the window in the monitor work area and limits its initial size with a 48-physical-pixel total margin on each axis, accounting for the Windows taskbar and native title bar. The preferred content size remains 1280 × 840 logical pixels; this creation-time adjustment does not constrain subsequent manual resizing.
+
 ## Data ownership
 
 - A resource has a stable application UUID. Paths, URLs, physical file identity, access credentials, and document continuity evidence have distinct roles. Relationships use UUIDs.
@@ -38,7 +40,7 @@ A matching path, name, size, or modification time does not establish identity co
 
 On macOS, `macos_bookmark.rs` and the locator modules use private Bookmark data together with physical identity and authorization checks. A resolved Bookmark path alone does not establish continuity; do not assume Document ID availability or general safe-save support.
 
-On Windows, `windows_snapshot.rs` and `document_continuity.rs` separate physical identity from document anchors. Only after explicit consent for an eligible internal NTFS directory may the application create an Object ID on an important file (favorited or linked to a workspace). This consent is distinct from read authorization. Do not mark every scanned file, write sidecars or ADS, remove existing markers on revocation, or silently merge conflicting resource UUIDs. A continuity commit must keep current binding, permissions, history, projection, and versions consistent.
+On Windows, `windows_snapshot.rs` and `document_continuity.rs` separate physical identity from document anchors. Only after explicit consent for an eligible internal NTFS directory may the application create an Object ID on an important file (favorited or linked to a workspace). This consent is distinct from read authorization. Do not mark every scanned file, write sidecars or ADS, remove existing markers on revocation, or silently merge conflicting resource UUIDs. `ReplaceFileW` may retain the original Object ID on one NTFS installation and omit it on another; when it is absent, a changed File ID cannot be rebound from a matching path or creation time. The Windows continuity fixture explicitly tests both anchor-preserved and anchor-absent replacements without changing production files. A continuity commit must keep current binding, permissions, history, projection, and versions consistent.
 
 Opening prepares a checked backend target, invokes the operating system, and revalidates before recording the open. OS acceptance and successful activity recording are distinct outcomes. Do not hold database locks across native calls or promise that path-based OS opening removes all filesystem races.
 

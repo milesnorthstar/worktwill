@@ -6,6 +6,7 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 
 ### Fixed
 
+- Fit the initial desktop window to the monitor work area with a margin and center it, keeping the title bar and bottom content clear of the Windows taskbar.
 - Handle both LF and CRLF source files in isolated website audit tests.
 
 ### Maintenance
@@ -23,6 +24,15 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 - Explain Mac first-launch approval beside website downloads and in a bilingual step-by-step guide, with separate help for missing approval buttons, damaged apps, and malware warnings.
 - Organize agent guidance, product behavior, architecture, website SEO/GEO maintenance, and version iteration into focused maintenance documents.
 - Define candidate promotion, artifact provenance and archiving, upload/publication verification, website-only deployment, and release withdrawal workflows, with current automation gaps stated explicitly.
+
+## 1.3.3 — 2026-11-23
+
+Available for Windows x64 as a GitHub prerelease. Native installation, launch, snapshot backup/restore and packaged license notices were verified on the exact installer. Official website deployment is pending; macOS remains on 1.3.2. Online upgrade from a lower Windows version has not been verified.
+
+### Distribution
+
+- Restore Windows distribution-notice generation by supplying the exact upstream WebView2 binding license texts omitted from the published crates.
+- Include target-platform third-party license texts, component versions, MPL source-download links, and Rust standard-library notices with the Windows installation.
 
 ## 1.3.2 — 2026-11-23
 
