@@ -239,6 +239,51 @@ fn remove_fixture_anchor(path: &std::path::Path) {
     assert_eq!(tracking_identity(path).2, None);
 }
 
+fn enable_fixture_restore_privilege() {
+    use windows_sys::Win32::{Foundation::*, Security::*, System::Threading::*};
+    static ENABLE: std::sync::Once = std::sync::Once::new();
+    // 仅测试进程显式赋值锚点需要恢复权限；应用只请求系统生成锚点，不启用此权限。
+    ENABLE.call_once(|| unsafe {
+        let name: Vec<_> = "SeRestorePrivilege".encode_utf16().chain(Some(0)).collect();
+        let mut id = std::mem::zeroed();
+        assert_ne!(
+            LookupPrivilegeValueW(std::ptr::null(), name.as_ptr(), &mut id),
+            0
+        );
+        let mut token = std::ptr::null_mut();
+        assert_ne!(
+            OpenProcessToken(
+                GetCurrentProcess(),
+                TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY,
+                &mut token
+            ),
+            0
+        );
+        let privileges = TOKEN_PRIVILEGES {
+            PrivilegeCount: 1,
+            Privileges: [LUID_AND_ATTRIBUTES {
+                Luid: id,
+                Attributes: SE_PRIVILEGE_ENABLED,
+            }],
+        };
+        SetLastError(ERROR_SUCCESS);
+        let ok = AdjustTokenPrivileges(
+            token,
+            0,
+            &privileges,
+            0,
+            std::ptr::null_mut(),
+            std::ptr::null_mut(),
+        );
+        let code = GetLastError();
+        CloseHandle(token);
+        assert!(
+            ok != 0 && code == ERROR_SUCCESS,
+            "explicit anchor fixtures require SeRestorePrivilege (Windows error {code})"
+        );
+    });
+}
+
 fn set_fixture_anchor(path: &std::path::Path, anchor: [u8; 16]) {
     use std::os::windows::ffi::OsStrExt;
     use windows_sys::Win32::{
@@ -246,16 +291,17 @@ fn set_fixture_anchor(path: &std::path::Path, anchor: [u8; 16]) {
         Storage::FileSystem::*,
         System::{Ioctl::*, IO::DeviceIoControl},
     };
+    enable_fixture_restore_privilege();
     let wide: Vec<_> = path.as_os_str().encode_wide().chain(Some(0)).collect();
     unsafe {
-        // 显式设置测试锚点时申请写数据权限，不只使用修改时间等属性的权限。
+        // NTFS 显式赋值同时要求恢复权限与备份语义，普通写句柄仍会被拒绝。
         let handle = CreateFileW(
             wide.as_ptr(),
-            FILE_WRITE_DATA | FILE_WRITE_ATTRIBUTES,
+            GENERIC_WRITE,
             FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
             std::ptr::null(),
             OPEN_EXISTING,
-            FILE_FLAG_OPEN_REPARSE_POINT,
+            FILE_FLAG_BACKUP_SEMANTICS,
             std::ptr::null_mut(),
         );
         assert_ne!(handle, INVALID_HANDLE_VALUE);
