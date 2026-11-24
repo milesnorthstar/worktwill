@@ -248,9 +248,10 @@ fn set_fixture_anchor(path: &std::path::Path, anchor: [u8; 16]) {
     };
     let wide: Vec<_> = path.as_os_str().encode_wide().chain(Some(0)).collect();
     unsafe {
+        // 显式设置测试锚点时申请写数据权限，不只使用修改时间等属性的权限。
         let handle = CreateFileW(
             wide.as_ptr(),
-            FILE_WRITE_ATTRIBUTES,
+            FILE_WRITE_DATA | FILE_WRITE_ATTRIBUTES,
             FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
             std::ptr::null(),
             OPEN_EXISTING,
