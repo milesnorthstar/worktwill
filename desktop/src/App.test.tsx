@@ -1344,3 +1344,107 @@ it('连续普通打开的后台重读晚返回不能覆盖较新的有效列表'
   await act(async()=>{void handler({payload:null});});await waitFor(()=>expect(pending).toHaveLength(1));await act(async()=>{void handler({payload:null});});await waitFor(()=>expect(pending).toHaveLength(2));
   await act(async()=>pending[1]({...page,items:[file('a','第二次打开已更新.txt')]}));await screen.findByText('第二次打开已更新.txt');await act(async()=>pending[0]({...page,items:[file('a','第一次打开迟到.txt')]}));expect(screen.getByText('第二次打开已更新.txt')).toBeVisible();expect(screen.queryByText('第一次打开迟到.txt')).not.toBeInTheDocument();
 });
+
+it('普通版本通知后台更新时保留侧栏、已加载范围、列表节点和选择',async()=>{
+  const items=Array.from({length:103},(_,index)=>file(String(index),`稳定资料${index}.txt`));
+  let revision=1;
+  mocks.resources.mockImplementation(query=>Promise.resolve({...page,revision,has_more:query.offset===0,items:items.slice(query.offset,query.offset+100)}));
+  const user=userEvent.setup();render(<App/>);
+  await user.click(await screen.findByRole('button',{name:'加载更多'}));
+  const viewport=screen.getByRole('region',{name:'资料列表'});
+  fireEvent.scroll(viewport,{target:{scrollTop:7896}});
+  await user.click(screen.getByRole('checkbox',{name:'选择 稳定资料99.txt'}));
+  let finish!:(value:Overview)=>void;
+  mocks.overview.mockImplementationOnce(()=>new Promise(resolve=>{finish=resolve;}));revision=2;
+  const reads=mocks.resources.mock.calls.length;
+  await act(async()=>mocks.listen.mock.calls.find(([name])=>name==='catalog-changed')![1]({payload:{session:'s',permission_version:1,revision:2}}));
+  await waitFor(()=>expect(finish).toBeTypeOf('function'));
+  expect(screen.getByRole('region',{name:'资料列表'})).toBe(viewport);
+  expect(screen.getByRole('checkbox',{name:'选择 稳定资料99.txt'})).toBeChecked();
+  expect(within(screen.getByRole('complementary',{name:'主侧栏'})).getByRole('button',{name:/客户 A/})).toBeVisible();
+  expect(screen.queryByRole('heading',{name:'正在读取资料'})).not.toBeInTheDocument();
+  await act(async()=>finish({...meta,revision:2}));
+  await waitFor(()=>expect(mocks.resources.mock.calls.length).toBe(reads+2));
+  expect(viewport.scrollTop).toBe(7896);
+  expect(screen.getByRole('checkbox',{name:'选择 稳定资料99.txt'})).toBeChecked();
+  expect(screen.getByRole('checkbox',{name:'选择 稳定资料102.txt'})).toBeInTheDocument();
+});
+
+it('同一收藏操作的原生通知和完成回执只后台重读一次',async()=>{
+  let saved=false;
+  mocks.resources.mockImplementation(()=>Promise.resolve({...page,revision:saved?2:1,items:[{...file('a','收藏稳定.txt'),favorite:saved}]}));
+  mocks.overview.mockImplementation(()=>Promise.resolve({...meta,revision:saved?2:1}));
+  mocks.mutate.mockImplementation(async()=>{
+    saved=true;
+    mocks.listen.mock.calls.find(([name])=>name==='catalog-changed')![1]({payload:{session:'s',permission_version:1,revision:2}});
+    return {changed:1,id:null};
+  });
+  const user=userEvent.setup();render(<App/>);
+  await user.click(await screen.findByRole('checkbox',{name:'选择 收藏稳定.txt'}));
+  const viewport=screen.getByRole('region',{name:'资料列表'});
+  await user.click(screen.getByRole('button',{name:'收藏 收藏稳定.txt'}));
+  await screen.findByRole('button',{name:'取消收藏 收藏稳定.txt'});
+  expect(mocks.overview).toHaveBeenCalledTimes(2);expect(mocks.resources).toHaveBeenCalledTimes(2);
+  expect(screen.getByRole('region',{name:'资料列表'})).toBe(viewport);
+  expect(screen.getByRole('checkbox')).toBeChecked();
+});
+
+it('搜索加入保留结果节点和查询，完成后标记已加入且不能重复提交',async()=>{
+  let saved=false;
+  const item=()=>({...file('a','可加入合同.txt'),workspace_ids:saved?['workspace1']:[]});
+  mocks.search.mockImplementation(request=>Promise.resolve({request_id:request.request_id,page:{...page,revision:saved?2:1,items:[item()]}}));
+  mocks.overview.mockImplementation(()=>Promise.resolve({...meta,revision:saved?2:1,workspaces:[{...meta.workspaces[0],count:saved?1:0}]}));
+  mocks.resources.mockImplementation(()=>Promise.resolve({...page,revision:saved?2:1,items:saved?[item()]:[]}));
+  mocks.mutate.mockImplementation(async()=>{saved=true;return {changed:1,id:null};});
+  const user=userEvent.setup();render(<App/>);
+  await user.click(await within(screen.getByRole('complementary',{name:'主侧栏'})).findByRole('button',{name:/客户 A/}));
+  await user.click(screen.getAllByRole('button',{name:'添加文件'})[0]);
+  await user.type(screen.getByRole('combobox',{name:'全局搜索'}),'可加入');
+  const result=await screen.findByRole('option');
+  await user.click(result);
+  await waitFor(()=>expect(result).toHaveTextContent('已加入'));
+  expect(screen.getByRole('option')).toBe(result);expect(result).toBeDisabled();
+  expect(screen.getByRole('combobox',{name:'全局搜索'})).toHaveValue('可加入');
+  expect(screen.getByRole('heading',{level:1})).toHaveTextContent('客户 A');
+  expect(screen.queryByText('正在搜索…')).not.toBeInTheDocument();
+  expect(mocks.mutate).toHaveBeenCalledExactlyOnceWith({type:'link',workspace_id:'workspace1',resource_ids:['a']});
+});
+
+it('工作区单行移除只解除当前引用，失败保留资料且无需先勾选',async()=>{
+  const item={...file('a','可移除资料.txt'),favorite:true,workspace_ids:['workspace1','workspace2']};
+  mocks.resources.mockResolvedValue({...page,items:[item]});
+  mocks.mutate.mockRejectedValueOnce({message:'移除失败'});
+  const user=userEvent.setup();render(<App/>);
+  await user.click(await within(screen.getByRole('complementary',{name:'主侧栏'})).findByRole('button',{name:/客户 A/}));
+  await user.click(await screen.findByRole('button',{name:'从本工作区移除 可移除资料.txt'}));
+  expect(await screen.findByRole('alert')).toHaveTextContent('移除失败');
+  expect(screen.getByRole('checkbox')).not.toBeChecked();
+  expect(screen.getByText(item.name)).toBeVisible();
+  expect(mocks.mutate).toHaveBeenCalledExactlyOnceWith({type:'unlink',workspace_id:'workspace1',resource_ids:['a']});
+});
+
+it('携带新授权版本的通知立即清除旧资料，迟到普通刷新不能恢复它',async()=>{
+  mocks.resources.mockResolvedValue({...page,items:[file('a','撤权前私有资料.txt')]});
+  render(<App/>);await screen.findByText('撤权前私有资料.txt');
+  let finish!:(value:ResourcePage)=>void;
+  mocks.resources.mockImplementationOnce(()=>new Promise(resolve=>{finish=resolve;}));
+  await act(async()=>mocks.listen.mock.calls.find(([name])=>name==='resource-opened')![1]({payload:null}));
+  await waitFor(()=>expect(finish).toBeTypeOf('function'));
+  mocks.overview.mockResolvedValue({...meta,permission_version:2,revision:3});
+  mocks.resources.mockResolvedValue({...page,permission_version:2,revision:3});
+  await act(async()=>mocks.listen.mock.calls.find(([name])=>name==='catalog-changed')![1]({payload:{session:'s',permission_version:2,revision:3}}));
+  expect(screen.queryByText('撤权前私有资料.txt')).not.toBeInTheDocument();
+  await act(async()=>finish({...page,items:[file('a','撤权前私有资料.txt')]}));
+  expect(screen.queryByText('撤权前私有资料.txt')).not.toBeInTheDocument();
+});
+
+it('后台分页遇到并发版本变化最多重读一次，失败保留当前列表并显示错误',async()=>{
+  mocks.resources.mockResolvedValue({...page,items:[file('a','并发前列表.txt')]});
+  render(<App/>);await screen.findByText('并发前列表.txt');
+  mocks.overview.mockResolvedValue({...meta,revision:2});
+  mocks.resources.mockResolvedValue({...page,revision:3,items:[file('b','不能混入的快照.txt')]});
+  await act(async()=>mocks.listen.mock.calls.find(([name])=>name==='catalog-changed')![1]({payload:{session:'s',permission_version:1,revision:2}}));
+  expect(await screen.findByRole('alert')).toHaveTextContent('资料持续变化，请稍后重试');
+  expect(screen.getByText('并发前列表.txt')).toBeVisible();expect(screen.queryByText('不能混入的快照.txt')).not.toBeInTheDocument();
+  expect(mocks.resources).toHaveBeenCalledTimes(3);expect(mocks.overview).toHaveBeenCalledTimes(3);
+});

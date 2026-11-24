@@ -17,7 +17,7 @@ pub(crate) fn configure(db: &Connection) {
     }
 }
 
-fn check_snapshot(overview: bool) {
+fn check_snapshot(kind: &str) {
     let approved = std::env::var_os("WORKTWILL_TEST_ROOT").expect("confirmed fixture root");
     let directory = tempfile::Builder::new()
         .prefix("read-snapshot-")
@@ -36,7 +36,9 @@ fn check_snapshot(overview: bool) {
     let writer = Connection::open(&database).unwrap();
     writer.execute("UPDATE settings SET value=10", []).unwrap();
     let read = || {
-        if overview {
+        if kind == "version" {
+            serde_json::to_value(store.catalog_version().unwrap()).unwrap()
+        } else if kind == "overview" {
             serde_json::to_value(store.overview().unwrap()).unwrap()
         } else {
             serde_json::to_value(
@@ -57,12 +59,14 @@ fn check_snapshot(overview: bool) {
     let (committed, finished) = mpsc::channel();
     let worker = thread::spawn(move || {
         ready.recv_timeout(Duration::from_secs(5)).unwrap();
-        writer.execute_batch("BEGIN IMMEDIATE; UPDATE resources SET name='外部提交的新名称',favorite=1,modified_at=999999999,size=55; UPDATE search_documents SET modified_at=999999999 WHERE kind<>'workspace'; UPDATE scan_roots SET scanned=99; UPDATE settings SET value=11 WHERE key='revision'; COMMIT;").unwrap();
+        writer.execute_batch("BEGIN IMMEDIATE; UPDATE resources SET name='外部提交的新名称',favorite=1,modified_at=999999999,size=55; UPDATE search_documents SET modified_at=999999999 WHERE kind<>'workspace'; UPDATE scan_roots SET scanned=99; UPDATE settings SET value=11 WHERE key IN ('revision','permission_version'); COMMIT;").unwrap();
         committed.send(()).unwrap();
     });
+    let version_only = kind == "version";
     NEXT_CONNECTION.with(|next| {
         *next.borrow_mut() = Some(Box::new(move |db| {
             let mut fired = false;
+            let mut version_reads = 0;
             db.authorizer(Some(move |context: AuthContext<'_>| {
                 if !fired
                     && matches!(
@@ -73,6 +77,10 @@ fn check_snapshot(overview: bool) {
                         }
                     )
                 {
+                    version_reads += 1;
+                    if version_only && version_reads == 1 {
+                        return Authorization::Allow;
+                    }
                     fired = true;
                     started.send(()).unwrap();
                     finished.recv_timeout(Duration::from_secs(5)).unwrap();
@@ -92,10 +100,15 @@ fn check_snapshot(overview: bool) {
 
 #[test]
 fn resources_keep_candidates_details_and_versions_in_one_snapshot() {
-    check_snapshot(false);
+    check_snapshot("resources");
 }
 
 #[test]
 fn overview_keeps_roots_activities_grants_and_versions_in_one_snapshot() {
-    check_snapshot(true);
+    check_snapshot("overview");
+}
+
+#[test]
+fn catalog_notification_keeps_permission_and_revision_in_one_snapshot() {
+    check_snapshot("version");
 }

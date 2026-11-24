@@ -11,6 +11,7 @@ type Props = {
   lang: Lang;
   // 父级 UI 失效令牌，只触发重读；不是数据库 revision。
   revision: number;
+  refreshRevision?: number;
   onOpen: (resource: Resource) => void;
   onReveal: (resource: Resource) => void;
   onWorkspace: (id: string) => void;
@@ -56,7 +57,7 @@ function ResourceIcon({ resource }: { resource: Resource }) {
   return <span className={`timeline-resource-icon timeline-resource-${style}`} aria-hidden="true">{badge ? <b>{badge}</b> : resource.kind === 'web' ? <Globe size={21} /> : <File size={21} />}{!badge && extension && extension.length <= 5 && resource.kind !== 'web' && <small>{extension}</small>}</span>;
 }
 
-export default function ActivityTimeline({ lang, revision, onOpen, onReveal, onWorkspace, workspaces, workspacesReady = true }: Props) {
+export default function ActivityTimeline({ lang, revision, refreshRevision=0, onOpen, onReveal, onWorkspace, workspaces, workspacesReady = true }: Props) {
   const t = useCallback((zh: string, en: string) => lang === 'zh' ? zh : en, [lang]);
   const locale = lang === 'zh' ? 'zh-CN' : 'en-US';
   const [month, setMonth] = useState(() => new Date(new Date().getFullYear(), new Date().getMonth(), 1));
@@ -87,7 +88,8 @@ export default function ActivityTimeline({ lang, revision, onOpen, onReveal, onW
       filter, basis, workspace_id: workspaceId, offset: 0,
     };
   }, [selectedDay, monthFrom, monthTo, filter, basis, workspaceId]);
-  const key = JSON.stringify([request, revision, retry]);
+  // 查询/强失效令牌决定可见性；普通刷新与手动重试不撤下已确认的活动。
+  const key = JSON.stringify([request, revision]);
   const current = loaded?.key === key ? loaded.page : null;
 
   const load = useCallback(async (append: boolean) => {
@@ -96,7 +98,7 @@ export default function ActivityTimeline({ lang, revision, onOpen, onReveal, onW
     const previous = loadedRef.current?.key === key ? loadedRef.current.page : null;
     inFlight.current = true;
     setLoading(true); setError(null);
-    if (!append) { setLoaded(null); loadedRef.current = null; }
+    if (!append&&!previous) { setLoaded(null); loadedRef.current = null; }
     const readSnapshot = async (offset: number, cursor?: TimelineCursor): Promise<TimelinePage> => {
       for (let attempt = 0; attempt < 2; attempt++) {
         const metadata = await api.overview();
@@ -114,7 +116,16 @@ export default function ActivityTimeline({ lang, revision, onOpen, onReveal, onW
           const cursor = previous.next_cursor;
           if (!cursor) throw {message:'时间线分页信息无效，请刷新后重试',message_en:'Timeline pagination is unavailable. Refresh and try again.'};
           result = await readSnapshot(cursor.next_offset, cursor);
-        } else result = await readSnapshot(0);
+        } else {
+          result = await readSnapshot(0);
+          // 普通刷新保留已加载范围，各页必须来自同一版本。
+          const target=previous?.events.length??0;
+          while(result.has_more&&result.next_cursor&&result.events.length<target){
+            const next=await readSnapshot(result.next_cursor.next_offset,result.next_cursor);
+            if(!sameSnapshot(result,next))throw {message:'资料状态已更新，请刷新后重试',message_en:'Resources changed. Refresh and try again.'};
+            result={...next,events:[...result.events,...next.events]};
+          }
+        }
       } catch (cause) {
         if (append && typeof cause === 'object' && cause !== null && 'code' in cause && cause.code === 'stale_cursor') {
           // 后端拒绝旧位置时只重读一次首页，不拼接两个读取快照。
@@ -136,7 +147,7 @@ export default function ActivityTimeline({ lang, revision, onOpen, onReveal, onW
     } finally {
       if (id === sequence.current) { inFlight.current = false; setLoading(false); }
     }
-  }, [key, request]);
+  }, [key, request, retry, refreshRevision]);
 
   useEffect(() => {
     if (!native) { setLoading(false); return; }

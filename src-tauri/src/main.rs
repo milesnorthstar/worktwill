@@ -77,10 +77,24 @@ fn take_update_resume(state: State<'_, Arc<updates::Updates>>) -> Result<Option<
     state.take_resume()
 }
 
+fn notify_catalog(app: &tauri::AppHandle) {
+    let state = app.state::<Arc<Runtime>>();
+    match state.store.catalog_version() {
+        Ok(version) => {
+            let _ = app.emit("catalog-changed", Some(version));
+        }
+        Err(error) => {
+            // 无法确定授权版本时强失效，并明确报告读取失败。
+            let _ = app.emit("operation-error", error);
+            let _ = app.emit("catalog-changed", None::<CatalogVersion>);
+        }
+    }
+}
+
 fn notify_scan_completion(app: &tauri::AppHandle, store: &Store, before: Result<u32>) {
     match before.and_then(|before| store.query_revision().map(|after| before != after)) {
         Ok(true) => {
-            let _ = app.emit("catalog-changed", ());
+            notify_catalog(app);
         }
         Ok(false) => {
             let _ = app.emit("scan-progress", ());
@@ -88,7 +102,7 @@ fn notify_scan_completion(app: &tauri::AppHandle, store: &Store, before: Result<
         Err(error) => {
             // 无法确认版本时明确报告并清除旧资料，不把读取失败当成无变化。
             let _ = app.emit("operation-error", error);
-            let _ = app.emit("catalog-changed", ());
+            let _ = app.emit("catalog-changed", None::<CatalogVersion>);
         }
     }
 }
@@ -190,7 +204,7 @@ fn kick_known_refresh(app: tauri::AppHandle) {
         })();
         match result {
             Ok(true) => {
-                let _ = app.emit("catalog-changed", ());
+                notify_catalog(&app);
             }
             Ok(false) => {}
             Err(error) => {
@@ -279,7 +293,7 @@ async fn set_document_tracking(
         })
         .await
         .map_err(|_| internal_error())??;
-        let _ = app.emit("catalog-changed", ());
+        notify_catalog(&app);
         Ok(())
     }
     #[cfg(not(windows))]
@@ -376,7 +390,7 @@ async fn mutate(
     })
     .await
     .map_err(|_| internal_error())??;
-    let _ = app.emit("catalog-changed", ());
+    notify_catalog(&app);
     if let Some(root) = rescan {
         state.retry_watches.store(true, Ordering::SeqCst);
         request_root_scan(app, &root);
@@ -425,7 +439,7 @@ async fn pick_root(
     .map_err(|_| internal_error())??;
     if let Some(root) = &result {
         state.retry_watches.store(true, Ordering::SeqCst);
-        let _ = app.emit("catalog-changed", ());
+        notify_catalog(&app);
         request_root_scan(app, root);
     }
     Ok(result)
@@ -469,7 +483,7 @@ async fn open_resource(
         if result.is_ok() {
             let _ = app.emit("resource-opened", ());
         } else {
-            let _ = app.emit("catalog-changed", ());
+            notify_catalog(&app);
         }
         result
     })
@@ -502,7 +516,7 @@ async fn reveal_resource(
                 )
             })
         })();
-        let _ = app.emit("catalog-changed", ());
+        notify_catalog(&app);
         result
     })
     .await
@@ -573,7 +587,7 @@ async fn pick_relink(
     .await
     .map_err(|_| internal_error())??;
     if result {
-        let _ = app.emit("catalog-changed", ());
+        notify_catalog(&app);
     }
     Ok(result)
 }
@@ -651,7 +665,7 @@ async fn restore(
     .await
     .map_err(|_| internal_error())??;
     if result {
-        let _ = app.emit("catalog-changed", ());
+        notify_catalog(&app);
         let _ = app.emit("data-restored", ());
     }
     Ok(result)
@@ -743,7 +757,7 @@ fn start_watcher(app: tauri::AppHandle) {
                     });
                     if changed {
                         failed.clear();
-                        let _ = app.emit("catalog-changed", ());
+                        notify_catalog(&app);
                         for root in after.iter().filter(|root| {
                             root.active
                                 && root.location_status == "available"
@@ -906,7 +920,7 @@ async fn import_drop(
         }
     }
     let result = result?;
-    let _ = app.emit("catalog-changed", ());
+    notify_catalog(&app);
     Ok(result)
 }
 #[tauri::command]
@@ -954,7 +968,7 @@ async fn pick_files(
     .await
     .map_err(|_| internal_error())??;
     if result.is_some() {
-        let _ = app.emit("catalog-changed", ());
+        notify_catalog(&app);
     }
     Ok(result)
 }

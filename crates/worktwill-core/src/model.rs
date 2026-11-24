@@ -57,6 +57,13 @@ pub struct AppError {
     pub message_en: String,
 }
 pub type Result<T> = std::result::Result<T, AppError>;
+
+#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+pub struct CatalogVersion {
+    pub session: String,
+    pub permission_version: u32,
+    pub revision: u32,
+}
 impl AppError {
     pub fn new(code: &str, message: &str, message_en: &str) -> Self {
         Self {

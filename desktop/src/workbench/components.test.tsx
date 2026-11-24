@@ -121,3 +121,16 @@ it('撤权占位随语言更新，可用资料的同名中文文件保持原文'
   expect(screen.getByRole('button',{name:/^未授权的文件/})).toBeVisible();
   expect(screen.getByRole('checkbox',{name:'Select 未授权的文件'})).toBeInTheDocument();
 });
+
+it('刷新或移除使数量跌破虚拟列表阈值时仍保留滚动容器',()=>{
+  const props={t,lang:'zh' as const,selected:new Set<string>(),busy:false,onToggle:vi.fn(),onOpen:vi.fn(),onFavorite:vi.fn(),onReveal:vi.fn(),onRelink:vi.fn(),onEdit:vi.fn(),resetKey:'same-view'};
+  const items=Array.from({length:100},(_,index)=>({...file,id:String(index),name:`刷新${index}.txt`}));
+  const {rerender}=render(<ResourceList {...props} items={items}/>);
+  const viewport=screen.getByRole('region',{name:'资料列表'});
+  fireEvent.scroll(viewport,{target:{scrollTop:7896}});
+  rerender(<ResourceList {...props} items={items.slice(0,99)}/>);
+  expect(screen.getByRole('region',{name:'资料列表'})).toBe(viewport);
+  expect(viewport).toHaveClass('virtual');expect(viewport.scrollTop).toBe(7896);
+  expect(screen.getByRole('checkbox',{name:'选择 刷新98.txt'})).toBeInTheDocument();
+  expect(screen.getAllByRole('checkbox').length).toBeLessThanOrEqual(16);
+});

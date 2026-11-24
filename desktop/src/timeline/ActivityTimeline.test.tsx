@@ -368,3 +368,24 @@ it('撤权由API移除记录后旧历史名与当前资源名同步消失，不�
   expect(screen.queryByText(/撤权前/)).not.toBeInTheDocument();
   expect(props.onOpen).not.toHaveBeenCalled();expect(props.onReveal).not.toHaveBeenCalled();
 });
+
+it('普通版本刷新和手动刷新期间保留时间线卡片与日历，强失效仍立即隐藏',async()=>{
+  mocks.timeline.mockResolvedValue(page([entry('stable')]));
+  const user=userEvent.setup();const {rerender}=render(<ActivityTimeline {...props}/>);
+  const article=await screen.findByRole('article');
+  let finish!:(value:TimelinePage)=>void;
+  mocks.timeline.mockImplementationOnce(()=>new Promise(resolve=>{finish=resolve;}));
+  rerender(<ActivityTimeline {...props} refreshRevision={1}/>);
+  await waitFor(()=>expect(finish).toBeTypeOf('function'));
+  expect(screen.getByRole('article')).toBe(article);
+  expect(screen.queryByRole('heading',{name:'正在读取活动'})).not.toBeInTheDocument();
+  await act(async()=>finish(page([entry('stable')])));
+  await waitFor(()=>expect(screen.getByRole('button',{name:'刷新时间线'})).toBeEnabled());
+  mocks.timeline.mockImplementationOnce(()=>new Promise(resolve=>{finish=resolve;}));
+  await user.click(screen.getByRole('button',{name:'刷新时间线'}));
+  expect(screen.getByRole('article')).toBe(article);
+  await act(async()=>finish(page([entry('stable')])));
+  mocks.overview.mockImplementationOnce(()=>new Promise(()=>{}));
+  rerender(<ActivityTimeline {...props} revision={2} refreshRevision={1}/>);
+  expect(screen.queryByRole('article')).not.toBeInTheDocument();
+});

@@ -11,6 +11,8 @@ export type UpdateResume = { view: string, workspace_id: string | null, language
 
 export type AppError = { code: string, message: string, message_en: string, };
 
+export type CatalogVersion = { session: string, permission_version: number, revision: number, };
+
 export type WebMetadata = { title: string | null, final_url: string, };
 
 export type TimelineCriteria = { from: number | null, to: number | null, month_from: number, month_to: number, day_boundaries: Array<number>, filter: string, basis: string, workspace_id: string | null, };
