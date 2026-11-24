@@ -1,0 +1,59 @@
+name: Diagnose fixture Object ID access
+
+on:
+  push:
+    branches: [diagnostic/windows-anchor-access]
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: windows-2022
+    timeout-minutes: 5
+    steps:
+      - name: Compare explicit Object ID writes on disposable files
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          # 仅在当前 runner 的独立临时目录比较权限，不读仓库或用户文件。
+          $root = Join-Path $env:RUNNER_TEMP ('object-id-probe-' + [guid]::NewGuid())
+          New-Item -ItemType Directory -Path $root | Out-Null
+          Add-Type @'
+          using System;
+          using System.Runtime.InteropServices;
+          using Microsoft.Win32.SafeHandles;
+          public static class ObjectIdProbe {
+            [DllImport("kernel32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
+            public static extern SafeFileHandle CreateFileW(string name, uint access, uint share, IntPtr security, uint mode, uint flags, IntPtr template);
+            [DllImport("kernel32.dll", SetLastError=true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool DeviceIoControl(SafeFileHandle file, uint code, byte[] input, uint inputSize, byte[] output, uint outputSize, out uint returned, IntPtr overlapped);
+          }
+          '@
+          $accesses = @(
+            @{name='attributes'; value=[uint32]256},
+            @{name='data-and-attributes'; value=[uint32]258},
+            @{name='generic-write'; value=[uint32]1073741824},
+            @{name='generic-read-write'; value=[uint32]3221225472}
+          )
+          $results = @()
+          foreach ($access in $accesses) {
+            foreach ($flags in @([uint32]0, [uint32]2097152)) {
+              foreach ($length in @(16,64)) {
+                $path = Join-Path $root ($access.name + '-' + $flags + '-' + $length + '.txt')
+                [IO.File]::WriteAllText($path,'synthetic fixture')
+                $file = [ObjectIdProbe]::CreateFileW($path,$access.value,7,[IntPtr]::Zero,3,$flags,[IntPtr]::Zero)
+                if ($file.IsInvalid) { throw ('CreateFileW failed: ' + [Runtime.InteropServices.Marshal]::GetLastWin32Error()) }
+                try {
+                  $buffer = New-Object byte[] 64
+                  [guid]::NewGuid().ToByteArray().CopyTo($buffer,0)
+                  [uint32]$returned = 0
+                  $ok = [ObjectIdProbe]::DeviceIoControl($file,589976,$buffer,$length,$null,0,[ref]$returned,[IntPtr]::Zero)
+                  $errorCode = if ($ok) {0} else {[Runtime.InteropServices.Marshal]::GetLastWin32Error()}
+                  $results += [pscustomobject]@{access=$access.name;flags=$flags;input_bytes=$length;set_ok=$ok;error=$errorCode}
+                } finally { $file.Dispose() }
+              }
+            }
+          }
+          $results | ConvertTo-Json | Write-Output
