@@ -51,6 +51,7 @@ impl Fixture {
     }
     fn replace(&self, scan: bool, same_birth: bool) {
         let before = self.store.document_tracking_status().unwrap();
+        let original_identity = tracking_identity(&self.path);
         let temp = self.path.with_file_name("save.tmp");
         fs::write(&temp, b"new version").unwrap();
         if same_birth {
@@ -79,6 +80,7 @@ impl Fixture {
         if scan {
             self.store.scan_all().unwrap();
         }
+        let replacement_identity = tracking_identity(&temp);
         use std::os::windows::ffi::OsStrExt;
         let a: Vec<_> = self.path.as_os_str().encode_wide().chain(Some(0)).collect();
         let b: Vec<_> = temp.as_os_str().encode_wide().chain(Some(0)).collect();
@@ -98,6 +100,16 @@ impl Fixture {
         // 替换后先确认真实NTFS锚点状态，避免把环境能力差异误报为业务绑定失败。
         let after = self.store.document_tracking_status().unwrap();
         eprintln!("REPLACE_TRACKING before={before:?} after={after:?}");
+        let current = tracking_identity(&self.path);
+        eprintln!(
+            "REPLACE_IDENTITIES same_volume={} same_file_id={} same_creation={} anchor_transferred={} temp_had_anchor={} current_has_anchor={}",
+            original_identity.0 == current.0,
+            original_identity.1 == current.1,
+            original_identity.3 == current.3,
+            original_identity.2.is_some() && original_identity.2 == current.2,
+            replacement_identity.2.is_some(),
+            current.2.is_some(),
+        );
     }
     fn list(&self, mode: &str) -> ResourcePage {
         self.store
@@ -110,6 +122,70 @@ impl Fixture {
             .unwrap()
     }
 }
+// 只在专用测试夹具上读取文件身份；区分 ReplaceFileW 未转移锚点与业务续接失败。
+fn tracking_identity(path: &std::path::Path) -> (u64, [u8; 16], Option<[u8; 16]>, i64) {
+    use std::os::windows::ffi::OsStrExt;
+    use windows_sys::Win32::{
+        Foundation::*,
+        Storage::FileSystem::*,
+        System::{Ioctl::*, IO::DeviceIoControl},
+    };
+    let wide: Vec<_> = path.as_os_str().encode_wide().chain(Some(0)).collect();
+    unsafe {
+        let handle = CreateFileW(
+            wide.as_ptr(),
+            FILE_READ_ATTRIBUTES,
+            FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+            std::ptr::null(),
+            OPEN_EXISTING,
+            FILE_FLAG_OPEN_REPARSE_POINT,
+            std::ptr::null_mut(),
+        );
+        assert_ne!(handle, INVALID_HANDLE_VALUE);
+        let mut id: FILE_ID_INFO = std::mem::zeroed();
+        let mut basic: FILE_BASIC_INFO = std::mem::zeroed();
+        assert_ne!(
+            GetFileInformationByHandleEx(
+                handle,
+                FileIdInfo,
+                &mut id as *mut _ as *mut _,
+                std::mem::size_of::<FILE_ID_INFO>() as u32
+            ),
+            0
+        );
+        assert_ne!(
+            GetFileInformationByHandleEx(
+                handle,
+                FileBasicInfo,
+                &mut basic as *mut _ as *mut _,
+                std::mem::size_of::<FILE_BASIC_INFO>() as u32
+            ),
+            0
+        );
+        let mut object: FILE_OBJECTID_BUFFER = std::mem::zeroed();
+        let mut returned = 0;
+        let ok = DeviceIoControl(
+            handle,
+            FSCTL_GET_OBJECT_ID,
+            std::ptr::null(),
+            0,
+            &mut object as *mut _ as *mut _,
+            std::mem::size_of::<FILE_OBJECTID_BUFFER>() as u32,
+            &mut returned,
+            std::ptr::null_mut(),
+        );
+        let code = if ok == 0 { GetLastError() } else { 0 };
+        CloseHandle(handle);
+        eprintln!("OBJECT_ID_READ status={code} returned={returned}");
+        (
+            id.VolumeSerialNumber,
+            id.FileId.Identifier,
+            (ok != 0 && returned >= 16).then_some(object.ObjectId),
+            basic.CreationTime,
+        )
+    }
+}
+
 #[test]
 fn removed_object_id_must_not_report_established_for_same_physical_file() {
     let f = Fixture::new();
