@@ -8,6 +8,8 @@ WorkTwill is a local personal workspace for file references and saved web links.
 | --- | --- |
 | Resources | Stable application UUIDs identify resources; paths and physical file identities are separate attributes. Copies and Save As normally create independent resources. |
 | Workspaces | One resource can belong to multiple workspaces. Removing or transferring a reference changes relationships, not original files or unrelated references/favorites. |
+| List actions | Workspace rows offer removal of that reference without prior selection; batch actions remain available. Favorites use the star to unfavorite. Deleting a saved web link remains a separate, confirmed application-wide action. No list action deletes original files. |
+| Refresh and selection | Ordinary catalog refresh retains confirmed workspaces, counts, rows, loaded range, selection, and scroll until replacement data is ready. Selection actions float outside list layout. Authorization/session invalidation clears old details immediately. Search-based workspace additions retain the query/results and mark existing membership as added. |
 | Authorization | Access requires an explicit directory or individual-file grant. An individual grant does not authorize its parent. Paused scanning, unavailable locations, and revoked access are distinct states. |
 | Revocation | Hide inaccessible file details across global queries and history as applicable; retain anonymous workspace references where needed. Do not delete originals or restore access from a remembered path. |
 | Search | Search names/locations, saved titles/URLs, and workspace names. Keep quick results bounded and full results paginated; do not index document contents. |

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import { listen } from '@tauri-apps/api/event';
 import { ArrowLeft, ArrowRight, Check, Clock3, ChevronRight, Folder, Home, Layers3, Link2, LoaderCircle, Plus, RefreshCw, Search, Settings2, ShieldCheck, Star, Trash2, X } from 'lucide-react';
 import { api, errorMessage, native, nextSearchRequestId } from './api';
-import type { Mutation, Overview, Resource, ResourcePage, ImportResult, SearchCursor, UiLanguage } from './contracts';
+import type { CatalogVersion, Mutation, Overview, Resource, ResourcePage, ImportResult, SearchCursor, UiLanguage } from './contracts';
 import HomeWidgets from './workbench/HomeWidgets';
 import ActivityTimeline from './timeline/ActivityTimeline';
 import DocumentTracking from './DocumentTracking';
@@ -132,6 +132,7 @@ export default function App({initialView='home'}:{initialView?:View}) {
   }
   const [refresh, setRefresh] = useState(0);
   const [openedRevision,setOpenedRevision]=useState(0);
+  const [quickRevision,setQuickRevision]=useState(0);
   const [loading, setLoading] = useState(true);
   const [reloadHeight,setReloadHeight]=useState<number>();
   const mainArea=useRef<HTMLElement>(null);
@@ -140,6 +141,7 @@ export default function App({initialView='home'}:{initialView?:View}) {
   const suppressSearchFocus=useRef(false);
   function closeQuick(){searchSequence.current++;setSearchOpen(false);setAddIntent(false);suppressSearchFocus.current=true;searchInput.current?.focus();suppressSearchFocus.current=false;}
   const searchSequence = useRef(0);
+  const quickIntent=useRef('');
   const loadSequence = useRef(0);
   const nextSearchCursor = useRef<SearchCursor | null>(null);
   const currentPermission = useRef({ session: '', version: 0, revision: 0 });
@@ -161,12 +163,33 @@ export default function App({initialView='home'}:{initialView?:View}) {
     setResults([]); setOverview(null); setSelected(new Set()); setPage(null); setOffset(0); setRefresh(v => v + 1);
   }, []);
 
+  const refreshTimer=useRef<number|undefined>(undefined);
+  const pendingCatalogRefresh=useRef(false);
+  const scheduleRefresh=useCallback(()=>{
+    pendingCatalogRefresh.current=true;
+    window.clearTimeout(refreshTimer.current);
+    // 同一轮原生通知合并重读；操作中的通知由 run 在提交完成后统一处理。
+    refreshTimer.current=window.setTimeout(()=>{if(!busyRef.current)void openedRefresh.current();},30);
+  },[]);
+  useEffect(()=>{
+    if(!loading&&pendingCatalogRefresh.current&&!busyRef.current){pendingCatalogRefresh.current=false;scheduleRefresh();}
+  },[loading,scheduleRefresh]);
+  useEffect(()=>()=>{window.clearTimeout(refreshTimer.current);loadSequence.current++;},[]);
+
   useEffect(() => {
     if (!native) { setLoading(false); return; }
     let alive = true;
     const clearDropHighlight=()=>document.querySelectorAll('.native-drop-target').forEach(element=>element.classList.remove('native-drop-target'));
     const subscriptions = [
-      listen('catalog-changed', () => { if (alive) reload(); }),
+      listen<CatalogVersion|null>('catalog-changed', event => {
+        if(!alive)return;
+        const version=event.payload,current=currentPermission.current;
+        if(!version||version.session!==current.session||version.permission_version!==current.version){reload();return;}
+        if(version.revision>current.revision){
+          pendingCatalogRefresh.current=true;
+          if(!busyRef.current)scheduleRefresh();
+        }
+      }),
       listen('resource-opened',()=>{if(alive)void refreshOpened();}),
       listen('scan-progress',()=>{
         const sequence=loadSequence.current;
@@ -174,7 +197,8 @@ export default function App({initialView='home'}:{initialView?:View}) {
         void api.overview().then(meta=>{
           if(!alive||sequence!==loadSequence.current)return;
           const current=currentPermission.current;
-          if(meta.session!==current.session||meta.permission_version!==current.version||meta.revision!==current.revision)reload();
+          if(meta.session!==current.session||meta.permission_version!==current.version)reload();
+          else if(meta.revision!==current.revision)scheduleRefresh();
           else setOverview(meta);
         }).catch(cause=>{if(alive&&sequence===loadSequence.current)setError({cause});});
       }),
@@ -201,12 +225,12 @@ export default function App({initialView='home'}:{initialView?:View}) {
         setDropPreparing(false);setExternalDrag(false);clearDropHighlight();
         const sequence=snapshot.sequence;
         const wid=snapshot.workspace;
-        void api.importDrop(point.token,wid,false,currentLanguage.current).then(result=>{if(alive&&sequence===dropSequence.current){setDropResult({token:point.token,workspace:wid,result});reload();}}).catch(cause=>{if(alive&&sequence===dropSequence.current)setError({cause});});
+        void api.importDrop(point.token,wid,false,currentLanguage.current).then(result=>{if(alive&&sequence===dropSequence.current){setDropResult({token:point.token,workspace:wid,result});scheduleRefresh();}}).catch(cause=>{if(alive&&sequence===dropSequence.current)setError({cause});});
       }),
       listen('operation-error' , event => { if (alive) {setDropPreparing(false);setError({cause:event.payload});} }),
     ];
     return () => { alive = false; clearDropHighlight(); for (const promise of subscriptions) void promise.then(unlisten => unlisten()); };
-  }, [reload]);
+  }, [reload,scheduleRefresh]);
 
   useEffect(() => {
     if (!native || (view==='search'&&pageTextPending)) return;
@@ -215,17 +239,24 @@ export default function App({initialView='home'}:{initialView?:View}) {
     setLoading(true);
     void (async () => {
       try {
-        const meta = await api.overview();
-        if (sequence !== loadSequence.current) return;
-        currentPermission.current = { session: meta.session, version: meta.permission_version, revision:meta.revision };
-        setOverview(meta);
         const dateEnd=searchFilters.to?new Date(`${searchFilters.to}T00:00:00`):null;
         if(dateEnd)dateEnd.setDate(dateEnd.getDate()+1);
-        if(view==='search'&&(!pageText.query.trim()||pageComposing)){setPage(null);setLoading(false);return;}
-        if(view==='search'){requestId=nextSearchRequestId();pageRequest.current=requestId;}
-        const response = view==='search' ? await api.searchPage({request:{request_id:requestId!,query:pageText.query,workspace_id:pageScope==='all'?null:pageScope==='current'?workspace:pageScope,kind},offset,sort,cursor:offset>0?nextSearchCursor.current??undefined:undefined,modified_from:searchFilters.from?new Date(`${searchFilters.from}T00:00:00`).getTime():undefined,modified_to:dateEnd?.getTime(),path_prefix:pageText.path||undefined}):null;
+        const emptySearch=view==='search'&&(!pageText.query.trim()||pageComposing);
+        if(view==='search'&&!emptySearch){requestId=nextSearchRequestId();pageRequest.current=requestId;}
+        // 不读取无消费者的资源页；概览与实际列表请求并行，避免串行等待。
+        const readPage=()=>view==='search'
+          ?emptySearch?null:api.searchPage({request:{request_id:requestId!,query:pageText.query,workspace_id:pageScope==='all'?null:pageScope==='current'?workspace:pageScope,kind},offset,sort,cursor:offset>0?nextSearchCursor.current??undefined:undefined,modified_from:searchFilters.from?new Date(`${searchFilters.from}T00:00:00`).getTime():undefined,modified_to:dateEnd?.getTime(),path_prefix:pageText.path||undefined})
+          :['home','favorites','workspace'].includes(view)?api.resources({workspace_id:view==='workspace'?workspace:null,kind,mode:resourceMode,offset}):null;
+        const [meta,result]=currentPermission.current.session
+          ?await Promise.all([api.overview(),readPage()])
+          :await api.overview().then(async meta=>[meta,sequence===loadSequence.current?await readPage():null] as const);
+        if(sequence!==loadSequence.current)return;
+        currentPermission.current={session:meta.session,version:meta.permission_version,revision:meta.revision};
+        setOverview(meta);
+        if(result===null){setPage(null);return;}
+        const response='page' in result?result:null;
         if(response&&response.request_id!==requestId)throw {message:'搜索响应标识不匹配，请重试',message_en:'Search response mismatch. Please retry.'};
-        const data = view==='search'?response!.page:await api.resources({ workspace_id: view === 'workspace' ? workspace : null, kind, mode: resourceMode, offset });
+        const data='page' in result?result.page:result;
         if (sequence !== loadSequence.current) return;
         if (data.session !== meta.session || data.permission_version !== meta.permission_version) { reload(); return; }
         if(offset>0&&page&&(data.revision!==page.revision||data.session!==page.session||data.permission_version!==page.permission_version)){setPage(null);setSelected(new Set());setOffset(0);return;}
@@ -260,9 +291,11 @@ export default function App({initialView='home'}:{initialView?:View}) {
 
   useEffect(() => {
     const sequence = ++searchSequence.current;
-    setActive(-1); setDefaultActive(-1);
+    const intent=JSON.stringify([query,searchScope,workspace,addIntent,quickKind,composing,searchOpen,refresh]);
+    const changed=intent!==quickIntent.current;quickIntent.current=intent;
+    if(changed){setActive(-1); setDefaultActive(-1);}
     if (!native || !searchOpen || !query.trim() || composing) { setResults([]);setSearching(false); return; }
-    setSearching(true);
+    if(changed||!results.length)setSearching(true);
     let requestId:number|null=null;
     const timer = window.setTimeout(() => {
       requestId=nextSearchRequestId();
@@ -282,7 +315,7 @@ export default function App({initialView='home'}:{initialView?:View}) {
         .finally(() => { if (sequence === searchSequence.current) setSearching(false); });
     }, 80);
     return () => {window.clearTimeout(timer);if(sequence===searchSequence.current)searchSequence.current++;if(requestId!==null)cancelSearch('quick',requestId);};
-  }, [query, searchOpen, searchScope, workspace, addIntent, quickKind, composing, refresh, reload]);
+  }, [query, searchOpen, searchScope, workspace, addIntent, quickKind, composing, refresh, quickRevision, reload]);
 
   useEffect(() => {
     const handle = (event: KeyboardEvent) => {
@@ -296,53 +329,77 @@ export default function App({initialView='home'}:{initialView?:View}) {
   }, []);
   useEffect(() => { if (!notice) return; const timer = window.setTimeout(() => setNotice(''), 3500); return () => window.clearTimeout(timer); }, [notice]);
 
-  // 仅普通打开使用有范围的后台重读；权限变化仍同步清除旧内容。
+  // 普通变更复用后台重读，保留已确认内容与已加载范围；权限变化仍同步清除。
   const openedRefresh=useRef<()=>Promise<void>>(async()=>{});
   const openedReadSequence=useRef(0);
   async function refreshOpened(){await openedRefresh.current();}
   openedRefresh.current=async()=>{
+    // 正在加载新导航/筛选时，先让该查询提交，不能被旧闭包的后台结果覆盖。
+    if(loading){pendingCatalogRefresh.current=true;return;}
+    pendingCatalogRefresh.current=false;
     const sequence=loadSequence.current;
     const openedRead=++openedReadSequence.current;
-    try {
-      const meta=await api.overview();
-      if(sequence!==loadSequence.current||openedRead!==openedReadSequence.current)return;
-      const current=currentPermission.current;
-      if(meta.session!==current.session||meta.permission_version!==current.version){reload();return;}
-      let updated:ResourcePage|null=null;
-      let cursor:SearchCursor|undefined;
-      if(view==='search'&&pageText.query.trim()&&!pageStale){
-        let position=0;const items:Resource[]=[];
-        do {
-          const requestId=nextSearchRequestId();pageRequest.current=requestId;
-          const end=searchFilters.to?new Date(`${searchFilters.to}T00:00:00`):null;if(end)end.setDate(end.getDate()+1);
-          const response=await api.searchPage({request:{request_id:requestId,query:pageText.query,workspace_id:pageScope==='all'?null:pageScope==='current'?workspace:pageScope,kind},sort,offset:position,cursor,modified_from:searchFilters.from?new Date(`${searchFilters.from}T00:00:00`).getTime():undefined,modified_to:end?.getTime(),path_prefix:pageText.path||undefined});
-          if(sequence!==loadSequence.current||openedRead!==openedReadSequence.current)return;
-          if(response.request_id!==requestId)throw {message:'搜索响应标识不匹配，请重试',message_en:'Search response mismatch. Please retry.'};
-          items.push(...response.page.items);updated={...response.page,items:[...items]};cursor=response.next_cursor;position=cursor?.next_offset??0;
-        }while(cursor&&updated.items.length<(page?.items.length??100));
-      }else if(['home','favorites','workspace'].includes(view)){
-        const items:Resource[]=[];
-        for(let position=0;position<Math.max(100,page?.items.length??0);position+=100){
-          const response=await api.resources({workspace_id:view==='workspace'?workspace:null,kind,mode:resourceMode,offset:position});
-          items.push(...response.items);updated={...response,items:[...items]};if(!response.has_more)break;
-        }
+    for(let attempt=0;attempt<2;attempt++){
+      try {
+        let cursor:SearchCursor|undefined;
+        const pages:ResourcePage[]=[];
+        // 概览与列表并行读取；不因工作区计数或活动查询延迟文件列表的请求。
+        const [meta,updated]=await Promise.all([api.overview(),(async()=>{
+          let updated:ResourcePage|null=null;
+          if(view==='search'&&pageText.query.trim()&&!pageStale){
+            let position=0;const items:Resource[]=[];
+            do {
+              const requestId=nextSearchRequestId();pageRequest.current=requestId;
+              const end=searchFilters.to?new Date(`${searchFilters.to}T00:00:00`):null;if(end)end.setDate(end.getDate()+1);
+              const response=await api.searchPage({request:{request_id:requestId,query:pageText.query,workspace_id:pageScope==='all'?null:pageScope==='current'?workspace:pageScope,kind},sort,offset:position,cursor,modified_from:searchFilters.from?new Date(`${searchFilters.from}T00:00:00`).getTime():undefined,modified_to:end?.getTime(),path_prefix:pageText.path||undefined});
+              if(sequence!==loadSequence.current||openedRead!==openedReadSequence.current)return null;
+              if(response.request_id!==requestId)throw {message:'搜索响应标识不匹配，请重试',message_en:'Search response mismatch. Please retry.'};
+              if(response.page.has_more&&!response.next_cursor)throw {message:'搜索分页信息不完整，请重试',message_en:'Search pagination is incomplete. Please retry.'};
+              pages.push(response.page);items.push(...response.page.items);updated={...response.page,items:[...items]};cursor=response.next_cursor;position=cursor?.next_offset??0;
+            }while(cursor&&updated.items.length<(page?.items.length??100));
+          }else if(['home','favorites','workspace'].includes(view)){
+            const items:Resource[]=[];
+            for(let position=0;position<Math.max(100,page?.items.length??0);position+=100){
+              const response=await api.resources({workspace_id:view==='workspace'?workspace:null,kind,mode:resourceMode,offset:position});
+              if(sequence!==loadSequence.current||openedRead!==openedReadSequence.current)return null;
+              pages.push(response);items.push(...response.items);updated={...response,items:[...items]};if(!response.has_more)break;
+            }
+          }
+          return updated;
+        })()]);
+        if(sequence!==loadSequence.current||openedRead!==openedReadSequence.current)return;
+        const current=currentPermission.current;
+        if(meta.session!==current.session||meta.permission_version!==current.version||pages.some(value=>value.session!==meta.session||value.permission_version!==meta.permission_version)){reload();return;}
+        if(pages.some(value=>value.revision!==meta.revision))throw {code:'stale_cursor',message:'资料持续变化，请稍后重试',message_en:'Resources are changing. Please try again.'};
+        currentPermission.current={session:meta.session,version:meta.permission_version,revision:meta.revision};
+        setOverview(meta);setOpenedRevision(value=>value+1);setQuickRevision(value=>value+1);
+        setError(previous=>previous?.source==='page'?null:previous);
+        if(updated){setPage(updated);nextSearchCursor.current=cursor??null;setSelected(old=>new Set([...old].filter(id=>updated.items.some(item=>item.id===id&&item.status!=='permission_denied'))));}
+        // 后台更新不触发主列表 effect；下次分页读取新游标，当前滚动保持。
+        return;
+      }catch(cause){
+        if(sequence!==loadSequence.current||openedRead!==openedReadSequence.current)return;
+        // 并发扫描造成的快照/游标失效只重读一次，不清屏也不无限重试。
+        if(attempt===0&&typeof cause==='object'&&cause!==null&&'code' in cause&&cause.code==='stale_cursor')continue;
+        setError({cause});return;
       }
-      if(sequence!==loadSequence.current||openedRead!==openedReadSequence.current)return;
-      if(updated&&(updated.session!==meta.session||updated.permission_version!==meta.permission_version||updated.revision!==meta.revision)){reload();return;}
-      currentPermission.current={session:meta.session,version:meta.permission_version,revision:meta.revision};
-      setOverview(meta);setOpenedRevision(value=>value+1);
-      if(updated){setPage(updated);nextSearchCursor.current=cursor??null;setSelected(old=>new Set([...old].filter(id=>updated!.items.some(item=>item.id===id&&item.status!=='permission_denied'))));}
-      // 后台更新不触发主列表 effect；下次分页读取新游标，当前滚动保持。
-    }catch(cause){if(sequence===loadSequence.current&&openedRead===openedReadSequence.current)setError({cause});}
+    }
   };
 
-  async function run<T,>(task: () => Promise<T>, message?: string): Promise<T | undefined> {
+  async function run<T,>(task: () => Promise<T>, message?: string, refreshAfter=true): Promise<T | undefined> {
     if (busyRef.current||updatePreparingRef.current) return;
     busyRef.current = true;
     setBusy(true); setError(null);
-    try { const value = await task(); if (message) setNotice(message); reload(); return value; }
+    const sequence=loadSequence.current;
+    try {
+      const value = await task();
+      if (message) setNotice(message);
+      // 撤权等通知已启动强失效时不再发起重复读取；取消原生选择器也不刷新。
+      if(refreshAfter&&sequence===loadSequence.current&&value!==null&&value!==false){window.clearTimeout(refreshTimer.current);void refreshOpened();}
+      return value;
+    }
     catch (cause) { setError({cause}); }
-    finally { busyRef.current = false; setBusy(false); }
+    finally { busyRef.current = false; setBusy(false);if(pendingCatalogRefresh.current)scheduleRefresh(); }
   }
   const {drag,onStart:startResourceDrag}=useResourceDrag((ids,wid)=>{void saveForm({type:'link',workspace_id:wid,resource_ids:ids});});
   const mutate = (mutation: Mutation, message?: string) => run(() => api.mutate(mutation), message);
@@ -385,7 +442,7 @@ export default function App({initialView='home'}:{initialView?:View}) {
   const returnLabel=searchOrigin?.view==='workspace' ? overview&&!overview.workspaces.some(item=>item.id===searchOrigin.workspace) ? t('返回工作区列表','Back to workspaces') : t('返回：','Back to ')+(overview?.workspaces.find(item=>item.id===searchOrigin.workspace)?.name??t('工作区','Workspace')) : searchOrigin?.view==='home'?t('返回个人工作台','Back to personal workbench'):searchOrigin?.view==='favorites'?t('返回收藏','Back to favorites'):searchOrigin?.view==='activity'?t('返回动态','Back to activity'):searchOrigin?.view==='settings'?t('返回设置','Back to settings'):t('返回工作区列表','Back to workspaces');
   async function activate(resource: Resource) {
     if (resource.kind === 'workspace') { navigate('workspace', resource.id); return; }
-    if (addIntent && workspace) { await mutate({ type: 'link', workspace_id: workspace, resource_ids: [resource.id] }, t('已加入工作区', 'Added to workspace')); return; }
+    if (addIntent && workspace) { if(!resource.workspace_ids.includes(workspace))await mutate({ type: 'link', workspace_id: workspace, resource_ids: [resource.id] }, t('已加入工作区', 'Added to workspace')); return; }
     if(opens.current.has(resource.id))return;
     opens.current.add(resource.id);setSearchOpen(false);setError(null);
     try{await api.open(resource.id);}catch(cause){setError({cause});}
@@ -440,9 +497,9 @@ export default function App({initialView='home'}:{initialView?:View}) {
         if (event.nativeEvent.isComposing||composing||event.repeat||(event.key==='Enter'&&Date.now()-compositionEnded.current<50)) return;
         if(event.key==='Tab'&&searchOpen){const focusable=searchArea.current?.querySelectorAll<HTMLElement>('input,button:not(:disabled)');if(focusable?.length){const index=[...focusable].indexOf(document.activeElement as HTMLElement);event.preventDefault();focusable[(index+(event.shiftKey?-1:1)+focusable.length)%focusable.length].focus();}}
         if (!searching&&results.length&&(event.key === 'ArrowDown' || event.key === 'ArrowUp')) { event.preventDefault(); setActive(value => value < 0 && defaultActive < 0 ? event.key === 'ArrowDown' ? 0 : results.length - 1 : ((value < 0 ? defaultActive : value) + (event.key === 'ArrowDown' ? 1 : -1) + results.length) % results.length); }
-        if (event.key === 'Enter') { event.preventDefault(); if (!searching&&displayedActive >= 0 && results[displayedActive]) void activate(results[displayedActive]); }
+        if (event.key === 'Enter') { event.preventDefault(); if (!busy&&!searching&&displayedActive >= 0 && results[displayedActive]) void activate(results[displayedActive]); }
       }} /><kbd>{navigator.platform.includes('Mac') ? '⌘' : 'Ctrl'} K</kbd></div>
-      {searchOpen && <SearchPanel lang={lang} kind={quickKind} onKind={value=>{searchSequence.current++;setSearching(true);setQuickKind(value);}} onClose={closeQuick} onAllResults={addIntent?undefined:showSearchResults} t={t} query={query} searching={searching} results={results} active={displayedActive} scope={searchScope} workspace={workspace} addIntent={addIntent} workspaceName={currentWorkspace?.name} scanning={scanning} hasLocations={hasLocations} onScope={value=>{searchSequence.current++;setSearching(true);setSearchScope(value);}} onActive={setActive} onActivate={resource => void activate(resource)} />}
+      {searchOpen && <SearchPanel lang={lang} kind={quickKind} onKind={value=>{searchSequence.current++;setSearching(true);setQuickKind(value);}} onClose={closeQuick} onAllResults={addIntent?undefined:showSearchResults} t={t} query={query} searching={searching} busy={busy} results={results} active={displayedActive} scope={searchScope} workspace={workspace} addIntent={addIntent} workspaceName={currentWorkspace?.name} scanning={scanning} hasLocations={hasLocations} onScope={value=>{searchSequence.current++;setSearching(true);setSearchScope(value);}} onActive={setActive} onActivate={resource => void activate(resource)} />}
 
       </div><button className="language-button" onClick={() => setLang(lang === 'zh' ? 'en' : 'zh')}>{lang === 'zh' ? 'EN' : '中文'}</button></header>
 
@@ -459,14 +516,14 @@ export default function App({initialView='home'}:{initialView?:View}) {
       {view==='search'&&searchOrigin&&<div className="search-return-bar"><button className="button" onClick={returnFromSearch}><ArrowLeft size={15}/><span>{returnLabel}</span></button></div>}
       <div className={view==='home'?'home-layout':view==='search'?'full-search-layout':undefined}>
       {view==='search'&&<aside className="full-search-filters" aria-label={t('筛选条件','Search filters')}><h2>{t('筛选条件','Search filters')}</h2><label>{t('搜索名称或路径','Name or path')}<input aria-label={t('完整搜索词','Full search query')} value={pageQuery} onCompositionStart={()=>{loadSequence.current++;setPageComposing(true);}} onCompositionEnd={()=>{compositionEnded.current=Date.now();setPageComposing(false);}} onChange={event=>{loadSequence.current++;setSelected(new Set());setPageQuery(event.target.value);}} onKeyDown={event=>{if(event.key==='Enter'&&!event.nativeEvent.isComposing&&!pageComposing&&Date.now()-compositionEnded.current>=50){event.preventDefault();commitPageText();}}}/></label>
-      <div className="search-type-filters" aria-label={t('资料类型','Resource types')}>{[['all',t('全部','All')],['file',t('文件','Files')],['web',t('网页','Links')],['workspace',t('工作区','Workspaces')]].map(([value,label])=><button key={value} aria-pressed={kind===value} className={kind===value?'on':''} onClick={()=>{commitPageText();setKind(value);setPage(null);}}><span className="filter-check"><Check size={12}/></span>{value==='file'?<Folder size={16}/>:value==='web'?<Link2 size={16}/>:value==='workspace'?<Layers3 size={16}/>:<Search size={16}/>}<span>{label}</span></button>)}</div>
-      <label>{t('搜索排序','Search sort')}<select aria-label={t('搜索排序','Search sort')} value={sort} onChange={event=>{commitPageText();setSort(event.target.value);setPage(null);}}><option value="relevance">{t('相关性','Relevance')}</option><option value="name">{t('名称','Name')}</option><option value="modified">{t('最近修改','Recently modified')}</option></select></label>
-      <label>{t('工作区范围','Workspace scope')}<select aria-label={t('工作区范围','Workspace scope')} value={pageScope} onChange={event=>{commitPageText();setPageScope(event.target.value);setPage(null);}}><option value="all">{t('全部资料','All resources')}</option>{workspace&&<option value="current">{currentWorkspace?.name}</option>}{overview?.workspaces.filter(item=>item.id!==workspace).map(item=><option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
-      <SearchFilters onCompositionStart={()=>setPageComposing(true)} onCompositionEnd={()=>setPageComposing(false)} t={t} value={searchFilters} onChange={value=>{loadSequence.current++;setSelected(new Set());setSearchFilters(value);if(value.path===searchFilters.path){commitPageText();setPage(null);}}}/></aside>}
+      <div className="search-type-filters" aria-label={t('资料类型','Resource types')}>{[['all',t('全部','All')],['file',t('文件','Files')],['web',t('网页','Links')],['workspace',t('工作区','Workspaces')]].map(([value,label])=><button key={value} aria-pressed={kind===value} className={kind===value?'on':''} onClick={()=>{commitPageText();setKind(value);}}><span className="filter-check"><Check size={12}/></span>{value==='file'?<Folder size={16}/>:value==='web'?<Link2 size={16}/>:value==='workspace'?<Layers3 size={16}/>:<Search size={16}/>}<span>{label}</span></button>)}</div>
+      <label>{t('搜索排序','Search sort')}<select aria-label={t('搜索排序','Search sort')} value={sort} onChange={event=>{commitPageText();setSort(event.target.value);}}><option value="relevance">{t('相关性','Relevance')}</option><option value="name">{t('名称','Name')}</option><option value="modified">{t('最近修改','Recently modified')}</option></select></label>
+      <label>{t('工作区范围','Workspace scope')}<select aria-label={t('工作区范围','Workspace scope')} value={pageScope} onChange={event=>{commitPageText();setPageScope(event.target.value);}}><option value="all">{t('全部资料','All resources')}</option>{workspace&&<option value="current">{currentWorkspace?.name}</option>}{overview?.workspaces.filter(item=>item.id!==workspace).map(item=><option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+      <SearchFilters onCompositionStart={()=>setPageComposing(true)} onCompositionEnd={()=>setPageComposing(false)} t={t} value={searchFilters} onChange={value=>{loadSequence.current++;setSelected(new Set());setSearchFilters(value);if(value.path===searchFilters.path){commitPageText();}}}/></aside>}
       {(view === 'workspaces'||(view === 'home'&&(hasLocations||!!overview?.workspaces.length))) && <section className="workspace-section" aria-label={view==='home'?t('我的工作区','My workspaces'):t('工作区列表','Workspace list')}><div className="section-heading"><h2>{view==='home'?t('我的工作区','My workspaces'):t('从工作区继续', 'Continue in a workspace')}</h2>{view==='home'?<button className="text-button" onClick={()=>navigate('workspaces')}>{t('查看全部工作区','View all workspaces')}<ChevronRight size={14}/></button>:<span>{overview?.workspaces.length ?? 0} {t('个工作区', 'workspaces')}</span>}</div><div className="workspace-grid">{(view==='home'?overview?.workspaces.slice(0,3):overview?.workspaces)?.map((item, index) => <button key={item.id} data-workspace-id={item.id} className={`workspace-card tone-${index % 4}`} onClick={() => navigate('workspace', item.id)}><span className="card-icon"><Folder size={23} /></span><ArrowRight size={17} className="card-arrow" /><h3>{item.name}</h3><p>{item.count} {t('份资料', 'resources')}</p></button>)}{(view==='workspaces'||!overview?.workspaces.length)&&<button className="workspace-card create-card" disabled={!native} onClick={() => setForm({ kind: 'workspace' })}><Plus size={24} /><span>{t('为一件工作，留一个位置', 'Make space for your next project')}</span></button>}</div></section>}
       {(view === 'home' || view === 'favorites' || view === 'workspace' || view==='search') && <section className="resources-section">{view === 'home' && <><div className="section-heading"><h2><Folder size={22}/>{t('最近资料','Recent resources')}</h2><button className="text-button" onClick={()=>navigate('activity')}>{t('查看动态','View activity')}<ChevronRight size={15}/></button></div><div className="section-heading recent-tabs-heading"><div className="filter-tabs">{Object.entries(labels).map(([value, text]) => <button className={mode === value ? 'on' : ''} key={value} onClick={() => { setMode(value); setOffset(0); setSelected(new Set()); }}>{text}</button>)}</div><button className="text-button" disabled={!native} onClick={() => void run(() => api.rescan())}><RefreshCw size={14} />{t('重新扫描', 'Rescan')}</button></div></>}
-        {selected.size > 0 && <div className="selection-bar"><strong>{selected.size} {t('项已选择', 'selected')}</strong><button onClick={() => setForm({ kind: 'link', resourceIds: [...selected] })}>{t('加入工作区', 'Add to workspace')}</button><button disabled={busy} onClick={()=>setForm({kind:'workspace',resourceIds:[...selected]})}>{t('新建工作区并加入','Create workspace with selection')}</button>{view === 'workspace' && <><button onClick={() => setForm({ kind: 'transfer', resourceIds: [...selected] })}>{t('移到工作区', 'Move references')}</button><button onClick={() => void mutate({ type: 'unlink', workspace_id: workspace!, resource_ids: [...selected] }, t('已移除关联，原件保留', 'References removed. Originals retained.'))}>{t('从本工作区移除', 'Remove from this workspace')}</button></>}<button className="clear-selection" aria-label={t('取消选择','Clear selection')} onClick={() => setSelected(new Set())}><X size={16} /></button></div>}
-        {page?.items.length ? <ResourceList query={view==='search'?pageText.query:''} workspaces={overview?.workspaces} resetKey={JSON.stringify([navigation,view,workspace,kind,resourceMode,sort,pageScope,pageText,searchFilters])} onDragStart={(event,ids)=>{if(!busy)startResourceDrag(event,ids);}} t={t} lang={lang} items={page.items} selected={selected} busy={busy||pageStale||(view==='search'&&loading)} timeMode={view==='home'&&mode==='recent'?'opened':'modified'} onToggle={toggle} onOpen={resource => void activate(resource)} onFavorite={resource => void mutate({ type: 'favorite', id: resource.id, value: !resource.favorite })} onReveal={resource => void run(() => api.reveal(resource.id))} onRelink={resource => void run(() => api.relink(resource.id,lang))} onDeleteWeb={resource=>setForm({kind:'deleteweb',id:resource.id,name:resource.name})} onEdit={resource => setForm({ kind: 'web', id: resource.id, name: resource.name, url: resource.location })} /> : initialLoadFailed ? <div className="empty-state"><h3>{t('读取失败', 'Loading failed')}</h3><button className="button" disabled={busy} onClick={()=>{setError(null);setLoading(true);reload();}}>{t('重新加载', 'Try again')}</button></div> : <EmptyState t={t} loading={loading && native} view={view==='search'&&!pageText.query.trim()?'search-empty':view} mode={resourceMode} kind={kind} hasLocations={hasLocations} disabled={!native || busy} onLocation={suggestion => void run(() => api.pickRoot(lang,suggestion))} onAdd={() => { setAddIntent(true); setSearchScope('all'); setSearchOpen(true); searchInput.current?.focus(); }} onWeb={() => setForm({ kind: 'web' })} />}
+        {selected.size > 0 && <div role="toolbar" aria-label={t('已选资料操作','Selected resource actions')} className="selection-bar"><strong>{selected.size} {t('项已选择', 'selected')}</strong><button onClick={() => setForm({ kind: 'link', resourceIds: [...selected] })}>{t('加入工作区', 'Add to workspace')}</button><button disabled={busy} onClick={()=>setForm({kind:'workspace',resourceIds:[...selected]})}>{t('新建工作区并加入','Create workspace with selection')}</button>{view === 'workspace' && <><button onClick={() => setForm({ kind: 'transfer', resourceIds: [...selected] })}>{t('移到工作区', 'Move references')}</button><button onClick={() => void mutate({ type: 'unlink', workspace_id: workspace!, resource_ids: [...selected] }, t('已移除关联，原件保留', 'References removed. Originals retained.'))}>{t('从本工作区移除', 'Remove from this workspace')}</button></>}<button className="clear-selection" aria-label={t('取消选择','Clear selection')} onClick={() => setSelected(new Set())}><X size={16} /></button></div>}
+        {page?.items.length ? <ResourceList query={view==='search'?pageText.query:''} workspaces={overview?.workspaces} resetKey={JSON.stringify([navigation,view,workspace,kind,resourceMode,sort,pageScope,pageText,searchFilters])} onDragStart={(event,ids)=>{if(!busy)startResourceDrag(event,ids);}} t={t} lang={lang} items={page.items} selected={selected} busy={busy||loading||pageStale} onRemove={view==='workspace'?resource=>void mutate({type:'unlink',workspace_id:workspace!,resource_ids:[resource.id]},t('已移除关联，原件保留','References removed. Originals retained.')):undefined} timeMode={view==='home'&&mode==='recent'?'opened':'modified'} onToggle={toggle} onOpen={resource => void activate(resource)} onFavorite={resource => void mutate({ type: 'favorite', id: resource.id, value: !resource.favorite })} onReveal={resource => void run(() => api.reveal(resource.id),undefined,false)} onRelink={resource => void run(() => api.relink(resource.id,lang))} onDeleteWeb={resource=>setForm({kind:'deleteweb',id:resource.id,name:resource.name})} onEdit={resource => setForm({ kind: 'web', id: resource.id, name: resource.name, url: resource.location })} /> : initialLoadFailed ? <div className="empty-state"><h3>{t('读取失败', 'Loading failed')}</h3><button className="button" disabled={busy} onClick={()=>{setError(null);setLoading(true);reload();}}>{t('重新加载', 'Try again')}</button></div> : <EmptyState t={t} loading={loading && native} view={view==='search'&&!pageText.query.trim()?'search-empty':view} mode={resourceMode} kind={kind} hasLocations={hasLocations} disabled={!native || busy} onLocation={suggestion => void run(() => api.pickRoot(lang,suggestion))} onAdd={() => { setAddIntent(true); setSearchScope('all'); setSearchOpen(true); searchInput.current?.focus(); }} onWeb={() => setForm({ kind: 'web' })} />}
 
         {page?.has_more && <button className="button load-more" disabled={loading} onClick={() => {if(view==='search'){if(nextSearchCursor.current)setOffset(nextSearchCursor.current.next_offset);}else setOffset(value=>value+100);}}>{t('加载更多', 'Load more')}</button>}
       </section>}
@@ -474,10 +531,10 @@ export default function App({initialView='home'}:{initialView?:View}) {
       {view==='activity'&&native&&overview&&!hasLocations&&<section className="first-location-banner"><div><strong>{t('从一个文件夹开始，找回工作的线索。','Start with a folder. Find your way back.')}</strong><p>{t('选择要管理的位置，文件原地不动。','Choose a location to manage. Your files stay in place.')}</p><LocationSuggestions t={t} disabled={busy} onSelect={suggestion=>void run(()=>api.pickRoot(lang,suggestion))}/></div><button className="button primary" disabled={busy} onClick={()=>void run(()=>api.pickRoot(lang))}><Plus size={16}/>{t('添加管理位置','Add location')}</button></section>}
       <HomeWidgets lang={lang} visible={view==='home'} exitGuard={notesExitGuard} />
       </div>
-      {view === 'activity' && (native ? <ActivityTimeline lang={lang} workspacesReady={!!overview} revision={refresh+openedRevision} workspaces={overview?.workspaces??[]} onOpen={resource=>void activate(resource)} onReveal={resource=>void run(()=>api.reveal(resource.id))} onWorkspace={id=>navigate('workspace',id)} /> : <div className="empty-state"><Clock3 size={32}/><h2>{t('活动时间线','Activity timeline')}</h2><p>{t('在桌面应用中添加管理位置后，可按日历查看文件修改与首次发现记录。','Add managed locations in the desktop app to browse file changes by date.')}</p></div>)}
+      {view === 'activity' && (native ? <ActivityTimeline lang={lang} workspacesReady={!!overview} revision={refresh} refreshRevision={openedRevision} workspaces={overview?.workspaces??[]} onOpen={resource=>void activate(resource)} onReveal={resource=>void run(()=>api.reveal(resource.id),undefined,false)} onWorkspace={id=>navigate('workspace',id)} /> : <div className="empty-state"><Clock3 size={32}/><h2>{t('活动时间线','Activity timeline')}</h2><p>{t('在桌面应用中添加管理位置后，可按日历查看文件修改与首次发现记录。','Add managed locations in the desktop app to browse file changes by date.')}</p></div>)}
 
       {view === 'settings' && <section className="settings"><div className="section-heading"><h2>{t('管理位置', 'Managed locations')}</h2><button className="button primary" disabled={!native || busy} onClick={() => void run(() => api.pickRoot(lang))}><Plus size={15} />{t('添加管理位置', 'Add location')}</button></div>{overview&&!hasLocations&&<div className="suggested-location-card"><LocationSuggestions t={t} disabled={!native||busy} onSelect={suggestion=>void run(()=>api.pickRoot(lang,suggestion))}/></div>}{overview?.roots.map(root => <div className="location-card" key={root.id}><div className="location-main"><Folder size={23} /><div className="location-copy"><strong>{root.path}</strong><small>{rootStatus(root)}</small></div><div className="actions">{root.active && <><button className="button" disabled={busy} onClick={() => void mutate({ type: 'set_paused', id: root.id, value: !root.paused })}>{root.paused ? t('继续扫描', 'Resume') : t('暂停扫描', 'Pause')}</button><button className="button danger" disabled={busy} onClick={() => void mutate({ type: 'revoke_root', id: root.id })}>{t('撤销授权', 'Revoke')}</button></>}</div></div>{root.exclusions.length > 0 && <p className="exclusions">{t('已排除：', 'Excluded: ')}{root.exclusions.map(path=><button type="button" className="exclusion-chip" key={path} disabled={busy||!root.active} title={t('恢复索引此子目录','Include this subfolder')} onClick={()=>void mutate({type:'include',root_id:root.id,relative_path:path},t('已恢复此子目录的索引','Subfolder included'))}>{path}<X size={12}/></button>)}</p>}{root.active && <form className="exclude-form" onSubmit={event => { event.preventDefault(); const value=excludedFolders[root.id]??''; void mutate({ type: 'exclude', root_id: root.id, relative_path: value }).then(result=>{if(result)setExcludedFolders(current=>current[root.id]===value?{...current,[root.id]:''}:current);}); }}><input name="relative" disabled={busy} aria-label={t('排除子目录：','Exclude subfolder in ')+root.path} value={excludedFolders[root.id]??''} onChange={event=>setExcludedFolders(current=>({...current,[root.id]:event.target.value}))} placeholder={t('排除相对子目录，例如 archive/private', 'Exclude subfolder, e.g. archive/private')} required /><button className="button" disabled={busy}>{t('排除子目录', 'Exclude folder')}</button></form>}</div>)}
-        {native&&overview&&<DocumentTracking roots={overview.roots} revision={overview.revision} language={lang} busy={busy} run={run}/>} {!!overview?.file_grants.length&&<><div className="settings-divider"/><h2>{t('单独授权的文件','Individually authorized files')}</h2><p className="muted">{t('仅访问选中的文件，不扫描所在文件夹。','Only the selected files are managed; their folders are not scanned.')}</p>{overview.file_grants.map(file=><div className="location-card" key={file.id}><div className="location-main"><div className="location-copy"><strong>{file.name}</strong><small>{file.location}</small>{file.status!=='available'&&<small>{file.status==='identity_unconfirmed'?t('身份待确认','Identity unconfirmed'):t('原件暂不可用','Original unavailable')}</small>}</div><button className="button danger" disabled={busy} onClick={()=>void mutate({type:'revoke_file',id:file.id})}>{t('撤销授权','Revoke')}</button></div></div>)}</>}<div className="settings-divider"/><h2>{t('工作区顺序','Workspace order')}</h2><div className="workspace-order">{overview?.workspaces.map((item,index)=><div key={item.id}><Folder size={17}/><span>{item.name}</span>{[-1,1].map(direction=><button key={direction} className="button" disabled={busy||index+direction<0||index+direction>=overview.workspaces.length} aria-label={(direction<0?t('上移 ','Move up '):t('下移 ','Move down '))+item.name} onClick={()=>{const ids=overview.workspaces.map(w=>w.id);[ids[index],ids[index+direction]]=[ids[index+direction],ids[index]];void mutate({type:'reorder_workspaces',ids});}}>{direction<0?'↑':'↓'}</button>)}</div>)}</div><div className="settings-divider" /><h2>{t('本地数据', 'Local data')}</h2><p className="muted">{t('备份保存工作区、关联与 URL，不包含原文件；可能含敏感名称和路径。', 'Backups contain workspaces, references and URLs, not original files. Names and paths may be sensitive.')}</p><div className="actions"><button className="button" disabled={!native || busy} onClick={() => void run(() => api.backup(lang)).then(done => { if (done) setNotice(t('备份已保存', 'Backup saved')); })}>{t('备份数据', 'Back up')}</button><button className="button" disabled={!native || busy} onClick={() => void run(() => api.restore(lang)).then(done => { if (done) setNotice(t('已恢复，请重新选择管理位置', 'Restored. Please reauthorize locations.')); })}>{t('恢复备份', 'Restore backup')}</button><button className="button" disabled={!native || busy} onClick={() => void mutate({ type: 'rebuild_search' }, t('搜索索引已重建', 'Search index rebuilt'))}>{t('重建搜索索引', 'Rebuild search index')}</button><button className="button" disabled={!native || busy} onClick={() => void run(() => api.rescan())}>{t('重新扫描', 'Rescan')}</button></div><p className="technical-note">WorkTwill {updateStatus?.current_version??'—'} · SQLite {overview?.sqlite_version ?? '—'} · {t('原生开发版本，保存追踪范围待验证', 'Native development build. Save-tracking support under validation.')}</p>
+        {native&&overview&&<DocumentTracking roots={overview.roots} revision={overview.revision} language={lang} busy={busy} run={run}/>} {!!overview?.file_grants.length&&<><div className="settings-divider"/><h2>{t('单独授权的文件','Individually authorized files')}</h2><p className="muted">{t('仅访问选中的文件，不扫描所在文件夹。','Only the selected files are managed; their folders are not scanned.')}</p>{overview.file_grants.map(file=><div className="location-card" key={file.id}><div className="location-main"><div className="location-copy"><strong>{file.name}</strong><small>{file.location}</small>{file.status!=='available'&&<small>{file.status==='identity_unconfirmed'?t('身份待确认','Identity unconfirmed'):t('原件暂不可用','Original unavailable')}</small>}</div><button className="button danger" disabled={busy} onClick={()=>void mutate({type:'revoke_file',id:file.id})}>{t('撤销授权','Revoke')}</button></div></div>)}</>}<div className="settings-divider"/><h2>{t('工作区顺序','Workspace order')}</h2><div className="workspace-order">{overview?.workspaces.map((item,index)=><div key={item.id}><Folder size={17}/><span>{item.name}</span>{[-1,1].map(direction=><button key={direction} className="button" disabled={busy||index+direction<0||index+direction>=overview.workspaces.length} aria-label={(direction<0?t('上移 ','Move up '):t('下移 ','Move down '))+item.name} onClick={()=>{const ids=overview.workspaces.map(w=>w.id);[ids[index],ids[index+direction]]=[ids[index+direction],ids[index]];void mutate({type:'reorder_workspaces',ids});}}>{direction<0?'↑':'↓'}</button>)}</div>)}</div><div className="settings-divider" /><h2>{t('本地数据', 'Local data')}</h2><p className="muted">{t('备份保存工作区、关联与 URL，不包含原文件；可能含敏感名称和路径。', 'Backups contain workspaces, references and URLs, not original files. Names and paths may be sensitive.')}</p><div className="actions"><button className="button" disabled={!native || busy} onClick={() => void run(() => api.backup(lang),undefined,false).then(done => { if (done) setNotice(t('备份已保存', 'Backup saved')); })}>{t('备份数据', 'Back up')}</button><button className="button" disabled={!native || busy} onClick={() => void run(() => api.restore(lang)).then(done => { if (done) setNotice(t('已恢复，请重新选择管理位置', 'Restored. Please reauthorize locations.')); })}>{t('恢复备份', 'Restore backup')}</button><button className="button" disabled={!native || busy} onClick={() => void mutate({ type: 'rebuild_search' }, t('搜索索引已重建', 'Search index rebuilt'))}>{t('重建搜索索引', 'Rebuild search index')}</button><button className="button" disabled={!native || busy} onClick={() => void run(() => api.rescan())}>{t('重新扫描', 'Rescan')}</button></div><p className="technical-note">WorkTwill {updateStatus?.current_version??'—'} · SQLite {overview?.sqlite_version ?? '—'} · {t('原生开发版本，保存追踪范围待验证', 'Native development build. Save-tracking support under validation.')}</p>
         <UpdateSettings status={updateStatus} language={lang} busy={busy||!!form||dropPreparing} onCheck={value=>void checkUpdate(value)} onAutomatic={value=>void setAutomaticUpdate(value)} onInstall={()=>void installUpdate()}/>
       </section>}
       <footer><ShieldCheck size={13} />{t('原件在原处，工作在一起。', 'Originals in place. Your work together.')}</footer>

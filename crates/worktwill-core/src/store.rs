@@ -211,6 +211,24 @@ impl Store {
         version(&self.connection()?, "revision")
     }
 
+    pub fn catalog_version(&self) -> Result<CatalogVersion> {
+        let _guard = self.gate.read().map_err(|_| {
+            AppError::new(
+                "internal_error",
+                "状态锁不可用",
+                "App state is unavailable.",
+            )
+        })?;
+        let mut connection = self.connection()?;
+        let db = connection.transaction()?;
+        // 通知只读取同一快照的版本，不为判断刷新范围重复组装整个概览。
+        Ok(CatalogVersion {
+            session: self.session.clone(),
+            permission_version: version(&db, "permission_version")?,
+            revision: version(&db, "revision")?,
+        })
+    }
+
     pub fn overview(&self) -> Result<Overview> {
         let _guard = self.gate.read().map_err(|_| {
             AppError::new(

@@ -6,7 +6,6 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 
 ### Fixed
 
-- Fit the initial desktop window to the monitor work area with a margin and center it, keeping the title bar and bottom content clear of the Windows taskbar.
 - Handle both LF and CRLF source files in isolated website audit tests.
 
 ### Maintenance
@@ -25,9 +24,20 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 - Organize agent guidance, product behavior, architecture, website SEO/GEO maintenance, and version iteration into focused maintenance documents.
 - Define candidate promotion, artifact provenance and archiving, upload/publication verification, website-only deployment, and release withdrawal workflows, with current automation gaps stated explicitly.
 
+## 1.3.4 — 2026-11-24
+
+Release candidates for macOS Apple Silicon and Windows x64. Native acceptance and publication are pending. OS trust signing and notarization are not included; update packages use the existing signature verification.
+
+### Fixed
+
+- Fit the initial desktop window to the monitor work area with a margin and center it, keeping the title bar and bottom content clear of the Windows taskbar.
+- Preserve workspace counts, resource rows, selection and scroll during ordinary refreshes; coalesce operation notifications and refresh the loaded range without clearing the interface.
+- Keep selection actions outside list layout and retain search results after adding files to a workspace, marking existing references as added.
+- Offer per-row removal from a workspace without selecting first, while preserving original files, favorites and references in other workspaces.
+
 ## 1.3.3 — 2026-11-23
 
-Available for Windows x64 as a GitHub prerelease. Native installation, launch, snapshot backup/restore and packaged license notices were verified on the exact installer. Official website deployment is pending; macOS remains on 1.3.2. Online upgrade from a lower Windows version has not been verified.
+Available for Windows x64 as a GitHub prerelease. Native installation, launch, snapshot backup/restore and packaged license notices were verified on the exact installer. The official website also distributes this installer; macOS remains on 1.3.2. Online upgrade from a lower Windows version has not been verified.
 
 ### Distribution
 
