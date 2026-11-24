@@ -24,6 +24,24 @@ jobs:
           using System.Runtime.InteropServices;
           using Microsoft.Win32.SafeHandles;
           public static class ObjectIdProbe {
+            [StructLayout(LayoutKind.Sequential)] public struct Luid { public uint Low; public int High; }
+            [StructLayout(LayoutKind.Sequential)] public struct Privileges { public uint Count; public Luid Id; public uint Attributes; }
+            [DllImport("kernel32.dll")] public static extern IntPtr GetCurrentProcess();
+            [DllImport("kernel32.dll")] public static extern bool CloseHandle(IntPtr handle);
+            [DllImport("advapi32.dll", SetLastError=true)] public static extern bool OpenProcessToken(IntPtr process,uint access,out IntPtr token);
+            [DllImport("advapi32.dll", CharSet=CharSet.Unicode, SetLastError=true)] public static extern bool LookupPrivilegeValueW(string system,string name,out Luid luid);
+            [DllImport("advapi32.dll", SetLastError=true)] public static extern bool AdjustTokenPrivileges(IntPtr token,bool disable,ref Privileges privileges,uint size,IntPtr previous,IntPtr returned);
+            public static int Enable(string name) {
+              IntPtr token;
+              if (!OpenProcessToken(GetCurrentProcess(),40,out token)) return Marshal.GetLastWin32Error();
+              try {
+                Luid id;
+                if (!LookupPrivilegeValueW(null,name,out id)) return Marshal.GetLastWin32Error();
+                var privileges = new Privileges {Count=1,Id=id,Attributes=2};
+                if (!AdjustTokenPrivileges(token,false,ref privileges,0,IntPtr.Zero,IntPtr.Zero)) return Marshal.GetLastWin32Error();
+                return Marshal.GetLastWin32Error();
+              } finally {CloseHandle(token);}
+            }
             [DllImport("kernel32.dll", CharSet=CharSet.Unicode, SetLastError=true)]
             public static extern SafeFileHandle CreateFileW(string name, uint access, uint share, IntPtr security, uint mode, uint flags, IntPtr template);
             [DllImport("kernel32.dll", SetLastError=true)]
@@ -57,3 +75,21 @@ jobs:
             }
           }
           $results | ConvertTo-Json | Write-Output
+          # 只调整本诊断进程已有的权限，runner 结束即销毁，不修改账户策略。
+          foreach ($privilege in @('SeRestorePrivilege','SeBackupPrivilege','SeManageVolumePrivilege')) {
+            $enableError = [ObjectIdProbe]::Enable($privilege)
+            foreach ($flags in @([uint32]0,[uint32]2097152,[uint32]33554432)) {
+              $path = Join-Path $root ($privilege + '-' + $flags + '.txt')
+              [IO.File]::WriteAllText($path,'synthetic privilege fixture')
+              $file = [ObjectIdProbe]::CreateFileW($path,1073741824,7,[IntPtr]::Zero,3,$flags,[IntPtr]::Zero)
+              if ($file.IsInvalid) { throw ('CreateFileW failed: ' + [Runtime.InteropServices.Marshal]::GetLastWin32Error()) }
+              try {
+                $buffer = New-Object byte[] 64
+                [guid]::NewGuid().ToByteArray().CopyTo($buffer,0)
+                [uint32]$returned = 0
+                $ok = [ObjectIdProbe]::DeviceIoControl($file,589976,$buffer,64,$null,0,[ref]$returned,[IntPtr]::Zero)
+                $errorCode = if ($ok) {0} else {[Runtime.InteropServices.Marshal]::GetLastWin32Error()}
+                [pscustomobject]@{privilege=$privilege;enable_error=$enableError;flags=$flags;set_ok=$ok;error=$errorCode} | ConvertTo-Json | Write-Output
+              } finally {$file.Dispose()}
+            }
+          }
