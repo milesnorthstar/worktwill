@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowDownLeft, Layers3 as LayersIcon, ChevronRight, Download, File, Folder, FolderOpen, Link2, LoaderCircle, Monitor, MoreHorizontal, X, Plus, Search, Star, Trash2 } from 'lucide-react';
+import type { ReactNode } from 'react';
 import type { Resource, SuggestedLocation } from '../contracts';
+import { DateField } from './FieldControls';
+import { isContextMenuKey } from './ContextMenu';
+import type { ContextMenuEvent } from './ContextMenu';
 import {MatchText, ResourceIcon, resourceSize, resourceTime} from './ResourcePresentation';
 
 export type Translator = (zh: string, en: string) => string;
@@ -10,8 +14,8 @@ export function LocationSuggestions({t,disabled,onSelect}:{t:Translator;disabled
 }
 
 export type SearchFilterValues={from:string;to:string;path:string};
-export function SearchFilters({t,value,onChange,onCompositionStart,onCompositionEnd}:{onCompositionStart?:()=>void;onCompositionEnd?:()=>void;t:Translator;value:SearchFilterValues;onChange:(next:SearchFilterValues)=>void}) {
-  return <div className="search-filter-bar"><label>{t('修改日期，从','Modified, from')}<input type="date" value={value.from} max={value.to||undefined} onChange={event=>onChange({...value,from:event.target.value})}/></label><label>{t('至','Through')}<input type="date" value={value.to} min={value.from||undefined} onChange={event=>onChange({...value,to:event.target.value})}/></label><label className="path-filter">{t('路径或网址前缀','Path or URL prefix')}<input onCompositionStart={onCompositionStart} onCompositionEnd={onCompositionEnd} value={value.path} placeholder={t('例如 /资料/ 或 https://example.com/','e.g. /Documents/ or https://example.com/')} onChange={event=>onChange({...value,path:event.target.value})}/></label><button className="text-button" disabled={!value.from&&!value.to&&!value.path} onClick={()=>onChange({from:'',to:'',path:''})}>{t('清除筛选','Clear filters')}</button></div>;
+export function SearchFilters({t,lang,value,onChange,onCompositionStart,onCompositionEnd}:{lang: "zh" | "en";onCompositionStart?:()=>void;onCompositionEnd?:()=>void;t:Translator;value:SearchFilterValues;onChange:(next:SearchFilterValues)=>void}) {
+  return <div className="search-filter-bar"><DateField lang={lang} label={t('修改日期，从','Modified, from')} value={value.from} max={value.to||undefined} onChange={from=>onChange({...value,from})}/><DateField lang={lang} label={t('至','Through')} value={value.to} min={value.from||undefined} onChange={to=>onChange({...value,to})}/><label className="path-filter">{t('路径或网址前缀','Path or URL prefix')}<input onCompositionStart={onCompositionStart} onCompositionEnd={onCompositionEnd} value={value.path} placeholder={t('例如 /资料/ 或 https://example.com/','e.g. /Documents/ or https://example.com/')} onChange={event=>onChange({...value,path:event.target.value})}/></label><button className="text-button" disabled={!value.from&&!value.to&&!value.path} onClick={()=>onChange({from:'',to:'',path:''})}>{t('清除筛选','Clear filters')}</button></div>;
 }
 
 type SearchProps = {
@@ -20,11 +24,14 @@ type SearchProps = {
   t: Translator; query: string; searching: boolean; busy?:boolean; results: Resource[]; active: number;
   scope: 'all' | 'current'; workspace: string | null; workspaceName?: string;
   addIntent: boolean; scanning: boolean; hasLocations: boolean;
+  folderGuide?: ReactNode;
+  folderError?: string;
+  folderReading?: boolean;
   onScope: (scope: 'all' | 'current') => void; onActive: (index: number) => void;
   onActivate: (resource: Resource) => void; onAllResults?:()=>void;
 };
 
-export function SearchPanel({ lang='zh',kind:quickKind='all',onKind,onClose,t, query, searching, busy=false, results, active, scope, workspace, workspaceName, addIntent, scanning, hasLocations, onScope, onActive, onActivate, onAllResults }: SearchProps) {
+export function SearchPanel({ lang='zh',kind:quickKind='all',onKind,onClose,t, query, searching, busy=false, results, active, scope, workspace, workspaceName, addIntent, scanning, hasLocations, folderGuide, folderError, folderReading, onScope, onActive, onActivate, onAllResults }: SearchProps) {
   useEffect(() => {
     document.getElementById(`search-result-${active}`)?.scrollIntoView?.({ block: 'nearest' });
   }, [active]);
@@ -34,11 +41,13 @@ export function SearchPanel({ lang='zh',kind:quickKind='all',onKind,onClose,t, q
       <button className={scope === 'all' ? 'chip on' : 'chip'} onClick={() => onScope('all')}>{addIntent ? t('全部已授权文件', 'All authorized files') : t('全部资料', 'All resources')}</button>
       {workspace && !addIntent && <button className={scope === 'current' ? 'chip on' : 'chip'} onClick={() => onScope('current')}>{t('当前工作区', 'This workspace')}</button>}
     </div>
+    {folderError && <p className="form-error folder-picker-error" role="alert">{folderError}</p>}
+    {folderGuide}
     {!searching&&groups.filter(([kind])=>results.some(item=>item.kind===kind)).length>1&&<div className="search-group-jumps" aria-label={t('结果分类','Result groups')}>{groups.map(([kind,label])=>{const count=results.filter(item=>item.kind===kind).length;return count?<button key={kind} aria-label={t('跳到','Jump to ')+label+t('结果',' results')} onMouseDown={event=>event.preventDefault()} onClick={()=>{onActive(results.findIndex(item=>item.kind===kind));document.getElementById(`search-group-${kind}`)?.scrollIntoView?.({block:'start'});}}>{label}<small>{count}</small></button>:null;})}</div>}
     <div id="search-results" role="listbox" aria-label={t('搜索结果', 'Search results')} aria-busy={searching} className="search-results">
-      {!query.trim() ? <div className="search-empty"><Search size={24} /><strong>{t('输入名称或路径', 'Search by name or path')}</strong><span>{hasLocations ? t('查找已授权文件、已存网页与工作区', 'Find authorized files, saved links and workspaces') : t('可搜索已存网页与工作区；查找文件请先添加管理位置', 'Search saved links and workspaces. Add a location to find files.')}</span></div>
+      {!query.trim() ? <div className="search-empty"><Search size={24} /><strong>{t('输入名称或路径', 'Search by name or path')}</strong><span>{hasLocations ? t('查找已授权文件、已存网页与工作区', 'Find authorized files, saved links and workspaces') : t('也可以搜索已存网页和工作区。', 'You can search saved links and workspaces.')}</span></div>
         : searching ? <div className="search-empty" role="status"><LoaderCircle size={22} className="spin" />{t('正在搜索…', 'Searching…')}</div>
-          : !results.length ? <div className="search-empty"><Search size={24} /><strong>{t('没有匹配资料', 'No matching resources')}</strong><span>{t('试试更短的名称，或检查管理范围', 'Try a shorter name or check managed locations')}</span></div>
+          : !results.length && !folderReading ? <div className="search-empty"><Search size={24} /><strong>{t('没有匹配资料', 'No matching resources')}</strong><span>{t('试试更短的名称。', 'Try a shorter name.')}</span></div>
             : groups.map(([kind, label]) => {
               const items = results.filter(item => item.kind === kind);
               return items.length ? <div id={`search-group-${kind}`} role="group" aria-label={label} key={kind} className="search-group"><div className="search-group-heading"><span>{label}</span><small>{items.length}</small></div>
@@ -63,13 +72,15 @@ type ResourceListProps = {
   query?:string;workspaces?:Array<{id:string;name:string}>;
   resetKey?:string;
   timeMode?:'opened'|'modified';
+  selectionActions?: ReactNode;
   t: Translator; lang: 'zh' | 'en'; items: Resource[]; selected: Set<string>; busy: boolean;
   onToggle: (id: string) => void; onOpen: (item: Resource) => void;
   onFavorite: (item: Resource) => void; onReveal: (item: Resource) => void;
   onRemove?: (item:Resource)=>void; onDeleteWeb?: (item:Resource)=>void; onRelink: (item: Resource) => void; onEdit: (item: Resource) => void; onDragStart?: (event:React.PointerEvent,ids:string[])=>void;
+  onContextMenu?: (event: ContextMenuEvent, item: Resource) => void;
 };
 
-export function ResourceList({ query='',workspaces=[],resetKey,timeMode='modified',t, lang, items, selected, busy, onToggle, onOpen, onFavorite, onReveal, onRelink, onEdit, onDeleteWeb, onRemove, onDragStart }: ResourceListProps) {
+export function ResourceList({ query='',workspaces=[],resetKey,timeMode='modified',selectionActions,t, lang, items, selected, busy, onToggle, onOpen, onFavorite, onReveal, onRelink, onEdit, onDeleteWeb, onRemove, onDragStart, onContextMenu }: ResourceListProps) {
   const viewport = useRef<HTMLDivElement>(null);
   const [scrollTop, setScrollTop] = useState(0);
   // 完整首页已达100项时就使用同一滚动区，续页不能因切换布局把末尾位置挤回开头。
@@ -82,8 +93,15 @@ export function ResourceList({ query='',workspaces=[],resetKey,timeMode='modifie
   const first = virtual ? Math.min(Math.max(0,items.length-16),Math.max(0, Math.floor(scrollTop / rowHeight) - 4)) : 0;
   const last = virtual ? Math.min(items.length, first + 16) : items.length;
   useEffect(() => { setScrollTop(0); if (viewport.current) viewport.current.scrollTop = 0; }, [resetKey??items[0]?.id]);
+  const showSelection = !!selectionActions && selected.size > 0;
   return <div className="resource-table">
-    <div className="table-heading"><span>{t('资料名称', 'Resource')}</span><span className="workspace-tags-heading">{t('工作区','Workspaces')}</span><span>{timeMode==='opened'?t('最近打开','Opened'):t('最近修改', 'Modified')}</span><span className="resource-size">{t('大小','Size')}</span><span>{t('操作', 'Actions')}</span></div>
+    <div className="resource-list-header" data-selecting={showSelection}>
+      <div className="table-heading" aria-hidden={showSelection}><span>{t('资料名称', 'Resource')}</span><span className="workspace-tags-heading">{t('工作区','Workspaces')}</span><span>{timeMode==='opened'?t('最近打开','Opened'):t('最近修改', 'Modified')}</span><span className="resource-size">{t('大小','Size')}</span><span>{t('操作', 'Actions')}</span></div>
+      {selectionActions && <div className="selection-bar" role="toolbar" aria-label={t('已选资料操作','Selected resource actions')}
+        aria-hidden={!showSelection} inert={!showSelection}>
+        {selectionActions}
+      </div>}
+    </div>
     <div ref={viewport} className={virtual ? 'resource-viewport virtual' : 'resource-viewport'} onScroll={event=>setScrollTop(event.currentTarget.scrollTop)} role="region" aria-label={t('资料列表','Resource list')} tabIndex={0}>
     {virtual&&<div aria-hidden="true" style={{height:first*rowHeight}}/>}
     {items.slice(first,last).map(item => {
@@ -93,10 +111,14 @@ export function ResourceList({ query='',workspaces=[],resetKey,timeMode='modifie
       const location=query?item.location:parent;
       const memberships=item.status==='permission_denied'?[]:workspaces.filter(workspace=>item.workspace_ids.includes(workspace.id));
       const status = item.status === 'permission_denied' ? t('未授权 · 关联已保留', 'Not authorized · reference retained') : item.status === 'identity_unconfirmed' ? t('身份变化，请确认原件', 'Identity changed · confirm original') : t('原件不可用', 'Original unavailable');
-      return <div className={`resource-row ${selected.has(item.id) ? 'selected' : ''}`} key={item.id} onPointerDown={event=>{if(item.kind!=='workspace')onDragStart?.(event,selected.has(item.id)?[...selected]:[item.id]);}}>
+      const showMenu = item.kind === 'workspace' || busy ? undefined : onContextMenu;
+      return <div className={`resource-row ${selected.has(item.id) ? 'selected' : ''}`} key={item.id}
+        onPointerDown={event=>{if(item.kind!=='workspace')onDragStart?.(event,selected.has(item.id)?[...selected]:[item.id]);}}
+        onContextMenu={showMenu && (event => showMenu(event, item))}
+        onKeyDown={showMenu && (event => { if (isContextMenuKey(event)) showMenu(event, item); })}>
         <div className="resource-copy"><input type="checkbox" disabled={busy||item.kind==='workspace'} aria-label={t('选择 ', 'Select ') + name} checked={selected.has(item.id)} onChange={() => onToggle(item.id)} />
           <ResourceIcon item={item.status==='permission_denied'?{...item,name}:item}/>
-          <button className="resource-name" disabled={busy||!available} onKeyDown={event=>{if(event.repeat)event.preventDefault();}} onClick={event=>{if(event.detail<2)onOpen(item);}} title={item.kind==='workspace'?t('打开工作区','Open workspace'):available ? t('打开原件', 'Open original') : status}><strong><MatchText text={name} query={query} enabled={item.status!=='permission_denied'&&item.match_field==='name'}/></strong><small title={item.location}>{item.status === 'permission_denied' ? t('重新授权后可访问', 'Authorize the location to access') : <MatchText text={location} query={query} enabled={item.match_field==='path'||item.match_field==='url'}/>}</small>{!available && <em>{status}</em>}</button>
+          <button className="resource-name" disabled={busy||!available} aria-haspopup={showMenu ? 'menu' : undefined} onKeyDown={event=>{if(event.repeat)event.preventDefault();}} onClick={event=>{if(event.detail<2)onOpen(item);}} title={item.kind==='workspace'?t('打开工作区','Open workspace'):available ? t('打开原件', 'Open original') : status}><strong><MatchText text={name} query={query} enabled={item.status!=='permission_denied'&&item.match_field==='name'}/></strong><small title={item.location}>{item.status === 'permission_denied' ? t('重新授权后可访问', 'Authorize the location to access') : <MatchText text={location} query={query} enabled={item.match_field==='path'||item.match_field==='url'}/>}</small>{!available && <em>{status}</em>}</button>
         </div>
         <div className="resource-workspaces" title={memberships.map(workspace=>workspace.name).join(' / ')}>{memberships.slice(0,2).map(workspace=><span key={workspace.id}>{workspace.name}</span>)}{memberships.length>2&&<small>+{memberships.length-2}</small>}</div>
         <time className="date">{item.status==='permission_denied'||item.kind==='workspace'?'—':resourceTime(timeMode==='opened'?item.opened_at:item.modified_at,lang)}</time>
@@ -117,17 +139,35 @@ export function ResourceList({ query='',workspaces=[],resetKey,timeMode='modifie
   </div>;
 }
 
-export function EmptyState({ t, loading, view, mode, kind, hasLocations, disabled, onLocation, onAdd, onWeb }: {
+export function FolderGuide({ title, detail, action, disabled, onSelect, t, compact = false, suggestions = false, reading = false }: {
+  title: string; detail?: string; action?: string; disabled: boolean; onSelect: (suggestion?: SuggestedLocation) => void;
+  t: Translator; compact?: boolean; suggestions?: boolean; reading?: boolean;
+}) {
+  return <section className={compact ? 'folder-guide compact' : 'empty-state first-use folder-guide'} aria-label={title}>
+    {!compact && <div className="empty-symbol"><FolderOpen size={30} /></div>}
+    <div role={reading ? 'status' : undefined}>
+      <h3>{title}</h3>
+      {detail && <p>{detail}</p>}
+    </div>
+    {action && <button className={compact ? 'button' : 'button primary'} disabled={disabled} onClick={() => onSelect()}>
+      <Folder size={16} />{action}
+    </button>}
+    {suggestions && <LocationSuggestions t={t} disabled={disabled} onSelect={onSelect} />}
+  </section>;
+}
+
+export function EmptyState({ t, loading, view, mode, kind, hasLocations, disabled, onLocation, onAdd, onWeb, onManage }: {
   t: Translator; loading: boolean; view: string; mode: string; kind: string; hasLocations: boolean; disabled: boolean;
-  onLocation: (suggestion?:SuggestedLocation) => void; onAdd: () => void; onWeb: () => void;
+  onLocation: (suggestion?:SuggestedLocation) => void; onAdd: () => void; onWeb: () => void; onManage?: () => void;
 }) {
   const inWorkspace = view === 'workspace';
   const title = loading ? t('正在读取资料', 'Loading resources') : view==='search-empty'?t('输入名称或路径','Search by name or path'):view==='search'?t('没有匹配的资料','No matching resources'):inWorkspace&&kind!=='all'?t('此分类下暂无资料','No resources in this category'):inWorkspace ? t('这个工作区还没有资料', 'No resources here yet') : mode === 'favorites' ? t('还没有收藏的资料', 'No favorites yet') : mode === 'recent' ? t('还没有打开记录', 'No opened resources yet') : hasLocations ? t('这里暂时没有资料', 'No resources yet') : t('文件原地不动，多一个更容易找的入口', 'Your files stay in place. Finding them gets easier.');
-  const hint = loading ? t('正在读取已授权的资料。','Reading authorized resources.') : view==='search-empty'?t('输入关键词后查找已授权资料。','Enter a query to find authorized resources.'):view==='search'?t('换个关键词，或调整搜索范围和资料类型。','Try another keyword, scope or resource type.'):inWorkspace&&kind==='web'?t('添加与这件工作有关的网页。','Save a link related to this project.'):inWorkspace ? t('从已授权位置查找文件，或添加与这件工作有关的网页。', 'Find files in managed locations, or save a link for this project.') : mode === 'favorites' ? t('点击资料旁的星标，把常用资料留在这里。', 'Star a resource to keep it close at hand.') : mode === 'recent' ? t('通过 WorkTwill 打开的资料会显示在这里。', 'Resources opened through WorkTwill appear here.') : hasLocations ? t('扫描期间资料会逐步出现，也可以添加其他管理位置。', 'Resources appear as scanning progresses. You can also add another location.') : t('选择一个现有文件夹，即可查找资料，无需先整理或移动文件。', 'Choose an existing folder to find resources. No organizing or moving required.');
+  const hint = loading ? t('正在读取已授权的资料。','Reading authorized resources.') : view==='search-empty'?t('输入文件名、网页标题或工作区名称。','Enter a file name, link title or workspace name.'):view==='search'?t('试试更短的名称，或调整筛选。','Try a shorter name or adjust your filters.'):inWorkspace&&kind==='web'?t('添加与这件工作有关的网页。','Save a link related to this project.'):inWorkspace ? t('从已授权位置查找文件，或添加与这件工作有关的网页。', 'Find files in managed locations, or save a link for this project.') : mode === 'favorites' ? t('点击资料旁的星标，把常用资料留在这里。', 'Star a resource to keep it close at hand.') : mode === 'recent' ? t('通过 WorkTwill 打开的资料会显示在这里。', 'Resources opened through WorkTwill appear here.') : hasLocations ? t('扫描期间资料会逐步出现，也可以添加其他管理位置。', 'Resources appear as scanning progresses. You can also add another location.') : t('选择一个现有文件夹，即可查找资料，无需先整理或移动文件。', 'Choose an existing folder to find resources. No organizing or moving required.');
   return <div role={loading?'status':undefined} aria-busy={loading} className={`empty-state ${!hasLocations && !inWorkspace ? 'first-use' : ''}`}>
     <div className="empty-symbol">{loading ? <LoaderCircle className="spin" size={28} /> : <FolderOpen size={30} />}</div><h3>{title}</h3><p>{hint}</p>
     {!loading && !view.startsWith('search')&&<div className="actions">{inWorkspace ? <>{kind!=='web'&&<button className="button primary" disabled={disabled} onClick={onAdd}><Plus size={16} />{t('添加文件', 'Add files')}</button>}{kind !== 'file' && <button className="button" disabled={disabled} onClick={onWeb}><Link2 size={16} />{t('添加网页', 'Add link')}</button>}</> : !hasLocations || (mode !== 'favorites' && mode !== 'recent') ? <button className="button primary" disabled={disabled} onClick={()=>onLocation()}><Plus size={16} />{t('添加管理位置', 'Add location')}</button> : null}</div>}
     {!loading && !hasLocations && !inWorkspace && !view.startsWith('search') && <LocationSuggestions t={t} disabled={disabled} onSelect={onLocation}/>}
-    {!loading && !hasLocations && !inWorkspace && <div className="onboarding-notes"><span>{t('仅扫描所选位置', 'Only selected locations')}</span><span>{t('支持文件与网页', 'Files and links together')}</span><span>{t('本地存储，无需登录', 'Local, no account needed')}</span></div>}
+    {!loading && view === 'search' && onManage && <button className="text-button" onClick={onManage}>{t('管理位置', 'Manage locations')}</button>}
+    {!loading && !hasLocations && !inWorkspace && !view.startsWith('search') && <div className="onboarding-notes"><span>{t('仅扫描所选位置', 'Only selected locations')}</span><span>{t('支持文件与网页', 'Files and links together')}</span><span>{t('本地存储，无需登录', 'Local, no account needed')}</span></div>}
   </div>;
 }

@@ -66,7 +66,15 @@ for (const route of routes) {
   if (route.endsWith('/download')) {
     assert.equal(document.querySelector('[data-release-download]').getAttribute('href'),downloadUrl(release));
     assert.equal(document.querySelectorAll('[data-platform-downloads] .platform-download').length,Object.keys(platformNames).length-1);
-    assert.equal(document.querySelectorAll('[data-platform-downloads] a').length,Object.keys(release.platforms).length-1);
+    assert.equal(document.querySelectorAll('[data-platform-downloads] a[download]').length,Object.keys(release.platforms).length-1);
+    const installers = [...document.querySelectorAll('a[data-download-next]')];
+    assert.equal(installers.length, Object.keys(release.platforms).length);
+    for (const installer of installers) {
+      const status = document.getElementById(installer.dataset.downloadNext);
+      assert.ok(status?.dataset.message);
+      assert.equal(installer.nextElementSibling.querySelector('a').getAttribute('href'),
+        localizedRoute(english ? 'en' : 'zh-CN', '/guide') + (installer.getAttribute('href').endsWith('.exe') ? '#windows' : '#macos'));
+    }
     assert.equal(document.querySelector('[data-release="sha256"]').textContent.length, 64);
     assert.ok(document.querySelectorAll('.fact-list > div').length >= 6);
   }
@@ -114,6 +122,28 @@ for (const route of ['/404', '/zh/404']) {
 // 正式交互回归直接执行首页源码，覆盖初始结果与输入后的同一条路径。
 const homeSource = await readFile(new URL('../src/home.js', import.meta.url), 'utf8');
 const messageSource = await readFile(new URL('../src/home.generated.js', import.meta.url), 'utf8');
+const downloadSource = await readFile(new URL('../src/download.js', import.meta.url), 'utf8');
+const executableHomeSource = homeSource
+  .replace("import messages from './home.generated.js';", messageSource.replace('export default', 'const messages ='))
+  .replace("import './download.js';", downloadSource);
+function assertDownloadFeedback(window) {
+  const { document } = window;
+  const downloads = [...document.querySelectorAll('a[data-download-next]')];
+  assert.ok(downloads.length > 0);
+  document.addEventListener('click', event => event.preventDefault());
+  for (const link of downloads) {
+    link.click();
+    const status = document.getElementById(link.dataset.downloadNext);
+    assert.equal(status.textContent, link.dataset.downloadMessage ?? status.dataset.message);
+    assert.ok(link.hasAttribute('download'));
+  }
+}
+for (const route of ['/download', '/zh/download']) {
+  const { window } = new JSDOM(documents.get(route).documentElement.outerHTML, { runScripts: 'outside-only' });
+  window.eval(downloadSource);
+  assertDownloadFeedback(window);
+  window.close();
+}
 for (const route of ['/', '/zh/']) {
   const dom = new JSDOM(documents.get(route).documentElement.outerHTML, { runScripts: 'outside-only', pretendToBeVisual: true });
   const { window } = dom;
@@ -128,7 +158,7 @@ for (const route of ['/', '/zh/']) {
     observe(element) { observed.add(element); }
     unobserve(element) { observed.delete(element); }
   };
-  window.eval(homeSource.replace("import messages from './home.generated.js';", messageSource.replace('export default', 'const messages =')));
+  window.eval(executableHomeSource);
   const reveal = document.querySelector('.reveal');
   assert.ok(observed.has(reveal));
   assert.ok(reveal.classList.contains('reveal-pending'));
@@ -138,6 +168,7 @@ for (const route of ['/', '/zh/']) {
   assert.ok(reveal.classList.contains('is-revealed'));
   assert.ok(!reveal.classList.contains('reveal-pending'));
   assert.ok(!observed.has(reveal), '入场后停止观察，避免滚动反复重播');
+  assertDownloadFeedback(window);
   const input = document.querySelector('#demoInput');
   const key = (element, value) => element.dispatchEvent(new window.KeyboardEvent('keydown', { key: value, bubbles: true }));
   assert.equal(document.querySelectorAll('#demoResults [role="option"]').length, 3, '初始搜索结果必须可操作');
@@ -178,7 +209,7 @@ for (const route of ['/', '/zh/']) {
   const dom = new JSDOM(documents.get('/').documentElement.outerHTML, { runScripts: 'outside-only', pretendToBeVisual: true });
   dom.window.matchMedia = () => ({ matches: true });
   dom.window.IntersectionObserver = class { constructor() { assert.fail('减少动态时不应注册动效观察'); } };
-  dom.window.eval(homeSource.replace("import messages from './home.generated.js';", messageSource.replace('export default', 'const messages =')));
+  dom.window.eval(executableHomeSource);
   assert.equal(dom.window.document.querySelectorAll('.is-revealed, .reveal-pending').length, 0);
   dom.window.close();
 }

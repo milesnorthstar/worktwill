@@ -22,6 +22,9 @@ Windows（仅适用于官网已提供的 Windows 安装包）
 3. 若没有“仍要运行”或公司策略禁止安装，请联系电脑管理员。不要关闭 Defender 或 SmartScreen。
 4. 安装程序按当前用户安装；如提示需要 WebView2，请按安装程序引导完成运行时安装。
 
+打开后从一份文件开始
+在个人工作台点击“选择文件夹”（旧版显示“添加管理位置”）。选择一个平时放文件的目录，然后在“最近资料”里点开文件，或按文件名搜索。WorkTwill 在你选择的位置里找文件，原文件留在原处。
+
 后续更新
 支持应用内更新的版本会自动检查新版；可在“设置 → 应用更新”关闭后台自动下载，也可手动检查或下载。
 下载完成后选择“重启更新”，应用先保存便签，再安装并重新打开。也可稍后更新。
@@ -44,6 +47,8 @@ Report: https://github.com/milesnorthstar/worktwill/issues/new?template=bug_repo
 Apple guidance: https://support.apple.com/en-us/102445
 
 Windows (when an installer is published): Exit WorkTwill and run the matching EXE. This build has no Windows code signing. If SmartScreen appears, verify the official source and checksum before choosing More info → Run anyway, if offered. If blocked by policy, contact your administrator; keep Defender and SmartScreen enabled. Installation is per user. Follow the installer if WebView2 is required.
+
+Find your first file: Click Choose a folder in the personal workbench. Earlier versions say Add location. Pick a folder where you keep files, then open one from Recent resources or search by file name. WorkTwill searches the folders you choose. Your files stay in place.
 
 Updates: Open Settings → App updates to check or download manually, or control background downloads. Once ready, Restart to update saves your notes, installs, and reopens the app. Older versions without an updater need one manual installation. Exit the old version and retain the application data directory. Update signatures are verified independently of OS code signing and do not imply approval by Apple or Microsoft. Live update availability follows the published website status. Local file features remain usable without an update connection.
 

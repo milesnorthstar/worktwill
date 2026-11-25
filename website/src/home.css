@@ -310,6 +310,7 @@
     .download-content h2 { margin:0 0 9px; font-size:30px; letter-spacing:-.05em; }
     .download-content p { margin:0; color:#aeb8d8; font-size:13px; }
     .download-content .download-help { margin-top:12px; }
+    #home-download-next:empty { margin: 0; }
     .download-help a { text-decoration:underline; text-underline-offset:4px; }
     .platforms { display:flex; gap:10px; flex-wrap:wrap; }
     .platform-card { min-width:190px; padding:15px 17px; border:1px solid rgba(225,230,255,.17); border-radius:13px; background:rgba(255,255,255,.06); }

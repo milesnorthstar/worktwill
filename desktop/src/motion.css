@@ -1,0 +1,128 @@
+:root {
+  --motion-fast: 120ms;
+  --motion-standard: 180ms;
+  --motion-ease: cubic-bezier(.2, .7, .25, 1);
+}
+
+.quick-backdrop {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.quick-backdrop[data-open="true"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.companion-reveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.companion-reveal[data-expanded="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+}
+
+.companion-reveal > div {
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :where(button, summary),
+  .filter-tabs button::after,
+  .resource-row,
+  .search-field {
+    transition:
+      background-color var(--motion-fast) ease-out,
+      border-color var(--motion-fast) ease-out,
+      color var(--motion-fast) ease-out,
+      box-shadow var(--motion-fast) ease-out,
+      scale var(--motion-fast) var(--motion-ease);
+  }
+
+  .workspace-card {
+    transition:
+      transform var(--motion-standard) var(--motion-ease),
+      border-color var(--motion-fast) ease-out,
+      box-shadow var(--motion-fast) ease-out,
+      scale var(--motion-fast) var(--motion-ease);
+  }
+
+  :is(.button, .icon-button, .workspace-card):enabled:active {
+    scale: .98;
+  }
+
+  .quick-backdrop {
+    transition: opacity var(--motion-standard) var(--motion-ease);
+  }
+
+  .topbar {
+    transition: z-index 0s var(--motion-standard);
+  }
+
+  .topbar:has(.quick-dialog) {
+    transition-delay: 0s;
+  }
+
+  .quick-dialog,
+  .modal[open],
+  .update-overlay > div {
+    animation: dialog-enter var(--motion-standard) var(--motion-ease);
+  }
+
+  .modal[open]:has(.choice-field) {
+    animation-name: surface-fade-in;
+  }
+
+  .modal[open]::backdrop,
+  .update-overlay,
+  .update-notes[open] > p {
+    animation: surface-fade-in var(--motion-standard) var(--motion-ease);
+  }
+
+  .context-menu {
+    animation: menu-enter var(--motion-fast) var(--motion-ease);
+  }
+
+  .resource-list-header[data-selecting="true"] > .selection-bar,
+  .toast,
+  .batch-report,
+  .import-summary,
+  .update-ready,
+  .note-exit-error,
+  .external-drag-hint {
+    animation: feedback-enter var(--motion-standard) var(--motion-ease);
+  }
+
+  .companion-reveal {
+    transition:
+      grid-template-rows var(--motion-standard) var(--motion-ease),
+      opacity var(--motion-standard) ease-out,
+      visibility var(--motion-standard);
+  }
+}
+
+@keyframes dialog-enter {
+  from { opacity: .65; translate: 0 -6px; scale: .985; }
+  to { opacity: 1; translate: 0 0; scale: 1; }
+}
+
+@keyframes surface-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes menu-enter {
+  from { opacity: .6; translate: 0 3px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+@keyframes feedback-enter {
+  from { opacity: .6; translate: 0 5px; }
+  to { opacity: 1; translate: 0 0; }
+}

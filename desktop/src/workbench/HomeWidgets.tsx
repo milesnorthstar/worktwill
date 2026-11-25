@@ -88,7 +88,12 @@ export default function HomeWidgets({lang,visible,exitGuard}:{lang:UiLanguage;vi
   },[flush]);
   const sorted=[...drafts].sort((a,b)=>Number(b.pinned)-Number(a.pinned)||b.note.updated_at-a.note.updated_at);
   return <>{!visible&&drafts.some(d=>d.error!==null)&&<div className="note-exit-error" role="alert">{t('便签保存失败，草稿仍在。请返回个人工作台重试，应用尚未退出。','A note could not be saved. Return to the workbench to retry. The app remains open.')}</div>}<aside className="home-widgets" hidden={!visible} aria-label={t('个人小组件','Personal widgets')}>
-    <section className="companion-card"><div className="section-heading"><h2>🌱 {t('空间伙伴','Space companion')}</h2><button className="text-button" onClick={()=>setShowBuddy(value=>!value)}>{showBuddy?t('收起','Hide'):t('展开','Show')}</button></div>{showBuddy&&<><img src={companion} alt={t('盆栽空间伙伴','A friendly potted plant')}/><p>{t('留一个安静的角落，继续手头的工作。','A quiet corner for the work at hand.')}</p></>}</section>
+    <section className="companion-card">
+      <div className="section-heading"><h2>🌱 {t('空间伙伴','Space companion')}</h2><button className="text-button" aria-expanded={showBuddy} onClick={() => setShowBuddy(value => !value)}>{showBuddy ? t('收起','Hide') : t('展开','Show')}</button></div>
+      <div className="companion-reveal" data-expanded={showBuddy} inert={!showBuddy}>
+        <div><img src={companion} alt={t('盆栽空间伙伴','A friendly potted plant')}/><p>{t('留一个安静的角落，继续手头的工作。','A quiet corner for the work at hand.')}</p></div>
+      </div>
+    </section>
     <section className="notes-card"><div className="section-heading"><h2>{t('工作便签','Scratch notes')}</h2><button className="icon-button" aria-label={t('新建便签','New note')} disabled={!native||!scope.current} onClick={()=>{const note={id:crypto.randomUUID(),text:'',pinned:false,version:0,updated_at:Date.now()};setDrafts(old=>{const next=[{scope:scope.current,note,text:'',pinned:false,deleted:false,saving:false,error:null,confirmed:false},...old];current.current=next;return next;});}}><Plus size={20}/></button></div>
     {loadError!==null&&<p role="alert">{errorMessage(loadError,lang)} <button className="text-button" onClick={()=>void read()}>{t('重新读取','Reload')}</button></p>}
     {!drafts.length&&<p className="muted">{t('随手记下，不必先建工作区。','Jot something down, with no workspace required.')}</p>}
