@@ -4,6 +4,10 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 
 ## Unreleased
 
+## 1.3.5 — 2026-11-25
+
+Available for macOS Apple Silicon. The new installer passed native installation, launch, changed-interaction, and shipped-license checks. Windows downloads are at 1.3.3. The 1.3.5 Windows candidate requires native acceptance.
+
 ### Added
 
 - Guide first-time users from choosing a folder to opening a file. Keep search terms and filters when choosing a folder from search, and show installation steps beside website downloads.
