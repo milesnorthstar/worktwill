@@ -192,7 +192,7 @@ for (const [page, meta] of Object.entries(pages)) {
         matrix.children[0]?.remove();matrix.children[0]?.remove();
         for(const [target,names] of Object.entries(platformNames).reverse()){
           const row=document.createElement('div');const title=document.createElement('dt');title.textContent=locale==='en'?names.en:names.zh;
-          const description=document.createElement('dd');description.textContent=release.platforms[target]?(locale==='en'?'A local candidate is available. Installer and update acceptance are tracked separately.':'已有本地候选包；安装与更新的实际验收单独记录。'):(locale==='en'?'Installer not published yet.':'安装包尚未发布。');row.append(title,description);matrix.prepend(row);
+          const description=document.createElement('dd');description.textContent=release.platforms[target]?(locale==='en'?'A preview installer is available. Installation and in-app upgrade are verified separately.':'可下载预览版安装包。安装和应用内升级分别验收。'):(locale==='en'?'Installer not published yet.':'安装包尚未发布。');row.append(title,description);matrix.prepend(row);
         }
       }
     }

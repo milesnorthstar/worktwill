@@ -21,22 +21,22 @@
       "candidate": "88d0bd7771f33fd1a7b621bbfc830f4c94b3da3f707918751e9d2a2a58beb009"
     },
     "windows-x86_64": {
-      "version": "1.3.3",
+      "version": "1.3.5",
       "stage": "预览版",
       "stage_en": "Preview",
-      "notes": "# Changelog\r\n\r\nUser-facing changes are collected under `Unreleased` and moved to dated version sections when published. Release entries identify the available platforms and relevant upgrade limitations. This file starts with the current maintenance workflow; it does not reconstruct historical releases from internal candidates.\r\n\r\n## Unreleased\r\n\r\n### Fixed\r\n\r\n- Handle both LF and CRLF source files in isolated website audit tests.\r\n\r\n### Maintenance\r\n\r\n- Separate prepublication checks from post-publication in-app upgrade acceptance, avoiding a circular requirement on an update feed that is not published yet while retaining observed-failure blocking.\r\n\r\n- Isolate release candidates from public download/update records, bind build provenance and native Agent acceptance to exact artifacts, verify updater signatures before promotion, and add checked draft archiving and all-platform online byte verification commands.\r\n- Add a manual macOS ARM64 candidate workflow and extend Windows candidate artifacts with provenance and an unpassed acceptance template. Publication and native upgrade acceptance remain separate operations.\r\n\r\n- Add secret-free macOS and Windows checks for pull requests and main-branch pushes, including isolated website HTTP audit tests.\r\n- Add bilingual bug/feature forms, a pull request checklist, private security reporting guidance, and weekly grouped dependency update configuration.\r\n\r\n### Documentation\r\n\r\n- Organize agent guidance, product behavior, architecture, website SEO/GEO maintenance, and version iteration into focused maintenance documents.\r\n- Define candidate promotion, artifact provenance and archiving, upload/publication verification, website-only deployment, and release withdrawal workflows, with current automation gaps stated explicitly.\r\n\r\n## 1.3.3 — 2026-11-23\r\n\r\nWindows x64 preview release preparation. Publication and native acceptance are pending; macOS remains on 1.3.2. Online upgrade from a lower Windows version has not been verified.\r\n\r\n### Distribution\r\n\r\n- Restore Windows distribution-notice generation by supplying the exact upstream WebView2 binding license texts omitted from the published crates.\r\n- Include target-platform third-party license texts, component versions, MPL source-download links, and Rust standard-library notices with the Windows installation.\r\n\r\n## 1.3.2 — 2026-11-23\r\n\r\nAvailable for macOS Apple Silicon. Windows is not updated by this release. Apple Developer ID signing and notarization are not included; first launch can still require **Open Anyway** in Privacy & Security. Live in-app upgrade acceptance is tracked separately from installation and online artifact checks.\r\n\r\n### Fixed\r\n\r\n- Fix incomplete macOS application signatures that could cause a downloaded app to be reported as damaged. Sign the complete bundle before packaging and reject invalid application and update-archive signatures during release builds.\r\n- Fail snapshot copying promptly on database lock contention instead of waiting in SQLite's busy handler while holding the application data gate; preserve the existing explicit-retry and data-preservation behavior.\r\n\r\n### Distribution\r\n\r\n- Include target-platform third-party license texts, component versions, MPL source-download links, and Rust standard-library notices inside the application bundle.\r\n",
-      "filename": "WorkTwill-1.3.3-windows-x86_64-542a4cd6e4a1-WorkTwill_1.3.3_x64-setup.exe",
-      "bytes": 5129554,
-      "sha256": "542a4cd6e4a1c78c6b4ed491feb15637baadc3d6271a2a38b7c1298baab27100",
+      "notes": "# WorkTwill 1.3.5 · Windows x64 Preview\n\nGuided first-file setup, right-click actions, unified dropdowns and calendars, and a selection toolbar beside the file list. Workspace switching is faster and rescans keep the file list visible.\n\nThe exact installer passed native installation, launch, changed-interaction and shipped-license checks on Windows 10 Enterprise LTSC x64. In-app upgrade and upgrade data retention remain to be verified.\n\n# WorkTwill 1.3.5 · Windows x64 预览版\n\n新增首次使用引导和右键操作，统一下拉菜单与日历样式。已选资料操作显示在文件表头，切换工作区更快，重扫期间保留资料列表。\n\n此安装包已在 Windows 10 Enterprise LTSC x64 上通过安装、启动、相关交互与随包许可证检查。应用内升级和升级后的数据保持待验证。\n",
+      "filename": "WorkTwill-1.3.5-windows-x86_64-557e627fd113-WorkTwill_1.3.5_x64-setup.exe",
+      "bytes": 5140129,
+      "sha256": "557e627fd113154799818ffb889bf5ee37a335ebfc5c20879aaf2a139a45e48f",
       "update": {
-        "filename": "WorkTwill-1.3.3-windows-x86_64-542a4cd6e4a1-WorkTwill_1.3.3_x64-setup.exe",
-        "bytes": 5129554,
-        "sha256": "542a4cd6e4a1c78c6b4ed491feb15637baadc3d6271a2a38b7c1298baab27100",
-        "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTQ2dHUFRKZFZCQXkzWlNXQTBDbEJaNDRQK3RqZHFlUkh5T3ByS0lFZTI4eGplTWxnQlgvYzc4Q1IxUHZkN2JBb0QvMU8xZnJkenFxS05sSzRRTkRxWUkzVHVmNGpVVHc4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1NDEzNDMxCWZpbGU6V29ya1R3aWxsXzEuMy4zX3g2NC1zZXR1cC5leGUJdmVyc2lvbjoxLjMuMwpmMUFPVjUrWGZvNW0vQzEzNUhjbzQxc2hhVjZUY3dBbkZ4ZjJpRjY0amFrTDAwNEZRVGNoeld2RkIrNkNZU2JaNGh2YVZySVlldlVoU1h4V3ZuVzJDZz09Cg=="
+        "filename": "WorkTwill-1.3.5-windows-x86_64-557e627fd113-WorkTwill_1.3.5_x64-setup.exe",
+        "bytes": 5140129,
+        "sha256": "557e627fd113154799818ffb889bf5ee37a335ebfc5c20879aaf2a139a45e48f",
+        "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTQ2dHUFRKZFZCQS82REY3SWNpcWptaGszZFVITHNhQkoyLzN1T0xyRkVUQU5RNHNXS2NjZ2Q4clIrbEV6dnpOTUlqYStOVXNxaWJEd0RWbGhWVVNJK1p2S3E4SytxQXcwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1NTc4MDI3CWZpbGU6V29ya1R3aWxsXzEuMy41X3g2NC1zZXR1cC5leGUJdmVyc2lvbjoxLjMuNQp2ajZlYlVvN3hVaVVSQmF1R3d6eWt3R3N0dzJQb1Vua2VKZzE5MmxEVWFodXljVDcxVkg3eS9SN2FSQnpCUmxhR2xld2gwbkJrMEZ5QnpLcUg5V21BZz09Cg=="
       },
-      "published_at": "2026-11-23T06:00:55.147Z",
-      "source": "23ea838cd8560883a1ba4c58170f5ed449dba781",
-      "candidate": "936d662933081d28d49d209c29d26bc6175a735bc02df34314a06a8bdd0f0e48"
+      "published_at": "2026-11-25T07:14:46.932Z",
+      "source": "c8c6bfeb1b1bb4abe9092ed33aa356bcbee5d6fc",
+      "candidate": "32b2728f08e1eb378d161d46f5437de287a9bd45622cab88a8653514d12e4033"
     }
   }
 }
