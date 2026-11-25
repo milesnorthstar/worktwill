@@ -3,22 +3,22 @@
   "primary": "darwin-aarch64",
   "platforms": {
     "darwin-aarch64": {
-      "version": "1.3.4",
+      "version": "1.3.5",
       "stage": "预览版",
       "stage_en": "Preview",
-      "notes": "WorkTwill 1.3.4 — macOS Apple Silicon Preview\n\nKeep list rows, workspace counts, selection and scroll during ordinary refreshes. Selection actions float without shifting the list. Adding files through search keeps the query and results, marking existing references as added. Remove a workspace reference directly from its row while preserving the original file, favorites and other workspace references. The initial window fits the monitor work area.\n\nThe exact macOS package passed installation, launch, changed-interaction and shipped-license checks. Installation and live in-app upgrade acceptance are recorded separately. Developer ID signing and notarization are not included; first launch may require Open Anyway in Privacy & Security.\n\nWindows remains on 1.3.3. Its 1.3.4 candidate awaits native Windows acceptance and is not published by this release.\n\nWorkTwill 1.3.4 — macOS Apple 芯片预览版\n\n普通刷新时保留列表、工作区计数、选择与滚动位置；选中操作栏悬浮显示，不再挤压列表。搜索添加文件后保留查询与结果，并标记已加入的资料。可直接逐行移除工作区引用，原文件、收藏及其他工作区引用保留。初始窗口适配显示器可用区域。\n\n本次 Mac 包已通过安装、启动、相关交互及随包许可检查，安装与真实应用内升级分别验收。未做 Apple Developer ID 签名与公证，首次打开可能需要在“隐私与安全性”选择“仍要打开”。\n\nWindows 保持 1.3.3；其 1.3.4 候选仍待 Windows 原生验收，本次不发布。\n",
-      "filename": "WorkTwill-1.3.4-darwin-aarch64-d1f6de51edb5-WorkTwill_1.3.4_aarch64.dmg",
-      "bytes": 7859683,
-      "sha256": "d1f6de51edb5d655fc44bda368ae97e7a7c31e1df5f7ce7d7adaa8d4a58a7028",
+      "notes": "# WorkTwill 1.3.5 · macOS Apple Silicon Preview\n\n- Find and open your first file with guided folder selection and bilingual installation help.\n- Use right-click actions on files, links and workspaces. Search and activity now share dropdown and calendar styles.\n- Keep selected-item actions beside the file list, and keep sidebar labels steady when switching pages.\n- Switch between workspaces faster, keep rows visible during a rescan, and choose what happens to files that still need authorization after a drop.\n\nWindows downloads are currently at 1.3.3. The 1.3.5 Windows candidate requires native acceptance.\n\n# WorkTwill 1.3.5 · macOS Apple 芯片预览版\n\n- 新手可从选择文件夹开始找到并打开第一份文件，官网提供中英双语安装指引。\n- 文件、网页和工作区支持右键快捷操作，搜索和动态使用统一样式的下拉与日历。\n- 已选资料操作移到文件列表附近，切换页面时侧栏保持稳定。\n- 加快工作区切换，重新扫描时保留列表，拖入未授权文件后可明确选择授权加入或跳过。\n\nWindows 官网包当前为 1.3.3。Windows 1.3.5 候选包需要在 Windows 上验收。\n",
+      "filename": "WorkTwill-1.3.5-darwin-aarch64-b1f8d3ed5180-WorkTwill_1.3.5_aarch64.dmg",
+      "bytes": 7873521,
+      "sha256": "b1f8d3ed51803af196fa819899f1d40aac44d93315ece87af2801e3711dc8bd4",
       "update": {
-        "filename": "WorkTwill-1.3.4-darwin-aarch64-21008afcc9a8-WorkTwill.app.tar.gz",
-        "bytes": 7951979,
-        "sha256": "21008afcc9a884cb024916250a73f2d59fa7ff8450ad4c5ac718f0cf9964fd0b",
-        "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTQ2dHUFRKZFZCQTlKYnlFa0d2bDVUakxRcHpzalJDTlJQdkR5dExkRHo1bWhyRURUellwK1Yyd1Q1UC80Q1VUR3NvVUQ0UHVnYWg3cDd2YlgxZ3dMc2orQWptQU05aWdnPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1NTA3MTE4CWZpbGU6V29ya1R3aWxsLmFwcC50YXIuZ3oJdmVyc2lvbjoxLjMuNApuY0tvbWIyVk5kU1JDM1IrQmVZWUdITVVBRDMzVmhNTWNCUGRYbGo4NCtEMVBuU3lhZHBuMlR1emlGcGFuQ280K1k2QUVYUEpVUnoydlU2cFpzK0dEdz09Cg=="
+        "filename": "WorkTwill-1.3.5-darwin-aarch64-a6b071280906-WorkTwill.app.tar.gz",
+        "bytes": 7972511,
+        "sha256": "a6b071280906dd34b2c9b668fd1414cc319c39f69cb7c4fa4a1ae22e41c15143",
+        "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVTQ2dHUFRKZFZCQXgyMzhpOWVwQm1pN0lUR3lKWWU0M3d0U0lxdGMzTC81aW9GZTNrby9oOFgyT0RwbjFSVm85bmYrbnd5ZnN6aUI4L2VheEt2TlBBaFpybldKcG0wUHcwPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1NTc3MTAzCWZpbGU6V29ya1R3aWxsLmFwcC50YXIuZ3oJdmVyc2lvbjoxLjMuNQpUMWE3aG8xRjQvTHE1dXhybzF6RWtVODdqQTFGZ3pldWsreGw1dUVaQ2tEUGVRTHJTUmhHUFcyNkVoUTgrRkY0MzFmcU52ZmlSZ0tjcDdsWEJ1a2dBQT09Cg=="
       },
-      "published_at": "2026-11-24T08:34:53.869Z",
-      "source": "0a6d40479624318899691dfddcd2179e207135a1",
-      "candidate": "03bda2b4fe6c22191b760ea8ccaaa163547889a4b9ad2e8c24d4138b4efe169a"
+      "published_at": "2026-11-25T03:32:37.487Z",
+      "source": "c8c6bfeb1b1bb4abe9092ed33aa356bcbee5d6fc",
+      "candidate": "88d0bd7771f33fd1a7b621bbfc830f4c94b3da3f707918751e9d2a2a58beb009"
     },
     "windows-x86_64": {
       "version": "1.3.3",
