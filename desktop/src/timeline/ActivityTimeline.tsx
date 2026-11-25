@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowUpRight, CalendarDays, ChevronLeft, ChevronRight, Clock3, File, FilePlus2, FileText, Folder, FolderOpen, Globe, LoaderCircle, MapPin, RefreshCw, SlidersHorizontal } from 'lucide-react';
+import { ArrowUpRight, CalendarDays, ChevronRight, Clock3, File, FilePlus2, FileText, Folder, FolderOpen, Globe, LoaderCircle, MapPin, RefreshCw, SlidersHorizontal } from 'lucide-react';
 import { api, errorMessage, native } from '../api';
 import type { CalendarPoint, Resource, TimelineCursor, TimelineEntry, TimelinePage, TimelineRequest, Workspace } from '../contracts';
+import { ChoiceField, MonthCalendar, calendarDate, dayKey, localDay, shiftMonth } from '../workbench/FieldControls';
 import './timeline.css';
 
 type Lang = 'zh' | 'en';
@@ -20,13 +21,6 @@ type Props = {
 };
 type Loaded = { key: string; page: TimelinePage };
 
-function dayKey(date: Date): string {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-}
-function localDay(key: string): Date {
-  const [year, month, day] = key.split('-').map(Number);
-  return new Date(year, month - 1, day);
-}
 function isValidTime(time: number): boolean {
   return Number.isFinite(time) && time > 0 && time <= 8_640_000_000_000_000;
 }
@@ -74,17 +68,17 @@ export default function ActivityTimeline({ lang, revision, refreshRevision=0, on
   const loadedRef = useRef<Loaded | null>(null);
   const today = dayKey(new Date());
   const monthFrom = month.getTime();
-  const monthTo = new Date(month.getFullYear(), month.getMonth() + 1, 1).getTime();
+  const monthTo = shiftMonth(month, 1).getTime();
   const request = useMemo<TimelineRequest>(() => {
     const date = selectedDay ? localDay(selectedDay) : null;
     const monthDate = new Date(monthFrom);
-    const dayCount = new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
+    const dayCount = new Date(monthTo - 1).getDate();
     return {
       from: date ? date.getTime() : monthFrom,
       // 用本地下一日的午夜形成半开区间，夏令时切换日不固定加 24 小时。
-      to: date ? new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1).getTime() : monthTo,
+      to: date ? calendarDate(date.getFullYear(), date.getMonth(), date.getDate() + 1).getTime() : monthTo,
       month_from: monthFrom, month_to: monthTo,
-      day_boundaries: Array.from({ length: dayCount + 1 }, (_, index) => new Date(monthDate.getFullYear(), monthDate.getMonth(), index + 1).getTime()),
+      day_boundaries: Array.from({ length: dayCount + 1 }, (_, index) => calendarDate(monthDate.getFullYear(), monthDate.getMonth(), index + 1).getTime()),
       filter, basis, workspace_id: workspaceId, offset: 0,
     };
   }, [selectedDay, monthFrom, monthTo, filter, basis, workspaceId]);
@@ -160,11 +154,6 @@ export default function ActivityTimeline({ lang, revision, refreshRevision=0, on
   }, [workspaceId, workspaces, workspacesReady]);
 
   const counts = useMemo(() => calendarCounts(current?.calendar ?? []), [current?.calendar]);
-  const days = useMemo(() => {
-    const start = (month.getDay() + 6) % 7;
-    const count = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
-    return Array.from({ length: Math.ceil((start + count) / 7) * 7 }, (_, index) => index >= start && index < start + count ? new Date(month.getFullYear(), month.getMonth(), index - start + 1) : null);
-  }, [month]);
   const groups = useMemo(() => {
     const result = new Map<string, TimelineEntry[]>();
     for (const entry of current?.events ?? []) {
@@ -199,27 +188,27 @@ export default function ActivityTimeline({ lang, revision, refreshRevision=0, on
     };
     return labels[entry.activity.kind] ?? t('应用操作', 'App activity');
   };
-  const moveMonth = (direction: number) => { setMonth(previous => new Date(previous.getFullYear(), previous.getMonth() + direction, 1)); setSelectedDay(null); };
   const goToday = () => { const date = new Date(); setMonth(new Date(date.getFullYear(), date.getMonth(), 1)); setSelectedDay(dayKey(date)); };
   const filterLabels: Array<[Filter, string]> = [['all', t('全部', 'All')], ['modified', t('文件修改', 'Modified')], ['discovered', t('首次发现', 'Discovered')], ['opened', t('应用内打开', 'Opened')], ['system', t('应用操作', 'App actions')]];
   const statusLabel = (resource: Resource) => resource.status === 'available' ? '' : resource.status === 'identity_unconfirmed' ? t('身份待确认', 'Identity unconfirmed') : t('原件暂不可用', 'Original unavailable');
 
   return <section className="timeline-view" aria-label={t('文件活动时间线', 'File activity timeline')}>
     <aside className="timeline-calendar-panel">
-      <div className="timeline-month-navigation"><button type="button" aria-label={t('上个月', 'Previous month')} onClick={() => moveMonth(-1)}><ChevronLeft size={18} /></button><h2>{dateFormat(month, { month: 'long', year: 'numeric' })}</h2><button type="button" aria-label={t('下个月', 'Next month')} onClick={() => moveMonth(1)}><ChevronRight size={18} /></button></div>
+      <MonthCalendar lang={lang} month={month} selected={selectedDay} counts={counts}
+        onMonth={next => { setMonth(next); setSelectedDay(null); }}
+        onSelect={day => setSelectedDay(old => old === day ? null : day)} />
       <div className="timeline-calendar-top"><button type="button" className={!selectedDay ? 'is-active' : ''} onClick={() => setSelectedDay(null)}>{t('整月', 'Whole month')}</button><button type="button" onClick={goToday}>{t('今天', 'Today')}</button></div>
-      <div className="timeline-calendar-weekdays" aria-hidden="true">{(lang === 'zh' ? ['一', '二', '三', '四', '五', '六', '日'] : ['M', 'T', 'W', 'T', 'F', 'S', 'S']).map((label, index) => <span key={index}>{label}</span>)}</div>
-      <div className="timeline-calendar-grid" role="group" aria-label={t('选择日期', 'Choose date')}>
-        {days.map((date, index) => {
-          if (!date) return <span key={`empty-${index}`} />;
-          const key = dayKey(date); const count = counts.get(key) ?? 0;
-          return <button type="button" key={key} aria-pressed={selectedDay === key} aria-current={key === today ? 'date' : undefined} aria-label={`${dateFormat(date, { year: 'numeric', month: 'long', day: 'numeric' })}${count ? t(`，${count} 条记录`, `, ${count} activities`) : ''}`} title={count ? t(`${count} 条记录`, `${count} activities`) : undefined} className={`${selectedDay === key ? 'is-selected' : ''} ${key === today ? 'is-today' : ''}`} onClick={() => setSelectedDay(old => old === key ? null : key)}><span>{date.getDate()}</span>{count > 0 && <i aria-hidden="true" />}</button>;
-        })}
-      </div>
       <p className="timeline-calendar-note">{current ? t(`本月 ${monthCount} 条记录`, `${monthCount} activities this month`) : error !== null ? t('活动日期暂不可用', 'Activity dates unavailable') : loading ? t('正在读取活动日期…', 'Loading activity dates…') : t('尚未读取活动日期', 'Activity dates have not been loaded')}</p>
       <div className="timeline-sidebar-section"><h3><SlidersHorizontal size={15} />{t('活动筛选', 'Activity filters')}</h3><div className="timeline-filter-list" role="group" aria-label={t('活动类型', 'Activity type')}>{filterLabels.map(([value, label]) => <button type="button" key={value} aria-pressed={filter === value} className={filter === value ? 'is-active' : ''} onClick={() => setFilter(value)}>{label}</button>)}</div></div>
-      <div className="timeline-sidebar-section"><label className="timeline-field-label" htmlFor="timeline-workspace-filter">{t('工作区', 'Workspace')}</label><select id="timeline-workspace-filter" value={workspaceId ?? ''} onChange={event => setWorkspaceId(event.target.value || null)}><option value="">{t('全部工作区', 'All workspaces')}</option>{workspaces.map(workspace => <option key={workspace.id} value={workspace.id}>{workspace.name}</option>)}</select></div>
-      <div className="timeline-sidebar-section"><label className="timeline-field-label" htmlFor="timeline-time-basis">{t('时间维度', 'Time basis')}</label><select id="timeline-time-basis" value={basis} onChange={event => setBasis(event.target.value as Basis)}><option value="file_modified">{t('文件修改时间', 'File modification time')}</option><option value="observed">{t('本应用发现时间', 'Observed in WorkTwill')}</option></select><p className="timeline-scope-note">{t('首次发现按收纳日期显示。工作区筛选按当前关联。', 'Discoveries use their collection date. Workspace filters use current references.')}</p></div>
+      <div className="timeline-sidebar-section">
+        <ChoiceField label={t('工作区', 'Workspace')} value={workspaceId ?? ''} onChange={value => setWorkspaceId(value || null)}
+          options={[{value: '', label: t('全部工作区', 'All workspaces')}, ...workspaces.map(workspace => ({value: workspace.id, label: workspace.name}))]} />
+      </div>
+      <div className="timeline-sidebar-section">
+        <ChoiceField label={t('时间维度', 'Time basis')} value={basis} onChange={setBasis}
+          options={[{value: 'file_modified', label: t('文件修改时间', 'File modification time')}, {value: 'observed', label: t('本应用发现时间', 'Observed in WorkTwill')}]} />
+        <p className="timeline-scope-note">{t('首次发现按收纳日期显示。工作区筛选按当前关联。', 'Discoveries use their collection date. Workspace filters use current references.')}</p>
+      </div>
     </aside>
 
     <div className="timeline-center">

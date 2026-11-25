@@ -336,11 +336,16 @@ impl Store {
         let mut connection = self.connection()?;
         let db = connection.transaction()?;
         let in_workspace = query.workspace_id.is_some();
-        let filter = if in_workspace { "1" } else { VISIBLE };
         // 文件打开还须属于当前物理对象；网页没有文件origin，保留其记录语义。筛选和排序共用条件。
         let recent_opened = crate::activity_origin::recent_opened();
-        let recommended = crate::quality::recommended();
-        let sql=format!("SELECT r.id FROM resources r WHERE {filter} AND (?3<>'modified' OR ?1 IS NOT NULL OR {recommended}) AND (?1 IS NULL OR EXISTS(SELECT 1 FROM workspace_resources wr WHERE wr.workspace_id=?1 AND wr.resource_id=r.id)) AND (?2='all' OR r.kind=?2) AND (?3<>'favorites' OR r.favorite=1) AND (?3<>'recent' OR EXISTS(SELECT 1 FROM activities a WHERE {recent_opened})) ORDER BY CASE WHEN ?3='recent' THEN (SELECT MAX(a.at) FROM activities a WHERE {recent_opened}) ELSE r.modified_at END DESC,r.id LIMIT 101 OFFSET ?4");
+        let scope = if in_workspace {
+            // 按工作区主键范围读取关联，再逐项查资源。未授权引用仍交给 resource_db 隐去详情。
+            "workspace_resources wr CROSS JOIN resources r ON r.id=wr.resource_id WHERE wr.workspace_id=?1".into()
+        } else {
+            let recommended = crate::quality::recommended();
+            format!("resources r WHERE {VISIBLE} AND (?3<>'modified' OR {recommended})")
+        };
+        let sql=format!("SELECT r.id FROM {scope} AND (?2='all' OR r.kind=?2) AND (?3<>'favorites' OR r.favorite=1) AND (?3<>'recent' OR EXISTS(SELECT 1 FROM activities a WHERE {recent_opened})) ORDER BY CASE WHEN ?3='recent' THEN (SELECT MAX(a.at) FROM activities a WHERE {recent_opened}) ELSE r.modified_at END DESC,r.id LIMIT 101 OFFSET ?4");
         let ids = db
             .prepare(&sql)?
             .query_map(

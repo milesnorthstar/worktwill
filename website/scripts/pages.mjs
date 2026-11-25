@@ -51,6 +51,27 @@ function setMeta(document, name, content, property = false) {
   element.content = content;
 }
 
+function appendInstallHelp(document, download, platform, locale) {
+  const windows = platform.startsWith('windows-');
+  const copy = (zh) => locale === 'en' ? translate(zh) : zh;
+  const steps = document.createElement('p');
+  steps.className = 'install-next';
+  steps.textContent = copy(windows
+    ? '打开下载的 EXE，按安装程序提示完成。'
+    : '打开下载的 DMG，把 WorkTwill 拖到「应用程序」。');
+  const link = document.createElement('a');
+  link.href = localizedRoute(locale, '/guide') + (windows ? '#windows' : '#macos');
+  link.textContent = copy('安装与首次打开 →');
+  steps.append(' ', link);
+  const status = document.createElement('p');
+  status.className = 'download-next';
+  status.id = `download-next-${platform}`;
+  status.setAttribute('role', 'status');
+  status.dataset.message = copy('请在浏览器的下载列表中打开安装文件。');
+  download.dataset.downloadNext = status.id;
+  download.after(steps, status);
+}
+
 const homeTemplate = new JSDOM(await readFile(new URL('templates/index.html', site), 'utf8')).window.document;
 
 for (const [page, meta] of Object.entries(pages)) {
@@ -159,6 +180,12 @@ for (const [page, meta] of Object.entries(pages)) {
     if(intro)intro.textContent=locale==='en'?'Choose a platform below. Published installers are available directly from this website without GitHub. These are preview builds; platform acceptance is tracked separately.':'从下方选择平台，已发布的安装包可直接下载，无需访问 GitHub。当前为预览版本，各平台验收状态单独记录。';
     if(page==='download'){
       document.querySelector('.release-panel h2').textContent=platformNames[release.platform][locale==='en'?'en':'zh'];
+      appendInstallHelp(document, document.querySelector('[data-release-download]'), release.platform, locale);
+      for (const [target, entry] of Object.entries(release.platforms)) {
+        if (target === release.platform) continue;
+        const download = Array.from(document.querySelectorAll('[data-platform-downloads] a[download]')).find(link => link.getAttribute('href') === downloadUrl(entry));
+        if (download) appendInstallHelp(document, download, target, locale);
+      }
       setMeta(document,'description',locale==='en'?'Download WorkTwill installers directly from the official website. Check available Windows and Mac builds, release versions, checksums, installation steps, and app update support.':'从 WorkTwill 官网直接下载安装包，查看 Windows 和 Mac 的可用版本、校验值、安装方式与应用内更新支持范围。');
       const matrix=document.querySelector('h2 + dl.fact-list');
       if(matrix){
@@ -245,6 +272,11 @@ for (const [page, meta] of Object.entries(pages)) {
         link.setAttribute('download', '');
         link.querySelector('small').textContent = `${locale === 'en' ? 'Preview' : '预览版'} · v${entry.version}`;
         link.title = `SHA-256: ${entry.sha256}`;
+        const next = card.dataset.homeDownload.startsWith('windows-')
+          ? '打开下载的 EXE，按安装程序提示完成。'
+          : '打开下载的 DMG，把 WorkTwill 拖到「应用程序」。';
+        link.dataset.downloadNext = 'home-download-next';
+        link.dataset.downloadMessage = locale === 'en' ? translate(next) : next;
       }
     }
     const folder = new URL(`.${localizedRoute(locale, '/')}`, site);

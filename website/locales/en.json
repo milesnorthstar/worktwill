@@ -1,4 +1,10 @@
 {
+  "打开下载的 EXE，按安装程序提示完成。": "Open the downloaded EXE and follow the installer prompts.",
+  "打开下载的 DMG，把 WorkTwill 拖到「应用程序」。": "Open the downloaded DMG and drag WorkTwill to Applications.",
+  "安装与首次打开 →": "Installation and first launch →",
+  "请在浏览器的下载列表中打开安装文件。": "Open the installer from your browser’s Downloads list.",
+  "找到并打开第一份文件": "Find and open your first file",
+  "在个人工作台点击「选择文件夹」。旧版显示「添加管理位置」。选择一个平时放文件的目录，再在「最近资料」里点开文件，或按文件名搜索。": "Click Choose a folder in the personal workbench. Earlier versions say Add location. Choose a folder where you keep files, then open one from Recent resources or search by file name.",
   "开源进展": "Open-source plans",
   "搜索演示结果": "Sample search results",
   "↑↓ 选择　Enter 试开　Esc 清空": "↑↓ Select · Enter Try opening · Esc Clear",

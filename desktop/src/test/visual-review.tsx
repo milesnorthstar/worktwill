@@ -4,6 +4,7 @@ import {mockIPC, mockWindows} from '@tauri-apps/api/mocks';
 import type {Resource, Root, TimelineEntry, TimelineRequest} from '../contracts';
 import '../styles.css';
 import '../workbench/presentation.css';
+import '../motion.css';
 
 Reflect.set(globalThis,'isTauri',true);
 mockWindows('main');

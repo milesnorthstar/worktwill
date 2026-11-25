@@ -1,4 +1,5 @@
 import messages from './home.generated.js';
+import './download.js';
 
 const t = (text) => document.documentElement.lang === 'en' ? messages[text] : text;
 const toast = document.getElementById('toast');

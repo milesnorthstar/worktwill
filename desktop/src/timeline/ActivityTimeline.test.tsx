@@ -132,7 +132,8 @@ describe('文件时间线日期与来源', () => {
     expect(prior.from).toBe(new Date(now.getFullYear(), now.getMonth() - 1, 1).getTime());
     expect(prior.to).toBe(new Date(now.getFullYear(), now.getMonth(), 1).getTime());
     await user.click(screen.getByRole('button', { name: '应用操作' }));
-    await user.selectOptions(screen.getByRole('combobox', { name: '工作区' }), 'w');
+    await user.click(screen.getByRole('combobox', { name: '工作区' }));
+    await user.click(screen.getByRole('option', { name: '合同资料' }));
     await waitFor(() => expect(mocks.timeline.mock.calls.at(-1)?.[0]).toMatchObject({ filter: 'system', workspace_id: 'w', offset: 0 }));
   });
 });
@@ -142,19 +143,20 @@ describe('时间线版本与错误保护', () => {
     const user = userEvent.setup();
     const { rerender } = render(<ActivityTimeline {...props} />);
     await screen.findByText('这个月暂无活动记录');
-    await user.selectOptions(screen.getByRole('combobox', { name: '工作区' }), 'w');
+    await user.click(screen.getByRole('combobox', { name: '工作区' }));
+    await user.click(screen.getByRole('option', { name: '合同资料' }));
     await waitFor(() => expect(mocks.timeline.mock.calls.at(-1)?.[0]).toMatchObject({ workspace_id: 'w' }));
     const callsBeforeReload = mocks.timeline.mock.calls.length;
 
     rerender(<ActivityTimeline {...props} workspaces={[]} workspacesReady={false} />);
     rerender(<ActivityTimeline {...props} workspacesReady />);
-    expect(screen.getByRole('combobox', { name: '工作区' })).toHaveValue('w');
+    expect(screen.getByRole('combobox', { name: '工作区' })).toHaveTextContent('合同资料');
     expect(mocks.timeline).toHaveBeenCalledTimes(callsBeforeReload);
     expect(mocks.timeline.mock.calls.at(-1)?.[0]).toMatchObject({ workspace_id: 'w' });
 
     rerender(<ActivityTimeline {...props} workspaces={[]} workspacesReady />);
     await waitFor(() => expect(mocks.timeline.mock.calls.at(-1)?.[0]).toMatchObject({ workspace_id: null }));
-    expect(screen.getByRole('combobox', { name: '工作区' })).toHaveValue('');
+    expect(screen.getByRole('combobox', { name: '工作区' })).toHaveTextContent('全部工作区');
   });
 
   it('父级失效令牌不是数据库修订，令牌999仍可读取DB revision1', async () => {
@@ -265,7 +267,7 @@ describe('时间线版本与错误保护', () => {
     expect(await screen.findByText('No activity for this month')).toBeVisible();
     expect(screen.getByText('0 activities this month')).toBeVisible();
     expect(screen.getByText('No resources in this date range.')).toBeVisible();
-    expect(screen.getByRole('combobox', { name: 'Time basis' })).toHaveValue('file_modified');
+    expect(screen.getByRole('combobox', { name: 'Time basis' })).toHaveTextContent('File modification time');
     expect(screen.queryByText('file_discovered')).not.toBeInTheDocument();
   });
 });

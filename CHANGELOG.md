@@ -4,8 +4,21 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 
 ## Unreleased
 
+### Added
+
+- Guide first-time users from choosing a folder to opening a file. Keep search terms and filters when choosing a folder from search, and show installation steps beside website downloads.
+
+- Give desktop navigation, search, menus, dialogs and interaction feedback short transitions with system reduced-motion support.
+- Add desktop context menus for file and link rows and sidebar workspaces. Keep the system text editing menu and suppress the default page reload menu.
+- Match desktop dropdowns and date pickers to the workbench. Use the same month calendar for search filters and activity, with keyboard navigation and distinct states for today, selected dates and activity.
+
 ### Fixed
 
+- Label the choices after a file drop by outcome so users can authorize and add, skip unauthorized files, or close the results.
+- Keep workbench actions and resource rows steady and usable while starting a manual rescan.
+- Show actions for selected resources in the list header while keeping the rows in place.
+- Keep sidebar navigation labels on one line and prevent the menu from shifting when switching pages.
+- Speed up switching workspaces by querying only their linked resources and reusing recently loaded first pages while the catalog is current.
 - Handle both LF and CRLF source files in isolated website audit tests.
 
 ### Maintenance
