@@ -6,7 +6,7 @@ User-facing changes are collected under `Unreleased` and moved to dated version 
 
 ## 1.3.5 — 2026-11-25
 
-Available for macOS Apple Silicon. The new installer passed native installation, launch, changed-interaction, and shipped-license checks. Windows downloads are at 1.3.3. The 1.3.5 Windows candidate requires native acceptance.
+Available for macOS Apple Silicon and Windows x64. Both installers passed native installation, launch, changed-interaction, and shipped-license checks. A live macOS upgrade from 1.3.4 was verified. Windows in-app upgrade and upgrade data retention verification are pending.
 
 ### Added
 
